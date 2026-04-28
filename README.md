@@ -6,7 +6,7 @@ does not use accounts, ads, analytics, or third-party SDKs.
 
 ## Features
 
-- Complete three-ring emotion wheel with no blank sectors.
+- Complete three-ring emotion wheel adapted from Open Emotion Wheel v1.1.
 - Guided three-step check-in flow for people who find the full wheel overwhelming.
 - SwiftData persistence with optional CloudKit private database sync.
 - Optional Face ID, Touch ID, or device passcode app lock.
@@ -23,5 +23,10 @@ xcodegen generate
 xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build
 ```
 
-The app targets iOS 26.0 and is licensed under MIT, including the original
-emotion taxonomy.
+The app targets iOS 26.0. The original Swift source code is licensed under MIT.
+
+## Licensing and Attribution
+
+The Swift source code is MIT licensed. The emotion taxonomy is adapted from
+Open Emotion Wheel v1.1 by David Thorpe, openemotionwheel.com, and is licensed
+under CC BY-SA 4.0. See `ATTRIBUTION.md` and `DATA-LICENSE.md`.

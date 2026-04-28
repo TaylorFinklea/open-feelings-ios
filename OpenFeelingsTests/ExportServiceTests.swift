@@ -4,9 +4,9 @@ import XCTest
 final class ExportServiceTests: XCTestCase {
     func testCSVExportEscapesNotes() throws {
         let selection = try XCTUnwrap(EmotionTaxonomy.selection(
-            coreID: "calm",
-            secondaryID: "content",
-            specificID: "satisfied"
+            coreID: "happy",
+            secondaryID: "peaceful",
+            specificID: "thankful"
         ))
         let log = FeelingLog(
             id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!,
@@ -24,7 +24,7 @@ final class ExportServiceTests: XCTestCase {
 
     func testJSONExportContainsEmotionPath() throws {
         let selection = try XCTUnwrap(EmotionTaxonomy.selection(
-            coreID: "fear",
+            coreID: "fearful",
             secondaryID: "anxious",
             specificID: "worried"
         ))
@@ -33,7 +33,7 @@ final class ExportServiceTests: XCTestCase {
         let data = try ExportService.jsonData(logs: [log])
         let json = try XCTUnwrap(String(data: data, encoding: .utf8))
 
-        XCTAssertTrue(json.contains("\"core\" : \"Fear\""))
+        XCTAssertTrue(json.contains("\"core\" : \"Fearful\""))
         XCTAssertTrue(json.contains("\"secondary\" : \"Anxious\""))
         XCTAssertTrue(json.contains("\"specific\" : \"Worried\""))
     }

@@ -10,33 +10,39 @@ struct HealthStateOfMindMapping: Equatable {
 enum HealthKitMapper {
     static func mapping(coreID: String, secondaryID: String) -> HealthStateOfMindMapping {
         switch coreID {
-        case "anger":
-            HealthStateOfMindMapping(valence: -0.72, labels: angerLabels(secondaryID: secondaryID))
-        case "fear":
-            HealthStateOfMindMapping(valence: -0.74, labels: fearLabels(secondaryID: secondaryID))
-        case "sadness":
+        case "happy":
+            HealthStateOfMindMapping(valence: 0.76, labels: happyLabels(secondaryID: secondaryID))
+        case "sad":
             HealthStateOfMindMapping(valence: -0.68, labels: sadnessLabels(secondaryID: secondaryID))
-        case "shame":
-            HealthStateOfMindMapping(valence: -0.7, labels: shameLabels(secondaryID: secondaryID))
-        case "disgust":
+        case "angry":
+            HealthStateOfMindMapping(valence: -0.72, labels: angerLabels(secondaryID: secondaryID))
+        case "fearful":
+            HealthStateOfMindMapping(valence: -0.74, labels: fearLabels(secondaryID: secondaryID))
+        case "disgusted":
             HealthStateOfMindMapping(valence: -0.62, labels: disgustLabels(secondaryID: secondaryID))
-        case "joy":
-            HealthStateOfMindMapping(valence: 0.78, labels: joyLabels(secondaryID: secondaryID))
-        case "love":
-            HealthStateOfMindMapping(valence: 0.8, labels: loveLabels(secondaryID: secondaryID))
-        case "calm":
-            HealthStateOfMindMapping(valence: 0.48, labels: calmLabels(secondaryID: secondaryID))
         default:
             HealthStateOfMindMapping(valence: 0, labels: [.indifferent])
         }
     }
 
+    private static func happyLabels(secondaryID: String) -> [HKStateOfMind.Label] {
+        switch secondaryID {
+        case "optimistic": [.hopeful, .joyful]
+        case "peaceful": [.peaceful, .content]
+        case "proud": [.proud, .confident]
+        case "excited": [.excited, .joyful]
+        case "powerful": [.confident, .proud]
+        default: [.happy]
+        }
+    }
+
     private static func angerLabels(secondaryID: String) -> [HKStateOfMind.Label] {
         switch secondaryID {
-        case "irritated": [.irritated, .annoyed]
-        case "resentful": [.angry, .jealous]
-        case "threatened": [.stressed, .worried]
-        case "outraged": [.angry, .frustrated]
+        case "humiliated": [.embarrassed, .angry]
+        case "bitter": [.angry, .jealous]
+        case "frustrated": [.frustrated, .annoyed]
+        case "critical": [.irritated, .angry]
+        case "distant": [.indifferent, .discouraged]
         default: [.angry]
         }
     }
@@ -45,8 +51,9 @@ enum HealthKitMapper {
         switch secondaryID {
         case "anxious": [.anxious, .worried]
         case "insecure": [.worried, .scared]
-        case "helpless": [.overwhelmed, .scared]
-        case "alarmed": [.scared, .stressed]
+        case "weak": [.discouraged, .overwhelmed]
+        case "rejected": [.sad, .scared]
+        case "threatened": [.scared, .stressed]
         default: [.scared]
         }
     }
@@ -54,60 +61,22 @@ enum HealthKitMapper {
     private static func sadnessLabels(secondaryID: String) -> [HKStateOfMind.Label] {
         switch secondaryID {
         case "lonely": [.lonely, .sad]
-        case "hurt": [.sad, .disappointed]
-        case "grief": [.sad, .discouraged]
-        case "low": [.drained, .discouraged]
-        default: [.sad]
-        }
-    }
-
-    private static func shameLabels(secondaryID: String) -> [HKStateOfMind.Label] {
-        switch secondaryID {
-        case "embarrassed": [.embarrassed, .ashamed]
+        case "vulnerable": [.sad, .worried]
+        case "despair": [.sad, .discouraged]
         case "guilty": [.guilty, .ashamed]
-        case "unworthy": [.ashamed, .discouraged]
-        case "vulnerable": [.ashamed, .worried]
-        default: [.ashamed]
+        case "hurt": [.sad, .disappointed]
+        default: [.sad]
         }
     }
 
     private static func disgustLabels(secondaryID: String) -> [HKStateOfMind.Label] {
         switch secondaryID {
-        case "aversion": [.disgusted]
-        case "contempt": [.disgusted, .angry]
-        case "disappointed": [.disappointed, .discouraged]
-        case "distrust": [.worried, .disappointed]
+        case "repelled": [.disgusted]
+        case "awful": [.disgusted, .overwhelmed]
+        case "disenchanted": [.disappointed, .discouraged]
+        case "disapproving": [.disgusted, .annoyed]
+        case "startled": [.scared, .stressed]
         default: [.disgusted]
-        }
-    }
-
-    private static func joyLabels(secondaryID: String) -> [HKStateOfMind.Label] {
-        switch secondaryID {
-        case "happy": [.happy, .joyful]
-        case "proud": [.proud, .confident]
-        case "grateful": [.grateful, .content]
-        case "hopeful": [.hopeful, .excited]
-        default: [.joyful]
-        }
-    }
-
-    private static func loveLabels(secondaryID: String) -> [HKStateOfMind.Label] {
-        switch secondaryID {
-        case "connected": [.content, .grateful]
-        case "affectionate": [.peaceful, .content]
-        case "compassionate": [.grateful, .calm]
-        case "passionate": [.passionate, .excited]
-        default: [.passionate]
-        }
-    }
-
-    private static func calmLabels(secondaryID: String) -> [HKStateOfMind.Label] {
-        switch secondaryID {
-        case "peaceful": [.peaceful, .calm]
-        case "content": [.content, .satisfied]
-        case "present": [.calm, .content]
-        case "rested": [.relieved, .satisfied]
-        default: [.calm]
         }
     }
 }

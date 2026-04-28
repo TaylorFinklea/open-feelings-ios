@@ -76,11 +76,28 @@ struct WizardCheckInView: View {
                 Button {
                     action(item)
                 } label: {
-                    Text(item.name)
-                        .font(.body.weight(.medium))
-                        .frame(maxWidth: .infinity, minHeight: 48)
+                    HStack(spacing: 10) {
+                        Circle()
+                            .fill(Color(hex: item.colorHex))
+                            .frame(width: 14, height: 14)
+
+                        Text(item.name)
+                            .font(.body.weight(.medium))
+                            .foregroundStyle(.primary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
+
+                        Spacer(minLength: 0)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                    .padding(.horizontal, 12)
+                    .background(Color(hex: item.colorHex).opacity(0.18), in: RoundedRectangle(cornerRadius: 8))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color(hex: item.colorHex).opacity(0.42), lineWidth: 1)
+                    }
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.plain)
             }
         }
     }
@@ -88,6 +105,7 @@ struct WizardCheckInView: View {
 
 private protocol EmotionNameProviding {
     var name: String { get }
+    var colorHex: String { get }
 }
 
 extension EmotionCore: EmotionNameProviding {}

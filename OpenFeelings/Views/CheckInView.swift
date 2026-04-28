@@ -11,10 +11,11 @@ private enum CheckInMode: String, CaseIterable, Identifiable {
 struct CheckInView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(HealthService.self) private var healthService
+    @Environment(\.colorScheme) private var colorScheme
 
     @AppStorage("healthEnabled") private var healthEnabled = false
+    @AppStorage("checkInMode") private var modeRawValue = CheckInMode.wizard.rawValue
 
-    @State private var mode: CheckInMode = .wizard
     @State private var selection: EmotionSelection?
     @State private var note = ""
     @State private var includeIntensity = false
@@ -24,7 +25,7 @@ struct CheckInView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Picker("Input mode", selection: $mode) {
+                Picker("Input mode", selection: modeBinding) {
                     ForEach(CheckInMode.allCases) { mode in
                         Text(mode.rawValue).tag(mode)
                     }
@@ -50,6 +51,7 @@ struct CheckInView: View {
             }
             .padding()
         }
+        .background(checkInBackground)
         .navigationTitle("Check In")
         .safeAreaInset(edge: .bottom) {
             if let savedMessage {
@@ -61,6 +63,34 @@ struct CheckInView: View {
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+    }
+
+    private var mode: CheckInMode {
+        get { CheckInMode(rawValue: modeRawValue) ?? .wizard }
+        nonmutating set { modeRawValue = newValue.rawValue }
+    }
+
+    private var modeBinding: Binding<CheckInMode> {
+        Binding(
+            get: { mode },
+            set: { modeRawValue = $0.rawValue }
+        )
+    }
+
+    @ViewBuilder
+    private var checkInBackground: some View {
+        let accent = Color(hex: selection?.colorHex ?? "F4D03F")
+
+        ZStack {
+            if colorScheme == .dark {
+                Color(red: 0.075, green: 0.067, blue: 0.056)
+            } else {
+                Color(red: 1.0, green: 0.984, blue: 0.945)
+            }
+
+            accent.opacity(colorScheme == .dark ? 0.08 : 0.12)
+        }
+        .ignoresSafeArea()
     }
 
     private func save() {
@@ -112,6 +142,8 @@ private struct LogComposerView: View {
     let save: () -> Void
 
     var body: some View {
+        let accent = Color(hex: selection?.colorHex ?? "8E8E93")
+
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Selected feeling")
@@ -153,9 +185,14 @@ private struct LogComposerView: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
+            .tint(accent)
             .disabled(selection?.isComplete != true)
         }
         .padding()
-        .background(Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 8))
+        .background(accent.opacity(selection == nil ? 0.08 : 0.16), in: RoundedRectangle(cornerRadius: 8))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(accent.opacity(selection == nil ? 0.14 : 0.35), lineWidth: 1)
+        }
     }
 }

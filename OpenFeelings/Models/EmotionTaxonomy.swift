@@ -1,22 +1,35 @@
 import Foundation
 import SwiftUI
 
+// Taxonomy terms and arrangement are adapted from Open Emotion Wheel v1.1
+// and licensed under CC BY-SA 4.0. See ATTRIBUTION.md and DATA-LICENSE.md.
+
 struct EmotionCore: Identifiable, Hashable {
     let id: String
     let name: String
     let colorHex: String
     let secondaries: [EmotionSecondary]
+
+    var leafCount: Int {
+        secondaries.reduce(0) { $0 + $1.leafCount }
+    }
 }
 
 struct EmotionSecondary: Identifiable, Hashable {
     let id: String
     let name: String
+    let colorHex: String
     let specifics: [EmotionSpecific]
+
+    var leafCount: Int {
+        max(specifics.count, 1)
+    }
 }
 
 struct EmotionSpecific: Identifiable, Hashable {
     let id: String
     let name: String
+    let colorHex: String
 }
 
 struct EmotionSelection: Identifiable, Hashable {
@@ -32,6 +45,10 @@ struct EmotionSelection: Identifiable, Hashable {
         specific?.name ?? secondary?.name ?? core.name
     }
 
+    var colorHex: String {
+        specific?.colorHex ?? secondary?.colorHex ?? core.colorHex
+    }
+
     var pathTitle: String {
         [core.name, secondary?.name, specific?.name].compactMap { $0 }.joined(separator: " > ")
     }
@@ -42,223 +59,98 @@ struct EmotionSelection: Identifiable, Hashable {
 }
 
 enum EmotionTaxonomy {
+    static let sourceName = "Open Emotion Wheel v1.1"
+    static let sourceURL = URL(string: "https://openemotionwheel.com/")!
+    static let sourceAttribution = "Adapted from Open Emotion Wheel v1.1 by David Thorpe, openemotionwheel.com."
+    static let sourceLicenseName = "CC BY-SA 4.0"
+    static let sourceLicenseURL = URL(string: "https://creativecommons.org/licenses/by-sa/4.0/")!
+
     static let cores: [EmotionCore] = [
-        EmotionCore(
-            id: "anger",
-            name: "Anger",
-            colorHex: "D94E41",
-            secondaries: [
-                EmotionSecondary(id: "irritated", name: "Irritated", specifics: [
-                    EmotionSpecific(id: "annoyed", name: "Annoyed"),
-                    EmotionSpecific(id: "impatient", name: "Impatient"),
-                    EmotionSpecific(id: "bothered", name: "Bothered")
-                ]),
-                EmotionSecondary(id: "resentful", name: "Resentful", specifics: [
-                    EmotionSpecific(id: "bitter", name: "Bitter"),
-                    EmotionSpecific(id: "wronged", name: "Wronged"),
-                    EmotionSpecific(id: "envious", name: "Envious")
-                ]),
-                EmotionSecondary(id: "threatened", name: "Threatened", specifics: [
-                    EmotionSpecific(id: "defensive", name: "Defensive"),
-                    EmotionSpecific(id: "pressured", name: "Pressured"),
-                    EmotionSpecific(id: "suspicious", name: "Suspicious")
-                ]),
-                EmotionSecondary(id: "outraged", name: "Outraged", specifics: [
-                    EmotionSpecific(id: "furious", name: "Furious"),
-                    EmotionSpecific(id: "indignant", name: "Indignant"),
-                    EmotionSpecific(id: "provoked", name: "Provoked")
-                ])
-            ]
-        ),
-        EmotionCore(
-            id: "fear",
-            name: "Fear",
-            colorHex: "E18C3A",
-            secondaries: [
-                EmotionSecondary(id: "anxious", name: "Anxious", specifics: [
-                    EmotionSpecific(id: "nervous", name: "Nervous"),
-                    EmotionSpecific(id: "worried", name: "Worried"),
-                    EmotionSpecific(id: "on-edge", name: "On edge")
-                ]),
-                EmotionSecondary(id: "insecure", name: "Insecure", specifics: [
-                    EmotionSpecific(id: "unsure", name: "Unsure"),
-                    EmotionSpecific(id: "exposed", name: "Exposed"),
-                    EmotionSpecific(id: "not-enough", name: "Not enough")
-                ]),
-                EmotionSecondary(id: "helpless", name: "Helpless", specifics: [
-                    EmotionSpecific(id: "trapped", name: "Trapped"),
-                    EmotionSpecific(id: "powerless", name: "Powerless"),
-                    EmotionSpecific(id: "lost", name: "Lost")
-                ]),
-                EmotionSecondary(id: "alarmed", name: "Alarmed", specifics: [
-                    EmotionSpecific(id: "startled", name: "Startled"),
-                    EmotionSpecific(id: "panicked", name: "Panicked"),
-                    EmotionSpecific(id: "unsafe", name: "Unsafe")
-                ])
-            ]
-        ),
-        EmotionCore(
-            id: "sadness",
-            name: "Sadness",
-            colorHex: "4D82D9",
-            secondaries: [
-                EmotionSecondary(id: "lonely", name: "Lonely", specifics: [
-                    EmotionSpecific(id: "isolated", name: "Isolated"),
-                    EmotionSpecific(id: "unseen", name: "Unseen"),
-                    EmotionSpecific(id: "left-out", name: "Left out")
-                ]),
-                EmotionSecondary(id: "hurt", name: "Hurt", specifics: [
-                    EmotionSpecific(id: "wounded", name: "Wounded"),
-                    EmotionSpecific(id: "rejected", name: "Rejected"),
-                    EmotionSpecific(id: "let-down", name: "Let down")
-                ]),
-                EmotionSecondary(id: "grief", name: "Grief", specifics: [
-                    EmotionSpecific(id: "bereft", name: "Bereft"),
-                    EmotionSpecific(id: "heavy", name: "Heavy"),
-                    EmotionSpecific(id: "missing", name: "Missing")
-                ]),
-                EmotionSecondary(id: "low", name: "Low", specifics: [
-                    EmotionSpecific(id: "tired", name: "Tired"),
-                    EmotionSpecific(id: "empty", name: "Empty"),
-                    EmotionSpecific(id: "discouraged", name: "Discouraged")
-                ])
-            ]
-        ),
-        EmotionCore(
-            id: "shame",
-            name: "Shame",
-            colorHex: "8B6AC8",
-            secondaries: [
-                EmotionSecondary(id: "embarrassed", name: "Embarrassed", specifics: [
-                    EmotionSpecific(id: "awkward", name: "Awkward"),
-                    EmotionSpecific(id: "self-conscious", name: "Self-conscious"),
-                    EmotionSpecific(id: "flustered", name: "Flustered")
-                ]),
-                EmotionSecondary(id: "guilty", name: "Guilty", specifics: [
-                    EmotionSpecific(id: "regretful", name: "Regretful"),
-                    EmotionSpecific(id: "remorseful", name: "Remorseful"),
-                    EmotionSpecific(id: "responsible", name: "Responsible")
-                ]),
-                EmotionSecondary(id: "unworthy", name: "Unworthy", specifics: [
-                    EmotionSpecific(id: "inadequate", name: "Inadequate"),
-                    EmotionSpecific(id: "small", name: "Small"),
-                    EmotionSpecific(id: "unlovable", name: "Unlovable")
-                ]),
-                EmotionSecondary(id: "vulnerable", name: "Vulnerable", specifics: [
-                    EmotionSpecific(id: "open", name: "Open"),
-                    EmotionSpecific(id: "tender", name: "Tender"),
-                    EmotionSpecific(id: "fragile", name: "Fragile")
-                ])
-            ]
-        ),
-        EmotionCore(
-            id: "disgust",
-            name: "Disgust",
-            colorHex: "78964B",
-            secondaries: [
-                EmotionSecondary(id: "aversion", name: "Aversion", specifics: [
-                    EmotionSpecific(id: "repelled", name: "Repelled"),
-                    EmotionSpecific(id: "uneasy", name: "Uneasy"),
-                    EmotionSpecific(id: "turned-off", name: "Turned off")
-                ]),
-                EmotionSecondary(id: "contempt", name: "Contempt", specifics: [
-                    EmotionSpecific(id: "dismissive", name: "Dismissive"),
-                    EmotionSpecific(id: "superior", name: "Superior"),
-                    EmotionSpecific(id: "scornful", name: "Scornful")
-                ]),
-                EmotionSecondary(id: "disappointed", name: "Disappointed", specifics: [
-                    EmotionSpecific(id: "underwhelmed", name: "Underwhelmed"),
-                    EmotionSpecific(id: "disillusioned", name: "Disillusioned"),
-                    EmotionSpecific(id: "failed", name: "Failed")
-                ]),
-                EmotionSecondary(id: "distrust", name: "Distrust", specifics: [
-                    EmotionSpecific(id: "skeptical", name: "Skeptical"),
-                    EmotionSpecific(id: "guarded", name: "Guarded"),
-                    EmotionSpecific(id: "betrayed", name: "Betrayed")
-                ])
-            ]
-        ),
-        EmotionCore(
-            id: "joy",
-            name: "Joy",
-            colorHex: "E5C94A",
-            secondaries: [
-                EmotionSecondary(id: "happy", name: "Happy", specifics: [
-                    EmotionSpecific(id: "cheerful", name: "Cheerful"),
-                    EmotionSpecific(id: "playful", name: "Playful"),
-                    EmotionSpecific(id: "light", name: "Light")
-                ]),
-                EmotionSecondary(id: "proud", name: "Proud", specifics: [
-                    EmotionSpecific(id: "accomplished", name: "Accomplished"),
-                    EmotionSpecific(id: "capable", name: "Capable"),
-                    EmotionSpecific(id: "recognized", name: "Recognized")
-                ]),
-                EmotionSecondary(id: "grateful", name: "Grateful", specifics: [
-                    EmotionSpecific(id: "thankful", name: "Thankful"),
-                    EmotionSpecific(id: "appreciative", name: "Appreciative"),
-                    EmotionSpecific(id: "blessed", name: "Blessed")
-                ]),
-                EmotionSecondary(id: "hopeful", name: "Hopeful", specifics: [
-                    EmotionSpecific(id: "optimistic", name: "Optimistic"),
-                    EmotionSpecific(id: "encouraged", name: "Encouraged"),
-                    EmotionSpecific(id: "eager", name: "Eager")
-                ])
-            ]
-        ),
-        EmotionCore(
-            id: "love",
-            name: "Love",
-            colorHex: "D55E94",
-            secondaries: [
-                EmotionSecondary(id: "connected", name: "Connected", specifics: [
-                    EmotionSpecific(id: "close", name: "Close"),
-                    EmotionSpecific(id: "accepted", name: "Accepted"),
-                    EmotionSpecific(id: "belonging", name: "Belonging")
-                ]),
-                EmotionSecondary(id: "affectionate", name: "Affectionate", specifics: [
-                    EmotionSpecific(id: "warm", name: "Warm"),
-                    EmotionSpecific(id: "gentle", name: "Gentle"),
-                    EmotionSpecific(id: "caring", name: "Caring")
-                ]),
-                EmotionSecondary(id: "compassionate", name: "Compassionate", specifics: [
-                    EmotionSpecific(id: "kind", name: "Kind"),
-                    EmotionSpecific(id: "moved", name: "Moved"),
-                    EmotionSpecific(id: "sympathetic", name: "Sympathetic")
-                ]),
-                EmotionSecondary(id: "passionate", name: "Passionate", specifics: [
-                    EmotionSpecific(id: "inspired", name: "Inspired"),
-                    EmotionSpecific(id: "devoted", name: "Devoted"),
-                    EmotionSpecific(id: "alive", name: "Alive")
-                ])
-            ]
-        ),
-        EmotionCore(
-            id: "calm",
-            name: "Calm",
-            colorHex: "4AAE9B",
-            secondaries: [
-                EmotionSecondary(id: "peaceful", name: "Peaceful", specifics: [
-                    EmotionSpecific(id: "settled", name: "Settled"),
-                    EmotionSpecific(id: "quiet", name: "Quiet"),
-                    EmotionSpecific(id: "at-ease", name: "At ease")
-                ]),
-                EmotionSecondary(id: "content", name: "Content", specifics: [
-                    EmotionSpecific(id: "satisfied", name: "Satisfied"),
-                    EmotionSpecific(id: "comfortable", name: "Comfortable"),
-                    EmotionSpecific(id: "enough", name: "Enough")
-                ]),
-                EmotionSecondary(id: "present", name: "Present", specifics: [
-                    EmotionSpecific(id: "grounded", name: "Grounded"),
-                    EmotionSpecific(id: "clear", name: "Clear"),
-                    EmotionSpecific(id: "mindful", name: "Mindful")
-                ]),
-                EmotionSecondary(id: "rested", name: "Rested", specifics: [
-                    EmotionSpecific(id: "refreshed", name: "Refreshed"),
-                    EmotionSpecific(id: "recharged", name: "Recharged"),
-                    EmotionSpecific(id: "unhurried", name: "Unhurried")
-                ])
-            ]
-        )
+        core("Happy", colorHex: "F4D03F", secondaries: [
+            secondary("Optimistic", colorHex: "F7DC6F", specificColorHex: "FCF3CF", specifics: [
+                "Hopeful", "Inspired"
+            ]),
+            secondary("Peaceful", colorHex: "F7DC6F", specificColorHex: "FCF3CF", specifics: [
+                "Loved", "Thankful"
+            ]),
+            secondary("Proud", colorHex: "F7DC6F", specificColorHex: "FCF3CF", specifics: [
+                "Successful", "Confident"
+            ]),
+            secondary("Excited", colorHex: "F7DC6F", specificColorHex: "FCF3CF", specifics: [
+                "Eager", "Energetic"
+            ]),
+            secondary("Powerful", colorHex: "F7DC6F", specificColorHex: "FCF3CF", specifics: [
+                "Courageous", "Creative"
+            ])
+        ]),
+        core("Sad", colorHex: "3498DB", secondaries: [
+            secondary("Lonely", colorHex: "5DADE2", specificColorHex: "AED6F1", specifics: [
+                "Isolated", "Abandoned"
+            ]),
+            secondary("Vulnerable", colorHex: "5DADE2", specificColorHex: "AED6F1", specifics: [
+                "Victimised", "Fragile"
+            ]),
+            secondary("Despair", colorHex: "5DADE2", specificColorHex: "AED6F1", specifics: [
+                "Grief", "Powerless"
+            ]),
+            secondary("Guilty", colorHex: "5DADE2", specificColorHex: "AED6F1", specifics: [
+                "Remorseful", "Ashamed"
+            ]),
+            secondary("Hurt", colorHex: "5DADE2", specificColorHex: "AED6F1", specifics: [
+                "Wounded", "Disappointed"
+            ])
+        ]),
+        core("Angry", colorHex: "EC7063", secondaries: [
+            secondary("Humiliated", colorHex: "F1948A", specificColorHex: "FADBD8", specifics: [
+                "Disrespected", "Ridiculed"
+            ]),
+            secondary("Bitter", colorHex: "F1948A", specificColorHex: "FADBD8", specifics: [
+                "Indignant", "Violated"
+            ]),
+            secondary("Frustrated", colorHex: "F1948A", specificColorHex: "FADBD8", specifics: [
+                "Infuriated", "Annoyed"
+            ]),
+            secondary("Critical", colorHex: "F1948A", specificColorHex: "FADBD8", specifics: [
+                "Sceptical", "Dismissive"
+            ]),
+            secondary("Distant", colorHex: "F1948A", specificColorHex: "FADBD8", specifics: [
+                "Withdrawn", "Numb"
+            ])
+        ]),
+        core("Fearful", colorHex: "AF7AC5", secondaries: [
+            secondary("Anxious", colorHex: "C39BD3", specificColorHex: "E8DAEF", specifics: [
+                "Overwhelmed", "Worried"
+            ]),
+            secondary("Insecure", colorHex: "C39BD3", specificColorHex: "E8DAEF", specifics: [
+                "Inadequate", "Inferior"
+            ]),
+            secondary("Weak", colorHex: "C39BD3", specificColorHex: "E8DAEF", specifics: [
+                "Worthless", "Insignificant"
+            ]),
+            secondary("Rejected", colorHex: "C39BD3", specificColorHex: "E8DAEF", specifics: [
+                "Excluded", "Persecuted"
+            ]),
+            secondary("Threatened", colorHex: "C39BD3", specificColorHex: "E8DAEF", specifics: [
+                "Nervous", "Exposed"
+            ])
+        ]),
+        core("Disgusted", colorHex: "58D68D", secondaries: [
+            secondary("Repelled", colorHex: "82E0AA", specificColorHex: "D5F5E3", specifics: [
+                "Horrified", "Hesitant"
+            ]),
+            secondary("Awful", colorHex: "82E0AA", specificColorHex: "D5F5E3", specifics: [
+                "Nauseated", "Detestable"
+            ]),
+            secondary("Disenchanted", colorHex: "82E0AA", specificColorHex: "D5F5E3", specifics: [
+                "Appalled", "Revolted"
+            ]),
+            secondary("Disapproving", colorHex: "82E0AA", specificColorHex: "D5F5E3", specifics: [
+                "Judgemental", "Embarrassed"
+            ]),
+            secondary("Startled", colorHex: "82E0AA", specificColorHex: "D5F5E3", specifics: [
+                "Shocked", "Dismayed"
+            ])
+        ])
     ]
 
     static func selection(coreID: String, secondaryID: String?, specificID: String?) -> EmotionSelection? {
@@ -281,11 +173,51 @@ enum EmotionTaxonomy {
         let specific = secondary.specifics.first(where: { $0.id == specificID })
         return EmotionSelection(core: core, secondary: secondary, specific: specific)
     }
+
+    private static func core(
+        _ name: String,
+        colorHex: String,
+        secondaries: [EmotionSecondary]
+    ) -> EmotionCore {
+        EmotionCore(
+            id: id(for: name),
+            name: name,
+            colorHex: colorHex,
+            secondaries: secondaries
+        )
+    }
+
+    private static func secondary(
+        _ name: String,
+        colorHex: String,
+        specificColorHex: String,
+        specifics: [String]
+    ) -> EmotionSecondary {
+        EmotionSecondary(
+            id: id(for: name),
+            name: name,
+            colorHex: colorHex,
+            specifics: specifics.map { specific($0, colorHex: specificColorHex) }
+        )
+    }
+
+    private static func specific(_ name: String, colorHex: String) -> EmotionSpecific {
+        EmotionSpecific(id: id(for: name), name: name, colorHex: colorHex)
+    }
+
+    private static func id(for name: String) -> String {
+        name
+            .lowercased()
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { !$0.isEmpty }
+            .joined(separator: "-")
+    }
 }
 
 extension Color {
     init(hex: String) {
-        let scanner = Scanner(string: hex)
+        let cleaned = hex.trimmingCharacters(in: CharacterSet(charactersIn: "# ").union(.whitespacesAndNewlines))
+        let scanner = Scanner(string: cleaned)
         var value: UInt64 = 0
         scanner.scanHexInt64(&value)
 
@@ -293,5 +225,18 @@ extension Color {
         let green = Double((value & 0x00FF00) >> 8) / 255.0
         let blue = Double(value & 0x0000FF) / 255.0
         self.init(red: red, green: green, blue: blue)
+    }
+
+    static func readableText(onHex hex: String) -> Color {
+        let cleaned = hex.trimmingCharacters(in: CharacterSet(charactersIn: "# ").union(.whitespacesAndNewlines))
+        let scanner = Scanner(string: cleaned)
+        var value: UInt64 = 0
+        scanner.scanHexInt64(&value)
+
+        let red = Double((value & 0xFF0000) >> 16) / 255.0
+        let green = Double((value & 0x00FF00) >> 8) / 255.0
+        let blue = Double(value & 0x0000FF) / 255.0
+        let luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+        return luminance > 0.58 ? .black.opacity(0.82) : .white
     }
 }

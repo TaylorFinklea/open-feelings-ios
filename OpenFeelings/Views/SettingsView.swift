@@ -63,10 +63,24 @@ struct SettingsView: View {
             }
 
             Section("Open Source") {
-                LabeledContent("License") {
+                LabeledContent("Code license") {
                     Text("MIT")
                         .foregroundStyle(.secondary)
                 }
+
+                LabeledContent("Emotion wheel") {
+                    Text(EmotionTaxonomy.sourceName)
+                        .foregroundStyle(.secondary)
+                }
+
+                LabeledContent("Wheel license") {
+                    Text(EmotionTaxonomy.sourceLicenseName)
+                        .foregroundStyle(.secondary)
+                }
+
+                Text(EmotionTaxonomy.sourceAttribution)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
 
                 LabeledContent("Version") {
                     Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1.0")

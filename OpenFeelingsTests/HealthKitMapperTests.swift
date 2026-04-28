@@ -3,15 +3,15 @@ import XCTest
 @testable import OpenFeelings
 
 final class HealthKitMapperTests: XCTestCase {
-    func testJoyMapsToPleasantStateOfMind() {
-        let mapping = HealthKitMapper.mapping(coreID: "joy", secondaryID: "hopeful")
+    func testHappyMapsToPleasantStateOfMind() {
+        let mapping = HealthKitMapper.mapping(coreID: "happy", secondaryID: "optimistic")
 
         XCTAssertGreaterThan(mapping.valence, 0)
         XCTAssertTrue(mapping.labels.contains(.hopeful))
     }
 
-    func testFearMapsToUnpleasantStateOfMind() {
-        let mapping = HealthKitMapper.mapping(coreID: "fear", secondaryID: "alarmed")
+    func testFearfulMapsToUnpleasantStateOfMind() {
+        let mapping = HealthKitMapper.mapping(coreID: "fearful", secondaryID: "threatened")
 
         XCTAssertLessThan(mapping.valence, 0)
         XCTAssertTrue(mapping.labels.contains(.scared))

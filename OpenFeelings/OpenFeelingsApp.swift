@@ -35,6 +35,19 @@ struct OpenFeelingsApp: App {
             }
         }
 
+        #if targetEnvironment(simulator)
+        let simulatorConfiguration = ModelConfiguration(
+            "OpenFeelingsSimulator",
+            schema: schema,
+            cloudKitDatabase: .none
+        )
+
+        do {
+            return try ModelContainer(for: schema, configurations: [simulatorConfiguration])
+        } catch {
+            fatalError("Unable to create Open Feelings simulator model container: \(error)")
+        }
+        #else
         let cloudConfiguration = ModelConfiguration(
             "OpenFeelingsCloud",
             schema: schema,
@@ -56,5 +69,6 @@ struct OpenFeelingsApp: App {
                 fatalError("Unable to create Open Feelings model container: \(error)")
             }
         }
+        #endif
     }
 }

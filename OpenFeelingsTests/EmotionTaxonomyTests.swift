@@ -3,13 +3,26 @@ import XCTest
 
 final class EmotionTaxonomyTests: XCTestCase {
     func testTaxonomyHasExpectedShape() {
-        XCTAssertEqual(EmotionTaxonomy.cores.count, 8)
+        XCTAssertEqual(EmotionTaxonomy.cores.count, 5)
+        XCTAssertEqual(EmotionTaxonomy.cores.reduce(0) { $0 + $1.secondaries.count }, 25)
+        XCTAssertEqual(
+            EmotionTaxonomy.cores.reduce(0) { total, core in
+                total + core.secondaries.reduce(0) { $0 + $1.specifics.count }
+            },
+            50
+        )
 
         for core in EmotionTaxonomy.cores {
-            XCTAssertEqual(core.secondaries.count, 4, core.name)
+            XCTAssertGreaterThan(core.leafCount, 0, core.name)
+            XCTAssertFalse(core.colorHex.isEmpty)
 
             for secondary in core.secondaries {
-                XCTAssertEqual(secondary.specifics.count, 3, "\(core.name) > \(secondary.name)")
+                XCTAssertFalse(secondary.colorHex.isEmpty)
+                XCTAssertGreaterThan(secondary.leafCount, 0, "\(core.name) > \(secondary.name)")
+
+                for specific in secondary.specifics {
+                    XCTAssertFalse(specific.colorHex.isEmpty)
+                }
             }
         }
     }
@@ -38,12 +51,18 @@ final class EmotionTaxonomyTests: XCTestCase {
 
     func testSelectionLookupBuildsCompletePath() {
         let selection = EmotionTaxonomy.selection(
-            coreID: "joy",
-            secondaryID: "grateful",
+            coreID: "happy",
+            secondaryID: "peaceful",
             specificID: "thankful"
         )
 
-        XCTAssertEqual(selection?.pathTitle, "Joy > Grateful > Thankful")
+        XCTAssertEqual(selection?.pathTitle, "Happy > Peaceful > Thankful")
         XCTAssertEqual(selection?.isComplete, true)
+    }
+
+    func testTaxonomyCarriesAttribution() {
+        XCTAssertEqual(EmotionTaxonomy.sourceName, "Open Emotion Wheel v1.1")
+        XCTAssertEqual(EmotionTaxonomy.sourceLicenseName, "CC BY-SA 4.0")
+        XCTAssertTrue(EmotionTaxonomy.sourceAttribution.contains("openemotionwheel.com"))
     }
 }

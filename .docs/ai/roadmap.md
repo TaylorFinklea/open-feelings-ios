@@ -4,7 +4,7 @@
 
 ## Vision
 
-Open Feelings is a free, MIT-licensed, local-first iOS app for private emotion check-ins using a complete feelings wheel and a calmer guided wizard.
+Open Feelings is a free, local-first iOS app for private emotion check-ins using an attributed complete feelings wheel and a calmer guided wizard. Source code remains MIT licensed; the adapted emotion taxonomy is separately attributed and licensed.
 
 ## Now / Next / Later
 
@@ -13,11 +13,13 @@ Open Feelings is a free, MIT-licensed, local-first iOS app for private emotion c
 ### Now
 - [x] Build the initial iOS app scaffold with wizard and wheel check-in flows.
 - [x] Add local persistence, iCloud/CloudKit configuration, reminders, Face ID app lock, export, and optional Apple Health writing.
-- [ ] Configure Apple Developer team, CloudKit container, HealthKit capability, and production signing in Xcode.
+- [x] Replace the original taxonomy with an attributed Open Emotion Wheel v1.1 adaptation and color-coded wheel/wizard UI.
+- [ ] Configure production CloudKit schema and App Store distribution settings.
 
 ### Next
 - [ ] Add app icon, launch branding, and App Store privacy policy copy.
 - [ ] Manually validate iCloud sync between two signed-in devices.
+- [ ] Review the Open Emotion Wheel attribution/license presentation before release.
 - [ ] Add UI tests for check-in flows and export entry points.
 
 ### Later
@@ -26,7 +28,7 @@ Open Feelings is a free, MIT-licensed, local-first iOS app for private emotion c
 ## Milestones
 
 ### M1: Usable Local-First Check-In App
-- [x] Original MIT emotion taxonomy
+- [x] Attributed Open Emotion Wheel v1.1 taxonomy adaptation
 - [x] Wheel and wizard input
 - [x] Local logs, export, reminders, app lock, and optional Apple Health writing
 
@@ -48,7 +50,8 @@ Open Feelings is a free, MIT-licensed, local-first iOS app for private emotion c
 
 ## Constraints
 
-- MIT-only source, assets, and emotion taxonomy.
+- Source code is MIT licensed.
+- Emotion taxonomy content is adapted from Open Emotion Wheel v1.1 and must preserve Open Emotion Wheel attribution and CC BY-SA 4.0 licensing.
 - No ads, analytics, accounts, servers, or third-party SDKs.
 - Data remains on device and in the user's private iCloud database.
 - Target latest SDK/iOS 26 for v1.
