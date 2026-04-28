@@ -1,0 +1,42 @@
+name: OpenFeelings
+options:
+  bundleIdPrefix: com.tfinklea
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+    SWIFT_VERSION: 6.0
+    CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+targets:
+  OpenFeelings:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: OpenFeelings
+    dependencies:
+      - sdk: HealthKit.framework
+      - sdk: LocalAuthentication.framework
+      - sdk: UserNotifications.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tfinklea.openfeelings
+        PRODUCT_NAME: OpenFeelings
+        INFOPLIST_FILE: OpenFeelings/Info.plist
+        CODE_SIGN_ENTITLEMENTS: OpenFeelings/OpenFeelings.entitlements
+    scheme:
+      testTargets:
+        - OpenFeelingsTests
+  OpenFeelingsTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: OpenFeelingsTests
+    dependencies:
+      - target: OpenFeelings
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tfinklea.openfeelings.tests
