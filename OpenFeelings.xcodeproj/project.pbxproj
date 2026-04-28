@@ -214,6 +214,12 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					491C371BB4D3E5E8750110B6 = {
+						DevelopmentTeam = K7CBQW6MPG;
+					};
+					A4BF3179DB3DADF6C3A254A7 = {
+						DevelopmentTeam = K7CBQW6MPG;
+					};
 				};
 			};
 			buildConfigurationList = E3228093D42747EE04D5FDF1 /* Build configuration list for PBXProject "OpenFeelings" */;
@@ -285,13 +291,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenFeelings/OpenFeelings.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
 				INFOPLIST_FILE = OpenFeelings/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfinklea.openfeelings;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings;
 				PRODUCT_NAME = OpenFeelings;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -302,13 +309,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfinklea.openfeelings.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenFeelings.app/OpenFeelings";
@@ -321,13 +329,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenFeelings/OpenFeelings.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
 				INFOPLIST_FILE = OpenFeelings/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfinklea.openfeelings;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings;
 				PRODUCT_NAME = OpenFeelings;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -338,13 +347,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tfinklea.openfeelings.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenFeelings.app/OpenFeelings";

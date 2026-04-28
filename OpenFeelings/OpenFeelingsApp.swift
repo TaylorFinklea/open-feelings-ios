@@ -38,7 +38,7 @@ struct OpenFeelingsApp: App {
         let cloudConfiguration = ModelConfiguration(
             "OpenFeelingsCloud",
             schema: schema,
-            cloudKitDatabase: .private("iCloud.com.tfinklea.openfeelings")
+            cloudKitDatabase: .private("iCloud.dev.finklea.openfeelings")
         )
 
         do {

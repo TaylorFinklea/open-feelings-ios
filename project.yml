@@ -1,6 +1,6 @@
 name: OpenFeelings
 options:
-  bundleIdPrefix: com.tfinklea
+  bundleIdPrefix: dev.finklea
   deploymentTarget:
     iOS: "26.0"
 settings:
@@ -22,7 +22,8 @@ targets:
       - sdk: UserNotifications.framework
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.tfinklea.openfeelings
+        PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings
+        DEVELOPMENT_TEAM: K7CBQW6MPG
         PRODUCT_NAME: OpenFeelings
         INFOPLIST_FILE: OpenFeelings/Info.plist
         CODE_SIGN_ENTITLEMENTS: OpenFeelings/OpenFeelings.entitlements
@@ -39,4 +40,5 @@ targets:
       - target: OpenFeelings
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.tfinklea.openfeelings.tests
+        PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.tests
+        DEVELOPMENT_TEAM: K7CBQW6MPG
