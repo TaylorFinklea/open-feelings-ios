@@ -62,6 +62,25 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            Section("Reference Text") {
+                LabeledContent("Definitions") {
+                    Text("Clinically informed")
+                        .foregroundStyle(.secondary)
+                }
+
+                Text(EmotionDefinitions.disclaimer)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                Text(EmotionDefinitions.sourceSummary)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                ForEach(EmotionDefinitions.referenceSources) { source in
+                    Link(source.title, destination: source.url)
+                }
+            }
+
             Section("Open Source") {
                 LabeledContent("Code license") {
                     Text("MIT")

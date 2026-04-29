@@ -46,3 +46,10 @@
 **Decision**: Keep gesture state local to `EmotionWheelView`, apply it as a viewport transform, and invert that transform before running existing wheel hit-testing.
 **Alternatives considered**: Mutating the taxonomy layout angles directly during rotation, or splitting the zoomed wheel into a separate detail view.
 **Rationale**: A viewport transform keeps the emotion layout stable, preserves existing selection logic, and makes the coordinate math small enough to unit test.
+
+## [2026-04-29] Use Original Clinically Informed Definition Text
+
+**Context**: Selected emotions need descriptions that are credible for therapy-adjacent reflection without copying proprietary clinical dictionary entries.
+**Decision**: Store original short educational summaries in `EmotionDefinitions.swift`, cite APA/NIH/NIMH/NIH Clinical Center references in docs and Settings, and show the selected definition in the check-in composer.
+**Alternatives considered**: Copying verbatim definitions from clinical dictionaries, leaving definitions out of the app, or using unsourced generated descriptions.
+**Rationale**: Original summaries avoid copyright/license issues while keeping the source basis visible. The explicit disclaimer keeps the feature scoped to reflection rather than diagnosis or treatment.

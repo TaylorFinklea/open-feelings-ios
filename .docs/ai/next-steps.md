@@ -4,13 +4,14 @@
 
 ## Immediate
 
-- [ ] <!-- Most important next action -->
-- [ ] <!-- Second priority -->
+- [ ] Review the definition copy with the therapist or another licensed clinician before release.
+- [ ] Configure the production CloudKit schema and App Store Connect app record.
 
 ## Soon
 
-- [ ] <!-- Can wait a session or two -->
+- [ ] Add an app icon, launch branding, and App Store privacy policy copy.
+- [ ] Manually validate iCloud sync between two signed-in devices.
 
 ## Deferred
 
-- [ ] <!-- Parked for later, with reason -->
+- [ ] Add UI tests for the wizard, wheel, definition display, and export entry points.

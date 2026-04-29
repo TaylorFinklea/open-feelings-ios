@@ -8,6 +8,7 @@ does not use accounts, ads, analytics, or third-party SDKs.
 
 - Complete three-ring emotion wheel adapted from Open Emotion Wheel v1.1.
 - Guided three-step check-in flow for people who find the full wheel overwhelming.
+- Clinically informed educational definitions shown when a feeling is selected.
 - SwiftData persistence with optional CloudKit private database sync.
 - Optional Face ID, Touch ID, or device passcode app lock.
 - Optional local reminder notifications.
@@ -30,3 +31,7 @@ The app targets iOS 26.0. The original Swift source code is licensed under MIT.
 The Swift source code is MIT licensed. The emotion taxonomy is adapted from
 Open Emotion Wheel v1.1 by David Thorpe, openemotionwheel.com, and is licensed
 under CC BY-SA 4.0. See `ATTRIBUTION.md` and `DATA-LICENSE.md`.
+
+Emotion definitions are original educational summaries, not diagnostic or
+treatment guidance. See `CLINICAL-REFERENCES.md` for the reference sources used
+to shape the wording.

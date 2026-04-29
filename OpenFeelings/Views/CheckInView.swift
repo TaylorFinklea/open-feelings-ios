@@ -154,6 +154,13 @@ private struct LogComposerView: View {
                         .font(.body.weight(.medium))
                         .foregroundStyle(selection.isComplete ? .primary : .secondary)
 
+                    EmotionDefinitionCard(
+                        definition: selection.definition,
+                        accent: accent,
+                        showsDisclaimer: false
+                    )
+                    .padding(.top, 8)
+
                     if !selection.isComplete {
                         Text("Choose a specific outer feeling to save this check-in.")
                             .font(.footnote)

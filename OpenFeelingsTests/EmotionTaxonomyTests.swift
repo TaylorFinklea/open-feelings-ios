@@ -60,6 +60,48 @@ final class EmotionTaxonomyTests: XCTestCase {
         XCTAssertEqual(selection?.isComplete, true)
     }
 
+    func testEveryEmotionNodeHasDefinition() {
+        for core in EmotionTaxonomy.cores {
+            XCTAssertTrue(EmotionDefinitions.hasDefinition(for: core.id), core.name)
+
+            for secondary in core.secondaries {
+                XCTAssertTrue(EmotionDefinitions.hasDefinition(for: secondary.id), "\(core.name) > \(secondary.name)")
+
+                for specific in secondary.specifics {
+                    XCTAssertTrue(
+                        EmotionDefinitions.hasDefinition(for: specific.id),
+                        "\(core.name) > \(secondary.name) > \(specific.name)"
+                    )
+                }
+            }
+        }
+    }
+
+    func testSelectionUsesMostSpecificDefinition() {
+        let broadSelection = EmotionTaxonomy.selection(coreID: "happy", secondaryID: nil, specificID: nil)
+        XCTAssertEqual(broadSelection?.definition.title, "Happy")
+
+        let secondarySelection = EmotionTaxonomy.selection(
+            coreID: "happy",
+            secondaryID: "peaceful",
+            specificID: nil
+        )
+        XCTAssertEqual(secondarySelection?.definition.title, "Peaceful")
+
+        let specificSelection = EmotionTaxonomy.selection(
+            coreID: "happy",
+            secondaryID: "peaceful",
+            specificID: "thankful"
+        )
+        XCTAssertEqual(specificSelection?.definition.title, "Thankful")
+    }
+
+    func testDefinitionReferencesAreDocumented() {
+        XCTAssertFalse(EmotionDefinitions.sourceSummary.isEmpty)
+        XCTAssertFalse(EmotionDefinitions.disclaimer.isEmpty)
+        XCTAssertGreaterThanOrEqual(EmotionDefinitions.referenceURLs.count, 5)
+    }
+
     func testTaxonomyCarriesAttribution() {
         XCTAssertEqual(EmotionTaxonomy.sourceName, "Open Emotion Wheel v1.1")
         XCTAssertEqual(EmotionTaxonomy.sourceLicenseName, "CC BY-SA 4.0")
