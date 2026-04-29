@@ -39,3 +39,10 @@
 **Decision**: Use an in-memory store for tests, a local SwiftData store for simulator builds, and the private CloudKit-backed store for device builds.
 **Alternatives considered**: Requiring signed simulator builds, adding launch-only test hooks, or disabling CloudKit for all debug builds.
 **Rationale**: This keeps simulator development reliable without changing the real device/App Store CloudKit behavior.
+
+## [2026-04-29] Keep Wheel Interactions As A Viewport Transform
+
+**Context**: The wheel needs pinch zoom, rotation, and panning without breaking sector selection.
+**Decision**: Keep gesture state local to `EmotionWheelView`, apply it as a viewport transform, and invert that transform before running existing wheel hit-testing.
+**Alternatives considered**: Mutating the taxonomy layout angles directly during rotation, or splitting the zoomed wheel into a separate detail view.
+**Rationale**: A viewport transform keeps the emotion layout stable, preserves existing selection logic, and makes the coordinate math small enough to unit test.

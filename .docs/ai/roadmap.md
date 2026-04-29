@@ -14,6 +14,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] Build the initial iOS app scaffold with wizard and wheel check-in flows.
 - [x] Add local persistence, iCloud/CloudKit configuration, reminders, Face ID app lock, export, and optional Apple Health writing.
 - [x] Replace the original taxonomy with an attributed Open Emotion Wheel v1.1 adaptation and color-coded wheel/wizard UI.
+- [x] Add wheel pinch zoom, rotation, zoomed panning, and reset interactions.
 - [ ] Configure production CloudKit schema and App Store distribution settings.
 
 ### Next
@@ -30,6 +31,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 ### M1: Usable Local-First Check-In App
 - [x] Attributed Open Emotion Wheel v1.1 taxonomy adaptation
 - [x] Wheel and wizard input
+- [x] Interactive wheel viewport gestures
 - [x] Local logs, export, reminders, app lock, and optional Apple Health writing
 
 ### M2: Release Readiness

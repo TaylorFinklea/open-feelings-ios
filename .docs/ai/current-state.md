@@ -8,21 +8,20 @@
 
 ## Last Session Summary
 
-**Date**: 2026-04-28
+**Date**: 2026-04-29
 
-- Replaced the original app-authored taxonomy with an adapted Open Emotion Wheel v1.1 taxonomy and added in-app/docs attribution under CC BY-SA 4.0.
-- Reworked the wheel renderer to use taxonomy leaf counts for sector sizing, per-feeling colors, radial labels, and tap hit-testing from the generated layout.
-- Added color-coded wizard choices, selected-feeling accents, a warmer check-in background, and persisted Wizard/Wheel mode selection.
-- Kept the app bundle, provisioning, and CloudKit identifiers on `dev.finklea.openfeelings` / `iCloud.dev.finklea.openfeelings`.
-- Added a simulator-only local SwiftData store so unsigned simulator launches do not crash on missing CloudKit entitlements.
+- Made the wheel viewport interactive with pinch-to-zoom, two-finger rotation, drag panning while zoomed, clipping, and an icon reset control.
+- Added transform-aware tap selection so emotion hit-testing still matches the visible sector after rotation, zoom, or pan.
+- Added `WheelViewportTransformTests` for inverse coordinate mapping and viewport clamping.
+- Regenerated `OpenFeelings.xcodeproj` so the new test file is included.
 
 ## Build Status
 
 - Project generation: `xcodegen generate` succeeded.
 - iOS device build: `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphoneos -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO build` succeeded.
-- iOS simulator tests: `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test` succeeded, 8/8 tests passing.
+- iOS simulator tests: `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test` succeeded, 10/10 tests passing.
 - Signed generic iOS build: `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -destination generic/platform=iOS -derivedDataPath DerivedData build` succeeded using the `dev.finklea.openfeelings` provisioning profile.
-- Simulator launch checks succeeded on iPad (A16) and a temporary iPhone 17 simulator; wheel screenshots showed readable labels without the prior text collision.
+- Simulator launch/render check succeeded on iPad (A16); wheel screen rendered normally after the interaction changes.
 
 ## Blockers
 

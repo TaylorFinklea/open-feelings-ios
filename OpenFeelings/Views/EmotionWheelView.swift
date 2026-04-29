@@ -34,6 +34,14 @@ struct WheelCheckInView: View {
 struct EmotionWheelView: View {
     @Binding var selection: EmotionSelection?
 
+    @State private var baseScale: CGFloat = 1
+    @State private var baseRotation = 0.0
+    @State private var baseOffset: CGSize = .zero
+
+    @GestureState private var gestureScale: CGFloat = 1
+    @GestureState private var gestureRotation: Angle = .zero
+    @GestureState private var gestureOffset: CGSize = .zero
+
     private let innerOuter: CGFloat = 0.28
     private let middleOuter: CGFloat = 0.58
     private let wheelStart = -90.0
@@ -48,24 +56,140 @@ struct EmotionWheelView: View {
                 height: side
             )
             let layout = EmotionWheelLayout(cores: EmotionTaxonomy.cores)
+            let transform = activeTransform(side: side)
 
             ZStack {
-                ForEach(layout.cores) { coreSlice in
-                    coreSegments(coreSlice, rect: rect)
+                wheelContent(layout: layout, rect: rect)
+                    .scaleEffect(transform.scale)
+                    .rotationEffect(.degrees(transform.rotationDegrees))
+                    .offset(transform.offset)
+
+                if !isAtRest {
+                    resetButton
+                        .padding(8)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                }
+            }
+            .clipped()
+            .contentShape(Rectangle())
+            .simultaneousGesture(tapGesture(rect: rect, layout: layout, transform: transform))
+            .simultaneousGesture(panGesture(side: side))
+            .simultaneousGesture(zoomGesture(side: side))
+            .simultaneousGesture(rotationGesture)
+            .accessibilityHint("Pinch to zoom, rotate with two fingers, drag while zoomed, or use the reset button to restore the wheel.")
+        }
+    }
+
+    private func wheelContent(layout: EmotionWheelLayout, rect: CGRect) -> some View {
+        ZStack {
+            ForEach(layout.cores) { coreSlice in
+                coreSegments(coreSlice, rect: rect)
+            }
+
+            ringLines(rect: rect)
+            selectionRing(layout: layout, rect: rect)
+        }
+        .drawingGroup()
+    }
+
+    private var resetButton: some View {
+        Button {
+            resetTransform()
+        } label: {
+            Image(systemName: "arrow.counterclockwise")
+                .font(.body.weight(.semibold))
+                .frame(width: 34, height: 34)
+        }
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.circle)
+        .controlSize(.small)
+        .tint(.black.opacity(0.56))
+        .accessibilityLabel("Reset wheel view")
+    }
+
+    private var isAtRest: Bool {
+        abs(baseScale - 1) < 0.01
+            && abs(baseRotation) < 0.01
+            && abs(baseOffset.width) < 0.5
+            && abs(baseOffset.height) < 0.5
+    }
+
+    private func activeTransform(side: CGFloat) -> WheelViewportTransform {
+        let scale = WheelViewportTransform.clampedScale(baseScale * gestureScale)
+        let proposedOffset = CGSize(
+            width: baseOffset.width + gestureOffset.width,
+            height: baseOffset.height + gestureOffset.height
+        )
+
+        return WheelViewportTransform(
+            scale: scale,
+            rotationDegrees: normalizedDegrees(baseRotation + gestureRotation.degrees),
+            offset: WheelViewportTransform.clampedOffset(proposedOffset, scale: scale, side: side)
+        )
+    }
+
+    private func resetTransform() {
+        withAnimation(.snappy(duration: 0.22)) {
+            baseScale = 1
+            baseRotation = 0
+            baseOffset = .zero
+        }
+    }
+
+    private func tapGesture(
+        rect: CGRect,
+        layout: EmotionWheelLayout,
+        transform: WheelViewportTransform
+    ) -> some Gesture {
+        SpatialTapGesture()
+            .onEnded { value in
+                let wheelPoint = transform.inverted(value.location, around: CGPoint(x: rect.midX, y: rect.midY))
+                selection = selection(at: wheelPoint, in: rect, layout: layout)
+            }
+    }
+
+    private func panGesture(side: CGFloat) -> some Gesture {
+        DragGesture(minimumDistance: 4)
+            .updating($gestureOffset) { value, state, _ in
+                guard baseScale > 1.01 else {
+                    return
                 }
 
-                ringLines(rect: rect)
-                selectionRing(layout: layout, rect: rect)
+                state = value.translation
             }
-            .drawingGroup()
-            .contentShape(Circle())
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onEnded { value in
-                        selection = selection(at: value.location, in: rect, layout: layout)
-                    }
-            )
-        }
+            .onEnded { value in
+                guard baseScale > 1.01 else {
+                    baseOffset = .zero
+                    return
+                }
+
+                let proposedOffset = CGSize(
+                    width: baseOffset.width + value.translation.width,
+                    height: baseOffset.height + value.translation.height
+                )
+                baseOffset = WheelViewportTransform.clampedOffset(proposedOffset, scale: baseScale, side: side)
+            }
+    }
+
+    private func zoomGesture(side: CGFloat) -> some Gesture {
+        MagnificationGesture()
+            .updating($gestureScale) { value, state, _ in
+                state = value
+            }
+            .onEnded { value in
+                baseScale = WheelViewportTransform.clampedScale(baseScale * value)
+                baseOffset = WheelViewportTransform.clampedOffset(baseOffset, scale: baseScale, side: side)
+            }
+    }
+
+    private var rotationGesture: some Gesture {
+        RotationGesture()
+            .updating($gestureRotation) { value, state, _ in
+                state = value
+            }
+            .onEnded { value in
+                baseRotation = normalizedDegrees(baseRotation + value.degrees)
+            }
     }
 
     @ViewBuilder
@@ -252,6 +376,60 @@ struct EmotionWheelView: View {
     private func normalizedDegrees(_ degrees: Double) -> Double {
         let remainder = degrees.truncatingRemainder(dividingBy: 360)
         return remainder < 0 ? remainder + 360 : remainder
+    }
+}
+
+struct WheelViewportTransform: Equatable {
+    static let minimumScale: CGFloat = 1
+    static let maximumScale: CGFloat = 4
+
+    let scale: CGFloat
+    let rotationDegrees: Double
+    let offset: CGSize
+
+    static func clampedScale(_ scale: CGFloat) -> CGFloat {
+        min(max(scale, minimumScale), maximumScale)
+    }
+
+    static func clampedOffset(_ offset: CGSize, scale: CGFloat, side: CGFloat) -> CGSize {
+        let limit = max((side * (scale - minimumScale)) / 2, 0)
+
+        guard limit > 0 else {
+            return .zero
+        }
+
+        return CGSize(
+            width: min(max(offset.width, -limit), limit),
+            height: min(max(offset.height, -limit), limit)
+        )
+    }
+
+    func applied(_ point: CGPoint, around center: CGPoint) -> CGPoint {
+        let radians = CGFloat(rotationDegrees * .pi / 180)
+        let translatedX = (point.x - center.x) * scale
+        let translatedY = (point.y - center.y) * scale
+
+        let rotatedX = translatedX * cos(radians) - translatedY * sin(radians)
+        let rotatedY = translatedX * sin(radians) + translatedY * cos(radians)
+
+        return CGPoint(
+            x: center.x + rotatedX + offset.width,
+            y: center.y + rotatedY + offset.height
+        )
+    }
+
+    func inverted(_ point: CGPoint, around center: CGPoint) -> CGPoint {
+        let radians = CGFloat(-rotationDegrees * .pi / 180)
+        let translatedX = point.x - center.x - offset.width
+        let translatedY = point.y - center.y - offset.height
+
+        let rotatedX = translatedX * cos(radians) - translatedY * sin(radians)
+        let rotatedY = translatedX * sin(radians) + translatedY * cos(radians)
+
+        return CGPoint(
+            x: center.x + rotatedX / scale,
+            y: center.y + rotatedY / scale
+        )
     }
 }
 
