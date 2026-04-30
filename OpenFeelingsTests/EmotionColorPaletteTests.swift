@@ -109,6 +109,48 @@ final class EmotionColorPaletteTests: XCTestCase {
 
     // MARK: - Helpers
 
+    // MARK: - Calm-night dark-mode derivation
+
+    func testCalmNightDarkSecondaryAndSpecificDarkenTowardBackground() {
+        // In dark mode, the derivation darkens toward the dark page background
+        // instead of lightening toward white. So secondary brightness should be
+        // LESS than core brightness, and specific should be even darker.
+        for core in EmotionTaxonomy.cores {
+            let coreHex     = EmotionColorPalette.hexString(coreID: core.id, depth: .core,      scheme: .dark)
+            let secondHex   = EmotionColorPalette.hexString(coreID: core.id, depth: .secondary, scheme: .dark)
+            let specificHex = EmotionColorPalette.hexString(coreID: core.id, depth: .specific,  scheme: .dark)
+            let coreL  = EmotionColorPalette.brightness(hex: coreHex)
+            let secL   = EmotionColorPalette.brightness(hex: secondHex)
+            let specL  = EmotionColorPalette.brightness(hex: specificHex)
+            XCTAssertLessThan(secL,  coreL, "core \(core.id) — dark secondary should be darker than core")
+            XCTAssertLessThan(specL, secL,  "core \(core.id) — dark specific should be darker than secondary")
+        }
+    }
+
+    func testLightModeDerivationStillLightensTowardWhite() {
+        // Regression guard: light-mode behavior must NOT change. Specific is
+        // brighter than secondary, secondary brighter than core (existing rule).
+        for core in EmotionTaxonomy.cores {
+            let coreHex     = EmotionColorPalette.hexString(coreID: core.id, depth: .core,      scheme: .light)
+            let secondHex   = EmotionColorPalette.hexString(coreID: core.id, depth: .secondary, scheme: .light)
+            let specificHex = EmotionColorPalette.hexString(coreID: core.id, depth: .specific,  scheme: .light)
+            let coreL = EmotionColorPalette.brightness(hex: coreHex)
+            let secL  = EmotionColorPalette.brightness(hex: secondHex)
+            let specL = EmotionColorPalette.brightness(hex: specificHex)
+            XCTAssertLessThan(coreL, secL, "core \(core.id) — light secondary should be lighter than core")
+            XCTAssertLessThan(secL, specL, "core \(core.id) — light specific should be lighter than secondary")
+        }
+    }
+
+    func testDarkenHexFullStrengthReachesTarget() {
+        // Sanity check the math helper: t=1.0 returns the target hex exactly.
+        XCTAssertEqual(EmotionColorPalette.darkenHex("FF0000", toward: "000000", by: 1.0), "000000")
+        XCTAssertEqual(EmotionColorPalette.darkenHex("D9A43A", toward: "1B1A18", by: 1.0), "1B1A18")
+        XCTAssertEqual(EmotionColorPalette.darkenHex("D9A43A", toward: "1B1A18", by: 0.0), "D9A43A")
+    }
+
+    // MARK: - Helpers
+
     /// Mirrors EmotionColorPalette's private hex parser so the tests don't depend
     /// on internal access.
     private func colorFromHex(_ hex: String) -> Color {

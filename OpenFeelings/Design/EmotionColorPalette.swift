@@ -32,15 +32,22 @@ enum EmotionColorPalette {
     /// Returns the resolved hex string (no `#` prefix) for a taxonomy node at a
     /// given depth + color scheme. Mirrors `color(coreID:depth:scheme:)` but
     /// produces the hex so callers can feed it into `Color.readableText(onHex:)`.
+    ///
+    /// Light mode lightens toward white; dark mode darkens toward the page
+    /// background (#1B1A18 = Color.OF.background dark) so outer rings recede
+    /// into the calm-night surface instead of lifting off it.
     static func hexString(coreID: String, depth: Depth, scheme: ColorScheme) -> String {
         guard let pair = coreAccents[coreID] else {
             return scheme == .dark ? "A89E92" : "6B6259"
         }
         let base = scheme == .dark ? pair.darkHex : pair.lightHex
-        switch depth {
-        case .core:      return base
-        case .secondary: return lightenHex(base, towardWhite: 0.45)
-        case .specific:  return lightenHex(base, towardWhite: 0.78)
+        switch (depth, scheme) {
+        case (.core, _):           return base
+        case (.secondary, .light): return lightenHex(base, towardWhite: 0.45)
+        case (.specific,  .light): return lightenHex(base, towardWhite: 0.78)
+        case (.secondary, .dark):  return darkenHex(base, toward: "1B1A18", by: 0.45)
+        case (.specific,  .dark):  return darkenHex(base, toward: "1B1A18", by: 0.73)
+        @unknown default:          return base
         }
     }
 
@@ -52,6 +59,22 @@ enum EmotionColorPalette {
         let nr = r + (1 - r) * t
         let ng = g + (1 - g) * t
         let nb = b + (1 - b) * t
+        return String(format: "%02X%02X%02X",
+                      Int((nr * 255).rounded()),
+                      Int((ng * 255).rounded()),
+                      Int((nb * 255).rounded()))
+    }
+
+    /// Mixes the input hex toward `target` hex by `t` (0...1). Used for the
+    /// dark-mode "calm-night" derivation where outer rings fade into the page
+    /// background instead of toward white. Keep `target` in sync with
+    /// Color.OF.background dark hex (DesignTokens.swift).
+    static func darkenHex(_ hex: String, toward target: String, by t: CGFloat) -> String {
+        let (r, g, b) = rgb(of: hex)
+        let (tr, tg, tb) = rgb(of: target)
+        let nr = r + (tr - r) * t
+        let ng = g + (tg - g) * t
+        let nb = b + (tb - b) * t
         return String(format: "%02X%02X%02X",
                       Int((nr * 255).rounded()),
                       Int((ng * 255).rounded()),
