@@ -16,13 +16,28 @@ struct OFColor: ShapeStyle, Sendable, Hashable {
 
     func resolve(in environment: EnvironmentValues) -> Color {
         environment.colorScheme == .dark
-            ? Color(hex: darkHex)
-            : Color(hex: lightHex)
+            ? Self.color(fromHex: darkHex)
+            : Self.color(fromHex: lightHex)
     }
 
     /// For consumers that need a literal `Color` rather than a `ShapeStyle`.
     func color(for scheme: ColorScheme) -> Color {
-        scheme == .dark ? Color(hex: darkHex) : Color(hex: lightHex)
+        scheme == .dark
+            ? Self.color(fromHex: darkHex)
+            : Self.color(fromHex: lightHex)
+    }
+
+    /// Self-contained hex parser. Avoids depending on any cross-file
+    /// `Color(hex:)` extension so SourceKit can index this file in isolation.
+    private static func color(fromHex hex: String) -> Color {
+        var h = hex
+        if h.hasPrefix("#") { h.removeFirst() }
+        var v: UInt64 = 0
+        Scanner(string: h).scanHexInt64(&v)
+        let r = Double((v & 0xFF0000) >> 16) / 255
+        let g = Double((v & 0x00FF00) >> 8)  / 255
+        let b = Double(v & 0x0000FF)         / 255
+        return Color(red: r, green: g, blue: b)
     }
 }
 
