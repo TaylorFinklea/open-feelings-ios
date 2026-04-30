@@ -26,17 +26,22 @@ enum EmotionColorPalette {
     /// Secondary tints derive from the core via `lightenHex(_, 0.45)`; specific via `0.78`.
     /// Unknown cores fall back to a muted neutral.
     static func color(coreID: String, depth: Depth, scheme: ColorScheme) -> Color {
+        colorFromHex(hexString(coreID: coreID, depth: depth, scheme: scheme))
+    }
+
+    /// Returns the resolved hex string (no `#` prefix) for a taxonomy node at a
+    /// given depth + color scheme. Mirrors `color(coreID:depth:scheme:)` but
+    /// produces the hex so callers can feed it into `Color.readableText(onHex:)`.
+    static func hexString(coreID: String, depth: Depth, scheme: ColorScheme) -> String {
         guard let pair = coreAccents[coreID] else {
-            return colorFromHex(scheme == .dark ? "A89E92" : "6B6259")
+            return scheme == .dark ? "A89E92" : "6B6259"
         }
         let base = scheme == .dark ? pair.darkHex : pair.lightHex
-        let hex: String
         switch depth {
-        case .core:      hex = base
-        case .secondary: hex = lightenHex(base, towardWhite: 0.45)
-        case .specific:  hex = lightenHex(base, towardWhite: 0.78)
+        case .core:      return base
+        case .secondary: return lightenHex(base, towardWhite: 0.45)
+        case .specific:  return lightenHex(base, towardWhite: 0.78)
         }
-        return colorFromHex(hex)
     }
 
     // MARK: - Color math (also exercised directly by tests)

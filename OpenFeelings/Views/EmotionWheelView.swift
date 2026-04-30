@@ -2,6 +2,13 @@ import SwiftUI
 
 struct WheelCheckInView: View {
     @Binding var selection: EmotionSelection?
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var selectionDepth: EmotionColorPalette.Depth {
+        if selection?.specific != nil { return .specific }
+        if selection?.secondary != nil { return .secondary }
+        return .core
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -13,15 +20,15 @@ struct WheelCheckInView: View {
                 .aspectRatio(1, contentMode: .fit)
                 .accessibilityLabel("Emotion wheel")
 
-            if let selection {
-                Text(selection.pathTitle)
+            if let sel = selection {
+                Text(sel.pathTitle)
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(Color.readableText(onHex: selection.colorHex))
+                    .foregroundStyle(Color.readableText(onHex: EmotionColorPalette.hexString(coreID: sel.core.id, depth: selectionDepth, scheme: colorScheme)))
                     .lineLimit(2)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color(hex: selection.colorHex), in: RoundedRectangle(cornerRadius: 8))
+                    .background(EmotionColorPalette.color(coreID: sel.core.id, depth: selectionDepth, scheme: colorScheme), in: RoundedRectangle(cornerRadius: 8))
             }
 
             Text("Tap the center for a broad feeling, the middle ring to narrow it, or the outer ring for the exact word.")
@@ -33,6 +40,8 @@ struct WheelCheckInView: View {
 
 struct EmotionWheelView: View {
     @Binding var selection: EmotionSelection?
+
+    @Environment(\.colorScheme) private var colorScheme
 
     @State private var baseScale: CGFloat = 1
     @State private var baseRotation = 0.0
@@ -202,11 +211,11 @@ struct EmotionWheelView: View {
             innerRatio: 0,
             outerRatio: innerOuter
         )
-        .fill(Color(hex: core.colorHex))
+        .fill(EmotionColorPalette.color(coreID: core.id, depth: .core, scheme: colorScheme))
 
         wheelLabel(
             core.name,
-            colorHex: core.colorHex,
+            colorHex: EmotionColorPalette.hexString(coreID: core.id, depth: .core, scheme: colorScheme),
             angle: wheelStart + coreSlice.midAngle,
             radiusRatio: innerOuter * 0.62,
             rect: rect,
@@ -224,11 +233,11 @@ struct EmotionWheelView: View {
                 innerRatio: innerOuter,
                 outerRatio: middleOuter
             )
-            .fill(Color(hex: secondary.colorHex))
+            .fill(EmotionColorPalette.color(coreID: core.id, depth: .secondary, scheme: colorScheme))
 
             wheelLabel(
                 secondary.name,
-                colorHex: secondary.colorHex,
+                colorHex: EmotionColorPalette.hexString(coreID: core.id, depth: .secondary, scheme: colorScheme),
                 angle: wheelStart + secondarySlice.midAngle,
                 radiusRatio: (innerOuter + middleOuter) / 2,
                 rect: rect,
@@ -246,11 +255,11 @@ struct EmotionWheelView: View {
                     innerRatio: middleOuter,
                     outerRatio: 1
                 )
-                .fill(Color(hex: specific.colorHex))
+                .fill(EmotionColorPalette.color(coreID: core.id, depth: .specific, scheme: colorScheme))
 
                 wheelLabel(
                     specific.name,
-                    colorHex: specific.colorHex,
+                    colorHex: EmotionColorPalette.hexString(coreID: core.id, depth: .specific, scheme: colorScheme),
                     angle: wheelStart + specificSlice.midAngle,
                     radiusRatio: (middleOuter + 1) / 2,
                     rect: rect,
