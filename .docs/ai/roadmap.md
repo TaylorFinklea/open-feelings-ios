@@ -59,20 +59,6 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 **Tier hint**: Sonnet — touches 2 files, no design decisions
 -->
 
-### Fix SourceKit-LSP indexer for the redesign branch
-**Scope**: SourceKit's per-file indexer reports false-positive diagnostics on files in `OpenFeelings/Design/` and on every test file in `OpenFeelingsTests/` — "No such module 'UIKit'", "No such module 'XCTest'", "Cannot find type 'UIColor' in scope", "Extraneous argument label 'hex:' in call". `xcodebuild` succeeds and tests pass; only the IDE indexer is unhappy. The pattern suggests SourceKit-LSP can't resolve per-target SDK paths for this xcodegen-generated project. We worked around the UIKit hit by making `OFColor` self-contained (commit `9dadc9a`) but the underlying configuration issue remains and will fire on every new test file.
-**Files**: `OpenFeelings.xcodeproj/`, `project.yml`, possibly a new `.sourcekit-lsp/config.json` or per-target `INFOPLIST_KEY_*`/`SWIFT_INDEX_*` build settings.
-**Acceptance**: Opening `OpenFeelingsTests/EmotionColorPaletteTests.swift` (or any test file) in the editor shows zero SourceKit diagnostics. `import XCTest` resolves. `import UIKit` resolves in any file that uses it. `xcodebuild ... build` and `xcodebuild ... test` continue to pass.
-**Verify**:
-```sh
-xcodegen generate
-xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings \
-  -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' \
-  -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test
-```
-Then reload the workspace in the editor and confirm SourceKit diagnostics on `OpenFeelingsTests/*.swift` are clean.
-**Tier hint**: Sonnet — likely a `project.yml` `SDKROOT`/`SUPPORTED_PLATFORMS` tweak or a SourceKit-LSP config entry; small file changes but needs investigation. May also be solved by a project re-open if it's purely a stale-index issue.
-
 - Source code is MIT licensed.
 - Emotion taxonomy content is adapted from Open Emotion Wheel v1.1 and must preserve Open Emotion Wheel attribution and CC BY-SA 4.0 licensing.
 - Emotion definitions are original educational summaries with reference-source documentation; they must not be presented as diagnosis or treatment advice.

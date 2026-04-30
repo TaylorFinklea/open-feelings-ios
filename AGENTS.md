@@ -34,6 +34,25 @@ xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings \
 
 Tests use **XCTest** (not Swift Testing) and live in `OpenFeelingsTests/`.
 
+### IDE indexing (SourceKit-LSP)
+
+Editors using SourceKit-LSP need a build-server bridge to resolve cross-file types and the iOS SDK; without it you'll see noisy false-positive diagnostics ("No such module 'XCTest'", "Cannot find type 'EmotionSelection' in scope", "Type 'Color' has no member 'OF'") that don't reflect actual build state.
+
+Set up once per machine:
+
+```sh
+# install (Homebrew)
+brew install xcode-build-server
+
+# generate the project-local buildServer.json (re-run after a project rename or scheme change)
+xcode-build-server config -project OpenFeelings.xcodeproj -scheme OpenFeelings
+
+# prime the index by running a build into Xcode's default DerivedData (NOT the local DerivedData/ used by the test command)
+xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build
+```
+
+Then reload your editor / restart the language server. `buildServer.json` is git-ignored because it contains absolute machine-specific paths.
+
 ## Architecture invariants
 
 Three things span multiple files and are easy to break.
