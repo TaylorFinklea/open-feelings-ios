@@ -25,30 +25,43 @@ struct LockGateView<Content: View>: View {
     }
 
     private var lockedView: some View {
-        VStack(spacing: 24) {
-            Image(systemName: "lock.shield")
-                .font(.system(size: 56, weight: .semibold))
-                .foregroundStyle(.tint)
-
-            VStack(spacing: 8) {
-                Text("Open Feelings is locked")
-                    .font(.title2.weight(.semibold))
-
-                Text("Unlock to view your feeling logs.")
-                    .foregroundStyle(.secondary)
-            }
-
-            Button {
+        VStack(spacing: .OF.xl) {
+            glyphBadge
+            titles
+            OFButton(isUnlocking ? "Unlocking…" : "Unlock", style: .primary) {
                 unlock()
-            } label: {
-                Label(isUnlocking ? "Unlocking" : "Unlock", systemImage: "faceid")
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
+            .padding(.horizontal, CGFloat.OF.xxxl)
+            .padding(.top, CGFloat.OF.lg)
             .disabled(isUnlocking)
+            .opacity(isUnlocking ? 0.6 : 1)
         }
-        .padding(32)
+        .padding(.horizontal, CGFloat.OF.xl)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.OF.background, ignoresSafeAreaEdges: .all)
+    }
+
+    private var glyphBadge: some View {
+        ZStack {
+            Circle()
+                .fill(Color.OF.accentSoft)
+                .frame(width: 96, height: 96)
+            Image(systemName: "lock.fill")
+                .font(.system(size: 40, weight: .light))
+                .foregroundStyle(Color.OF.accent)
+        }
+    }
+
+    private var titles: some View {
+        VStack(spacing: .OF.sm) {
+            Text("Locked")
+                .font(.OF.display)
+                .foregroundStyle(Color.OF.text)
+            Text("Use Face ID to continue.")
+                .font(.OF.body)
+                .foregroundStyle(Color.OF.textMuted)
+                .multilineTextAlignment(.center)
+        }
     }
 
     private func unlock() {
