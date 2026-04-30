@@ -37,6 +37,8 @@ final class FeelingLog {
     var intensity: Int?
     var note: String = ""
     var healthSyncStatusRaw: String = HealthSyncStatus.notRequested.rawValue
+    var bodyRegionsRaw: String = ""
+    var bodySensationsRaw: String = ""
 
     init(
         id: UUID = UUID(),
@@ -44,7 +46,9 @@ final class FeelingLog {
         selection: EmotionSelection,
         intensity: Int?,
         note: String,
-        healthSyncStatus: HealthSyncStatus = .notRequested
+        healthSyncStatus: HealthSyncStatus = .notRequested,
+        bodyRegions: [BodyRegion] = [],
+        bodySensations: [BodySensation] = []
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -57,6 +61,8 @@ final class FeelingLog {
         self.intensity = intensity
         self.note = note
         healthSyncStatusRaw = healthSyncStatus.rawValue
+        bodyRegionsRaw = BodyRegion.encodeList(bodyRegions)
+        bodySensationsRaw = BodySensation.encodeList(bodySensations)
     }
 
     var healthSyncStatus: HealthSyncStatus {
@@ -72,5 +78,15 @@ final class FeelingLog {
         [coreName, secondaryName, specificName]
             .filter { !$0.isEmpty }
             .joined(separator: " > ")
+    }
+
+    var bodyRegions: [BodyRegion] {
+        get { BodyRegion.parseList(bodyRegionsRaw) }
+        set { bodyRegionsRaw = BodyRegion.encodeList(newValue) }
+    }
+
+    var bodySensations: [BodySensation] {
+        get { BodySensation.parseList(bodySensationsRaw) }
+        set { bodySensationsRaw = BodySensation.encodeList(newValue) }
     }
 }
