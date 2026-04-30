@@ -16,6 +16,7 @@
 		189D1693B1C37C03C1976141 /* WeekSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */; };
 		3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DC44721733546416582778 /* EmotionTaxonomyTests.swift */; };
 		35B8237F53C22352502C858B /* WizardCheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */; };
+		364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */; };
 		3D5BDB7D779D26BDA9905666 /* WheelViewportTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CD3074A5394FAAE9FBB07B /* WheelViewportTransformTests.swift */; };
 		4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */; };
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
@@ -38,6 +39,7 @@
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
 		D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67A46078B6257523BDCA760 /* SettingsView.swift */; };
 		F5A5FB0C16A9660611B6E7D8 /* EmotionWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FA50454E902FB514212AD /* EmotionWheelView.swift */; };
+		F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8942BFA59ED385EB86B4EF54 /* OFCard.swift */; };
 		FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +70,7 @@
 		493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		60CAF5B22D477191AAC90A68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFSectionHeader.swift; sourceTree = "<group>"; };
 		71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummary.swift; sourceTree = "<group>"; };
 		761168044FE1E8231D0CCD3B /* Greeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Greeting.swift; sourceTree = "<group>"; };
 		764DCB6D65D0FAA3772A4AAA /* GreetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingTests.swift; sourceTree = "<group>"; };
@@ -75,6 +78,7 @@
 		7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomy.swift; sourceTree = "<group>"; };
 		8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationTests.swift; sourceTree = "<group>"; };
+		8942BFA59ED385EB86B4EF54 /* OFCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFCard.swift; sourceTree = "<group>"; };
 		9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryTests.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +108,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01EA5FE897BCE8C21B30FD33 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8942BFA59ED385EB86B4EF54 /* OFCard.swift */,
+				673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		036DA193C076501588F10034 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +144,7 @@
 				25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */,
 				761168044FE1E8231D0CCD3B /* Greeting.swift */,
 				71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */,
+				01EA5FE897BCE8C21B30FD33 /* Components */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -306,6 +320,8 @@
 				08F20C61D0758AA5628806E8 /* HealthService.swift in Sources */,
 				86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */,
 				6F9D189D177331830F250286 /* LockGateView.swift in Sources */,
+				F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */,
+				364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */,
 				94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */,
 				0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */,
 				C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */,
