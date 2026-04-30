@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage("reminderHour") private var reminderHour = 20
     @AppStorage("reminderMinute") private var reminderMinute = 0
     @AppStorage("displayName") private var displayName = ""
+    @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
 
     @State private var reminderTime = Date.now
     @State private var notificationError: String?
@@ -17,6 +18,7 @@ struct SettingsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: .OF.xl) {
+                appearanceSection
                 privacySection
                 remindersSection
                 healthSection
@@ -40,6 +42,50 @@ struct SettingsView: View {
         } message: {
             Text(notificationError ?? "")
         }
+    }
+
+    // MARK: - Appearance
+
+    private var appearanceSection: some View {
+        section(title: "Appearance") {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    ForEach([AppearanceMode.light, .system, .dark]) { mode in
+                        Button {
+                            withAnimation(.OF.quick) {
+                                appearanceModeRaw = mode.rawValue
+                            }
+                        } label: {
+                            Text(mode.title)
+                                .font(.OF.bodyEmphasis)
+                                .foregroundStyle(currentAppearance == mode ? Color.OF.text : Color.OF.textMuted)
+                                .frame(maxWidth: .infinity, minHeight: 36)
+                                .background(
+                                    Group {
+                                        if currentAppearance == mode {
+                                            RoundedRectangle(cornerRadius: CGFloat.OF.Radius.chip, style: .continuous)
+                                                .fill(Color.OF.surface)
+                                                .shadow(color: .black.opacity(0.06), radius: 4, y: 1)
+                                        }
+                                    }
+                                )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(4)
+                .background(
+                    Color.OF.accentSoft.opacity(0.45),
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.chip + 4, style: .continuous)
+                )
+                .padding(CGFloat.OF.lg)
+            }
+            footerCaption("Choose Light or Dark to override the system, or System to follow your device.")
+        }
+    }
+
+    private var currentAppearance: AppearanceMode {
+        AppearanceMode(rawValue: appearanceModeRaw) ?? .system
     }
 
     // MARK: - Privacy

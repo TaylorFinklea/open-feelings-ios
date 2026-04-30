@@ -7,16 +7,22 @@ struct OpenFeelingsApp: App {
 
     @State private var healthService = HealthService()
     @State private var navigation = AppNavigation()
+    @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
 
     var body: some Scene {
         WindowGroup {
             LockGateView {
                 RootView()
             }
+            .preferredColorScheme(appearanceMode.colorScheme)
             .environment(healthService)
             .environment(navigation)
             .modelContainer(modelContainer)
         }
+    }
+
+    private var appearanceMode: AppearanceMode {
+        AppearanceMode(rawValue: appearanceModeRaw) ?? .system
     }
 
     private static func makeModelContainer() -> ModelContainer {

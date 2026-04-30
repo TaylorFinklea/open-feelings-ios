@@ -16,7 +16,9 @@
 		18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */; };
 		189D1693B1C37C03C1976141 /* WeekSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */; };
 		2B7CCCA566134D1C3BD9ABFE /* OFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEC32E3B681940E6AEEC72 /* OFButton.swift */; };
+		2D7F3E55328881C064C1F30B /* AppearanceModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */; };
 		3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DC44721733546416582778 /* EmotionTaxonomyTests.swift */; };
+		32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */; };
 		35B8237F53C22352502C858B /* WizardCheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */; };
 		364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */; };
 		399059894BECDC267871CEDE /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F6FF9EEE69BDBD038A224B /* InsightsView.swift */; };
@@ -94,8 +96,10 @@
 		96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryTests.swift; sourceTree = "<group>"; };
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 		A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardCheckInView.swift; sourceTree = "<group>"; };
 		A638C240E85A7FEA5F2D883F /* IntentionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsView.swift; sourceTree = "<group>"; };
+		A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
 		AA5A4382CFA9DE8E22655357 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B67A46078B6257523BDCA760 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B853D8246487F25572AEF0F5 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 		36B6CB2401FF4E380AEE2948 /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */,
 				493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */,
 				1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */,
 				25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */,
@@ -195,6 +200,7 @@
 		7DE78C160AD7BBCE152BA5A2 /* OpenFeelingsTests */ = {
 			isa = PBXGroup;
 			children = (
+				A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */,
 				865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */,
 				08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */,
 				17DC44721733546416582778 /* EmotionTaxonomyTests.swift */,
@@ -328,6 +334,7 @@
 			files = (
 				A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */,
 				6B85C09974147D729D5F79BC /* AppNavigation.swift in Sources */,
+				32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */,
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
 				FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */,
 				9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */,
@@ -364,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A5CDCA737F19EEE682FF2D6 /* AppNavigationTests.swift in Sources */,
+				2D7F3E55328881C064C1F30B /* AppearanceModeTests.swift in Sources */,
 				0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */,
 				3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */,
 				4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */,
