@@ -17,6 +17,7 @@ struct CheckInView: View {
 
     @AppStorage("healthEnabled") private var healthEnabled = false
     @AppStorage("checkInMode") private var modeRawValue = CheckInMode.wizard.rawValue
+    @AppStorage("checkInBodyFirst") private var bodyFirst = true
 
     @State private var selection: EmotionSelection?
     @State private var note = ""
@@ -29,6 +30,13 @@ struct CheckInView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: .OF.xl) {
                 heroHeader
+                if bodyFirst {
+                    BodyChipsCard(
+                        bodyRegions: $bodyRegions,
+                        bodySensations: $bodySensations
+                    )
+                    feelingPrompt
+                }
                 modeSegmented
                 Group {
                     switch mode {
@@ -45,6 +53,7 @@ struct CheckInView: View {
                     intensity: $intensity,
                     bodyRegions: $bodyRegions,
                     bodySensations: $bodySensations,
+                    showsBodySection: !bodyFirst,
                     save: save
                 )
             }
@@ -61,11 +70,25 @@ struct CheckInView: View {
             Text("Now")
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
-            Text("How are you feeling?")
+            Text(bodyFirst ? "Pause and notice." : "How are you feeling?")
                 .font(.OF.display)
                 .foregroundStyle(Color.OF.text)
         }
         .padding(.top, .OF.lg)
+    }
+
+    /// In body-first mode, after the body chips, this prompt introduces the
+    /// emotion picker below.
+    private var feelingPrompt: some View {
+        VStack(alignment: .leading, spacing: .OF.xs) {
+            Text("Then")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            Text("What feeling matches?")
+                .font(.OF.title)
+                .foregroundStyle(Color.OF.text)
+        }
+        .padding(.top, .OF.sm)
     }
 
     private var modeSegmented: some View {
@@ -148,6 +171,9 @@ private struct LogComposerView: View {
     @Binding var intensity: Double
     @Binding var bodyRegions: Set<BodyRegion>
     @Binding var bodySensations: Set<BodySensation>
+    /// When false, body chips render above the wheel/wizard (body-first mode)
+    /// and this composer skips its inline bodySection.
+    let showsBodySection: Bool
     let save: () -> Void
 
     var body: some View {
@@ -160,7 +186,9 @@ private struct LogComposerView: View {
                     showsDisclaimer: true
                 )
                 intensitySection
-                bodySection
+                if showsBodySection {
+                    bodySection
+                }
                 placeholderRows
                 noteField
                 saveButton(enabled: selection.isComplete)
@@ -219,56 +247,9 @@ private struct LogComposerView: View {
     }
 
     private var bodySection: some View {
-        VStack(alignment: .leading, spacing: .OF.sm) {
-            Text("Body").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
-            Text("Where do you feel it? (optional)")
-                .font(.OF.caption)
-                .foregroundStyle(Color.OF.textMuted)
-            regionChips
-            if !bodyRegions.isEmpty {
-                Divider().background(Color.OF.divider).padding(.vertical, CGFloat.OF.xs)
-                Text("How does it feel?")
-                    .font(.OF.caption)
-                    .foregroundStyle(Color.OF.textMuted)
-                sensationChips
-            }
-        }
-        .padding(CGFloat.OF.md)
-        .background(Color.OF.surface,
-                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
-    }
-
-    private var regionChips: some View {
-        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
-            ForEach(BodyRegion.allCases) { region in
-                OFChip(label: region.displayName, isOn: regionBinding(for: region))
-            }
-        }
-    }
-
-    private var sensationChips: some View {
-        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
-            ForEach(BodySensation.allCases) { sensation in
-                OFChip(label: sensation.displayName, isOn: sensationBinding(for: sensation))
-            }
-        }
-    }
-
-    private func regionBinding(for region: BodyRegion) -> Binding<Bool> {
-        Binding(
-            get: { bodyRegions.contains(region) },
-            set: { isOn in
-                if isOn { bodyRegions.insert(region) } else { bodyRegions.remove(region) }
-            }
-        )
-    }
-
-    private func sensationBinding(for sensation: BodySensation) -> Binding<Bool> {
-        Binding(
-            get: { bodySensations.contains(sensation) },
-            set: { isOn in
-                if isOn { bodySensations.insert(sensation) } else { bodySensations.remove(sensation) }
-            }
+        BodyChipsCard(
+            bodyRegions: $bodyRegions,
+            bodySensations: $bodySensations
         )
     }
 
@@ -321,5 +302,68 @@ private struct LogComposerView: View {
         OFButton("Save check-in", style: .primary, action: save)
             .opacity(enabled ? 1 : 0.4)
             .disabled(!enabled)
+    }
+}
+
+/// Reusable body chip card. Renders region chips, then sensation chips
+/// progressively (only after a region is selected). Used in two places:
+/// inside `LogComposerView` (emotion-first mode) and at the top of
+/// `CheckInView` (body-first mode, the therapy-aligned default).
+private struct BodyChipsCard: View {
+    @Binding var bodyRegions: Set<BodyRegion>
+    @Binding var bodySensations: Set<BodySensation>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Text("Body").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+            Text("Where do you feel it? (optional)")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            regionChips
+            if !bodyRegions.isEmpty {
+                Divider().background(Color.OF.divider).padding(.vertical, CGFloat.OF.xs)
+                Text("How does it feel?")
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+                sensationChips
+            }
+        }
+        .padding(CGFloat.OF.md)
+        .background(Color.OF.surface,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
+    }
+
+    private var regionChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(BodyRegion.allCases) { region in
+                OFChip(label: region.displayName, isOn: regionBinding(for: region))
+            }
+        }
+    }
+
+    private var sensationChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(BodySensation.allCases) { sensation in
+                OFChip(label: sensation.displayName, isOn: sensationBinding(for: sensation))
+            }
+        }
+    }
+
+    private func regionBinding(for region: BodyRegion) -> Binding<Bool> {
+        Binding(
+            get: { bodyRegions.contains(region) },
+            set: { isOn in
+                if isOn { bodyRegions.insert(region) } else { bodyRegions.remove(region) }
+            }
+        )
+    }
+
+    private func sensationBinding(for sensation: BodySensation) -> Binding<Bool> {
+        Binding(
+            get: { bodySensations.contains(sensation) },
+            set: { isOn in
+                if isOn { bodySensations.insert(sensation) } else { bodySensations.remove(sensation) }
+            }
+        )
     }
 }

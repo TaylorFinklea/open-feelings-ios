@@ -11,6 +11,7 @@ struct SettingsView: View {
     @AppStorage("reminderMinute") private var reminderMinute = 0
     @AppStorage("displayName") private var displayName = ""
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
+    @AppStorage("checkInBodyFirst") private var bodyFirst = true
 
     @State private var reminderTime = Date.now
     @State private var notificationError: String?
@@ -19,6 +20,7 @@ struct SettingsView: View {
         ScrollView {
             VStack(spacing: .OF.xl) {
                 appearanceSection
+                checkInSection
                 privacySection
                 remindersSection
                 healthSection
@@ -86,6 +88,49 @@ struct SettingsView: View {
 
     private var currentAppearance: AppearanceMode {
         AppearanceMode(rawValue: appearanceModeRaw) ?? .system
+    }
+
+    // MARK: - Check In
+
+    private var checkInSection: some View {
+        section(title: "Check In") {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    checkInOrderButton(title: "Body first", isActive: bodyFirst) {
+                        withAnimation(.OF.quick) { bodyFirst = true }
+                    }
+                    checkInOrderButton(title: "Feeling first", isActive: !bodyFirst) {
+                        withAnimation(.OF.quick) { bodyFirst = false }
+                    }
+                }
+                .padding(4)
+                .background(
+                    Color.OF.accentSoft.opacity(0.45),
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.chip + 4, style: .continuous)
+                )
+                .padding(CGFloat.OF.lg)
+            }
+            footerCaption("Body first scaffolds toward the feeling — locate the sensation, then name it. Feeling first goes straight to the wheel or wizard.")
+        }
+    }
+
+    private func checkInOrderButton(title: String, isActive: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.OF.bodyEmphasis)
+                .foregroundStyle(isActive ? Color.OF.text : Color.OF.textMuted)
+                .frame(maxWidth: .infinity, minHeight: 36)
+                .background(
+                    Group {
+                        if isActive {
+                            RoundedRectangle(cornerRadius: CGFloat.OF.Radius.chip, style: .continuous)
+                                .fill(Color.OF.surface)
+                                .shadow(color: .black.opacity(0.06), radius: 4, y: 1)
+                        }
+                    }
+                )
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Privacy
