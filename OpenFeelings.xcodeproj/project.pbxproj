@@ -30,6 +30,7 @@
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
 		D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67A46078B6257523BDCA760 /* SettingsView.swift */; };
 		F5A5FB0C16A9660611B6E7D8 /* EmotionWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FA50454E902FB514212AD /* EmotionWheelView.swift */; };
+		FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		06AA11A4901FC5ED08031FD2 /* OpenFeelings.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OpenFeelings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenFeelings.entitlements; sourceTree = "<group>"; };
 		17DC44721733546416582778 /* EmotionTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyTests.swift; sourceTree = "<group>"; };
+		1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
 		2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceTests.swift; sourceTree = "<group>"; };
@@ -105,6 +107,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		36B6CB2401FF4E380AEE2948 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
 		53D4F9B51DCAD75BEB5DED98 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +132,7 @@
 				2EE0674743EB9DF9F462815C /* Info.plist */,
 				0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */,
 				E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */,
+				36B6CB2401FF4E380AEE2948 /* Design */,
 				036DA193C076501588F10034 /* Models */,
 				53D4F9B51DCAD75BEB5DED98 /* Services */,
 				8B710F70BEF9924575FCE7E9 /* Views */,
@@ -258,6 +269,7 @@
 			files = (
 				A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */,
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
+				FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */,
 				9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */,
 				68A231876EB468982FA6F17C /* EmotionDefinitions.swift in Sources */,
 				66F4B96CBC9DEEA5ACE69E5B /* EmotionTaxonomy.swift in Sources */,
