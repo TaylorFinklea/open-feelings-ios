@@ -10,6 +10,7 @@
 		08F20C61D0758AA5628806E8 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270853AFA9340C271CA558F5 /* HealthService.swift */; };
 		0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853D8246487F25572AEF0F5 /* ReminderService.swift */; };
 		0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */; };
+		0F78382D02F7E444C1DECBA3 /* IntentionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A638C240E85A7FEA5F2D883F /* IntentionsView.swift */; };
 		13FBCFA3838B55A7F8024F1F /* HealthKitMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */; };
 		173DAD6E8083040CB502D21F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F305DB0DD1C152FEAF981408 /* UserNotifications.framework */; };
 		18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */; };
@@ -18,6 +19,7 @@
 		3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DC44721733546416582778 /* EmotionTaxonomyTests.swift */; };
 		35B8237F53C22352502C858B /* WizardCheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */; };
 		364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */; };
+		399059894BECDC267871CEDE /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F6FF9EEE69BDBD038A224B /* InsightsView.swift */; };
 		3D5BDB7D779D26BDA9905666 /* WheelViewportTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CD3074A5394FAAE9FBB07B /* WheelViewportTransformTests.swift */; };
 		4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */; };
 		42F96DD600BC611CA17FCD72 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */; };
@@ -28,6 +30,7 @@
 		68A231876EB468982FA6F17C /* EmotionDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B34230A9CB898470920148B /* EmotionDefinitions.swift */; };
 		6B85C09974147D729D5F79BC /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */; };
 		6F9D189D177331830F250286 /* LockGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC7DB1837474E15C9A66E13 /* LockGateView.swift */; };
+		71E478571A4718C3EE53657D /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E249B39B8711CDB62DAA306E /* TodayView.swift */; };
 		7A5CDCA737F19EEE682FF2D6 /* AppNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */; };
 		86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A4382CFA9DE8E22655357 /* HistoryView.swift */; };
 		8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */; };
@@ -82,6 +85,7 @@
 		764DCB6D65D0FAA3772A4AAA /* GreetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingTests.swift; sourceTree = "<group>"; };
 		782FA50454E902FB514212AD /* EmotionWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionWheelView.swift; sourceTree = "<group>"; };
 		7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomy.swift; sourceTree = "<group>"; };
+		85F6FF9EEE69BDBD038A224B /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationTests.swift; sourceTree = "<group>"; };
 		8942BFA59ED385EB86B4EF54 /* OFCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFCard.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardCheckInView.swift; sourceTree = "<group>"; };
+		A638C240E85A7FEA5F2D883F /* IntentionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsView.swift; sourceTree = "<group>"; };
 		AA5A4382CFA9DE8E22655357 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B67A46078B6257523BDCA760 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B853D8246487F25572AEF0F5 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
@@ -98,6 +103,7 @@
 		C932D5F22945AFFBE7E2E184 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		D1C1969664DAE9332E91F254 /* FeelingLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingLog.swift; sourceTree = "<group>"; };
 		E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsApp.swift; sourceTree = "<group>"; };
+		E249B39B8711CDB62DAA306E /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		F305DB0DD1C152FEAF981408 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		FEC7DB1837474E15C9A66E13 /* LockGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockGateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,9 +214,12 @@
 				2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */,
 				782FA50454E902FB514212AD /* EmotionWheelView.swift */,
 				AA5A4382CFA9DE8E22655357 /* HistoryView.swift */,
+				85F6FF9EEE69BDBD038A224B /* InsightsView.swift */,
+				A638C240E85A7FEA5F2D883F /* IntentionsView.swift */,
 				FEC7DB1837474E15C9A66E13 /* LockGateView.swift */,
 				C932D5F22945AFFBE7E2E184 /* RootView.swift */,
 				B67A46078B6257523BDCA760 /* SettingsView.swift */,
+				E249B39B8711CDB62DAA306E /* TodayView.swift */,
 				A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */,
 			);
 			path = Views;
@@ -331,6 +340,8 @@
 				60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */,
 				08F20C61D0758AA5628806E8 /* HealthService.swift in Sources */,
 				86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */,
+				399059894BECDC267871CEDE /* InsightsView.swift in Sources */,
+				0F78382D02F7E444C1DECBA3 /* IntentionsView.swift in Sources */,
 				42F96DD600BC611CA17FCD72 /* LiquidGlass.swift in Sources */,
 				6F9D189D177331830F250286 /* LockGateView.swift in Sources */,
 				2B7CCCA566134D1C3BD9ABFE /* OFButton.swift in Sources */,
@@ -342,6 +353,7 @@
 				0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */,
 				C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */,
 				D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */,
+				71E478571A4718C3EE53657D /* TodayView.swift in Sources */,
 				B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */,
 				35B8237F53C22352502C858B /* WizardCheckInView.swift in Sources */,
 			);

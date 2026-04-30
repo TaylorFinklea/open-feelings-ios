@@ -6,6 +6,7 @@ struct OpenFeelingsApp: App {
     private let modelContainer = OpenFeelingsApp.makeModelContainer()
 
     @State private var healthService = HealthService()
+    @State private var navigation = AppNavigation()
 
     var body: some Scene {
         WindowGroup {
@@ -13,6 +14,7 @@ struct OpenFeelingsApp: App {
                 RootView()
             }
             .environment(healthService)
+            .environment(navigation)
             .modelContainer(modelContainer)
         }
     }

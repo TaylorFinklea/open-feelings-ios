@@ -1,28 +1,40 @@
 import SwiftUI
 
 struct RootView: View {
+    @Environment(AppNavigation.self) private var navigation
+
     var body: some View {
-        TabView {
-            NavigationStack {
-                CheckInView()
-            }
-            .tabItem {
-                Label("Check In", systemImage: "circle.grid.3x3")
-            }
+        @Bindable var navigation = navigation
+        TabView(selection: $navigation.selectedTab) {
+            NavigationStack { TodayView() }
+                .tabItem {
+                    Label(AppTab.today.title, systemImage: AppTab.today.systemImage)
+                }
+                .tag(AppTab.today)
 
-            NavigationStack {
-                HistoryView()
-            }
-            .tabItem {
-                Label("History", systemImage: "clock")
-            }
+            NavigationStack { CheckInView() }
+                .tabItem {
+                    Label(AppTab.checkIn.title, systemImage: AppTab.checkIn.systemImage)
+                }
+                .tag(AppTab.checkIn)
 
-            NavigationStack {
-                SettingsView()
-            }
-            .tabItem {
-                Label("Settings", systemImage: "gearshape")
-            }
+            NavigationStack { InsightsView() }
+                .tabItem {
+                    Label(AppTab.insights.title, systemImage: AppTab.insights.systemImage)
+                }
+                .tag(AppTab.insights)
+
+            NavigationStack { IntentionsView() }
+                .tabItem {
+                    Label(AppTab.intentions.title, systemImage: AppTab.intentions.systemImage)
+                }
+                .tag(AppTab.intentions)
+
+            NavigationStack { SettingsView() }
+                .tabItem {
+                    Label(AppTab.settings.title, systemImage: AppTab.settings.systemImage)
+                }
+                .tag(AppTab.settings)
         }
     }
 }
@@ -30,4 +42,5 @@ struct RootView: View {
 #Preview {
     RootView()
         .environment(HealthService())
+        .environment(AppNavigation())
 }
