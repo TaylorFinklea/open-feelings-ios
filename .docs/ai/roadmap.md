@@ -16,14 +16,20 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] Replace the original taxonomy with an attributed Open Emotion Wheel v1.1 adaptation and color-coded wheel/wizard UI.
 - [x] Add wheel pinch zoom, rotation, zoomed panning, and reset interactions.
 - [x] Add clinically informed educational definitions for selected emotions.
+- [x] Redesign: 5-tab IA scaffold, warm-calm design tokens, new components, Today/History/Settings re-skin, save-bounce ribbon, WCAG AA contrast audit + fixes, reduce-motion gating.
 - [ ] Review the definition copy with the therapist or another licensed clinician before release.
 - [ ] Configure production CloudKit schema and App Store distribution settings.
+- [ ] Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid Glass simulator walkthroughs (Daisy).
 
 ### Next
 - [ ] Add app icon, launch branding, and App Store privacy policy copy.
 - [ ] Manually validate iCloud sync between two signed-in devices.
 - [ ] Review the Open Emotion Wheel attribution/license presentation before release.
 - [ ] Add UI tests for check-in flows and export entry points.
+- [ ] Insights surface — functional (charts, trends, week/month views).
+- [ ] Therapy-bridge export (structured PDF / shareable summary for therapist sessions).
+- [ ] Richer check-in fields — data + UI (body, context, triggers/coping, mood scale).
+- [ ] Intentions surface — functional (set daily intentions, track completion).
 
 ### Later
 - [ ] Consider richer reflection prompts, charts, and Apple Health read/import support after v1 privacy review.

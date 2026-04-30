@@ -4,26 +4,28 @@
 
 ## Active Branch
 
-`main`
+`redesign-warm-calm-v1`
 
 ## Last Session Summary
 
-**Date**: 2026-04-29
+**Date**: 2026-04-30
 
-- Added original clinically informed educational definitions for every core, secondary, and specific Open Emotion Wheel taxonomy node.
-- Displayed the selected emotion's definition in the check-in composer after the user taps or chooses an emotion.
-- Added Settings reference links and `CLINICAL-REFERENCES.md` so the wording sources and non-diagnostic scope are explicit.
-- Added taxonomy tests that require every emotion node to have a definition and verify selections use the most specific definition.
-- Regenerated `OpenFeelings.xcodeproj` so the new model and view files are included.
+Polish + IA scaffold redesign per `docs/superpowers/specs/2026-04-29-redesign-polish-and-ia-scaffold-design.md`.
+
+- **Scope**: 5-tab IA (Today / Check In / Insights / Intentions / Settings), warm-calm visual system (`DesignTokens`, `OFColor` ShapeStyle wrapper), new components (`OFCard`, `OFListRow`, `OFEmptyState`, `OFButton`, `OFSectionHeader`, `LiquidGlass`), Today populated/empty states, wheel + wizard color migration via `EmotionColorPalette`, Settings re-skin, History sub-route + re-skin, Lock gate re-skin. Save flow now bounces to Today with a 2s ribbon.
+- **WCAG AA audit**: All 11 token pairs verified. Six failures fixed — accent light darkened (`C97A4F` → `8E4F2C`), textOnAccent dark changed to near-black (`FFFFFF` → `1B1A18`), accentSoft dark deepened (`5C3F2E` → `302118`), happy light darkened (`D9A43A` → `9E741F`), disgusted light darkened (`7AA88A` → `4F785D`).
+- **Reduce-motion audit**: `CheckInView.save()` tab-switch and `TodayView` ribbon animation both gated behind `@Environment(\.accessibilityReduceMotion)`. Wizard step transitions and segmented control (180ms ease-in-out) left ungated — acceptable per HIG.
+- **Build**: simulator build green, 31 XCTest methods pass (0 failures).
 
 ## Build Status
 
-- Project generation: `xcodegen generate` succeeded.
-- iOS device build: `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphoneos -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO build` succeeded.
-- iOS simulator tests: `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test` succeeded, 13/13 tests passing.
-- Signed generic iOS build: `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -destination generic/platform=iOS -derivedDataPath DerivedData build` succeeded using the `dev.finklea.openfeelings` provisioning profile.
+- `xcodegen generate` succeeded.
+- `xcodebuild … -sdk iphonesimulator … build` succeeded — BUILD SUCCEEDED, no redesign-related warnings.
+- `xcodebuild … -sdk iphonesimulator … test` succeeded — 31/31 tests pass.
 
 ## Blockers
 
+- SourceKit-LSP indexer false-positives (backlogged in `.docs/ai/roadmap.md`) — xcodebuild is clean, IDE diagnostics only.
+- Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid Glass simulator walkthroughs still pending (will be done by Daisy).
 - App Store/device distribution still needs manual Apple Developer/App Store Connect setup, production CloudKit schema deployment, and real-device iCloud sync validation.
 - The in-app definitions are educational and clinically informed, but they have not been reviewed by a licensed clinician.

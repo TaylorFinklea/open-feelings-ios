@@ -53,3 +53,19 @@
 **Decision**: Store original short educational summaries in `EmotionDefinitions.swift`, cite APA/NIH/NIMH/NIH Clinical Center references in docs and Settings, and show the selected definition in the check-in composer.
 **Alternatives considered**: Copying verbatim definitions from clinical dictionaries, leaving definitions out of the app, or using unsourced generated descriptions.
 **Rationale**: Original summaries avoid copyright/license issues while keeping the source basis visible. The explicit disclaimer keeps the feature scoped to reflection rather than diagnosis or treatment.
+
+## [2026-04-30] Use ShapeStyle Wrapper (OFColor) Instead of UIColor.dynamicProvider for Warm-Calm Tokens
+
+**Context**: SourceKit's per-file indexer was unable to resolve UIKit when indexing files in `OpenFeelings/Design/` in isolation, even though `xcodebuild` succeeded. Every file that imported UIKit or used `UIColor.dynamicProvider` showed false-positive "No such module 'UIKit'" diagnostics in the IDE.
+**Decision**: Implement `OFColor` as a `ShapeStyle` that resolves at draw time via `EnvironmentValues.colorScheme`. Each token stores `lightHex`/`darkHex` strings and uses a self-contained hex parser so the file is SourceKit-indexable without cross-file dependencies.
+**Alternatives considered**: `UIColor.dynamicProvider`, a `Color` extension with dark-mode overrides via `.init(uiColor:)`, or a static lookup table keyed on `ColorScheme`.
+**Rationale**: Pure SwiftUI, zero UIKit dependency, IDE-clean. The `resolve(in:)` protocol method lets `OFColor` drop into any ShapeStyle context.
+**Tradeoff**: `Color.OF.X` returns `OFColor`, not `Color`. The few places that need a literal `Color` (`.tint`, function parameters) must call `.color(for: scheme)` — a minor but explicit conversion.
+
+## [2026-04-30] Save Flow Switches to Today and Surfaces a 2-Second Ribbon There
+
+**Context**: The previous `CheckInView` showed a 2-second inline toast after saving. Product feedback: the check-in screen is a transient task; after saving the user should land on a calming "home" space.
+**Decision**: `AppNavigation` gains a transient `savedRibbon` property (auto-cleared after 2 s). `save()` in `CheckInView` calls `navigation.ribbonAfterSave()` then animates `navigation.select(.today)`. `TodayView` renders the ribbon at the top via `safeAreaInset(edge: .top)` with a `.move(edge: .top).combined(with: .opacity)` transition, gated behind `accessibilityReduceMotion`.
+**Alternatives considered**: Inline toast in `CheckInView`, a full-screen confirmation sheet, or no visual confirmation.
+**Rationale**: Reinforces the "Today is home" mental model and gives users a calm landing space after a check-in. The ribbon is brief and non-blocking.
+**Tradeoff**: Slightly more state on `AppNavigation`; coordination spans two views (`CheckInView` writes, `TodayView` reads). The ribbon's reduce-motion path (no animation) means it appears/disappears instantly — acceptable.
