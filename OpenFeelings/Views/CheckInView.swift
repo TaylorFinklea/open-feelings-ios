@@ -22,6 +22,8 @@ struct CheckInView: View {
     @State private var note = ""
     @State private var includeIntensity = false
     @State private var intensity = 3.0
+    @State private var bodyRegions: Set<BodyRegion> = []
+    @State private var bodySensations: Set<BodySensation> = []
 
     var body: some View {
         ScrollView {
@@ -41,6 +43,8 @@ struct CheckInView: View {
                     note: $note,
                     includeIntensity: $includeIntensity,
                     intensity: $intensity,
+                    bodyRegions: $bodyRegions,
+                    bodySensations: $bodySensations,
                     save: save
                 )
             }
@@ -105,7 +109,9 @@ struct CheckInView: View {
             selection: selection,
             intensity: includeIntensity ? Int(intensity.rounded()) : nil,
             note: trimmedNote,
-            healthSyncStatus: healthEnabled ? .pending : .notRequested
+            healthSyncStatus: healthEnabled ? .pending : .notRequested,
+            bodyRegions: BodyRegion.allCases.filter { bodyRegions.contains($0) },
+            bodySensations: BodySensation.allCases.filter { bodySensations.contains($0) }
         )
         modelContext.insert(log)
         try? modelContext.save()
@@ -129,6 +135,8 @@ struct CheckInView: View {
         note = ""
         includeIntensity = false
         intensity = 3
+        bodyRegions = []
+        bodySensations = []
     }
 }
 
@@ -138,6 +146,8 @@ private struct LogComposerView: View {
     @Binding var note: String
     @Binding var includeIntensity: Bool
     @Binding var intensity: Double
+    @Binding var bodyRegions: Set<BodyRegion>
+    @Binding var bodySensations: Set<BodySensation>
     let save: () -> Void
 
     var body: some View {
@@ -150,6 +160,7 @@ private struct LogComposerView: View {
                     showsDisclaimer: true
                 )
                 intensitySection
+                bodySection
                 placeholderRows
                 noteField
                 saveButton(enabled: selection.isComplete)
@@ -207,16 +218,68 @@ private struct LogComposerView: View {
         }
     }
 
+    private var bodySection: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Text("Body").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+            Text("Where do you feel it? (optional)")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            regionChips
+            if !bodyRegions.isEmpty {
+                Divider().background(Color.OF.divider).padding(.vertical, CGFloat.OF.xs)
+                Text("How does it feel?")
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+                sensationChips
+            }
+        }
+        .padding(CGFloat.OF.md)
+        .background(Color.OF.surface,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
+    }
+
+    private var regionChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(BodyRegion.allCases) { region in
+                OFChip(label: region.displayName, isOn: regionBinding(for: region))
+            }
+        }
+    }
+
+    private var sensationChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(BodySensation.allCases) { sensation in
+                OFChip(label: sensation.displayName, isOn: sensationBinding(for: sensation))
+            }
+        }
+    }
+
+    private func regionBinding(for region: BodyRegion) -> Binding<Bool> {
+        Binding(
+            get: { bodyRegions.contains(region) },
+            set: { isOn in
+                if isOn { bodyRegions.insert(region) } else { bodyRegions.remove(region) }
+            }
+        )
+    }
+
+    private func sensationBinding(for sensation: BodySensation) -> Binding<Bool> {
+        Binding(
+            get: { bodySensations.contains(sensation) },
+            set: { isOn in
+                if isOn { bodySensations.insert(sensation) } else { bodySensations.remove(sensation) }
+            }
+        )
+    }
+
     private var placeholderRows: some View {
         VStack(spacing: 0) {
             OFSectionHeader(title: "Coming soon")
-            placeholderRow(symbol: "figure.mind.and.body", title: "Body")
+            placeholderRow(symbol: "location",      title: "Context")
             Divider().background(Color.OF.divider)
-            placeholderRow(symbol: "location",            title: "Context")
+            placeholderRow(symbol: "bolt",          title: "Triggers / coping")
             Divider().background(Color.OF.divider)
-            placeholderRow(symbol: "bolt",                title: "Triggers / coping")
-            Divider().background(Color.OF.divider)
-            placeholderRow(symbol: "waveform.path",       title: "Mood scale")
+            placeholderRow(symbol: "waveform.path", title: "Mood scale")
         }
         .background(Color.OF.surface,
                     in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
