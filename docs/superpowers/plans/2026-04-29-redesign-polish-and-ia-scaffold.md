@@ -100,30 +100,25 @@ import SwiftUI
 
 extension Color {
     enum OF {
-        static let background      = Color("BackgroundOF", bundle: nil, fallback: Color(light: "FAF6F0", dark: "1B1A18"))
-        static let surface         = Color(light: "FFFFFF", dark: "2A2724")
-        static let surfaceElevated = Color(light: "FCF9F4", dark: "34302C")
-        static let text            = Color(light: "2B2520", dark: "F0EAE0")
-        static let textMuted       = Color(light: "6B6259", dark: "A89E92")
+        static let background      = Color(lightHex: "FAF6F0", darkHex: "1B1A18")
+        static let surface         = Color(lightHex: "FFFFFF", darkHex: "2A2724")
+        static let surfaceElevated = Color(lightHex: "FCF9F4", darkHex: "34302C")
+        static let text            = Color(lightHex: "2B2520", darkHex: "F0EAE0")
+        static let textMuted       = Color(lightHex: "6B6259", darkHex: "A89E92")
         static let textOnAccent    = Color.white
-        static let divider         = Color(light: "E8DFD3", dark: "3F3A35")
-        static let accent          = Color(light: "C97A4F", dark: "D8916A")
-        static let accentSoft      = Color(light: "EFD5C2", dark: "5C3F2E")
+        static let divider         = Color(lightHex: "E8DFD3", darkHex: "3F3A35")
+        static let accent          = Color(lightHex: "C97A4F", darkHex: "D8916A")
+        static let accentSoft      = Color(lightHex: "EFD5C2", darkHex: "5C3F2E")
     }
 
-    fileprivate init(light: String, dark: String) {
+    /// Hex-pair init used by tokens. Resolves per trait collection at draw time
+    /// so tokens follow Light/Dark mode automatically.
+    init(lightHex: String, darkHex: String) {
         self = Color(uiColor: UIColor { trait in
             trait.userInterfaceStyle == .dark
-                ? UIColor(hex: dark)
-                : UIColor(hex: light)
+                ? UIColor(hex: darkHex)
+                : UIColor(hex: lightHex)
         })
-    }
-
-    init(name: String, bundle: Bundle? = nil, fallback: Color) {
-        // Asset-catalog lookup with a hex fallback, used so the tokens compile
-        // without an asset catalog. We always use the fallback path until / unless
-        // someone adds a Colors.xcassets entry.
-        self = fallback
     }
 }
 
