@@ -14,7 +14,7 @@ struct OFCard<Content: View>: View {
                 RoundedRectangle(cornerRadius: .OF.Radius.card, style: .continuous)
                     .stroke(Color.OF.divider.opacity(0.7), lineWidth: 1)
             }
-            .shadow(color: .black.opacity(0.04), radius: 12, y: 4)
+            .shadow(color: Color.primary.opacity(0.04), radius: 12, y: 4)
     }
 }
 

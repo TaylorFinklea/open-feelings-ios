@@ -3,8 +3,12 @@ import SwiftUI
 
 struct OFSectionHeader: View {
     let title: String
-    var trailingActionTitle: String?
-    var trailingAction: (() -> Void)?
+    var trailingAction: TrailingAction?
+
+    struct TrailingAction {
+        let title: String
+        let perform: () -> Void
+    }
 
     var body: some View {
         HStack(spacing: .OF.sm) {
@@ -12,9 +16,10 @@ struct OFSectionHeader: View {
                 .font(.OF.caption)
                 .tracking(1.0)
                 .foregroundStyle(Color.OF.textMuted)
+                .accessibilityLabel(title)
             Spacer()
-            if let trailingActionTitle, let trailingAction {
-                Button(trailingActionTitle, action: trailingAction)
+            if let action = trailingAction {
+                Button(action.title, action: action.perform)
                     .font(.OF.caption.weight(.medium))
                     .foregroundStyle(Color.OF.accent)
             }
@@ -27,7 +32,8 @@ struct OFSectionHeader: View {
 #Preview {
     VStack(spacing: 0) {
         OFSectionHeader(title: "Today")
-        OFSectionHeader(title: "This week", trailingActionTitle: "See all") {}
+        OFSectionHeader(title: "This week",
+                        trailingAction: .init(title: "See all") {})
     }
     .padding(.vertical)
     .background(Color.OF.background)
