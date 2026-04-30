@@ -13,6 +13,7 @@ struct CheckInView: View {
     @Environment(HealthService.self) private var healthService
     @Environment(AppNavigation.self) private var navigation
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @AppStorage("healthEnabled") private var healthEnabled = false
     @AppStorage("checkInMode") private var modeRawValue = CheckInMode.wizard.rawValue
@@ -112,7 +113,7 @@ struct CheckInView: View {
 
         // Show the ribbon on Today and switch tab.
         navigation.ribbonAfterSave()
-        withAnimation(.OF.gentle) {
+        withAnimation(reduceMotion ? nil : .OF.gentle) {
             navigation.select(.today)
         }
 

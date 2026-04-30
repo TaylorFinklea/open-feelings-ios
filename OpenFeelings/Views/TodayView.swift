@@ -4,6 +4,7 @@ import SwiftUI
 
 struct TodayView: View {
     @Environment(AppNavigation.self) private var navigation
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Query(sort: \FeelingLog.createdAt, order: .reverse) private var allLogs: [FeelingLog]
     @AppStorage("displayName") private var displayName = ""
 
@@ -54,7 +55,7 @@ struct TodayView: View {
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
-        .animation(.OF.gentle, value: navigation.savedRibbon)
+        .animation(reduceMotion ? nil : .OF.gentle, value: navigation.savedRibbon)
         .navigationDestination(for: HistoryRoute.self) { _ in
             HistoryView()
         }
