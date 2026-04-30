@@ -48,10 +48,10 @@ extension Color {
         static let surfaceElevated = OFColor(lightHex: "FCF9F4", darkHex: "34302C")
         static let text            = OFColor(lightHex: "2B2520", darkHex: "F0EAE0")
         static let textMuted       = OFColor(lightHex: "6B6259", darkHex: "A89E92")
-        static let textOnAccent    = OFColor(lightHex: "FFFFFF", darkHex: "FFFFFF")
+        static let textOnAccent    = OFColor(lightHex: "FFFFFF", darkHex: "1B1A18")
         static let divider         = OFColor(lightHex: "E8DFD3", darkHex: "3F3A35")
-        static let accent          = OFColor(lightHex: "C97A4F", darkHex: "D8916A")
-        static let accentSoft      = OFColor(lightHex: "EFD5C2", darkHex: "5C3F2E")
+        static let accent          = OFColor(lightHex: "8E4F2C", darkHex: "D8916A")
+        static let accentSoft      = OFColor(lightHex: "EFD5C2", darkHex: "302118")
     }
 }
 

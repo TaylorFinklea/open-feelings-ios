@@ -10,11 +10,11 @@ enum EmotionColorPalette {
     enum Depth: Sendable { case core, secondary, specific }
 
     private static let coreAccents: [String: ColorPair] = [
-        "happy":     ColorPair(lightHex: "D9A43A", darkHex: "E5BC68"),
+        "happy":     ColorPair(lightHex: "9E741F", darkHex: "E5BC68"),
         "sad":       ColorPair(lightHex: "6F8FA8", darkHex: "93AABF"),
         "angry":     ColorPair(lightHex: "C46A55", darkHex: "D58B79"),
         "fearful":   ColorPair(lightHex: "A07FB1", darkHex: "B89CC4"),
-        "disgusted": ColorPair(lightHex: "7AA88A", darkHex: "99BBA5"),
+        "disgusted": ColorPair(lightHex: "4F785D", darkHex: "99BBA5"),
     ]
 
     /// Returns the warm-calm rebalanced light/dark accent pair for a core, or nil if unknown.

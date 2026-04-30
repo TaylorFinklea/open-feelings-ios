@@ -10,11 +10,12 @@ final class EmotionColorPaletteTests: XCTestCase {
     }
 
     func testKnownCoresMapToExpectedHexes() {
-        XCTAssertEqual(EmotionColorPalette.accent(forCoreID: "happy")?.lightHex,     "D9A43A")
+        // Light hexes nudged for WCAG AA (≥3:1 on white surface) — see contrast audit 2026-04-30.
+        XCTAssertEqual(EmotionColorPalette.accent(forCoreID: "happy")?.lightHex,     "9E741F")
         XCTAssertEqual(EmotionColorPalette.accent(forCoreID: "sad")?.lightHex,       "6F8FA8")
         XCTAssertEqual(EmotionColorPalette.accent(forCoreID: "angry")?.lightHex,     "C46A55")
         XCTAssertEqual(EmotionColorPalette.accent(forCoreID: "fearful")?.lightHex,   "A07FB1")
-        XCTAssertEqual(EmotionColorPalette.accent(forCoreID: "disgusted")?.lightHex, "7AA88A")
+        XCTAssertEqual(EmotionColorPalette.accent(forCoreID: "disgusted")?.lightHex, "4F785D")
     }
 
     func testUnknownCoreReturnsNil() {
@@ -23,12 +24,13 @@ final class EmotionColorPaletteTests: XCTestCase {
 
     func testSecondaryAndSpecificDeriveLighter() {
         // Secondary should be lighter than core; specific lighter than secondary.
-        let coreL = EmotionColorPalette.brightness(hex: "D9A43A")
+        // Uses updated happy light hex 9E741F (nudged for WCAG AA 2026-04-30).
+        let coreL = EmotionColorPalette.brightness(hex: "9E741F")
         let secL  = EmotionColorPalette.brightness(
-            hex: EmotionColorPalette.lightenHex("D9A43A", towardWhite: 0.45)
+            hex: EmotionColorPalette.lightenHex("9E741F", towardWhite: 0.45)
         )
         let specL = EmotionColorPalette.brightness(
-            hex: EmotionColorPalette.lightenHex("D9A43A", towardWhite: 0.78)
+            hex: EmotionColorPalette.lightenHex("9E741F", towardWhite: 0.78)
         )
         XCTAssertLessThan(coreL, secL)
         XCTAssertLessThan(secL, specL)
