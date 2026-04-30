@@ -137,14 +137,21 @@ struct SettingsView: View {
                       subtitle: "MIT",
                       systemImage: "doc.plaintext")
             divider
-            OFListRow(title: "Emotion wheel",
-                      subtitle: EmotionTaxonomy.sourceName,
-                      systemImage: "circle.grid.3x3")
+            Link(destination: EmotionTaxonomy.sourceURL) {
+                OFListRow.chevron(title: "Emotion wheel",
+                                  subtitle: EmotionTaxonomy.sourceName,
+                                  systemImage: "circle.grid.3x3")
+            }
+            .buttonStyle(.plain)
             divider
-            OFListRow(title: "Wheel license",
-                      subtitle: EmotionTaxonomy.sourceLicenseName,
-                      systemImage: "info.circle")
+            Link(destination: EmotionTaxonomy.sourceLicenseURL) {
+                OFListRow.chevron(title: "Wheel license",
+                                  subtitle: EmotionTaxonomy.sourceLicenseName,
+                                  systemImage: "info.circle")
+            }
+            .buttonStyle(.plain)
             footerCaption(EmotionTaxonomy.sourceAttribution)
+            footerCaption("Changes from the source: converted the wheel terms into Swift data structures and SwiftUI segments; added intensity, notes, app lock, reminders, exports, and optional Apple Health writing. Per CC BY-SA 4.0, the adapted taxonomy is distributed under the same license.")
         }
     }
 
