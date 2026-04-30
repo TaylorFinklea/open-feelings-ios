@@ -1,45 +1,69 @@
 import SwiftUI
 
 struct WizardCheckInView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @Binding var selection: EmotionSelection?
 
     @State private var selectedCore: EmotionCore?
     @State private var selectedSecondary: EmotionSecondary?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .OF.lg) {
             stepHeader
 
             if selectedCore == nil {
-                emotionGrid(EmotionTaxonomy.cores) { core in
-                    selectedCore = core
-                    selectedSecondary = nil
-                    selection = EmotionSelection(core: core, secondary: nil, specific: nil)
+                emotionGrid(
+                    EmotionTaxonomy.cores,
+                    coreID: { $0.id },
+                    depth: .core
+                ) { core in
+                    withAnimation(.OF.quick) {
+                        selectedCore = core
+                        selectedSecondary = nil
+                        selection = EmotionSelection(core: core, secondary: nil, specific: nil)
+                    }
                 }
             } else if let selectedCore, selectedSecondary == nil {
-                emotionGrid(selectedCore.secondaries) { secondary in
-                    selectedSecondary = secondary
-                    selection = EmotionSelection(core: selectedCore, secondary: secondary, specific: nil)
+                emotionGrid(
+                    selectedCore.secondaries,
+                    coreID: { _ in selectedCore.id },
+                    depth: .secondary
+                ) { secondary in
+                    withAnimation(.OF.quick) {
+                        selectedSecondary = secondary
+                        selection = EmotionSelection(core: selectedCore, secondary: secondary, specific: nil)
+                    }
                 }
             } else if let selectedCore, let selectedSecondary {
-                emotionGrid(selectedSecondary.specifics) { specific in
-                    selection = EmotionSelection(
-                        core: selectedCore,
-                        secondary: selectedSecondary,
-                        specific: specific
-                    )
+                emotionGrid(
+                    selectedSecondary.specifics,
+                    coreID: { _ in selectedCore.id },
+                    depth: .specific
+                ) { specific in
+                    withAnimation(.OF.quick) {
+                        selection = EmotionSelection(
+                            core: selectedCore,
+                            secondary: selectedSecondary,
+                            specific: specific
+                        )
+                    }
                 }
             }
 
             if selectedCore != nil {
                 Button {
-                    selectedCore = nil
-                    selectedSecondary = nil
-                    selection = nil
+                    withAnimation(.OF.quick) {
+                        selectedCore = nil
+                        selectedSecondary = nil
+                        selection = nil
+                    }
                 } label: {
                     Label("Start over", systemImage: "arrow.counterclockwise")
+                        .font(.OF.bodyEmphasis)
+                        .foregroundStyle(Color.OF.accent)
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.plain)
+                .padding(.top, .OF.sm)
             }
         }
     }
@@ -47,12 +71,13 @@ struct WizardCheckInView: View {
     private var stepHeader: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(currentPrompt)
-                .font(.title3.weight(.semibold))
+                .font(.OF.headline)
+                .foregroundStyle(Color.OF.text)
 
             if let selection {
                 Text(selection.pathTitle)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
             }
         }
     }
@@ -69,32 +94,41 @@ struct WizardCheckInView: View {
 
     private func emotionGrid<Item: Identifiable>(
         _ items: [Item],
+        coreID: @escaping (Item) -> String,
+        depth: EmotionColorPalette.Depth,
         action: @escaping (Item) -> Void
     ) -> some View where Item: EmotionNameProviding {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 140), spacing: 12)], spacing: 12) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 140), spacing: .OF.md)], spacing: .OF.md) {
             ForEach(items) { item in
+                let id = coreID(item)
                 Button {
                     action(item)
                 } label: {
-                    HStack(spacing: 10) {
+                    HStack(spacing: .OF.sm) {
                         Circle()
-                            .fill(Color(hex: item.colorHex))
+                            .fill(EmotionColorPalette.color(coreID: id, depth: depth, scheme: colorScheme))
                             .frame(width: 14, height: 14)
 
                         Text(item.name)
-                            .font(.body.weight(.medium))
-                            .foregroundStyle(.primary)
+                            .font(.OF.bodyEmphasis)
+                            .foregroundStyle(Color.OF.text)
                             .lineLimit(1)
                             .minimumScaleFactor(0.75)
 
                         Spacer(minLength: 0)
                     }
                     .frame(maxWidth: .infinity, minHeight: 48)
-                    .padding(.horizontal, 12)
-                    .background(Color(hex: item.colorHex).opacity(0.18), in: RoundedRectangle(cornerRadius: 8))
+                    .padding(.horizontal, CGFloat.OF.md)
+                    .background(
+                        EmotionColorPalette.color(coreID: id, depth: depth, scheme: colorScheme).opacity(0.22),
+                        in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
+                    )
                     .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color(hex: item.colorHex).opacity(0.42), lineWidth: 1)
+                        RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
+                            .stroke(
+                                EmotionColorPalette.color(coreID: id, depth: depth, scheme: colorScheme).opacity(0.45),
+                                lineWidth: 1
+                            )
                     }
                 }
                 .buttonStyle(.plain)
