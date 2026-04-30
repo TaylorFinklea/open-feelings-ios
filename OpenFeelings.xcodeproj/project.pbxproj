@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		08F20C61D0758AA5628806E8 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270853AFA9340C271CA558F5 /* HealthService.swift */; };
 		0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853D8246487F25572AEF0F5 /* ReminderService.swift */; };
+		0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */; };
 		13FBCFA3838B55A7F8024F1F /* HealthKitMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */; };
 		173DAD6E8083040CB502D21F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F305DB0DD1C152FEAF981408 /* UserNotifications.framework */; };
 		18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */; };
@@ -23,6 +24,7 @@
 		86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A4382CFA9DE8E22655357 /* HistoryView.swift */; };
 		8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */; };
 		94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */; };
+		9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */; };
 		9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */; };
 		A4DAB7C96F4B4342A88085A6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60CAF5B22D477191AAC90A68 /* HealthKit.framework */; };
 		A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */; };
@@ -45,10 +47,12 @@
 
 /* Begin PBXFileReference section */
 		06AA11A4901FC5ED08031FD2 /* OpenFeelings.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OpenFeelings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPaletteTests.swift; sourceTree = "<group>"; };
 		0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenFeelings.entitlements; sourceTree = "<group>"; };
 		17DC44721733546416582778 /* EmotionTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyTests.swift; sourceTree = "<group>"; };
 		1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
+		25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPalette.swift; sourceTree = "<group>"; };
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
 		2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceTests.swift; sourceTree = "<group>"; };
 		2EE0674743EB9DF9F462815C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -111,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */,
+				25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -143,6 +148,7 @@
 		7DE78C160AD7BBCE152BA5A2 /* OpenFeelingsTests */ = {
 			isa = PBXGroup;
 			children = (
+				08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */,
 				17DC44721733546416582778 /* EmotionTaxonomyTests.swift */,
 				2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */,
 				3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */,
@@ -270,6 +276,7 @@
 				A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */,
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
 				FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */,
+				9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */,
 				9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */,
 				68A231876EB468982FA6F17C /* EmotionDefinitions.swift in Sources */,
 				66F4B96CBC9DEEA5ACE69E5B /* EmotionTaxonomy.swift in Sources */,
@@ -291,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */,
 				3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */,
 				4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */,
 				13FBCFA3838B55A7F8024F1F /* HealthKitMapperTests.swift in Sources */,
