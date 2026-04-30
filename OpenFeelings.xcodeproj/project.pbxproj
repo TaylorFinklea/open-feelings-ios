@@ -36,6 +36,7 @@
 		9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */; };
 		A4DAB7C96F4B4342A88085A6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60CAF5B22D477191AAC90A68 /* HealthKit.framework */; };
 		A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */; };
+		A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */; };
 		B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */; };
 		C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C932D5F22945AFFBE7E2E184 /* RootView.swift */; };
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
@@ -66,6 +67,7 @@
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
 		2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceTests.swift; sourceTree = "<group>"; };
 		2EE0674743EB9DF9F462815C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFEmptyState.swift; sourceTree = "<group>"; };
 		3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitMapperTests.swift; sourceTree = "<group>"; };
 		3B34230A9CB898470920148B /* EmotionDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitions.swift; sourceTree = "<group>"; };
 		3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockService.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				96FEC32E3B681940E6AEEC72 /* OFButton.swift */,
 				8942BFA59ED385EB86B4EF54 /* OFCard.swift */,
+				39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */,
 				8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */,
 				673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */,
 			);
@@ -328,6 +331,7 @@
 				6F9D189D177331830F250286 /* LockGateView.swift in Sources */,
 				2B7CCCA566134D1C3BD9ABFE /* OFButton.swift in Sources */,
 				F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */,
+				A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */,
 				648E8E699680F70D0013BC77 /* OFListRow.swift in Sources */,
 				364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */,
 				94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */,
