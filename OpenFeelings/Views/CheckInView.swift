@@ -11,6 +11,7 @@ private enum CheckInMode: String, CaseIterable, Identifiable {
 struct CheckInView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(HealthService.self) private var healthService
+    @Environment(AppNavigation.self) private var navigation
     @Environment(\.colorScheme) private var colorScheme
 
     @AppStorage("healthEnabled") private var healthEnabled = false
@@ -20,7 +21,6 @@ struct CheckInView: View {
     @State private var note = ""
     @State private var includeIntensity = false
     @State private var intensity = 3.0
-    @State private var savedMessage: String?
 
     var body: some View {
         ScrollView {
@@ -49,16 +49,6 @@ struct CheckInView: View {
         .background(Color.OF.background, ignoresSafeAreaEdges: .all)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .safeAreaInset(edge: .bottom) {
-            if let savedMessage {
-                Text(savedMessage)
-                    .font(.OF.bodyEmphasis)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, .OF.md)
-                    .background(.thinMaterial)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-            }
-        }
     }
 
     private var heroHeader: some View {
@@ -107,9 +97,7 @@ struct CheckInView: View {
     }
 
     private func save() {
-        guard let selection, selection.isComplete else {
-            return
-        }
+        guard let selection, selection.isComplete else { return }
 
         let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
         let log = FeelingLog(
@@ -118,23 +106,20 @@ struct CheckInView: View {
             note: trimmedNote,
             healthSyncStatus: healthEnabled ? .pending : .notRequested
         )
-
         modelContext.insert(log)
         try? modelContext.save()
-
         resetDraft()
-        withAnimation {
-            savedMessage = "Saved \(log.specificName)"
+
+        // Show the ribbon on Today and switch tab.
+        navigation.ribbonAfterSave()
+        withAnimation(.OF.gentle) {
+            navigation.select(.today)
         }
 
+        // Health write keeps the existing async behavior.
         Task { @MainActor in
             log.healthSyncStatus = await healthService.save(log: log, isEnabled: healthEnabled)
             try? modelContext.save()
-
-            try? await Task.sleep(for: .seconds(2))
-            withAnimation {
-                savedMessage = nil
-            }
         }
     }
 

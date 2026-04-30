@@ -33,7 +33,22 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
 final class AppNavigation {
     var selectedTab: AppTab = .today
 
+    struct SavedRibbon: Equatable {
+        let timestamp: Date
+    }
+
+    var savedRibbon: SavedRibbon?
+
     func select(_ tab: AppTab) {
         selectedTab = tab
+    }
+
+    /// Show the "Saved" ribbon for ~2 seconds.
+    func ribbonAfterSave(now: Date = Date()) {
+        savedRibbon = SavedRibbon(timestamp: now)
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(2))
+            savedRibbon = nil
+        }
     }
 }

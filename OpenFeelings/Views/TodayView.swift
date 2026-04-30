@@ -44,6 +44,17 @@ struct TodayView: View {
         .background(Color.OF.background, ignoresSafeAreaEdges: .all)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .top) {
+            if let ribbon = navigation.savedRibbon {
+                Text("Saved · \(ribbon.timestamp.formatted(.dateTime.hour().minute()))")
+                    .font(.OF.bodyEmphasis)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, CGFloat.OF.sm)
+                    .background(.thinMaterial)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+        .animation(.OF.gentle, value: navigation.savedRibbon)
         .navigationDestination(for: HistoryRoute.self) { _ in
             HistoryView()
         }
