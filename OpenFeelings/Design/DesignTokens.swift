@@ -1,43 +1,42 @@
 // OpenFeelings/Design/DesignTokens.swift
 import SwiftUI
-import UIKit
 
 // MARK: - Color tokens
+//
+// `OFColor` is an environment-aware ShapeStyle that resolves to a light or
+// dark hex `Color` at draw time. It works directly with any modifier that
+// accepts a ShapeStyle: .foregroundStyle, .background, .fill, .tint, .stroke,
+// .overlay, etc. For places that need a concrete `Color` (function
+// parameters, equality checks), call `.color(for: scheme)` with the
+// surrounding view's `@Environment(\.colorScheme)`.
 
-extension Color {
-    enum OF {
-        static let background      = Color(lightHex: "FAF6F0", darkHex: "1B1A18")
-        static let surface         = Color(lightHex: "FFFFFF", darkHex: "2A2724")
-        static let surfaceElevated = Color(lightHex: "FCF9F4", darkHex: "34302C")
-        static let text            = Color(lightHex: "2B2520", darkHex: "F0EAE0")
-        static let textMuted       = Color(lightHex: "6B6259", darkHex: "A89E92")
-        static let textOnAccent    = Color.white
-        static let divider         = Color(lightHex: "E8DFD3", darkHex: "3F3A35")
-        static let accent          = Color(lightHex: "C97A4F", darkHex: "D8916A")
-        static let accentSoft      = Color(lightHex: "EFD5C2", darkHex: "5C3F2E")
+struct OFColor: ShapeStyle, Sendable, Hashable {
+    let lightHex: String
+    let darkHex: String
+
+    func resolve(in environment: EnvironmentValues) -> Color {
+        environment.colorScheme == .dark
+            ? Color(hex: darkHex)
+            : Color(hex: lightHex)
     }
 
-    /// Hex-pair init used by tokens. Resolves per trait collection at draw time
-    /// so tokens follow Light/Dark mode automatically.
-    init(lightHex: String, darkHex: String) {
-        self = Color(uiColor: UIColor { trait in
-            trait.userInterfaceStyle == .dark
-                ? UIColor(hex: darkHex)
-                : UIColor(hex: lightHex)
-        })
+    /// For consumers that need a literal `Color` rather than a `ShapeStyle`.
+    func color(for scheme: ColorScheme) -> Color {
+        scheme == .dark ? Color(hex: darkHex) : Color(hex: lightHex)
     }
 }
 
-private extension UIColor {
-    convenience init(hex: String) {
-        var h = hex
-        if h.hasPrefix("#") { h.removeFirst() }
-        var v: UInt64 = 0
-        Scanner(string: h).scanHexInt64(&v)
-        let r = CGFloat((v & 0xFF0000) >> 16) / 255
-        let g = CGFloat((v & 0x00FF00) >> 8) / 255
-        let b = CGFloat(v & 0x0000FF) / 255
-        self.init(red: r, green: g, blue: b, alpha: 1)
+extension Color {
+    enum OF {
+        static let background      = OFColor(lightHex: "FAF6F0", darkHex: "1B1A18")
+        static let surface         = OFColor(lightHex: "FFFFFF", darkHex: "2A2724")
+        static let surfaceElevated = OFColor(lightHex: "FCF9F4", darkHex: "34302C")
+        static let text            = OFColor(lightHex: "2B2520", darkHex: "F0EAE0")
+        static let textMuted       = OFColor(lightHex: "6B6259", darkHex: "A89E92")
+        static let textOnAccent    = OFColor(lightHex: "FFFFFF", darkHex: "FFFFFF")
+        static let divider         = OFColor(lightHex: "E8DFD3", darkHex: "3F3A35")
+        static let accent          = OFColor(lightHex: "C97A4F", darkHex: "D8916A")
+        static let accentSoft      = OFColor(lightHex: "EFD5C2", darkHex: "5C3F2E")
     }
 }
 
@@ -88,9 +87,7 @@ extension Animation {
         static let settle = Animation.spring(response: 0.48, dampingFraction: 0.85)
     }
 
-    /// Returns `.OF.quick` etc. unless Reduce Motion is on, in which case
-    /// returns `nil` (callers should pass to `withAnimation(_:)` which treats
-    /// `nil` as instant).
+    /// Returns the given animation, or `nil` (instant) when Reduce Motion is on.
     static func ofRespectingReduceMotion(_ animation: Animation, reduceMotion: Bool) -> Animation? {
         reduceMotion ? nil : animation
     }
