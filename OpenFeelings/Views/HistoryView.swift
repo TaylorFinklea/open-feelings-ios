@@ -112,6 +112,12 @@ private struct LogCard: View {
                     .foregroundStyle(Color.OF.textMuted)
             }
 
+            if let summary = bodySummary(for: log) {
+                Text(summary)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+            }
+
             if !log.note.isEmpty {
                 Text("\u{201C}\(log.note)\u{201D}")
                     .font(.OF.body)
@@ -119,6 +125,18 @@ private struct LogCard: View {
                     .padding(.top, 2)
             }
         }
+    }
+
+    private func bodySummary(for log: FeelingLog) -> String? {
+        let regions = log.bodyRegions.map(\.displayName.localizedLowercase)
+        let sensations = log.bodySensations.map(\.displayName.localizedLowercase)
+        guard !regions.isEmpty || !sensations.isEmpty else { return nil }
+        let regionPart   = regions.isEmpty   ? "" : regions.joined(separator: ", ")
+        let sensationPart = sensations.isEmpty ? "" : sensations.joined(separator: ", ")
+        if !regionPart.isEmpty && !sensationPart.isEmpty {
+            return "\(regionPart) · \(sensationPart)"
+        }
+        return regionPart.isEmpty ? "· \(sensationPart)" : regionPart
     }
 
     private func intensityDots(intensity: Int) -> some View {
