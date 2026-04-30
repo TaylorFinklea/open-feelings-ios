@@ -21,6 +21,7 @@
 		4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */; };
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
+		648E8E699680F70D0013BC77 /* OFListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */; };
 		66F4B96CBC9DEEA5ACE69E5B /* EmotionTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */; };
 		68A231876EB468982FA6F17C /* EmotionDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B34230A9CB898470920148B /* EmotionDefinitions.swift */; };
 		6B85C09974147D729D5F79BC /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */; };
@@ -79,6 +80,7 @@
 		8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationTests.swift; sourceTree = "<group>"; };
 		8942BFA59ED385EB86B4EF54 /* OFCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFCard.swift; sourceTree = "<group>"; };
+		8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFListRow.swift; sourceTree = "<group>"; };
 		9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryTests.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				8942BFA59ED385EB86B4EF54 /* OFCard.swift */,
+				8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */,
 				673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */,
 			);
 			path = Components;
@@ -321,6 +324,7 @@
 				86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */,
 				6F9D189D177331830F250286 /* LockGateView.swift in Sources */,
 				F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */,
+				648E8E699680F70D0013BC77 /* OFListRow.swift in Sources */,
 				364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */,
 				94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */,
 				0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */,
