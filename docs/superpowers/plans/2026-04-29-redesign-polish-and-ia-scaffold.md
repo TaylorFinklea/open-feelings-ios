@@ -1366,7 +1366,7 @@ struct TodayView: View {
                     OFEmptyState(
                         glyph: "leaf.circle",
                         title: "Today is open.",
-                        body: "Tap below to name how you're feeling.",
+                        bodyText: "Tap below to name how you're feeling.",
                         primaryAction: .init(label: "Start a check-in") {
                             navigation.select(.checkIn)
                         }
@@ -2024,7 +2024,7 @@ struct InsightsView: View {
         OFEmptyState(
             glyph: "chart.line.uptrend.xyaxis",
             title: "Your patterns, soon.",
-            body: "Open Feelings will turn your check-ins into gentle weekly views."
+            bodyText: "Open Feelings will turn your check-ins into gentle weekly views."
         )
     }
 
@@ -2094,7 +2094,7 @@ struct IntentionsView: View {
         OFEmptyState(
             glyph: "leaf",
             title: "Intentions, coming soon.",
-            body: "Choose what you'd like to feel — and let your check-ins help you notice."
+            bodyText: "Choose what you'd like to feel — and let your check-ins help you notice."
         )
     }
 
@@ -2304,7 +2304,7 @@ Identify the export menu, `@Query`, and row presentation.
 
 - Change row presentation to `OFCard` matching the Today populated card layout (path · intensity dots · timestamp · sync · note).
 - Replace the navigation/toolbar export menu with a trailing `Menu` styled to tokens.
-- Empty state via `OFEmptyState(glyph: "tray", title: "No check-ins yet", body: "Check-ins you save will show up here.")`.
+- Empty state via `OFEmptyState(glyph: "tray", title: "No check-ins yet", bodyText: "Check-ins you save will show up here.")`.
 - Page-level `Color.OF.background.ignoresSafeArea()`; `.navigationTitle("History")`.
 
 (Skeleton — adapt to the actual file structure):
@@ -2319,7 +2319,7 @@ struct HistoryView: View {
             if logs.isEmpty {
                 OFEmptyState(glyph: "tray",
                              title: "No check-ins yet",
-                             body: "Check-ins you save will show up here.")
+                             bodyText: "Check-ins you save will show up here.")
             } else {
                 ScrollView {
                     VStack(spacing: .OF.md) {
