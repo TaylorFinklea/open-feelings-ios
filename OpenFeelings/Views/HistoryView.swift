@@ -9,50 +9,58 @@ struct HistoryView: View {
     @State private var exportError: String?
 
     var body: some View {
-        List {
-            if logs.isEmpty {
-                ContentUnavailableView(
-                    "No check-ins yet",
-                    systemImage: "text.badge.plus",
-                    description: Text("Saved feelings will appear here.")
-                )
-            } else {
-                ForEach(logs) { log in
-                    FeelingLogRow(log: log)
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.OF.background, ignoresSafeAreaEdges: .all)
+            .navigationTitle("History")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button { exportCSV() } label: {
+                            Label("Export CSV", systemImage: "tablecells")
+                        }
+                        Button { exportJSON() } label: {
+                            Label("Export JSON", systemImage: "curlybraces")
+                        }
+                    } label: {
+                        Label("Export", systemImage: "square.and.arrow.up")
+                    }
+                    .disabled(logs.isEmpty)
+                    .tint(Color.OF.accent.color(for: .light))
                 }
             }
-        }
-        .navigationTitle("History")
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button {
-                        exportCSV()
-                    } label: {
-                        Label("Export CSV", systemImage: "tablecells")
-                    }
+            .sheet(item: $shareItem) { item in
+                ActivityView(items: [item.url])
+            }
+            .alert("Export failed", isPresented: Binding(
+                get: { exportError != nil },
+                set: { if !$0 { exportError = nil } }
+            )) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(exportError ?? "")
+            }
+    }
 
-                    Button {
-                        exportJSON()
-                    } label: {
-                        Label("Export JSON", systemImage: "curlybraces")
+    @ViewBuilder
+    private var content: some View {
+        if logs.isEmpty {
+            OFEmptyState(
+                glyph: "tray",
+                title: "No check-ins yet",
+                bodyText: "Check-ins you save will show up here."
+            )
+        } else {
+            ScrollView {
+                VStack(spacing: .OF.md) {
+                    ForEach(logs) { log in
+                        OFCard { LogCard(log: log) }
                     }
-                } label: {
-                    Label("Export", systemImage: "square.and.arrow.up")
                 }
-                .disabled(logs.isEmpty)
+                .padding(.horizontal, CGFloat.OF.lg)
+                .padding(.bottom, CGFloat.OF.xxxl)
+                .padding(.top, CGFloat.OF.lg)
             }
-        }
-        .sheet(item: $shareItem) { item in
-            ActivityView(items: [item.url])
-        }
-        .alert("Export failed", isPresented: Binding(
-            get: { exportError != nil },
-            set: { if !$0 { exportError = nil } }
-        )) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(exportError ?? "")
         }
     }
 
@@ -73,43 +81,56 @@ struct HistoryView: View {
     }
 }
 
-private struct FeelingLogRow: View {
+private struct LogCard: View {
     let log: FeelingLog
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: .OF.sm) {
             HStack(alignment: .firstTextBaseline) {
                 Text(log.emotionTitle)
-                    .font(.headline)
-
+                    .font(.OF.headline)
+                    .foregroundStyle(Color.OF.text)
                 Spacer()
-
-                Text(log.createdAt, style: .time)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                Text(log.createdAt.formatted(.dateTime.hour().minute()))
+                    .font(.OF.mono)
+                    .foregroundStyle(Color.OF.textMuted)
             }
 
-            Text(log.pathTitle)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            Text(log.pathTitle.replacingOccurrences(of: " > ", with: " · "))
+                .font(.OF.body)
+                .foregroundStyle(Color.OF.textMuted)
 
-            HStack(spacing: 12) {
+            HStack(spacing: .OF.md) {
                 if let intensity = log.intensity {
-                    Label("\(intensity)/5", systemImage: "gauge.with.dots.needle.33percent")
+                    intensityDots(intensity: intensity)
+                    Text("\(intensity)/5")
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
                 }
-
                 Label(log.healthSyncStatus.label, systemImage: "heart.text.square")
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
             }
-            .font(.caption)
-            .foregroundStyle(.secondary)
 
             if !log.note.isEmpty {
-                Text(log.note)
-                    .font(.callout)
+                Text("\u{201C}\(log.note)\u{201D}")
+                    .font(.OF.body)
+                    .foregroundStyle(Color.OF.textMuted)
                     .padding(.top, 2)
             }
         }
-        .padding(.vertical, 6)
+    }
+
+    private func intensityDots(intensity: Int) -> some View {
+        HStack(spacing: 3) {
+            ForEach(1...5, id: \.self) { i in
+                Circle()
+                    .fill(i <= intensity
+                          ? AnyShapeStyle(Color.OF.accent)
+                          : AnyShapeStyle(Color.OF.divider))
+                    .frame(width: 6, height: 6)
+            }
+        }
     }
 }
 
