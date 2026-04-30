@@ -15,6 +15,7 @@
 		173DAD6E8083040CB502D21F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F305DB0DD1C152FEAF981408 /* UserNotifications.framework */; };
 		18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */; };
 		189D1693B1C37C03C1976141 /* WeekSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */; };
+		2B2D4B5BE6783AA819C122FD /* OFChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DFD5B60E08A57A1FFBDA /* OFChip.swift */; };
 		2B7CCCA566134D1C3BD9ABFE /* OFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEC32E3B681940E6AEEC72 /* OFButton.swift */; };
 		2D7F3E55328881C064C1F30B /* AppearanceModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */; };
 		3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DC44721733546416582778 /* EmotionTaxonomyTests.swift */; };
@@ -76,6 +77,7 @@
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
 		2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceTests.swift; sourceTree = "<group>"; };
 		2EE0674743EB9DF9F462815C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		37E6DFD5B60E08A57A1FFBDA /* OFChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFChip.swift; sourceTree = "<group>"; };
 		39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFEmptyState.swift; sourceTree = "<group>"; };
 		3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitMapperTests.swift; sourceTree = "<group>"; };
 		3B34230A9CB898470920148B /* EmotionDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitions.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			children = (
 				96FEC32E3B681940E6AEEC72 /* OFButton.swift */,
 				8942BFA59ED385EB86B4EF54 /* OFCard.swift */,
+				37E6DFD5B60E08A57A1FFBDA /* OFChip.swift */,
 				39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */,
 				8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */,
 				673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */,
@@ -360,6 +363,7 @@
 				6F9D189D177331830F250286 /* LockGateView.swift in Sources */,
 				2B7CCCA566134D1C3BD9ABFE /* OFButton.swift in Sources */,
 				F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */,
+				2B2D4B5BE6783AA819C122FD /* OFChip.swift in Sources */,
 				A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */,
 				648E8E699680F70D0013BC77 /* OFListRow.swift in Sources */,
 				364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */,
