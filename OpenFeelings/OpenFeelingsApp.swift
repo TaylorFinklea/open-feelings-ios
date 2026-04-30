@@ -3,8 +3,7 @@ import SwiftUI
 
 @main
 struct OpenFeelingsApp: App {
-    private let modelContainer = OpenFeelingsApp.makeModelContainer()
-
+    @State private var modelContainer: ModelContainer?
     @State private var healthService = HealthService()
     @State private var navigation = AppNavigation()
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
@@ -12,12 +11,30 @@ struct OpenFeelingsApp: App {
     var body: some Scene {
         WindowGroup {
             LockGateView {
-                RootView()
+                Group {
+                    if let modelContainer {
+                        RootView()
+                            .modelContainer(modelContainer)
+                    } else {
+                        // Container not yet built. The lock screen lives outside
+                        // this closure (only `content()` invokes it) so this branch
+                        // only matters if a user unlocks before the deferred init
+                        // completes, which is rare and brief on real devices.
+                        Rectangle().fill(Color.OF.background).ignoresSafeArea()
+                    }
+                }
             }
             .preferredColorScheme(appearanceMode.colorScheme)
             .environment(healthService)
             .environment(navigation)
-            .modelContainer(modelContainer)
+            .task {
+                // Defer SwiftData container init until after the first frame so
+                // the lock screen renders without waiting on store/CloudKit setup.
+                // .task fires after onAppear, on @MainActor.
+                if modelContainer == nil {
+                    modelContainer = OpenFeelingsApp.makeModelContainer()
+                }
+            }
         }
     }
 
