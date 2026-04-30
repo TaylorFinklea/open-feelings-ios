@@ -16,6 +16,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] Replace the original taxonomy with an attributed Open Emotion Wheel v1.1 adaptation and color-coded wheel/wizard UI.
 - [x] Add wheel pinch zoom, rotation, zoomed panning, and reset interactions.
 - [x] Add clinically informed educational definitions for selected emotions.
+- [ ] Review the definition copy with the therapist or another licensed clinician before release.
 - [ ] Configure production CloudKit schema and App Store distribution settings.
 
 ### Next
