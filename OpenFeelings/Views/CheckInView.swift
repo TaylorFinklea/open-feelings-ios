@@ -24,14 +24,9 @@ struct CheckInView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Picker("Input mode", selection: modeBinding) {
-                    ForEach(CheckInMode.allCases) { mode in
-                        Text(mode.rawValue).tag(mode)
-                    }
-                }
-                .pickerStyle(.segmented)
-
+            VStack(alignment: .leading, spacing: .OF.xl) {
+                heroHeader
+                modeSegmented
                 Group {
                     switch mode {
                     case .wizard:
@@ -40,7 +35,6 @@ struct CheckInView: View {
                         WheelCheckInView(selection: $selection)
                     }
                 }
-
                 LogComposerView(
                     selection: selection,
                     note: $note,
@@ -49,48 +43,67 @@ struct CheckInView: View {
                     save: save
                 )
             }
-            .padding()
+            .padding(.horizontal, .OF.lg)
+            .padding(.bottom, .OF.xxxl)
         }
-        .background(checkInBackground)
-        .navigationTitle("Check In")
+        .background(Color.OF.background, ignoresSafeAreaEdges: .all)
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) {
             if let savedMessage {
                 Text(savedMessage)
-                    .font(.callout.weight(.medium))
+                    .font(.OF.bodyEmphasis)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
+                    .padding(.vertical, .OF.md)
                     .background(.thinMaterial)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
     }
 
+    private var heroHeader: some View {
+        VStack(alignment: .leading, spacing: .OF.xs) {
+            Text("Now")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            Text("How are you feeling?")
+                .font(.OF.display)
+                .foregroundStyle(Color.OF.text)
+        }
+        .padding(.top, .OF.lg)
+    }
+
+    private var modeSegmented: some View {
+        HStack(spacing: 0) {
+            ForEach(CheckInMode.allCases) { m in
+                Button {
+                    withAnimation(.OF.quick) { modeRawValue = m.rawValue }
+                } label: {
+                    Text(m.rawValue)
+                        .font(.OF.bodyEmphasis)
+                        .foregroundStyle(mode == m ? Color.OF.text : Color.OF.textMuted)
+                        .frame(maxWidth: .infinity, minHeight: 36)
+                        .background(
+                            Group {
+                                if mode == m {
+                                    RoundedRectangle(cornerRadius: CGFloat.OF.Radius.chip, style: .continuous)
+                                        .fill(Color.OF.surface)
+                                        .shadow(color: .black.opacity(0.06), radius: 4, y: 1)
+                                }
+                            }
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(4)
+        .background(Color.OF.accentSoft.opacity(0.45),
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.chip + 4, style: .continuous))
+    }
+
     private var mode: CheckInMode {
         get { CheckInMode(rawValue: modeRawValue) ?? .wizard }
         nonmutating set { modeRawValue = newValue.rawValue }
-    }
-
-    private var modeBinding: Binding<CheckInMode> {
-        Binding(
-            get: { mode },
-            set: { modeRawValue = $0.rawValue }
-        )
-    }
-
-    @ViewBuilder
-    private var checkInBackground: some View {
-        let accent = Color(hex: selection?.colorHex ?? "F4D03F")
-
-        ZStack {
-            if colorScheme == .dark {
-                Color(red: 0.075, green: 0.067, blue: 0.056)
-            } else {
-                Color(red: 1.0, green: 0.984, blue: 0.945)
-            }
-
-            accent.opacity(colorScheme == .dark ? 0.08 : 0.12)
-        }
-        .ignoresSafeArea()
     }
 
     private func save() {
