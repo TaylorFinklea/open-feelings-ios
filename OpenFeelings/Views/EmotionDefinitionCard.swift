@@ -4,30 +4,47 @@ struct EmotionDefinitionCard: View {
     let definition: EmotionDefinition
     let accent: Color
     var showsDisclaimer = true
+    @State private var showsSources = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: .OF.sm) {
             Label("Clinically informed meaning", systemImage: "book.closed")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .font(.OF.caption.weight(.semibold))
+                .foregroundStyle(Color.OF.textMuted)
 
             Text(definition.summary)
-                .font(.footnote)
-                .foregroundStyle(.primary)
+                .font(.OF.body)
+                .foregroundStyle(Color.OF.text)
                 .fixedSize(horizontal: false, vertical: true)
 
             if showsDisclaimer {
                 Text(EmotionDefinitions.disclaimer)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
             }
+
+            DisclosureGroup(isExpanded: $showsSources) {
+                VStack(alignment: .leading, spacing: .OF.xs) {
+                    ForEach(EmotionDefinitions.referenceSources) { source in
+                        Link(source.title, destination: source.url)
+                            .font(.OF.caption)
+                            .foregroundStyle(Color.OF.accent)
+                    }
+                }
+                .padding(.top, .OF.xs)
+            } label: {
+                Text("Sources")
+                    .font(.OF.caption.weight(.semibold))
+                    .foregroundStyle(Color.OF.textMuted)
+            }
+            .accentColor(.OF.accent.color(for: .light))
         }
-        .padding(12)
+        .padding(CGFloat.OF.md)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(accent.opacity(0.12), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(accent.opacity(0.12), in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+            RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
                 .stroke(accent.opacity(0.28), lineWidth: 1)
         }
         .accessibilityElement(children: .combine)

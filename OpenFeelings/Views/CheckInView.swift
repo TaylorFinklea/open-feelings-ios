@@ -147,72 +147,130 @@ struct CheckInView: View {
 }
 
 private struct LogComposerView: View {
+    @Environment(\.colorScheme) private var colorScheme
     let selection: EmotionSelection?
     @Binding var note: String
     @Binding var includeIntensity: Bool
     @Binding var intensity: Double
-
     let save: () -> Void
 
     var body: some View {
-        let accent = Color(hex: selection?.colorHex ?? "8E8E93")
-
-        VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Selected feeling")
-                    .font(.headline)
-
-                if let selection {
-                    Text(selection.pathTitle)
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(selection.isComplete ? .primary : .secondary)
-
-                    EmotionDefinitionCard(
-                        definition: selection.definition,
-                        accent: accent,
-                        showsDisclaimer: false
-                    )
-                    .padding(.top, 8)
-
-                    if !selection.isComplete {
-                        Text("Choose a specific outer feeling to save this check-in.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-                } else {
-                    Text("No feeling selected")
-                        .foregroundStyle(.secondary)
-                }
+        VStack(alignment: .leading, spacing: .OF.lg) {
+            header
+            if let selection {
+                EmotionDefinitionCard(
+                    definition: selection.definition,
+                    accent: Color.OF.accent.color(for: colorScheme),
+                    showsDisclaimer: true
+                )
+                intensitySection
+                placeholderRows
+                noteField
+                saveButton(enabled: selection.isComplete)
+            } else {
+                Text("Choose a feeling above to continue.")
+                    .font(.OF.body)
+                    .foregroundStyle(Color.OF.textMuted)
             }
+        }
+        .padding(CGFloat.OF.lg)
+        .background(Color.OF.surfaceElevated,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.sheet, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: CGFloat.OF.Radius.sheet, style: .continuous)
+                .stroke(Color.OF.divider.opacity(0.7), lineWidth: 1)
+        }
+    }
 
-            Toggle("Add intensity", isOn: $includeIntensity)
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(selection?.title ?? "No feeling selected")
+                .font(.OF.headline)
+                .foregroundStyle(Color.OF.text)
+            if let selection {
+                Text(selection.pathTitle)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+            }
+        }
+    }
 
+    private var intensitySection: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Toggle(isOn: $includeIntensity) {
+                Text("Intensity").font(.OF.bodyEmphasis)
+            }
             if includeIntensity {
-                VStack(alignment: .leading) {
-                    Text("Intensity \(Int(intensity.rounded()))")
-                        .font(.subheadline.weight(.medium))
+                HStack(spacing: .OF.sm) {
+                    intensityDots
                     Slider(value: $intensity, in: 1...5, step: 1)
                 }
             }
+        }
+    }
 
-            TextField("Optional note", text: $note, axis: .vertical)
-                .lineLimit(3...8)
-                .textFieldStyle(.roundedBorder)
-
-            Button(action: save) {
-                Label("Save check-in", systemImage: "checkmark.circle.fill")
-                    .frame(maxWidth: .infinity)
+    private var intensityDots: some View {
+        HStack(spacing: 4) {
+            ForEach(1...5, id: \.self) { i in
+                Circle()
+                    .fill(i <= Int(intensity.rounded())
+                          ? AnyShapeStyle(Color.OF.accent)
+                          : AnyShapeStyle(Color.OF.divider))
+                    .frame(width: 8, height: 8)
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
-            .tint(accent)
-            .disabled(selection?.isComplete != true)
         }
-        .padding()
-        .background(accent.opacity(selection == nil ? 0.08 : 0.16), in: RoundedRectangle(cornerRadius: 8))
-        .overlay {
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(accent.opacity(selection == nil ? 0.14 : 0.35), lineWidth: 1)
+    }
+
+    private var placeholderRows: some View {
+        VStack(spacing: 0) {
+            OFSectionHeader(title: "Coming soon")
+            placeholderRow(symbol: "figure.mind.and.body", title: "Body")
+            Divider().background(Color.OF.divider)
+            placeholderRow(symbol: "location",            title: "Context")
+            Divider().background(Color.OF.divider)
+            placeholderRow(symbol: "bolt",                title: "Triggers / coping")
+            Divider().background(Color.OF.divider)
+            placeholderRow(symbol: "waveform.path",       title: "Mood scale")
         }
+        .background(Color.OF.surface,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
+        .opacity(0.55)
+    }
+
+    private func placeholderRow(symbol: String, title: String) -> some View {
+        HStack(spacing: .OF.md) {
+            Image(systemName: symbol).foregroundStyle(Color.OF.textMuted).frame(width: 24)
+            Text(title).font(.OF.body).foregroundStyle(Color.OF.textMuted)
+            Spacer()
+        }
+        .padding(.horizontal, CGFloat.OF.lg)
+        .padding(.vertical, CGFloat.OF.md)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
+        .accessibilityHint("Coming soon, currently unavailable")
+    }
+
+    private var noteField: some View {
+        VStack(alignment: .leading, spacing: .OF.xs) {
+            Text("Note (optional)")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            TextField("", text: $note, axis: .vertical)
+                .lineLimit(3...8)
+                .font(.OF.body)
+                .padding(CGFloat.OF.md)
+                .background(Color.OF.surface,
+                            in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
+                .overlay {
+                    RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
+                        .stroke(Color.OF.divider, lineWidth: 1)
+                }
+        }
+    }
+
+    private func saveButton(enabled: Bool) -> some View {
+        OFButton("Save check-in", style: .primary, action: save)
+            .opacity(enabled ? 1 : 0.4)
+            .disabled(!enabled)
     }
 }
