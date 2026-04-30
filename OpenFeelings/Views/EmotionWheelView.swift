@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct WheelCheckInView: View {
-    @Binding var selection: EmotionSelection?
     @Environment(\.colorScheme) private var colorScheme
+    @Binding var selection: EmotionSelection?
 
     private var selectionDepth: EmotionColorPalette.Depth {
         if selection?.specific != nil { return .specific }
@@ -11,29 +11,33 @@ struct WheelCheckInView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: .OF.md) {
             Text("Tap the wheel")
-                .font(.title3.weight(.semibold))
+                .font(.OF.headline)
+                .foregroundStyle(Color.OF.text)
 
             EmotionWheelView(selection: $selection)
                 .frame(maxWidth: .infinity)
                 .aspectRatio(1, contentMode: .fit)
                 .accessibilityLabel("Emotion wheel")
 
-            if let sel = selection {
-                Text(sel.pathTitle)
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(Color.readableText(onHex: EmotionColorPalette.hexString(coreID: sel.core.id, depth: selectionDepth, scheme: colorScheme)))
+            if let selection {
+                Text(selection.pathTitle)
+                    .font(.OF.bodyEmphasis)
+                    .foregroundStyle(Color.readableText(onHex: EmotionColorPalette.hexString(coreID: selection.core.id, depth: selectionDepth, scheme: colorScheme)))
                     .lineLimit(2)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                    .padding(.horizontal, CGFloat.OF.md)
+                    .padding(.vertical, CGFloat.OF.sm)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(EmotionColorPalette.color(coreID: sel.core.id, depth: selectionDepth, scheme: colorScheme), in: RoundedRectangle(cornerRadius: 8))
+                    .background(
+                        EmotionColorPalette.color(coreID: selection.core.id, depth: selectionDepth, scheme: colorScheme),
+                        in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
+                    )
             }
 
             Text("Tap the center for a broad feeling, the middle ring to narrow it, or the outer ring for the exact word.")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
         }
     }
 }

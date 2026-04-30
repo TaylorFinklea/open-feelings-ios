@@ -38,7 +38,7 @@ struct EmotionDefinitionCard: View {
                     .font(.OF.caption.weight(.semibold))
                     .foregroundStyle(Color.OF.textMuted)
             }
-            .accentColor(.OF.accent.color(for: .light))
+            .tint(Color.OF.accent)
         }
         .padding(CGFloat.OF.md)
         .frame(maxWidth: .infinity, alignment: .leading)

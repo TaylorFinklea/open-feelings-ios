@@ -26,7 +26,7 @@ struct HistoryView: View {
                         Label("Export", systemImage: "square.and.arrow.up")
                     }
                     .disabled(logs.isEmpty)
-                    .tint(Color.OF.accent.color(for: .light))
+                    .tint(Color.OF.accent)
                 }
             }
             .sheet(item: $shareItem) { item in
