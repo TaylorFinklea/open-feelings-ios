@@ -27,6 +27,8 @@ struct CheckInView: View {
     @State private var bodySensations: Set<BodySensation> = []
     @State private var contextPlaces: Set<ContextPlace> = []
     @State private var contextPeople: Set<ContextPeople> = []
+    @State private var triggers: Set<Trigger> = []
+    @State private var coping: Set<Coping> = []
 
     var body: some View {
         ScrollView {
@@ -40,6 +42,10 @@ struct CheckInView: View {
                     ContextChipsCard(
                         contextPlaces: $contextPlaces,
                         contextPeople: $contextPeople
+                    )
+                    TriggersCopingChipsCard(
+                        triggers: $triggers,
+                        coping: $coping
                     )
                     feelingPrompt
                 }
@@ -61,8 +67,11 @@ struct CheckInView: View {
                     bodySensations: $bodySensations,
                     contextPlaces: $contextPlaces,
                     contextPeople: $contextPeople,
+                    triggers: $triggers,
+                    coping: $coping,
                     showsBodySection: !bodyFirst,
                     showsContextSection: !bodyFirst,
+                    showsTriggersCopingSection: !bodyFirst,
                     save: save
                 )
             }
@@ -145,7 +154,9 @@ struct CheckInView: View {
             bodyRegions: BodyRegion.allCases.filter { bodyRegions.contains($0) },
             bodySensations: BodySensation.allCases.filter { bodySensations.contains($0) },
             contextPlaces: ContextPlace.allCases.filter { contextPlaces.contains($0) },
-            contextPeople: ContextPeople.allCases.filter { contextPeople.contains($0) }
+            contextPeople: ContextPeople.allCases.filter { contextPeople.contains($0) },
+            triggers: Trigger.allCases.filter { triggers.contains($0) },
+            coping: Coping.allCases.filter { coping.contains($0) }
         )
         modelContext.insert(log)
         try? modelContext.save()
@@ -173,6 +184,8 @@ struct CheckInView: View {
         bodySensations = []
         contextPlaces = []
         contextPeople = []
+        triggers = []
+        coping = []
     }
 }
 
@@ -186,10 +199,13 @@ private struct LogComposerView: View {
     @Binding var bodySensations: Set<BodySensation>
     @Binding var contextPlaces: Set<ContextPlace>
     @Binding var contextPeople: Set<ContextPeople>
+    @Binding var triggers: Set<Trigger>
+    @Binding var coping: Set<Coping>
     /// When false, body chips render above the wheel/wizard (body-first mode)
     /// and this composer skips its inline bodySection.
     let showsBodySection: Bool
     let showsContextSection: Bool
+    let showsTriggersCopingSection: Bool
     let save: () -> Void
 
     var body: some View {
@@ -207,6 +223,9 @@ private struct LogComposerView: View {
                 }
                 if showsContextSection {
                     contextSection
+                }
+                if showsTriggersCopingSection {
+                    triggersCopingSection
                 }
                 placeholderRows
                 noteField
@@ -279,11 +298,16 @@ private struct LogComposerView: View {
         )
     }
 
+    private var triggersCopingSection: some View {
+        TriggersCopingChipsCard(
+            triggers: $triggers,
+            coping: $coping
+        )
+    }
+
     private var placeholderRows: some View {
         VStack(spacing: 0) {
             OFSectionHeader(title: "Coming soon")
-            placeholderRow(symbol: "bolt",          title: "Triggers / coping")
-            Divider().background(Color.OF.divider)
             placeholderRow(symbol: "waveform.path", title: "Mood scale")
         }
         .background(Color.OF.surface,
@@ -449,6 +473,68 @@ private struct ContextChipsCard: View {
             get: { contextPeople.contains(people) },
             set: { isOn in
                 if isOn { contextPeople.insert(people) } else { contextPeople.remove(people) }
+            }
+        )
+    }
+}
+
+/// Reusable triggers + coping chip card. Two distinct sub-sections (no
+/// progressive disclosure — they're independent: a user can record what
+/// happened, what they did, neither, or both). Used in two places: inside
+/// `LogComposerView` (feeling-first mode) and at the top of `CheckInView`
+/// after `ContextChipsCard` (body-first mode, the therapy-aligned default).
+private struct TriggersCopingChipsCard: View {
+    @Binding var triggers: Set<Trigger>
+    @Binding var coping: Set<Coping>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Text("Triggers & coping").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+            Text("What brought it on? (optional)")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            triggerChips
+            Divider().background(Color.OF.divider).padding(.vertical, CGFloat.OF.xs)
+            Text("What helped?")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            copingChips
+        }
+        .padding(CGFloat.OF.md)
+        .background(Color.OF.surface,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
+    }
+
+    private var triggerChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(Trigger.allCases) { t in
+                OFChip(label: t.displayName, isOn: triggerBinding(for: t))
+            }
+        }
+    }
+
+    private var copingChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(Coping.allCases) { c in
+                OFChip(label: c.displayName, isOn: copingBinding(for: c))
+            }
+        }
+    }
+
+    private func triggerBinding(for t: Trigger) -> Binding<Bool> {
+        Binding(
+            get: { triggers.contains(t) },
+            set: { isOn in
+                if isOn { triggers.insert(t) } else { triggers.remove(t) }
+            }
+        )
+    }
+
+    private func copingBinding(for c: Coping) -> Binding<Bool> {
+        Binding(
+            get: { coping.contains(c) },
+            set: { isOn in
+                if isOn { coping.insert(c) } else { coping.remove(c) }
             }
         )
     }

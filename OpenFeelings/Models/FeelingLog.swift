@@ -41,6 +41,8 @@ final class FeelingLog {
     var bodySensationsRaw: String = ""
     var contextPlacesRaw: String = ""
     var contextPeopleRaw: String = ""
+    var triggersRaw: String = ""
+    var copingRaw: String = ""
 
     init(
         id: UUID = UUID(),
@@ -52,7 +54,9 @@ final class FeelingLog {
         bodyRegions: [BodyRegion] = [],
         bodySensations: [BodySensation] = [],
         contextPlaces: [ContextPlace] = [],
-        contextPeople: [ContextPeople] = []
+        contextPeople: [ContextPeople] = [],
+        triggers: [Trigger] = [],
+        coping: [Coping] = []
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -69,6 +73,8 @@ final class FeelingLog {
         bodySensationsRaw = BodySensation.encodeList(bodySensations)
         contextPlacesRaw = ContextPlace.encodeList(contextPlaces)
         contextPeopleRaw = ContextPeople.encodeList(contextPeople)
+        triggersRaw = Trigger.encodeList(triggers)
+        copingRaw = Coping.encodeList(coping)
     }
 
     var healthSyncStatus: HealthSyncStatus {
@@ -104,5 +110,15 @@ final class FeelingLog {
     var contextPeople: [ContextPeople] {
         get { ContextPeople.parseList(contextPeopleRaw) }
         set { contextPeopleRaw = ContextPeople.encodeList(newValue) }
+    }
+
+    var triggers: [Trigger] {
+        get { Trigger.parseList(triggersRaw) }
+        set { triggersRaw = Trigger.encodeList(newValue) }
+    }
+
+    var coping: [Coping] {
+        get { Coping.parseList(copingRaw) }
+        set { copingRaw = Coping.encodeList(newValue) }
     }
 }

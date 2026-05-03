@@ -135,6 +135,11 @@ struct TodayView: View {
                     .font(.OF.caption)
                     .foregroundStyle(Color.OF.textMuted)
             }
+            if let triggersCoping = triggersCopingSummary(for: log) {
+                Text(triggersCoping)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+            }
             if !log.note.isEmpty {
                 Text("\u{201C}\(log.note)\u{201D}")
                     .font(.OF.body)
@@ -166,6 +171,18 @@ struct TodayView: View {
             return "\(placePart) · \(peoplePart)"
         }
         return placePart.isEmpty ? peoplePart : placePart
+    }
+
+    private func triggersCopingSummary(for log: FeelingLog) -> String? {
+        let triggers = log.triggers.map(\.displayName.localizedLowercase)
+        let coping   = log.coping.map(\.displayName.localizedLowercase)
+        guard !triggers.isEmpty || !coping.isEmpty else { return nil }
+        let triggerPart = triggers.isEmpty ? "" : triggers.joined(separator: ", ")
+        let copingPart  = coping.isEmpty   ? "" : coping.joined(separator: ", ")
+        if !triggerPart.isEmpty && !copingPart.isEmpty {
+            return "\(triggerPart) → \(copingPart)"
+        }
+        return triggerPart.isEmpty ? copingPart : triggerPart
     }
 
     private func intensityDots(intensity: Int) -> some View {
