@@ -23,6 +23,9 @@ struct CheckInView: View {
     @State private var note = ""
     @State private var includeIntensity = false
     @State private var intensity = 3.0
+    @State private var includeMoodScale = false
+    @State private var moodEnergy: Double = 0
+    @State private var moodValence: Double = 0
     @State private var bodyRegions: Set<BodyRegion> = []
     @State private var bodySensations: Set<BodySensation> = []
     @State private var contextPlaces: Set<ContextPlace> = []
@@ -63,6 +66,9 @@ struct CheckInView: View {
                     note: $note,
                     includeIntensity: $includeIntensity,
                     intensity: $intensity,
+                    includeMoodScale: $includeMoodScale,
+                    moodEnergy: $moodEnergy,
+                    moodValence: $moodValence,
                     bodyRegions: $bodyRegions,
                     bodySensations: $bodySensations,
                     contextPlaces: $contextPlaces,
@@ -156,7 +162,9 @@ struct CheckInView: View {
             contextPlaces: ContextPlace.allCases.filter { contextPlaces.contains($0) },
             contextPeople: ContextPeople.allCases.filter { contextPeople.contains($0) },
             triggers: Trigger.allCases.filter { triggers.contains($0) },
-            coping: Coping.allCases.filter { coping.contains($0) }
+            coping: Coping.allCases.filter { coping.contains($0) },
+            moodEnergy: includeMoodScale ? moodEnergy : nil,
+            moodValence: includeMoodScale ? moodValence : nil
         )
         modelContext.insert(log)
         try? modelContext.save()
@@ -180,6 +188,9 @@ struct CheckInView: View {
         note = ""
         includeIntensity = false
         intensity = 3
+        includeMoodScale = false
+        moodEnergy = 0
+        moodValence = 0
         bodyRegions = []
         bodySensations = []
         contextPlaces = []
@@ -195,6 +206,9 @@ private struct LogComposerView: View {
     @Binding var note: String
     @Binding var includeIntensity: Bool
     @Binding var intensity: Double
+    @Binding var includeMoodScale: Bool
+    @Binding var moodEnergy: Double
+    @Binding var moodValence: Double
     @Binding var bodyRegions: Set<BodyRegion>
     @Binding var bodySensations: Set<BodySensation>
     @Binding var contextPlaces: Set<ContextPlace>
@@ -218,6 +232,7 @@ private struct LogComposerView: View {
                     showsDisclaimer: true
                 )
                 intensitySection
+                moodScaleSection
                 if showsBodySection {
                     bodySection
                 }
@@ -227,7 +242,6 @@ private struct LogComposerView: View {
                 if showsTriggersCopingSection {
                     triggersCopingSection
                 }
-                placeholderRows
                 noteField
                 saveButton(enabled: selection.isComplete)
             } else {
@@ -305,27 +319,61 @@ private struct LogComposerView: View {
         )
     }
 
-    private var placeholderRows: some View {
-        VStack(spacing: 0) {
-            OFSectionHeader(title: "Coming soon")
-            placeholderRow(symbol: "waveform.path", title: "Mood scale")
+    private var moodScaleSection: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Toggle(isOn: $includeMoodScale) {
+                Text("Mood scale").font(.OF.bodyEmphasis)
+            }
+            if includeMoodScale {
+                VStack(alignment: .leading, spacing: .OF.md) {
+                    moodSlider(
+                        title: "Energy",
+                        leftLabel: "calm",
+                        rightLabel: "activated",
+                        value: $moodEnergy
+                    )
+                    moodSlider(
+                        title: "Valence",
+                        leftLabel: "unpleasant",
+                        rightLabel: "pleasant",
+                        value: $moodValence
+                    )
+                }
+                .padding(.top, .OF.xs)
+            }
         }
-        .background(Color.OF.surface,
-                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
-        .opacity(0.55)
     }
 
-    private func placeholderRow(symbol: String, title: String) -> some View {
-        HStack(spacing: .OF.md) {
-            Image(systemName: symbol).foregroundStyle(Color.OF.textMuted).frame(width: 24)
-            Text(title).font(.OF.body).foregroundStyle(Color.OF.textMuted)
-            Spacer()
+    private func moodSlider(
+        title: String,
+        leftLabel: String,
+        rightLabel: String,
+        value: Binding<Double>
+    ) -> some View {
+        VStack(alignment: .leading, spacing: .OF.xs) {
+            HStack {
+                Text(title).font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                Spacer()
+                Text(currentMoodLabel(title: title, value: value.wrappedValue))
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.text)
+            }
+            Slider(value: value, in: -1...1, step: 0.05)
+                .tint(Color.OF.accent.color(for: colorScheme))
+            HStack {
+                Text(leftLabel).font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                Spacer()
+                Text(rightLabel).font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+            }
         }
-        .padding(.horizontal, CGFloat.OF.lg)
-        .padding(.vertical, CGFloat.OF.md)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(title)
-        .accessibilityHint("Coming soon, currently unavailable")
+    }
+
+    private func currentMoodLabel(title: String, value: Double) -> String {
+        if title == "Energy" {
+            return MoodScale.energyBand(value)
+        } else {
+            return MoodScale.valenceBand(value)
+        }
     }
 
     private var noteField: some View {

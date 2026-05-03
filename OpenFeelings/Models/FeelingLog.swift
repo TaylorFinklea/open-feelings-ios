@@ -43,6 +43,8 @@ final class FeelingLog {
     var contextPeopleRaw: String = ""
     var triggersRaw: String = ""
     var copingRaw: String = ""
+    var moodEnergy: Double?
+    var moodValence: Double?
 
     init(
         id: UUID = UUID(),
@@ -56,7 +58,9 @@ final class FeelingLog {
         contextPlaces: [ContextPlace] = [],
         contextPeople: [ContextPeople] = [],
         triggers: [Trigger] = [],
-        coping: [Coping] = []
+        coping: [Coping] = [],
+        moodEnergy: Double? = nil,
+        moodValence: Double? = nil
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -75,6 +79,8 @@ final class FeelingLog {
         contextPeopleRaw = ContextPeople.encodeList(contextPeople)
         triggersRaw = Trigger.encodeList(triggers)
         copingRaw = Coping.encodeList(coping)
+        self.moodEnergy = moodEnergy
+        self.moodValence = moodValence
     }
 
     var healthSyncStatus: HealthSyncStatus {

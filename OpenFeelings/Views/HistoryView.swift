@@ -130,6 +130,12 @@ private struct LogCard: View {
                     .foregroundStyle(Color.OF.textMuted)
             }
 
+            if let mood = moodScaleSummary(for: log) {
+                Text(mood)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+            }
+
             if !log.note.isEmpty {
                 Text("\u{201C}\(log.note)\u{201D}")
                     .font(.OF.body)
@@ -173,6 +179,14 @@ private struct LogCard: View {
             return "\(triggerPart) → \(copingPart)"
         }
         return triggerPart.isEmpty ? copingPart : triggerPart
+    }
+
+    private func moodScaleSummary(for log: FeelingLog) -> String? {
+        let energy  = log.moodEnergy.map(MoodScale.energyBand)
+        let valence = log.moodValence.map(MoodScale.valenceBand)
+        guard energy != nil || valence != nil else { return nil }
+        let parts = [energy, valence].compactMap { $0 }
+        return parts.joined(separator: " · ")
     }
 
     private func intensityDots(intensity: Int) -> some View {
