@@ -25,6 +25,8 @@ struct CheckInView: View {
     @State private var intensity = 3.0
     @State private var bodyRegions: Set<BodyRegion> = []
     @State private var bodySensations: Set<BodySensation> = []
+    @State private var contextPlaces: Set<ContextPlace> = []
+    @State private var contextPeople: Set<ContextPeople> = []
 
     var body: some View {
         ScrollView {
@@ -34,6 +36,10 @@ struct CheckInView: View {
                     BodyChipsCard(
                         bodyRegions: $bodyRegions,
                         bodySensations: $bodySensations
+                    )
+                    ContextChipsCard(
+                        contextPlaces: $contextPlaces,
+                        contextPeople: $contextPeople
                     )
                     feelingPrompt
                 }
@@ -53,7 +59,10 @@ struct CheckInView: View {
                     intensity: $intensity,
                     bodyRegions: $bodyRegions,
                     bodySensations: $bodySensations,
+                    contextPlaces: $contextPlaces,
+                    contextPeople: $contextPeople,
                     showsBodySection: !bodyFirst,
+                    showsContextSection: !bodyFirst,
                     save: save
                 )
             }
@@ -134,7 +143,9 @@ struct CheckInView: View {
             note: trimmedNote,
             healthSyncStatus: healthEnabled ? .pending : .notRequested,
             bodyRegions: BodyRegion.allCases.filter { bodyRegions.contains($0) },
-            bodySensations: BodySensation.allCases.filter { bodySensations.contains($0) }
+            bodySensations: BodySensation.allCases.filter { bodySensations.contains($0) },
+            contextPlaces: ContextPlace.allCases.filter { contextPlaces.contains($0) },
+            contextPeople: ContextPeople.allCases.filter { contextPeople.contains($0) }
         )
         modelContext.insert(log)
         try? modelContext.save()
@@ -160,6 +171,8 @@ struct CheckInView: View {
         intensity = 3
         bodyRegions = []
         bodySensations = []
+        contextPlaces = []
+        contextPeople = []
     }
 }
 
@@ -171,9 +184,12 @@ private struct LogComposerView: View {
     @Binding var intensity: Double
     @Binding var bodyRegions: Set<BodyRegion>
     @Binding var bodySensations: Set<BodySensation>
+    @Binding var contextPlaces: Set<ContextPlace>
+    @Binding var contextPeople: Set<ContextPeople>
     /// When false, body chips render above the wheel/wizard (body-first mode)
     /// and this composer skips its inline bodySection.
     let showsBodySection: Bool
+    let showsContextSection: Bool
     let save: () -> Void
 
     var body: some View {
@@ -188,6 +204,9 @@ private struct LogComposerView: View {
                 intensitySection
                 if showsBodySection {
                     bodySection
+                }
+                if showsContextSection {
+                    contextSection
                 }
                 placeholderRows
                 noteField
@@ -253,11 +272,16 @@ private struct LogComposerView: View {
         )
     }
 
+    private var contextSection: some View {
+        ContextChipsCard(
+            contextPlaces: $contextPlaces,
+            contextPeople: $contextPeople
+        )
+    }
+
     private var placeholderRows: some View {
         VStack(spacing: 0) {
             OFSectionHeader(title: "Coming soon")
-            placeholderRow(symbol: "location",      title: "Context")
-            Divider().background(Color.OF.divider)
             placeholderRow(symbol: "bolt",          title: "Triggers / coping")
             Divider().background(Color.OF.divider)
             placeholderRow(symbol: "waveform.path", title: "Mood scale")
@@ -363,6 +387,68 @@ private struct BodyChipsCard: View {
             get: { bodySensations.contains(sensation) },
             set: { isOn in
                 if isOn { bodySensations.insert(sensation) } else { bodySensations.remove(sensation) }
+            }
+        )
+    }
+}
+
+/// Reusable context chip card. Renders place chips and people chips as two
+/// distinct sub-sections (no progressive disclosure — both visible from the
+/// start, since they're independent axes). Used in two places: inside
+/// `LogComposerView` (feeling-first mode) and at the top of `CheckInView`
+/// after `BodyChipsCard` (body-first mode, the therapy-aligned default).
+private struct ContextChipsCard: View {
+    @Binding var contextPlaces: Set<ContextPlace>
+    @Binding var contextPeople: Set<ContextPeople>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Text("Context").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+            Text("Where were you? (optional)")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            placeChips
+            Divider().background(Color.OF.divider).padding(.vertical, CGFloat.OF.xs)
+            Text("Who were you with?")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            peopleChips
+        }
+        .padding(CGFloat.OF.md)
+        .background(Color.OF.surface,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
+    }
+
+    private var placeChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(ContextPlace.allCases) { place in
+                OFChip(label: place.displayName, isOn: placeBinding(for: place))
+            }
+        }
+    }
+
+    private var peopleChips: some View {
+        WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+            ForEach(ContextPeople.allCases) { people in
+                OFChip(label: people.displayName, isOn: peopleBinding(for: people))
+            }
+        }
+    }
+
+    private func placeBinding(for place: ContextPlace) -> Binding<Bool> {
+        Binding(
+            get: { contextPlaces.contains(place) },
+            set: { isOn in
+                if isOn { contextPlaces.insert(place) } else { contextPlaces.remove(place) }
+            }
+        )
+    }
+
+    private func peopleBinding(for people: ContextPeople) -> Binding<Bool> {
+        Binding(
+            get: { contextPeople.contains(people) },
+            set: { isOn in
+                if isOn { contextPeople.insert(people) } else { contextPeople.remove(people) }
             }
         )
     }

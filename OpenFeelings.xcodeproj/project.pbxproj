@@ -27,6 +27,7 @@
 		4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */; };
 		42F96DD600BC611CA17FCD72 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */; };
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
+		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
 		648E8E699680F70D0013BC77 /* OFListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */; };
 		65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */; };
@@ -50,6 +51,7 @@
 		C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C932D5F22945AFFBE7E2E184 /* RootView.swift */; };
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
 		D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67A46078B6257523BDCA760 /* SettingsView.swift */; };
+		E40C48CD97294796C278116A /* ContextTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */; };
 		F5A5FB0C16A9660611B6E7D8 /* EmotionWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FA50454E902FB514212AD /* EmotionWheelView.swift */; };
 		F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8942BFA59ED385EB86B4EF54 /* OFCard.swift */; };
 		FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */; };
@@ -75,6 +77,7 @@
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
 		25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPalette.swift; sourceTree = "<group>"; };
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
+		2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTaxonomy.swift; sourceTree = "<group>"; };
 		2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceTests.swift; sourceTree = "<group>"; };
 		2EE0674743EB9DF9F462815C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		37E6DFD5B60E08A57A1FFBDA /* OFChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFChip.swift; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 		D1C1969664DAE9332E91F254 /* FeelingLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingLog.swift; sourceTree = "<group>"; };
 		E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsApp.swift; sourceTree = "<group>"; };
 		E249B39B8711CDB62DAA306E /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTaxonomyTests.swift; sourceTree = "<group>"; };
 		F305DB0DD1C152FEAF981408 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTaxonomy.swift; sourceTree = "<group>"; };
 		FEC7DB1837474E15C9A66E13 /* LockGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockGateView.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */,
+				2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */,
 				3B34230A9CB898470920148B /* EmotionDefinitions.swift */,
 				7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */,
 				D1C1969664DAE9332E91F254 /* FeelingLog.swift */,
@@ -211,6 +216,7 @@
 				A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */,
 				865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */,
 				662AD400A8250C1F0AE595B4 /* BodyTaxonomyTests.swift */,
+				EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */,
 				08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */,
 				17DC44721733546416582778 /* EmotionTaxonomyTests.swift */,
 				2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */,
@@ -346,6 +352,7 @@
 				32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */,
 				65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */,
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
+				4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */,
 				FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */,
 				9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */,
 				9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */,
@@ -384,6 +391,7 @@
 				7A5CDCA737F19EEE682FF2D6 /* AppNavigationTests.swift in Sources */,
 				2D7F3E55328881C064C1F30B /* AppearanceModeTests.swift in Sources */,
 				BE4F6B74031D931677239AA6 /* BodyTaxonomyTests.swift in Sources */,
+				E40C48CD97294796C278116A /* ContextTaxonomyTests.swift in Sources */,
 				0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */,
 				3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */,
 				4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */,

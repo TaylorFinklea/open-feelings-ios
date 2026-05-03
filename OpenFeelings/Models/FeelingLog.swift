@@ -39,6 +39,8 @@ final class FeelingLog {
     var healthSyncStatusRaw: String = HealthSyncStatus.notRequested.rawValue
     var bodyRegionsRaw: String = ""
     var bodySensationsRaw: String = ""
+    var contextPlacesRaw: String = ""
+    var contextPeopleRaw: String = ""
 
     init(
         id: UUID = UUID(),
@@ -48,7 +50,9 @@ final class FeelingLog {
         note: String,
         healthSyncStatus: HealthSyncStatus = .notRequested,
         bodyRegions: [BodyRegion] = [],
-        bodySensations: [BodySensation] = []
+        bodySensations: [BodySensation] = [],
+        contextPlaces: [ContextPlace] = [],
+        contextPeople: [ContextPeople] = []
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -63,6 +67,8 @@ final class FeelingLog {
         healthSyncStatusRaw = healthSyncStatus.rawValue
         bodyRegionsRaw = BodyRegion.encodeList(bodyRegions)
         bodySensationsRaw = BodySensation.encodeList(bodySensations)
+        contextPlacesRaw = ContextPlace.encodeList(contextPlaces)
+        contextPeopleRaw = ContextPeople.encodeList(contextPeople)
     }
 
     var healthSyncStatus: HealthSyncStatus {
@@ -88,5 +94,15 @@ final class FeelingLog {
     var bodySensations: [BodySensation] {
         get { BodySensation.parseList(bodySensationsRaw) }
         set { bodySensationsRaw = BodySensation.encodeList(newValue) }
+    }
+
+    var contextPlaces: [ContextPlace] {
+        get { ContextPlace.parseList(contextPlacesRaw) }
+        set { contextPlacesRaw = ContextPlace.encodeList(newValue) }
+    }
+
+    var contextPeople: [ContextPeople] {
+        get { ContextPeople.parseList(contextPeopleRaw) }
+        set { contextPeopleRaw = ContextPeople.encodeList(newValue) }
     }
 }

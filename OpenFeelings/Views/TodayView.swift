@@ -130,6 +130,11 @@ struct TodayView: View {
                     .font(.OF.caption)
                     .foregroundStyle(Color.OF.textMuted)
             }
+            if let context = contextSummary(for: log) {
+                Text(context)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+            }
             if !log.note.isEmpty {
                 Text("\u{201C}\(log.note)\u{201D}")
                     .font(.OF.body)
@@ -149,6 +154,18 @@ struct TodayView: View {
             return "\(regionPart) · \(sensationPart)"
         }
         return regionPart.isEmpty ? "· \(sensationPart)" : regionPart
+    }
+
+    private func contextSummary(for log: FeelingLog) -> String? {
+        let places = log.contextPlaces.map(\.displayName.localizedLowercase)
+        let people = log.contextPeople.map(\.displayName.localizedLowercase)
+        guard !places.isEmpty || !people.isEmpty else { return nil }
+        let placePart  = places.isEmpty ? "" : places.joined(separator: ", ")
+        let peoplePart = people.isEmpty ? "" : people.joined(separator: ", ")
+        if !placePart.isEmpty && !peoplePart.isEmpty {
+            return "\(placePart) · \(peoplePart)"
+        }
+        return placePart.isEmpty ? peoplePart : placePart
     }
 
     private func intensityDots(intensity: Int) -> some View {
