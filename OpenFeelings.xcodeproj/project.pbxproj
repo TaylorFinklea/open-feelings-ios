@@ -16,6 +16,7 @@
 		173DAD6E8083040CB502D21F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F305DB0DD1C152FEAF981408 /* UserNotifications.framework */; };
 		18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */; };
 		189D1693B1C37C03C1976141 /* WeekSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */; };
+		2738E06A6C334EC851C7B103 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4C624625E9E1C8E4381C457 /* Assets.xcassets */; };
 		2B2D4B5BE6783AA819C122FD /* OFChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DFD5B60E08A57A1FFBDA /* OFChip.swift */; };
 		2B7CCCA566134D1C3BD9ABFE /* OFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEC32E3B681940E6AEEC72 /* OFButton.swift */; };
 		2D7F3E55328881C064C1F30B /* AppearanceModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */; };
@@ -28,6 +29,7 @@
 		3FD3936D3F358291ED7B7FD9 /* MoodScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */; };
 		4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */; };
 		42F96DD600BC611CA17FCD72 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */; };
+		46C276F4A404056684E8DAEB /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186F1042FF9CD96AF90DFC95 /* AppIconView.swift */; };
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
@@ -82,6 +84,7 @@
 		0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenFeelings.entitlements; sourceTree = "<group>"; };
 		1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
 		17DC44721733546416582778 /* EmotionTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyTests.swift; sourceTree = "<group>"; };
+		186F1042FF9CD96AF90DFC95 /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
 		1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
 		25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPalette.swift; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 		AA5A4382CFA9DE8E22655357 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B67A46078B6257523BDCA760 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B853D8246487F25572AEF0F5 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
+		C4C624625E9E1C8E4381C457 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6CD3074A5394FAAE9FBB07B /* WheelViewportTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelViewportTransformTests.swift; sourceTree = "<group>"; };
 		C932D5F22945AFFBE7E2E184 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		D1C1969664DAE9332E91F254 /* FeelingLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingLog.swift; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */,
+				186F1042FF9CD96AF90DFC95 /* AppIconView.swift */,
 				493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */,
 				1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */,
 				25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */,
@@ -222,6 +227,7 @@
 		64469CC08CD7BDEB30DB2033 /* OpenFeelings */ = {
 			isa = PBXGroup;
 			children = (
+				C4C624625E9E1C8E4381C457 /* Assets.xcassets */,
 				2EE0674743EB9DF9F462815C /* Info.plist */,
 				0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */,
 				E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */,
@@ -301,6 +307,7 @@
 			buildConfigurationList = 7DC79E471B7F4F7FB77A3033 /* Build configuration list for PBXNativeTarget "OpenFeelings" */;
 			buildPhases = (
 				06CC976B38324C869B04DE15 /* Sources */,
+				809DCF714962A264DC97ADAC /* Resources */,
 				6FE760333AFEBF3B555FAAB7 /* Frameworks */,
 			);
 			buildRules = (
@@ -369,11 +376,23 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		809DCF714962A264DC97ADAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2738E06A6C334EC851C7B103 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		06CC976B38324C869B04DE15 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C276F4A404056684E8DAEB /* AppIconView.swift in Sources */,
 				A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */,
 				6B85C09974147D729D5F79BC /* AppNavigation.swift in Sources */,
 				32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */,
