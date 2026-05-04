@@ -16,6 +16,8 @@ targets:
     deploymentTarget: "26.0"
     sources:
       - path: OpenFeelings
+        excludes:
+          - "ExportOptions.plist"
     dependencies:
       - sdk: HealthKit.framework
       - sdk: LocalAuthentication.framework
