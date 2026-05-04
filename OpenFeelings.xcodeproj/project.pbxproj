@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		08F20C61D0758AA5628806E8 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270853AFA9340C271CA558F5 /* HealthService.swift */; };
+		09858D6FE2E2838C5D30AD81 /* IntentionDayFelt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */; };
 		0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853D8246487F25572AEF0F5 /* ReminderService.swift */; };
 		0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */; };
 		0F78382D02F7E444C1DECBA3 /* IntentionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A638C240E85A7FEA5F2D883F /* IntentionsView.swift */; };
@@ -30,6 +31,7 @@
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
+		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
 		623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */; };
 		63A613DDF289E5C6807DB98A /* MoodScaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEFF29F9D2ED37AFBAC8FAD /* MoodScaleTests.swift */; };
@@ -51,6 +53,7 @@
 		9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */; };
 		A4DAB7C96F4B4342A88085A6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60CAF5B22D477191AAC90A68 /* HealthKit.framework */; };
 		A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */; };
+		A7087DF600D27FA710FB840C /* Intention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139F747628A106913257991 /* Intention.swift */; };
 		A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */; };
 		B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */; };
 		BE4F6B74031D931677239AA6 /* BodyTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662AD400A8250C1F0AE595B4 /* BodyTaxonomyTests.swift */; };
@@ -92,6 +95,7 @@
 		3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitMapperTests.swift; sourceTree = "<group>"; };
 		3B34230A9CB898470920148B /* EmotionDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitions.swift; sourceTree = "<group>"; };
 		3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockService.swift; sourceTree = "<group>"; };
+		42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFelt.swift; sourceTree = "<group>"; };
 		493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		60CAF5B22D477191AAC90A68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -115,6 +119,7 @@
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
+		A139F747628A106913257991 /* Intention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intention.swift; sourceTree = "<group>"; };
 		A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardCheckInView.swift; sourceTree = "<group>"; };
 		A638C240E85A7FEA5F2D883F /* IntentionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsView.swift; sourceTree = "<group>"; };
 		A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
@@ -127,6 +132,7 @@
 		D928D754117BD9A1043AC19A /* InsightsDatasetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsDatasetTests.swift; sourceTree = "<group>"; };
 		E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsApp.swift; sourceTree = "<group>"; };
 		E249B39B8711CDB62DAA306E /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFeltTests.swift; sourceTree = "<group>"; };
 		E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScale.swift; sourceTree = "<group>"; };
 		EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTaxonomyTests.swift; sourceTree = "<group>"; };
 		F305DB0DD1C152FEAF981408 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -170,6 +176,8 @@
 				7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */,
 				D1C1969664DAE9332E91F254 /* FeelingLog.swift */,
 				2FC317F1254C07891B905A2F /* InsightsDataset.swift */,
+				A139F747628A106913257991 /* Intention.swift */,
+				42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */,
 				E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */,
 				76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */,
 			);
@@ -238,6 +246,7 @@
 				764DCB6D65D0FAA3772A4AAA /* GreetingTests.swift */,
 				3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */,
 				D928D754117BD9A1043AC19A /* InsightsDatasetTests.swift */,
+				E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */,
 				6CEFF29F9D2ED37AFBAC8FAD /* MoodScaleTests.swift */,
 				62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */,
 				96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */,
@@ -384,6 +393,8 @@
 				86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */,
 				6A086118F58A2014E3049A71 /* InsightsDataset.swift in Sources */,
 				399059894BECDC267871CEDE /* InsightsView.swift in Sources */,
+				A7087DF600D27FA710FB840C /* Intention.swift in Sources */,
+				09858D6FE2E2838C5D30AD81 /* IntentionDayFelt.swift in Sources */,
 				0F78382D02F7E444C1DECBA3 /* IntentionsView.swift in Sources */,
 				42F96DD600BC611CA17FCD72 /* LiquidGlass.swift in Sources */,
 				6F9D189D177331830F250286 /* LockGateView.swift in Sources */,
@@ -419,6 +430,7 @@
 				8DAD0AF27D2EF7F4F9494D6E /* GreetingTests.swift in Sources */,
 				13FBCFA3838B55A7F8024F1F /* HealthKitMapperTests.swift in Sources */,
 				93C6AE36CE94A4BF319C7164 /* InsightsDatasetTests.swift in Sources */,
+				5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */,
 				63A613DDF289E5C6807DB98A /* MoodScaleTests.swift in Sources */,
 				623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */,
 				189D1693B1C37C03C1976141 /* WeekSummaryTests.swift in Sources */,

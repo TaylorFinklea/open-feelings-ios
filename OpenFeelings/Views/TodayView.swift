@@ -6,6 +6,7 @@ struct TodayView: View {
     @Environment(AppNavigation.self) private var navigation
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Query(sort: \FeelingLog.createdAt, order: .reverse) private var allLogs: [FeelingLog]
+    @Query(sort: \Intention.date, order: .reverse) private var allIntentions: [Intention]
     @AppStorage("displayName") private var displayName = ""
 
     private var startOfToday: Date { Calendar.current.startOfDay(for: Date()) }
@@ -81,6 +82,7 @@ struct TodayView: View {
 
     // MARK: - Intention placeholder card
 
+    @ViewBuilder
     private var intentionPlaceholder: some View {
         OFCard {
             VStack(alignment: .leading, spacing: .OF.sm) {
@@ -88,11 +90,31 @@ struct TodayView: View {
                     .font(.OF.caption)
                     .tracking(1.0)
                     .foregroundStyle(Color.OF.textMuted)
-                Text("Coming soon — set what you'd like to feel today.")
-                    .font(.OF.body)
-                    .foregroundStyle(Color.OF.text)
+                if let intention = todaysIntention,
+                   !intention.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    Text(intention.text)
+                        .font(.OF.body)
+                        .foregroundStyle(Color.OF.text)
+                    Button("Edit") { navigation.select(.intentions) }
+                        .font(.OF.caption.weight(.medium))
+                        .foregroundStyle(Color.OF.accent)
+                } else {
+                    Button {
+                        navigation.select(.intentions)
+                    } label: {
+                        Text("Set today's intention")
+                            .font(.OF.body)
+                            .foregroundStyle(Color.OF.accent)
+                    }
+                    .buttonStyle(.plain)
+                }
             }
         }
+    }
+
+    private var todaysIntention: Intention? {
+        let today = Calendar.current.startOfDay(for: Date())
+        return allIntentions.first { Calendar.current.isDate($0.date, inSameDayAs: today) }
     }
 
     // MARK: - Today's logs
