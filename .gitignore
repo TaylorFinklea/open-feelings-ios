@@ -11,3 +11,7 @@ build/
 .superpowers/
 buildServer.json
 .bsp/
+
+# Playwright / browser verification artifacts (local only)
+.playwright-mcp/
+openfeelings-*.png
