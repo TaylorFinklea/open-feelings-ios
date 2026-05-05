@@ -24,6 +24,7 @@ struct SettingsView: View {
                 privacySection
                 remindersSection
                 healthSection
+                sharingSection
                 referenceSection
                 openSourceSection
                 aboutSection
@@ -196,6 +197,27 @@ struct SettingsView: View {
                       subtitle: healthStatusLabel,
                       systemImage: "info.circle")
             footerCaption("Apple Health support is optional and write-only in this version. Open Feelings saves check-ins as momentary State of Mind entries after you grant permission.")
+        }
+    }
+
+    // MARK: - Sharing
+
+    private var sharingSection: some View {
+        section(title: "Sharing") {
+            OFListRow(
+                title: "Apple Journal",
+                subtitle: "Tap the share affordance on any entry, then pick Journal.",
+                systemImage: "book"
+            )
+            divider
+            OFListRow(
+                title: "Day One",
+                subtitle: JournalShareService.dayOneInstalled
+                    ? "Detected — \"Send to Day One\" appears on each entry."
+                    : "Install Day One to enable a one-tap handoff from each entry.",
+                systemImage: "book.closed"
+            )
+            footerCaption("Open Feelings can hand entries to Apple Journal, Day One, Notes, or any other app via the iOS share sheet. Nothing leaves your device until you tap share.")
         }
     }
 

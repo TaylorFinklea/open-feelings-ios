@@ -16,6 +16,16 @@ struct HistoryView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        Button { exportMarkdown() } label: {
+                            Label("Export Markdown", systemImage: "doc.richtext")
+                        }
+                        Button { exportPlainText() } label: {
+                            Label("Export Plain Text", systemImage: "doc.text")
+                        }
+                        Button { exportLogseq() } label: {
+                            Label("Export Logseq", systemImage: "list.bullet.indent")
+                        }
+                        Divider()
                         Button { exportCSV() } label: {
                             Label("Export CSV", systemImage: "tablecells")
                         }
@@ -79,6 +89,30 @@ struct HistoryView: View {
             exportError = error.localizedDescription
         }
     }
+
+    private func exportMarkdown() {
+        do {
+            shareItem = ShareItem(url: try ExportService.writeMarkdown(logs: logs))
+        } catch {
+            exportError = error.localizedDescription
+        }
+    }
+
+    private func exportPlainText() {
+        do {
+            shareItem = ShareItem(url: try ExportService.writePlainText(logs: logs))
+        } catch {
+            exportError = error.localizedDescription
+        }
+    }
+
+    private func exportLogseq() {
+        do {
+            shareItem = ShareItem(url: try ExportService.writeLogseq(logs: logs))
+        } catch {
+            exportError = error.localizedDescription
+        }
+    }
 }
 
 private struct LogCard: View {
@@ -137,12 +171,46 @@ private struct LogCard: View {
             }
 
             if !log.note.isEmpty {
-                Text("\u{201C}\(log.note)\u{201D}")
+                JournalText(text: log.note)
+            }
+
+            shareMenu
+        }
+    }
+
+    private var shareMenu: some View {
+        let entryMarkdown = ExportService.markdown(log: log)
+        let shareTitle = "Open Feelings — \(log.createdAt.formatted(date: .abbreviated, time: .shortened))"
+
+        return HStack {
+            Spacer()
+            Menu {
+                ShareLink(
+                    item: entryMarkdown,
+                    subject: Text(shareTitle),
+                    message: Text(shareTitle)
+                ) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+                if JournalShareService.dayOneInstalled,
+                   let url = JournalShareService.dayOneURL(forMarkdown: entryMarkdown) {
+                    Button {
+                        UIApplication.shared.open(url)
+                    } label: {
+                        Label("Send to Day One", systemImage: "book.closed")
+                    }
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
                     .font(.OF.body)
                     .foregroundStyle(Color.OF.textMuted)
-                    .padding(.top, 2)
+                    .frame(width: 32, height: 32)
+                    .accessibilityLabel("Share or send entry")
             }
+            .menuStyle(.button)
+            .buttonStyle(.plain)
         }
+        .padding(.top, 2)
     }
 
     private func bodySummary(for log: FeelingLog) -> String? {

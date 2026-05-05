@@ -242,7 +242,7 @@ private struct LogComposerView: View {
                 if showsTriggersCopingSection {
                     triggersCopingSection
                 }
-                noteField
+                journalField
                 saveButton(enabled: selection.isComplete)
             } else {
                 Text("Choose a feeling above to continue.")
@@ -376,14 +376,16 @@ private struct LogComposerView: View {
         }
     }
 
-    private var noteField: some View {
-        VStack(alignment: .leading, spacing: .OF.xs) {
-            Text("Note (optional)")
-                .font(.OF.caption)
+    private var journalField: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Text("Journal".uppercased())
+                .font(.OF.caption).tracking(1.0)
                 .foregroundStyle(Color.OF.textMuted)
-            TextField("", text: $note, axis: .vertical)
-                .lineLimit(3...8)
+            TextEditor(text: $note)
                 .font(.OF.body)
+                .foregroundStyle(Color.OF.text)
+                .frame(minHeight: 120)
+                .scrollContentBackground(.hidden)
                 .padding(CGFloat.OF.md)
                 .background(Color.OF.surface,
                             in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
@@ -391,6 +393,10 @@ private struct LogComposerView: View {
                     RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
                         .stroke(Color.OF.divider, lineWidth: 1)
                 }
+                .accessibilityLabel("Journal entry")
+            Text("Anything you want to remember about this moment.")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
         }
     }
 
