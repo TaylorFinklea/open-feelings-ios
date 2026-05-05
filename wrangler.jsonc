@@ -1,0 +1,19 @@
+// Cloudflare Workers Build / Static Assets config.
+//
+// This project is a static SvelteKit site (adapter-static). When Cloudflare's
+// Workers Build pipeline runs `npx wrangler deploy`, this file tells wrangler
+// where the prerendered HTML/CSS/JS lives and binds it as a static-assets
+// Worker. The build is produced by `cd web && pnpm install --frozen-lockfile
+// && pnpm build`, which writes to `web/build`.
+//
+// If you ever switch the project type to "Pages" instead of "Workers Build",
+// this file is harmless — Pages ignores it.
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "openfeelings",
+	"compatibility_date": "2026-05-05",
+	"assets": {
+		"directory": "./web/build",
+		"not_found_handling": "404-page"
+	}
+}
