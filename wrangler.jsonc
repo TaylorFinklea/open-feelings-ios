@@ -10,7 +10,7 @@
 // this file is harmless — Pages ignores it.
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "openfeelings",
+	"name": "open-feelings-ios",
 	"compatibility_date": "2026-05-05",
 	"assets": {
 		"directory": "./web/build",
