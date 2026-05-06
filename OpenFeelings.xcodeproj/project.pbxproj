@@ -67,6 +67,7 @@
 		C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C932D5F22945AFFBE7E2E184 /* RootView.swift */; };
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
 		D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67A46078B6257523BDCA760 /* SettingsView.swift */; };
+		DD33FA92DFE817DF833DD6D1 /* EmotionColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */; };
 		E40C48CD97294796C278116A /* ContextTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */; };
 		F5A5FB0C16A9660611B6E7D8 /* EmotionWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FA50454E902FB514212AD /* EmotionWheelView.swift */; };
 		F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8942BFA59ED385EB86B4EF54 /* OFCard.swift */; };
@@ -92,6 +93,7 @@
 		17DC44721733546416582778 /* EmotionTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyTests.swift; sourceTree = "<group>"; };
 		186F1042FF9CD96AF90DFC95 /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
 		1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
+		1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColor.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
 		25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPalette.swift; sourceTree = "<group>"; };
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				186F1042FF9CD96AF90DFC95 /* AppIconView.swift */,
 				493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */,
 				1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */,
+				1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */,
 				25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */,
 				761168044FE1E8231D0CCD3B /* Greeting.swift */,
 				1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */,
@@ -418,6 +421,7 @@
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
 				4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */,
 				FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */,
+				DD33FA92DFE817DF833DD6D1 /* EmotionColor.swift in Sources */,
 				9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */,
 				9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */,
 				68A231876EB468982FA6F17C /* EmotionDefinitions.swift in Sources */,
