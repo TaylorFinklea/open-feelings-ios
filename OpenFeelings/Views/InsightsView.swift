@@ -3,9 +3,7 @@ import SwiftData
 import SwiftUI
 
 struct InsightsView: View {
-    @Environment(\.colorScheme) private var colorScheme
     @Query(sort: \FeelingLog.createdAt, order: .reverse) private var allLogs: [FeelingLog]
-    @AppStorage("notifyOnInsightsReady") private var notifyOnReady = false
     @AppStorage("insightsPeriod") private var periodRaw = InsightsPeriod.week.rawValue
 
     private var period: InsightsPeriod {
@@ -21,8 +19,9 @@ struct InsightsView: View {
             VStack(alignment: .leading, spacing: .OF.xl) {
                 heroHeader
                 if allLogs.isEmpty {
-                    comingSoonPreview
+                    emptyOverall
                 } else {
+                    InsightsHeroCard(dataset: dataset, period: period)
                     periodPicker
                     if dataset.totalCount == 0 {
                         emptyForPeriod
@@ -88,7 +87,17 @@ struct InsightsView: View {
     @ViewBuilder
     private var chartCards: some View {
         InsightsCheckInChart(dataset: dataset, period: period)
+        if !dataset.byCore.isEmpty {
+            InsightsByCoreCard(dataset: dataset)
+        }
         InsightsTopFeelingsCard(dataset: dataset)
+        if dataset.byDayOfWeek.contains(where: { $0.count > 0 }) {
+            InsightsByDayOfWeekCard(dataset: dataset)
+        }
+        if dataset.intensityTrend.contains(where: { $0.avgIntensity != nil })
+           && dataset.intensityTrend.count <= 90 {
+            InsightsIntensityTrendCard(dataset: dataset)
+        }
         if !dataset.topBodyRegions.isEmpty {
             InsightsBodyChart(dataset: dataset)
         }
@@ -96,7 +105,7 @@ struct InsightsView: View {
             InsightsTriggersCopingList(dataset: dataset)
         }
         if !dataset.moodPoints.isEmpty {
-            InsightsMoodScatter(dataset: dataset, scheme: colorScheme)
+            InsightsMoodScatter(dataset: dataset)
         }
     }
 
@@ -115,18 +124,48 @@ struct InsightsView: View {
         }
     }
 
-    private var comingSoonPreview: some View {
-        VStack(alignment: .leading, spacing: .OF.md) {
-            OFEmptyState(
-                glyph: "chart.line.uptrend.xyaxis",
-                title: "Your patterns, soon.",
-                bodyText: "Save a few check-ins and Open Feelings will turn them into gentle weekly views."
-            )
-            OFButton(notifyOnReady ? "We'll let you know" : "Notify me when this is ready",
-                     style: notifyOnReady ? .secondary : .primary) {
-                notifyOnReady.toggle()
+    private var emptyOverall: some View {
+        OFEmptyState(
+            glyph: "chart.line.uptrend.xyaxis",
+            title: "No patterns yet",
+            bodyText: "Save a few check-ins and they'll cluster into trends here."
+        )
+    }
+}
+
+// MARK: - Hero card
+
+private struct InsightsHeroCard: View {
+    let dataset: InsightsDataset
+    let period: InsightsPeriod
+
+    var body: some View {
+        OFCard {
+            HStack(alignment: .top, spacing: .OF.lg) {
+                stat(value: "\(dataset.totalCount)",
+                     label: "this \(period.title.lowercased())")
+                Divider().frame(height: 36).background(Color.OF.divider)
+                stat(value: deltaString,
+                     label: "vs prior \(period.title.lowercased())")
+                Divider().frame(height: 36).background(Color.OF.divider)
+                stat(value: "\(dataset.currentStreak)",
+                     label: "day streak")
             }
         }
+    }
+
+    private var deltaString: String {
+        if period == .all { return "—" }
+        let d = dataset.totalCount - dataset.previousPeriodCount
+        return d > 0 ? "+\(d)" : "\(d)"
+    }
+
+    private func stat(value: String, label: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(value).font(.OF.headline).foregroundStyle(Color.OF.text)
+            Text(label).font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -169,6 +208,39 @@ private struct InsightsCheckInChart: View {
     }
 }
 
+private struct InsightsByCoreCard: View {
+    let dataset: InsightsDataset
+
+    var body: some View {
+        OFCard {
+            VStack(alignment: .leading, spacing: .OF.sm) {
+                Text("By core").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                Text("Where the feelings cluster")
+                    .font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                Chart(dataset.byCore, id: \.coreID) { entry in
+                    BarMark(
+                        x: .value("Count", entry.count),
+                        y: .value("Core", entry.coreName)
+                    )
+                    .foregroundStyle(Color.OF.core(entry.coreID))
+                }
+                .frame(height: CGFloat(dataset.byCore.count) * 32 + 24)
+                .chartXAxis {
+                    AxisMarks(values: .automatic(desiredCount: 4)) { _ in
+                        AxisGridLine().foregroundStyle(Color.OF.divider)
+                        AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks { _ in
+                        AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.text)
+                    }
+                }
+            }
+        }
+    }
+}
+
 private struct InsightsTopFeelingsCard: View {
     let dataset: InsightsDataset
 
@@ -186,7 +258,7 @@ private struct InsightsTopFeelingsCard: View {
                             x: .value("Count", feeling.count),
                             y: .value("Name", feeling.name)
                         )
-                        .foregroundStyle(Color.OF.accent)
+                        .foregroundStyle(Color.OF.core(feeling.coreID))
                     }
                     .frame(height: CGFloat(dataset.topFeelings.count) * 32 + 24)
                     .chartXAxis {
@@ -199,6 +271,86 @@ private struct InsightsTopFeelingsCard: View {
                         AxisMarks { _ in
                             AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.text)
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct InsightsByDayOfWeekCard: View {
+    let dataset: InsightsDataset
+
+    var body: some View {
+        OFCard {
+            VStack(alignment: .leading, spacing: .OF.sm) {
+                Text("By day of week").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                Text("When you tend to check in")
+                    .font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                Chart(dataset.byDayOfWeek, id: \.weekday) { entry in
+                    BarMark(
+                        x: .value("Day", entry.label),
+                        y: .value("Count", entry.count)
+                    )
+                    .foregroundStyle(Color.OF.accent)
+                }
+                .frame(height: 160)
+                .chartYAxis {
+                    AxisMarks(position: .leading) { _ in
+                        AxisGridLine().foregroundStyle(Color.OF.divider)
+                        AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                    }
+                }
+                .chartXAxis {
+                    AxisMarks { _ in
+                        AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct InsightsIntensityTrendCard: View {
+    let dataset: InsightsDataset
+
+    var body: some View {
+        OFCard {
+            VStack(alignment: .leading, spacing: .OF.sm) {
+                Text("Intensity").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                Text("Average per day")
+                    .font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                Chart {
+                    ForEach(dataset.intensityTrend, id: \.day) { entry in
+                        if let avg = entry.avgIntensity {
+                            LineMark(
+                                x: .value("Day", entry.day, unit: .day),
+                                y: .value("Intensity", avg)
+                            )
+                            .foregroundStyle(Color.OF.accent)
+                            .interpolationMethod(.monotone)
+                            PointMark(
+                                x: .value("Day", entry.day, unit: .day),
+                                y: .value("Intensity", avg)
+                            )
+                            .foregroundStyle(Color.OF.accent)
+                            .symbolSize(40)
+                        }
+                    }
+                }
+                .chartYScale(domain: 1...5)
+                .frame(height: 160)
+                .chartYAxis {
+                    AxisMarks(position: .leading, values: [1, 2, 3, 4, 5]) { _ in
+                        AxisGridLine().foregroundStyle(Color.OF.divider)
+                        AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.textMuted)
+                    }
+                }
+                .chartXAxis {
+                    AxisMarks(values: .stride(by: .day, count: max(1, dataset.intensityTrend.count / 6))) { _ in
+                        AxisValueLabel(format: .dateTime.day().month(.abbreviated))
+                            .font(.OF.caption)
+                            .foregroundStyle(Color.OF.textMuted)
                     }
                 }
             }
@@ -271,7 +423,6 @@ private struct InsightsTriggersCopingList: View {
 
 private struct InsightsMoodScatter: View {
     let dataset: InsightsDataset
-    let scheme: ColorScheme
 
     var body: some View {
         OFCard {
@@ -291,7 +442,7 @@ private struct InsightsMoodScatter: View {
                             x: .value("Energy", point.energy),
                             y: .value("Valence", point.valence)
                         )
-                        .foregroundStyle(Color.OF.accent)
+                        .foregroundStyle(Color.OF.core(point.coreID))
                         .symbolSize(60)
                     }
                 }
@@ -322,8 +473,31 @@ private struct InsightsMoodScatter: View {
                         }
                     }
                 }
+                .chartOverlay { proxy in
+                    GeometryReader { geo in
+                        if let plotAnchor = proxy.plotFrame {
+                            let plot = geo[plotAnchor]
+                            ZStack {
+                                quadLabel("calm · pleasant",     alignment: .topLeading)
+                                quadLabel("active · pleasant",   alignment: .topTrailing)
+                                quadLabel("calm · unpleasant",   alignment: .bottomLeading)
+                                quadLabel("active · unpleasant", alignment: .bottomTrailing)
+                            }
+                            .frame(width: plot.width, height: plot.height)
+                            .position(x: plot.midX, y: plot.midY)
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private func quadLabel(_ text: String, alignment: Alignment) -> some View {
+        Text(text)
+            .font(.OF.caption.italic())
+            .foregroundStyle(Color.OF.textMuted)
+            .padding(6)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: alignment)
     }
 }
 
