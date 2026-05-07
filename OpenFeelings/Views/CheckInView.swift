@@ -8,28 +8,17 @@ private enum CheckInMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+/// Position of a step within the wizard. Content for each position depends
+/// on the user's `bodyFirst` preference — in body-first mode, position 0 is
+/// the somatic / context / triggers chips and the emotion picker is at
+/// position 1; in feeling-first mode the emotion picker is at position 0.
+/// Position 2 is always the reflect / journal step.
 private enum CheckInStep: Int, CaseIterable, Identifiable {
-    case feeling = 0
-    case details = 1
+    case first = 0
+    case second = 1
     case reflect = 2
 
     var id: Int { rawValue }
-
-    var title: String {
-        switch self {
-        case .feeling: "How are you feeling?"
-        case .details: "Anything else?"
-        case .reflect: "Anything to remember?"
-        }
-    }
-
-    var subtitle: String {
-        switch self {
-        case .feeling: "Pick the feeling that fits."
-        case .details: "All optional. Skip what doesn't apply."
-        case .reflect: "A note for your future self — also optional."
-        }
-    }
 }
 
 struct CheckInView: View {
@@ -41,8 +30,9 @@ struct CheckInView: View {
 
     @AppStorage("healthEnabled") private var healthEnabled = false
     @AppStorage("checkInMode") private var modeRawValue = CheckInMode.wizard.rawValue
+    @AppStorage("checkInBodyFirst") private var bodyFirst = true
 
-    @State private var step: CheckInStep = .feeling
+    @State private var step: CheckInStep = .first
     @State private var selection: EmotionSelection?
     @State private var note = ""
     @State private var includeIntensity = false
@@ -82,17 +72,48 @@ struct CheckInView: View {
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
                 .padding(.top, .OF.xs)
-            Text(step.title)
+            Text(currentTitle)
                 .font(.OF.display)
                 .foregroundStyle(Color.OF.text)
-            Text(step.subtitle)
+            Text(currentSubtitle)
                 .font(.OF.body)
                 .foregroundStyle(Color.OF.textMuted)
-            if step != .feeling, let selection {
+            if shouldShowFeelingBadge, let selection {
                 feelingBadge(selection)
             }
         }
         .padding(.top, .OF.lg)
+    }
+
+    private var currentTitle: String {
+        switch (step, bodyFirst) {
+        case (.first,   true):  "Pause and notice."
+        case (.second,  true):  "What's the feeling?"
+        case (.first,   false): "How are you feeling?"
+        case (.second,  false): "Anything else?"
+        case (.reflect, _):     "Anything to remember?"
+        }
+    }
+
+    private var currentSubtitle: String {
+        switch (step, bodyFirst) {
+        case (.first,   true):  "Body, context, what brought it on — all optional."
+        case (.second,  true):  "Pick the feeling, plus optional intensity and mood."
+        case (.first,   false): "Pick the feeling that fits."
+        case (.second,  false): "Intensity, mood, body, context — all optional."
+        case (.reflect, _):     "A note for your future self — also optional."
+        }
+    }
+
+    /// The selected-feeling badge shows on every step *after* the emotion is
+    /// picked, so users have context on later steps. In body-first mode that's
+    /// step 2 onward; in feeling-first mode that's step 1 onward.
+    private var shouldShowFeelingBadge: Bool {
+        switch (step, bodyFirst) {
+        case (.first, true):    false   // emotion not chosen yet
+        case (.first, false):   false   // user is on the picker itself
+        default:                true
+        }
     }
 
     private var progressBar: some View {
@@ -136,15 +157,51 @@ struct CheckInView: View {
 
     @ViewBuilder
     private var stepContent: some View {
-        switch step {
-        case .feeling: feelingStep
-        case .details: detailsStep
-        case .reflect: reflectStep
+        switch (step, bodyFirst) {
+        case (.first,  true):  bodyContextTriggersStep
+        case (.second, true):  feelingPlusIntensityStep
+        case (.first,  false): feelingOnlyStep
+        case (.second, false): allOptionalDetailsStep
+        case (.reflect, _):    reflectStep
         }
     }
 
+    /// Body-first mode, position 0: somatic + context + triggers.
     @ViewBuilder
-    private var feelingStep: some View {
+    private var bodyContextTriggersStep: some View {
+        VStack(alignment: .leading, spacing: .OF.lg) {
+            BodyChipsCard(bodyRegions: $bodyRegions, bodySensations: $bodySensations)
+            ContextChipsCard(contextPlaces: $contextPlaces, contextPeople: $contextPeople)
+            TriggersCopingChipsCard(triggers: $triggers, coping: $coping)
+        }
+    }
+
+    /// Body-first mode, position 1: emotion picker + intensity + mood.
+    @ViewBuilder
+    private var feelingPlusIntensityStep: some View {
+        VStack(alignment: .leading, spacing: .OF.lg) {
+            modeSegmented
+            Group {
+                switch mode {
+                case .wizard: WizardCheckInView(selection: $selection)
+                case .wheel:  WheelCheckInView(selection: $selection)
+                }
+            }
+            if let selection {
+                EmotionDefinitionCard(
+                    definition: selection.definition,
+                    accent: Color.OF.accent.color(for: colorScheme),
+                    showsDisclaimer: true
+                )
+            }
+            intensityCard
+            moodScaleCard
+        }
+    }
+
+    /// Feeling-first mode, position 0: emotion picker only.
+    @ViewBuilder
+    private var feelingOnlyStep: some View {
         VStack(alignment: .leading, spacing: .OF.lg) {
             modeSegmented
             Group {
@@ -163,8 +220,9 @@ struct CheckInView: View {
         }
     }
 
+    /// Feeling-first mode, position 1: every optional dimension.
     @ViewBuilder
-    private var detailsStep: some View {
+    private var allOptionalDetailsStep: some View {
         VStack(alignment: .leading, spacing: .OF.lg) {
             intensityCard
             moodScaleCard
@@ -333,7 +391,7 @@ struct CheckInView: View {
 
     private var stepNav: some View {
         HStack(spacing: .OF.md) {
-            if step != .feeling {
+            if step != .first {
                 OFButton("Back", style: .ghost) {
                     withAnimation(reduceMotion ? nil : .OF.gentle) {
                         if let prev = CheckInStep(rawValue: step.rawValue - 1) {
@@ -349,16 +407,18 @@ struct CheckInView: View {
     @ViewBuilder
     private var primaryStepButton: some View {
         switch step {
-        case .feeling:
+        case .first:
             OFButton("Continue", style: .primary) {
-                withAnimation(reduceMotion ? nil : .OF.gentle) { step = .details }
+                withAnimation(reduceMotion ? nil : .OF.gentle) { step = .second }
             }
-            .opacity(canAdvanceFromFeeling ? 1 : 0.4)
-            .disabled(!canAdvanceFromFeeling)
-        case .details:
+            .opacity(canAdvanceFromFirst ? 1 : 0.4)
+            .disabled(!canAdvanceFromFirst)
+        case .second:
             OFButton("Continue", style: .primary) {
                 withAnimation(reduceMotion ? nil : .OF.gentle) { step = .reflect }
             }
+            .opacity(canAdvanceFromSecond ? 1 : 0.4)
+            .disabled(!canAdvanceFromSecond)
         case .reflect:
             OFButton("Save check-in", style: .primary, action: save)
                 .opacity(canSave ? 1 : 0.4)
@@ -366,8 +426,18 @@ struct CheckInView: View {
         }
     }
 
-    private var canAdvanceFromFeeling: Bool {
-        selection?.isComplete == true
+    /// Step 1 → 2: in body-first mode the first step is all optional, so
+    /// always advanceable. In feeling-first mode the user must pick a
+    /// complete emotion before continuing.
+    private var canAdvanceFromFirst: Bool {
+        bodyFirst ? true : (selection?.isComplete == true)
+    }
+
+    /// Step 2 → 3: in body-first mode this is where the emotion picker
+    /// lives, so we gate on selection. In feeling-first mode step 2 is
+    /// all-optional details.
+    private var canAdvanceFromSecond: Bool {
+        bodyFirst ? (selection?.isComplete == true) : true
     }
 
     private var canSave: Bool {
@@ -410,7 +480,7 @@ struct CheckInView: View {
     }
 
     private func resetDraft() {
-        step = .feeling
+        step = .first
         selection = nil
         note = ""
         includeIntensity = false
