@@ -8,6 +8,30 @@ private enum CheckInMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+private enum CheckInStep: Int, CaseIterable, Identifiable {
+    case feeling = 0
+    case details = 1
+    case reflect = 2
+
+    var id: Int { rawValue }
+
+    var title: String {
+        switch self {
+        case .feeling: "How are you feeling?"
+        case .details: "Anything else?"
+        case .reflect: "Anything to remember?"
+        }
+    }
+
+    var subtitle: String {
+        switch self {
+        case .feeling: "Pick the feeling that fits."
+        case .details: "All optional. Skip what doesn't apply."
+        case .reflect: "A note for your future self — also optional."
+        }
+    }
+}
+
 struct CheckInView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(HealthService.self) private var healthService
@@ -17,8 +41,8 @@ struct CheckInView: View {
 
     @AppStorage("healthEnabled") private var healthEnabled = false
     @AppStorage("checkInMode") private var modeRawValue = CheckInMode.wizard.rawValue
-    @AppStorage("checkInBodyFirst") private var bodyFirst = true
 
+    @State private var step: CheckInStep = .feeling
     @State private var selection: EmotionSelection?
     @State private var note = ""
     @State private var includeIntensity = false
@@ -36,84 +60,128 @@ struct CheckInView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: .OF.xl) {
-                heroHeader
-                if bodyFirst {
-                    BodyChipsCard(
-                        bodyRegions: $bodyRegions,
-                        bodySensations: $bodySensations
-                    )
-                    ContextChipsCard(
-                        contextPlaces: $contextPlaces,
-                        contextPeople: $contextPeople
-                    )
-                    TriggersCopingChipsCard(
-                        triggers: $triggers,
-                        coping: $coping
-                    )
-                    feelingPrompt
-                }
-                modeSegmented
-                Group {
-                    switch mode {
-                    case .wizard:
-                        WizardCheckInView(selection: $selection)
-                    case .wheel:
-                        WheelCheckInView(selection: $selection)
-                    }
-                }
-                LogComposerView(
-                    selection: selection,
-                    note: $note,
-                    includeIntensity: $includeIntensity,
-                    intensity: $intensity,
-                    includeMoodScale: $includeMoodScale,
-                    moodEnergy: $moodEnergy,
-                    moodValence: $moodValence,
-                    bodyRegions: $bodyRegions,
-                    bodySensations: $bodySensations,
-                    contextPlaces: $contextPlaces,
-                    contextPeople: $contextPeople,
-                    triggers: $triggers,
-                    coping: $coping,
-                    showsBodySection: !bodyFirst,
-                    showsContextSection: !bodyFirst,
-                    showsTriggersCopingSection: !bodyFirst,
-                    save: save
-                )
+                stepHeader
+                stepContent
+                stepNav
             }
             .padding(.horizontal, .OF.lg)
             .padding(.bottom, .OF.xxxl)
+            .animation(reduceMotion ? nil : .OF.gentle, value: step)
         }
         .background(Color.OF.background, ignoresSafeAreaEdges: .all)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: .OF.xs) {
-            Text("Now")
+    // MARK: - Header (progress + title + selected-feeling badge)
+
+    private var stepHeader: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            progressBar
+            Text("Step \(step.rawValue + 1) of \(CheckInStep.allCases.count)")
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
-            Text(bodyFirst ? "Pause and notice." : "How are you feeling?")
+                .padding(.top, .OF.xs)
+            Text(step.title)
                 .font(.OF.display)
                 .foregroundStyle(Color.OF.text)
+            Text(step.subtitle)
+                .font(.OF.body)
+                .foregroundStyle(Color.OF.textMuted)
+            if step != .feeling, let selection {
+                feelingBadge(selection)
+            }
         }
         .padding(.top, .OF.lg)
     }
 
-    /// In body-first mode, after the body chips, this prompt introduces the
-    /// emotion picker below.
-    private var feelingPrompt: some View {
-        VStack(alignment: .leading, spacing: .OF.xs) {
-            Text("Then")
-                .font(.OF.caption)
-                .foregroundStyle(Color.OF.textMuted)
-            Text("What feeling matches?")
-                .font(.OF.title)
-                .foregroundStyle(Color.OF.text)
+    private var progressBar: some View {
+        HStack(spacing: 6) {
+            ForEach(CheckInStep.allCases) { s in
+                Capsule()
+                    .fill(s.rawValue <= step.rawValue
+                          ? AnyShapeStyle(Color.OF.accent)
+                          : AnyShapeStyle(Color.OF.divider))
+                    .frame(height: 4)
+                    .frame(maxWidth: .infinity)
+            }
         }
-        .padding(.top, .OF.sm)
     }
+
+    private func feelingBadge(_ s: EmotionSelection) -> some View {
+        HStack(spacing: .OF.sm) {
+            Circle()
+                .fill(Color.OF.core(s.core.id))
+                .frame(width: 12, height: 12)
+            Text(s.title)
+                .font(.OF.bodyEmphasis)
+                .foregroundStyle(Color.OF.text)
+            if !s.pathTitle.isEmpty {
+                Text("·")
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+                Text(s.pathTitle)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+                    .lineLimit(1)
+            }
+        }
+        .padding(.vertical, .OF.xs)
+        .padding(.horizontal, .OF.md)
+        .background(Color.OF.surface, in: Capsule())
+        .overlay(Capsule().stroke(Color.OF.divider, lineWidth: 1))
+    }
+
+    // MARK: - Step content
+
+    @ViewBuilder
+    private var stepContent: some View {
+        switch step {
+        case .feeling: feelingStep
+        case .details: detailsStep
+        case .reflect: reflectStep
+        }
+    }
+
+    @ViewBuilder
+    private var feelingStep: some View {
+        VStack(alignment: .leading, spacing: .OF.lg) {
+            modeSegmented
+            Group {
+                switch mode {
+                case .wizard: WizardCheckInView(selection: $selection)
+                case .wheel:  WheelCheckInView(selection: $selection)
+                }
+            }
+            if let selection {
+                EmotionDefinitionCard(
+                    definition: selection.definition,
+                    accent: Color.OF.accent.color(for: colorScheme),
+                    showsDisclaimer: true
+                )
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var detailsStep: some View {
+        VStack(alignment: .leading, spacing: .OF.lg) {
+            intensityCard
+            moodScaleCard
+            BodyChipsCard(bodyRegions: $bodyRegions, bodySensations: $bodySensations)
+            ContextChipsCard(contextPlaces: $contextPlaces, contextPeople: $contextPeople)
+            TriggersCopingChipsCard(triggers: $triggers, coping: $coping)
+        }
+    }
+
+    @ViewBuilder
+    private var reflectStep: some View {
+        VStack(alignment: .leading, spacing: .OF.lg) {
+            journalCard
+        }
+    }
+
+    // MARK: - Mode toggle (Wizard / Wheel) on Step 1
 
     private var modeSegmented: some View {
         HStack(spacing: 0) {
@@ -148,131 +216,9 @@ struct CheckInView: View {
         nonmutating set { modeRawValue = newValue.rawValue }
     }
 
-    private func save() {
-        guard let selection, selection.isComplete else { return }
+    // MARK: - Detail cards (intensity, mood)
 
-        let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
-        let log = FeelingLog(
-            selection: selection,
-            intensity: includeIntensity ? Int(intensity.rounded()) : nil,
-            note: trimmedNote,
-            healthSyncStatus: healthEnabled ? .pending : .notRequested,
-            bodyRegions: BodyRegion.allCases.filter { bodyRegions.contains($0) },
-            bodySensations: BodySensation.allCases.filter { bodySensations.contains($0) },
-            contextPlaces: ContextPlace.allCases.filter { contextPlaces.contains($0) },
-            contextPeople: ContextPeople.allCases.filter { contextPeople.contains($0) },
-            triggers: Trigger.allCases.filter { triggers.contains($0) },
-            coping: Coping.allCases.filter { coping.contains($0) },
-            moodEnergy: includeMoodScale ? moodEnergy : nil,
-            moodValence: includeMoodScale ? moodValence : nil
-        )
-        modelContext.insert(log)
-        try? modelContext.save()
-        resetDraft()
-
-        // Show the ribbon on Today and switch tab.
-        navigation.ribbonAfterSave()
-        withAnimation(reduceMotion ? nil : .OF.gentle) {
-            navigation.select(.today)
-        }
-
-        // Health write keeps the existing async behavior.
-        Task { @MainActor in
-            log.healthSyncStatus = await healthService.save(log: log, isEnabled: healthEnabled)
-            try? modelContext.save()
-        }
-    }
-
-    private func resetDraft() {
-        selection = nil
-        note = ""
-        includeIntensity = false
-        intensity = 3
-        includeMoodScale = false
-        moodEnergy = 0
-        moodValence = 0
-        bodyRegions = []
-        bodySensations = []
-        contextPlaces = []
-        contextPeople = []
-        triggers = []
-        coping = []
-    }
-}
-
-private struct LogComposerView: View {
-    @Environment(\.colorScheme) private var colorScheme
-    let selection: EmotionSelection?
-    @Binding var note: String
-    @Binding var includeIntensity: Bool
-    @Binding var intensity: Double
-    @Binding var includeMoodScale: Bool
-    @Binding var moodEnergy: Double
-    @Binding var moodValence: Double
-    @Binding var bodyRegions: Set<BodyRegion>
-    @Binding var bodySensations: Set<BodySensation>
-    @Binding var contextPlaces: Set<ContextPlace>
-    @Binding var contextPeople: Set<ContextPeople>
-    @Binding var triggers: Set<Trigger>
-    @Binding var coping: Set<Coping>
-    /// When false, body chips render above the wheel/wizard (body-first mode)
-    /// and this composer skips its inline bodySection.
-    let showsBodySection: Bool
-    let showsContextSection: Bool
-    let showsTriggersCopingSection: Bool
-    let save: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: .OF.lg) {
-            header
-            if let selection {
-                EmotionDefinitionCard(
-                    definition: selection.definition,
-                    accent: Color.OF.accent.color(for: colorScheme),
-                    showsDisclaimer: true
-                )
-                intensitySection
-                moodScaleSection
-                if showsBodySection {
-                    bodySection
-                }
-                if showsContextSection {
-                    contextSection
-                }
-                if showsTriggersCopingSection {
-                    triggersCopingSection
-                }
-                journalField
-                saveButton(enabled: selection.isComplete)
-            } else {
-                Text("Choose a feeling above to continue.")
-                    .font(.OF.body)
-                    .foregroundStyle(Color.OF.textMuted)
-            }
-        }
-        .padding(CGFloat.OF.lg)
-        .background(Color.OF.surfaceElevated,
-                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.sheet, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: CGFloat.OF.Radius.sheet, style: .continuous)
-                .stroke(Color.OF.divider.opacity(0.7), lineWidth: 1)
-        }
-    }
-
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(selection?.title ?? "No feeling selected")
-                .font(.OF.headline)
-                .foregroundStyle(Color.OF.text)
-            if let selection {
-                Text(selection.pathTitle)
-                    .font(.OF.caption)
-                    .foregroundStyle(Color.OF.textMuted)
-            }
-        }
-    }
-
-    private var intensitySection: some View {
+    private var intensityCard: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             Toggle(isOn: $includeIntensity) {
                 Text("Intensity").font(.OF.bodyEmphasis)
@@ -284,6 +230,9 @@ private struct LogComposerView: View {
                 }
             }
         }
+        .padding(CGFloat.OF.md)
+        .background(Color.OF.surface,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
     }
 
     private var intensityDots: some View {
@@ -298,28 +247,7 @@ private struct LogComposerView: View {
         }
     }
 
-    private var bodySection: some View {
-        BodyChipsCard(
-            bodyRegions: $bodyRegions,
-            bodySensations: $bodySensations
-        )
-    }
-
-    private var contextSection: some View {
-        ContextChipsCard(
-            contextPlaces: $contextPlaces,
-            contextPeople: $contextPeople
-        )
-    }
-
-    private var triggersCopingSection: some View {
-        TriggersCopingChipsCard(
-            triggers: $triggers,
-            coping: $coping
-        )
-    }
-
-    private var moodScaleSection: some View {
+    private var moodScaleCard: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             Toggle(isOn: $includeMoodScale) {
                 Text("Mood scale").font(.OF.bodyEmphasis)
@@ -342,6 +270,9 @@ private struct LogComposerView: View {
                 .padding(.top, .OF.xs)
             }
         }
+        .padding(CGFloat.OF.md)
+        .background(Color.OF.surface,
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
     }
 
     private func moodSlider(
@@ -369,14 +300,12 @@ private struct LogComposerView: View {
     }
 
     private func currentMoodLabel(title: String, value: Double) -> String {
-        if title == "Energy" {
-            return MoodScale.energyBand(value)
-        } else {
-            return MoodScale.valenceBand(value)
-        }
+        title == "Energy" ? MoodScale.energyBand(value) : MoodScale.valenceBand(value)
     }
 
-    private var journalField: some View {
+    // MARK: - Journal card (Step 3)
+
+    private var journalCard: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             Text("Journal".uppercased())
                 .font(.OF.caption).tracking(1.0)
@@ -384,7 +313,7 @@ private struct LogComposerView: View {
             TextEditor(text: $note)
                 .font(.OF.body)
                 .foregroundStyle(Color.OF.text)
-                .frame(minHeight: 120)
+                .frame(minHeight: 160)
                 .scrollContentBackground(.hidden)
                 .padding(CGFloat.OF.md)
                 .background(Color.OF.surface,
@@ -400,17 +329,108 @@ private struct LogComposerView: View {
         }
     }
 
-    private func saveButton(enabled: Bool) -> some View {
-        OFButton("Save check-in", style: .primary, action: save)
-            .opacity(enabled ? 1 : 0.4)
-            .disabled(!enabled)
+    // MARK: - Step navigation
+
+    private var stepNav: some View {
+        HStack(spacing: .OF.md) {
+            if step != .feeling {
+                OFButton("Back", style: .ghost) {
+                    withAnimation(reduceMotion ? nil : .OF.gentle) {
+                        if let prev = CheckInStep(rawValue: step.rawValue - 1) {
+                            step = prev
+                        }
+                    }
+                }
+            }
+            primaryStepButton
+        }
+    }
+
+    @ViewBuilder
+    private var primaryStepButton: some View {
+        switch step {
+        case .feeling:
+            OFButton("Continue", style: .primary) {
+                withAnimation(reduceMotion ? nil : .OF.gentle) { step = .details }
+            }
+            .opacity(canAdvanceFromFeeling ? 1 : 0.4)
+            .disabled(!canAdvanceFromFeeling)
+        case .details:
+            OFButton("Continue", style: .primary) {
+                withAnimation(reduceMotion ? nil : .OF.gentle) { step = .reflect }
+            }
+        case .reflect:
+            OFButton("Save check-in", style: .primary, action: save)
+                .opacity(canSave ? 1 : 0.4)
+                .disabled(!canSave)
+        }
+    }
+
+    private var canAdvanceFromFeeling: Bool {
+        selection?.isComplete == true
+    }
+
+    private var canSave: Bool {
+        selection?.isComplete == true
+    }
+
+    // MARK: - Save / reset
+
+    private func save() {
+        guard let selection, selection.isComplete else { return }
+
+        let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
+        let log = FeelingLog(
+            selection: selection,
+            intensity: includeIntensity ? Int(intensity.rounded()) : nil,
+            note: trimmedNote,
+            healthSyncStatus: healthEnabled ? .pending : .notRequested,
+            bodyRegions: BodyRegion.allCases.filter { bodyRegions.contains($0) },
+            bodySensations: BodySensation.allCases.filter { bodySensations.contains($0) },
+            contextPlaces: ContextPlace.allCases.filter { contextPlaces.contains($0) },
+            contextPeople: ContextPeople.allCases.filter { contextPeople.contains($0) },
+            triggers: Trigger.allCases.filter { triggers.contains($0) },
+            coping: Coping.allCases.filter { coping.contains($0) },
+            moodEnergy: includeMoodScale ? moodEnergy : nil,
+            moodValence: includeMoodScale ? moodValence : nil
+        )
+        modelContext.insert(log)
+        try? modelContext.save()
+        resetDraft()
+
+        navigation.ribbonAfterSave()
+        withAnimation(reduceMotion ? nil : .OF.gentle) {
+            navigation.select(.today)
+        }
+
+        Task { @MainActor in
+            log.healthSyncStatus = await healthService.save(log: log, isEnabled: healthEnabled)
+            try? modelContext.save()
+        }
+    }
+
+    private func resetDraft() {
+        step = .feeling
+        selection = nil
+        note = ""
+        includeIntensity = false
+        intensity = 3
+        includeMoodScale = false
+        moodEnergy = 0
+        moodValence = 0
+        bodyRegions = []
+        bodySensations = []
+        contextPlaces = []
+        contextPeople = []
+        triggers = []
+        coping = []
     }
 }
 
-/// Reusable body chip card. Renders region chips, then sensation chips
-/// progressively (only after a region is selected). Used in two places:
-/// inside `LogComposerView` (emotion-first mode) and at the top of
-/// `CheckInView` (body-first mode, the therapy-aligned default).
+// MARK: - Reusable chip cards (used by Step 2)
+
+/// Body chip card. Renders region chips, then sensation chips progressively
+/// (only after a region is selected).
 private struct BodyChipsCard: View {
     @Binding var bodyRegions: Set<BodyRegion>
     @Binding var bodySensations: Set<BodySensation>
@@ -418,7 +438,7 @@ private struct BodyChipsCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             Text("Body").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
-            Text("Where do you feel it? (optional)")
+            Text("Where do you feel it?")
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
             regionChips
@@ -470,11 +490,8 @@ private struct BodyChipsCard: View {
     }
 }
 
-/// Reusable context chip card. Renders place chips and people chips as two
-/// distinct sub-sections (no progressive disclosure — both visible from the
-/// start, since they're independent axes). Used in two places: inside
-/// `LogComposerView` (feeling-first mode) and at the top of `CheckInView`
-/// after `BodyChipsCard` (body-first mode, the therapy-aligned default).
+/// Context chip card. Renders place chips and people chips as two distinct
+/// sub-sections — both visible from the start since they're independent axes.
 private struct ContextChipsCard: View {
     @Binding var contextPlaces: Set<ContextPlace>
     @Binding var contextPeople: Set<ContextPeople>
@@ -482,7 +499,7 @@ private struct ContextChipsCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             Text("Context").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
-            Text("Where were you? (optional)")
+            Text("Where were you?")
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
             placeChips
@@ -532,11 +549,9 @@ private struct ContextChipsCard: View {
     }
 }
 
-/// Reusable triggers + coping chip card. Two distinct sub-sections (no
-/// progressive disclosure — they're independent: a user can record what
-/// happened, what they did, neither, or both). Used in two places: inside
-/// `LogComposerView` (feeling-first mode) and at the top of `CheckInView`
-/// after `ContextChipsCard` (body-first mode, the therapy-aligned default).
+/// Triggers + coping chip card. Two distinct sub-sections — they're
+/// independent: a user can record what happened, what they did, neither, or
+/// both.
 private struct TriggersCopingChipsCard: View {
     @Binding var triggers: Set<Trigger>
     @Binding var coping: Set<Coping>
@@ -544,7 +559,7 @@ private struct TriggersCopingChipsCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             Text("Triggers & coping").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
-            Text("What brought it on? (optional)")
+            Text("What brought it on?")
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
             triggerChips
