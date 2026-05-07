@@ -18,7 +18,11 @@ struct LockGateView<Content: View>: View {
             }
         }
         .onChange(of: scenePhase) { _, newPhase in
-            if appLockEnabled && newPhase != .active {
+            // Re-lock only on actual backgrounding. The Face ID system prompt,
+            // control center, incoming calls, and notification center all pass
+            // the scene through .inactive — using `!= .active` here would undo
+            // a successful unlock right as the prompt dismisses.
+            if appLockEnabled && newPhase == .background {
                 isUnlocked = false
             }
         }
