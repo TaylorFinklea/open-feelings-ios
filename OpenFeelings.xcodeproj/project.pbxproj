@@ -46,6 +46,7 @@
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9FA20488540C2867C4A648 /* TriggersStep.swift */; };
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
+		4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
 		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
 		5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */; };
@@ -183,6 +184,7 @@
 		A00FD5F9445C2DD71F9600FE /* JournalShareServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalShareServiceTests.swift; sourceTree = "<group>"; };
 		A139F747628A106913257991 /* Intention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intention.swift; sourceTree = "<group>"; };
 		A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardCheckInView.swift; sourceTree = "<group>"; };
+		A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMapSettingsView.swift; sourceTree = "<group>"; };
 		A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepProgressBar.swift; sourceTree = "<group>"; };
 		A638C240E85A7FEA5F2D883F /* IntentionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsView.swift; sourceTree = "<group>"; };
 		A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 		EB15B1F90E1CD44584B9A8A5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */,
 				5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */,
 			);
 			path = Settings;
@@ -537,6 +540,7 @@
 				6B85C09974147D729D5F79BC /* AppNavigation.swift in Sources */,
 				32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */,
 				9B0D1FC76E20AA3CAC8ED6B9 /* BodyEmotionMap.swift in Sources */,
+				4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */,
 				53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */,
 				35CCD3D6A82E4B454ED039FA /* BodyStep.swift in Sources */,
 				65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */,
