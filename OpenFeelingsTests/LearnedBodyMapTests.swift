@@ -43,7 +43,7 @@ final class LearnedBodyMapTests: XCTestCase {
     func testDominantBelowRatioThresholdReturnsNil() {
         // 5 samples, 50/50 split — neither dominant.
         let logs = (0..<3).map { _ in log(secondary: "anxious", regions: [.chest]) }
-                  + (0..<3).map { _ in log(secondary: "worried", regions: [.chest]) }
+                  + (0..<3).map { _ in log(secondary: "insecure", regions: [.chest]) }
         let map = LearnedBodyMap.compute(from: logs)
         XCTAssertNil(map.dominantSecondary(for: .chest))
     }
@@ -51,7 +51,7 @@ final class LearnedBodyMapTests: XCTestCase {
     func testDominantAtThreshold() {
         // 5 samples, 4 anxious (80%) — exceeds 60% and meets sample threshold.
         let logs = (0..<4).map { _ in log(secondary: "anxious", regions: [.chest]) }
-                  + (0..<1).map { _ in log(secondary: "worried", regions: [.chest]) }
+                  + (0..<1).map { _ in log(secondary: "insecure", regions: [.chest]) }
         let map = LearnedBodyMap.compute(from: logs)
         XCTAssertEqual(map.dominantSecondary(for: .chest), "anxious")
     }
@@ -64,7 +64,7 @@ final class LearnedBodyMapTests: XCTestCase {
 
     func testCountAndTotalAreExposed() {
         let logs = (0..<6).map { _ in log(secondary: "anxious", regions: [.chest]) }
-                  + (0..<2).map { _ in log(secondary: "worried", regions: [.chest]) }
+                  + (0..<2).map { _ in log(secondary: "insecure", regions: [.chest]) }
         let map = LearnedBodyMap.compute(from: logs)
         XCTAssertEqual(map.totals[.chest], 8)
         XCTAssertEqual(map.counts[.chest]?["anxious"], 6)
