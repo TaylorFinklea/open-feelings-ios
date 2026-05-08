@@ -41,6 +41,7 @@
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
+		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
 		623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */; };
@@ -166,6 +167,7 @@
 		A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepProgressBar.swift; sourceTree = "<group>"; };
 		A638C240E85A7FEA5F2D883F /* IntentionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsView.swift; sourceTree = "<group>"; };
 		A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
+		A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodySilhouetteView.swift; sourceTree = "<group>"; };
 		AA5A4382CFA9DE8E22655357 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B624F35F9610784AEA13A3A1 /* CheckInStepKindTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInStepKindTests.swift; sourceTree = "<group>"; };
 		B67A46078B6257523BDCA760 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 		D3FE4990A6320EF6F8E5FC33 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */,
 				3AE50F3B4D41BD2A8AE31C31 /* MoreDetailDisclosure.swift */,
 				0515B72A8FAC01AA37180E2A /* PersonalizationNudge.swift */,
 				4F0E026042777B83C0ACB5CA /* SelectedFeelingBadge.swift */,
@@ -482,6 +485,7 @@
 				6B85C09974147D729D5F79BC /* AppNavigation.swift in Sources */,
 				32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */,
 				9B0D1FC76E20AA3CAC8ED6B9 /* BodyEmotionMap.swift in Sources */,
+				53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */,
 				65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */,
 				BDC94C788370C0FB6C669527 /* CheckInFlowEngine.swift in Sources */,
 				5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */,
