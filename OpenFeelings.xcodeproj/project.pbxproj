@@ -77,6 +77,7 @@
 		9B0D1FC76E20AA3CAC8ED6B9 /* BodyEmotionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCE216EE5D82F956DC02576 /* BodyEmotionMap.swift */; };
 		9D1C2A46735BF5A7C3D7BAE2 /* UserBodyMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86992BC2A4EE056BCADB460D /* UserBodyMap.swift */; };
 		9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */; };
+		9FDF2AA07587BE3FE57CFE26 /* CheckInFlowSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */; };
 		A4DAB7C96F4B4342A88085A6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60CAF5B22D477191AAC90A68 /* HealthKit.framework */; };
 		A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */; };
 		A6EF522C92D7DD08E1852A91 /* StepProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */; };
@@ -151,6 +152,7 @@
 		4F17029E1FE2971A883A1F44 /* ExportService+Logseq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportService+Logseq.swift"; sourceTree = "<group>"; };
 		50CA78BE3C53FCA7FF28ECC5 /* JournalShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalShareService.swift; sourceTree = "<group>"; };
 		518E478CE65EB2DA13685C61 /* StrengthStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthStep.swift; sourceTree = "<group>"; };
+		5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowSettingsView.swift; sourceTree = "<group>"; };
 		60CAF5B22D477191AAC90A68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerCopingTaxonomyTests.swift; sourceTree = "<group>"; };
 		662AD400A8250C1F0AE595B4 /* BodyTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTaxonomyTests.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				E249B39B8711CDB62DAA306E /* TodayView.swift */,
 				A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */,
 				CD686D8B6BF46A54F6BD1E8C /* CheckInWizard */,
+				EB15B1F90E1CD44584B9A8A5 /* Settings */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -426,6 +429,14 @@
 				A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		EB15B1F90E1CD44584B9A8A5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -531,6 +542,7 @@
 				65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */,
 				7C142522E509F8C822A13D65 /* CheckInDraft.swift in Sources */,
 				BDC94C788370C0FB6C669527 /* CheckInFlowEngine.swift in Sources */,
+				9FDF2AA07587BE3FE57CFE26 /* CheckInFlowSettingsView.swift in Sources */,
 				5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */,
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
 				42E45D793A6B92B8E2D75185 /* ContextStep.swift in Sources */,
