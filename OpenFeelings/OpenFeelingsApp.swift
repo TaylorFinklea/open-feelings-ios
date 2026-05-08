@@ -43,7 +43,7 @@ struct OpenFeelingsApp: App {
     }
 
     private static func makeModelContainer() -> ModelContainer {
-        let schema = Schema([FeelingLog.self, Intention.self])
+        let schema = Schema([FeelingLog.self, Intention.self, UserBodyMap.self])
 
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
             let testConfiguration = ModelConfiguration(
