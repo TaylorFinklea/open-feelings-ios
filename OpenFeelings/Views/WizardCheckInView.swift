@@ -3,6 +3,9 @@ import SwiftUI
 struct WizardCheckInView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Binding var selection: EmotionSelection?
+    /// Cores whose IDs are NOT in this set get rendered at 40% opacity with
+    /// a tiny dot below suggested cores. Empty set = no dimming (default).
+    var suggestedCoreIDs: Set<String> = []
 
     @State private var selectedCore: EmotionCore?
     @State private var selectedSecondary: EmotionSecondary?
@@ -15,7 +18,8 @@ struct WizardCheckInView: View {
                 emotionGrid(
                     EmotionTaxonomy.cores,
                     coreID: { $0.id },
-                    depth: .core
+                    depth: .core,
+                    applyDimming: true
                 ) { core in
                     withAnimation(.OF.quick) {
                         selectedCore = core
@@ -27,7 +31,8 @@ struct WizardCheckInView: View {
                 emotionGrid(
                     selectedCore.secondaries,
                     coreID: { _ in selectedCore.id },
-                    depth: .secondary
+                    depth: .secondary,
+                    applyDimming: false
                 ) { secondary in
                     withAnimation(.OF.quick) {
                         selectedSecondary = secondary
@@ -38,7 +43,8 @@ struct WizardCheckInView: View {
                 emotionGrid(
                     selectedSecondary.specifics,
                     coreID: { _ in selectedCore.id },
-                    depth: .specific
+                    depth: .specific,
+                    applyDimming: false
                 ) { specific in
                     withAnimation(.OF.quick) {
                         selection = EmotionSelection(
@@ -96,11 +102,14 @@ struct WizardCheckInView: View {
         _ items: [Item],
         coreID: @escaping (Item) -> String,
         depth: EmotionColorPalette.Depth,
+        applyDimming: Bool,
         action: @escaping (Item) -> Void
     ) -> some View where Item: EmotionNameProviding {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 140), spacing: .OF.md)], spacing: .OF.md) {
             ForEach(items) { item in
                 let id = coreID(item)
+                let isSuggested = !applyDimming || suggestedCoreIDs.isEmpty || suggestedCoreIDs.contains(id)
+                let showsDot = applyDimming && !suggestedCoreIDs.isEmpty && isSuggested
                 Button {
                     action(item)
                 } label: {
@@ -130,8 +139,17 @@ struct WizardCheckInView: View {
                                 lineWidth: 1
                             )
                     }
+                    .overlay(alignment: .bottom) {
+                        if showsDot {
+                            Circle()
+                                .fill(Color.OF.accent)
+                                .frame(width: 5, height: 5)
+                                .offset(y: 6)
+                        }
+                    }
                 }
                 .buttonStyle(.plain)
+                .opacity(isSuggested ? 1 : 0.4)
             }
         }
     }
