@@ -43,4 +43,23 @@ final class BodyTaxonomyTests: XCTestCase {
     func testSensationParseListIgnoresUnknownTokens() {
         XCTAssertEqual(BodySensation.parseList("tight,glitched,warm"), [.tight, .warm])
     }
+
+    // MARK: - Nowhere region
+
+    func testNowhereCaseExists() {
+        XCTAssertEqual(BodyRegion.nowhere.rawValue, "nowhere")
+    }
+
+    func testNowhereDisplayName() {
+        XCTAssertEqual(BodyRegion.nowhere.displayName, "Nowhere")
+    }
+
+    func testNowhereInAllCases() {
+        XCTAssertTrue(BodyRegion.allCases.contains(.nowhere))
+    }
+
+    func testNowhereRoundTrip() {
+        let raw = BodyRegion.encodeList([.nowhere])
+        XCTAssertEqual(BodyRegion.parseList(raw), [.nowhere])
+    }
 }

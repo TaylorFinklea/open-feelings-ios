@@ -4,7 +4,7 @@ import Foundation
 /// Stored on FeelingLog as a comma-separated raw String for SwiftData
 /// compatibility (mirrors the healthSyncStatusRaw pattern).
 enum BodyRegion: String, CaseIterable, Hashable, Sendable, Identifiable {
-    case head, throat, chest, stomach, gut, shoulders, back, hands, legs, wholeBody
+    case head, throat, chest, stomach, gut, shoulders, back, hands, legs, wholeBody, nowhere
 
     var id: String { rawValue }
 
@@ -19,7 +19,8 @@ enum BodyRegion: String, CaseIterable, Hashable, Sendable, Identifiable {
         case .back:      "Back"
         case .hands:     "Hands"
         case .legs:      "Legs"
-        case .wholeBody: "Whole body"
+        case .wholeBody: "Everywhere"
+        case .nowhere:   "Nowhere"
         }
     }
 
