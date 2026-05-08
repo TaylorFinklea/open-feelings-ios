@@ -68,4 +68,31 @@ final class BodyEmotionMapTests: XCTestCase {
         let s = BodyEmotionMap.suggestedCores(for: [.nowhere], overrides: nil)
         XCTAssertEqual(s, Set(["sad"]))
     }
+
+    // MARK: - Override layer
+
+    func testOverrideReplacesDefaultForOneRegion() {
+        let map = UserBodyMap()
+        map.setOverride(for: .chest, coreIDs: ["sad"])
+        let s = BodyEmotionMap.suggestedCores(for: [.chest], overrides: map)
+        XCTAssertEqual(s, Set(["sad"]))
+    }
+
+    func testOverrideAffectsIntersection() {
+        // Default chest: {angry, happy, fearful}. Override to {sad}.
+        // Combine with legs ({fearful, angry, happy}): intersection is empty,
+        // falls back to union of {sad} ∪ {fearful, angry, happy}.
+        let map = UserBodyMap()
+        map.setOverride(for: .chest, coreIDs: ["sad"])
+        let s = BodyEmotionMap.suggestedCores(for: [.chest, .legs], overrides: map)
+        XCTAssertEqual(s, Set(["sad", "fearful", "angry", "happy"]))
+    }
+
+    func testNonOverriddenRegionUsesDefault() {
+        let map = UserBodyMap()
+        map.setOverride(for: .hands, coreIDs: ["sad"])
+        // Chest is not overridden.
+        let s = BodyEmotionMap.suggestedCores(for: [.chest], overrides: map)
+        XCTAssertEqual(s, Set(["angry", "happy", "fearful"]))
+    }
 }

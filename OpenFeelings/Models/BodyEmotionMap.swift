@@ -37,17 +37,18 @@ enum BodyEmotionMap {
         guard !regions.isEmpty else { return [] }
 
         let perRegionSets = regions.map { region -> Set<String> in
-            Set(defaultCores(for: region))
+            if let overridden = overrides?.coreIDs(for: region), !overridden.isEmpty {
+                return Set(overridden)
+            }
+            return Set(defaultCores(for: region))
         }
 
-        // Intersect across all regions.
         let intersection = perRegionSets.dropFirst().reduce(perRegionSets.first ?? []) { acc, next in
             acc.intersection(next)
         }
         if !intersection.isEmpty {
             return intersection
         }
-        // Fallback: union when intersection is empty.
         return perRegionSets.reduce(Set<String>()) { $0.union($1) }
     }
 }
