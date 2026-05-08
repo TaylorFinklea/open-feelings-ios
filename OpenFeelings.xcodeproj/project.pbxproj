@@ -58,6 +58,7 @@
 		9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */; };
 		9A2E3D3C49289BAEB8AA598E /* ExportService+Logseq.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F17029E1FE2971A883A1F44 /* ExportService+Logseq.swift */; };
 		9B0D1FC76E20AA3CAC8ED6B9 /* BodyEmotionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCE216EE5D82F956DC02576 /* BodyEmotionMap.swift */; };
+		9D1C2A46735BF5A7C3D7BAE2 /* UserBodyMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86992BC2A4EE056BCADB460D /* UserBodyMap.swift */; };
 		9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */; };
 		A4DAB7C96F4B4342A88085A6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60CAF5B22D477191AAC90A68 /* HealthKit.framework */; };
 		A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */; };
@@ -128,6 +129,7 @@
 		85F6FF9EEE69BDBD038A224B /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationTests.swift; sourceTree = "<group>"; };
+		86992BC2A4EE056BCADB460D /* UserBodyMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBodyMap.swift; sourceTree = "<group>"; };
 		8942BFA59ED385EB86B4EF54 /* OFCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFCard.swift; sourceTree = "<group>"; };
 		8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFListRow.swift; sourceTree = "<group>"; };
 		9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */,
 				E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */,
 				76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */,
+				86992BC2A4EE056BCADB460D /* UserBodyMap.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */,
 				71E478571A4718C3EE53657D /* TodayView.swift in Sources */,
 				4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */,
+				9D1C2A46735BF5A7C3D7BAE2 /* UserBodyMap.swift in Sources */,
 				B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */,
 				35B8237F53C22352502C858B /* WizardCheckInView.swift in Sources */,
 			);

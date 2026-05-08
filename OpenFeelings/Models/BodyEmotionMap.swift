@@ -21,4 +21,33 @@ enum BodyEmotionMap {
         case .nowhere:   ["sad"]
         }
     }
+
+    /// Resolves the effective suggested cores for a set of regions.
+    ///
+    /// Intersection narrowing: starts with each region's mapping, intersects
+    /// across all regions. If the intersection is empty (regions disagree),
+    /// falls back to the union so the user always sees some highlight.
+    ///
+    /// `overrides` will be wired in once `UserBodyMap` exists; for now this
+    /// signature accepts an `Any?` placeholder via `nil` callers.
+    static func suggestedCores(
+        for regions: Set<BodyRegion>,
+        overrides: UserBodyMap?
+    ) -> Set<String> {
+        guard !regions.isEmpty else { return [] }
+
+        let perRegionSets = regions.map { region -> Set<String> in
+            Set(defaultCores(for: region))
+        }
+
+        // Intersect across all regions.
+        let intersection = perRegionSets.dropFirst().reduce(perRegionSets.first ?? []) { acc, next in
+            acc.intersection(next)
+        }
+        if !intersection.isEmpty {
+            return intersection
+        }
+        // Fallback: union when intersection is empty.
+        return perRegionSets.reduce(Set<String>()) { $0.union($1) }
+    }
 }
