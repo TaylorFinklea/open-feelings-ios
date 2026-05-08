@@ -48,6 +48,7 @@
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
 		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
+		5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */; };
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
 		623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */; };
@@ -172,6 +173,7 @@
 		9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		952F0F1CC79ADD3F6CC64F03 /* ExportServiceMarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceMarkdownTests.swift; sourceTree = "<group>"; };
 		96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryTests.swift; sourceTree = "<group>"; };
+		96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectStep.swift; sourceTree = "<group>"; };
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				F75137FB505AFD167B0BE54E /* CopingStep.swift */,
 				3BD5CE6E917C19C55E6B3679 /* FeelingStep.swift */,
 				F6959718821B4B5A9BE5B391 /* MoodStep.swift */,
+				96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */,
 				AB442A2270FD273789D8284D /* SensationsStep.swift */,
 				518E478CE65EB2DA13685C61 /* StrengthStep.swift */,
 				2A9FA20488540C2867C4A648 /* TriggersStep.swift */,
@@ -568,6 +571,7 @@
 				364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */,
 				94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */,
 				4525E98E91208FE49B00EBFE /* PersonalizationNudge.swift in Sources */,
+				5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */,
 				0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */,
 				C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */,
 				ED0B67AD789F0B3243FC5F1B /* SelectedFeelingBadge.swift in Sources */,
