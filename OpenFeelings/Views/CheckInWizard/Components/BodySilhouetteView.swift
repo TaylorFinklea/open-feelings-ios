@@ -1,9 +1,10 @@
 import SwiftUI
 
 /// Calm body silhouette using the iOS `figure.arms.open` SF Symbol as the
-/// figure. Selecting a region masks an accent-colored copy of the same
-/// figure to that region's bounding rectangle, so highlights conform to
-/// the actual body shape rather than rendering as floating rectangles.
+/// figure. Each region has a small dotted hint rectangle showing where to
+/// tap. Selecting a region masks an accent-colored copy of the same figure
+/// to that zone, so highlights conform to the actual body shape rather
+/// than rendering as floating rectangles.
 ///
 /// "Back" doesn't appear on the front-facing figure — the parent renders
 /// it as a chip beneath the silhouette alongside Everywhere / Nowhere.
@@ -41,36 +42,42 @@ struct BodySilhouetteView: View {
 
     var body: some View {
         ZStack {
-            // Base muted figure — always visible.
+            // 1. Base muted figure — always visible.
             figureImage
                 .foregroundStyle(figureColor)
 
-            // Selected: accent-colored figure clipped to selected zone rectangles.
-            // The mask is rectangular but the figure provides its own shape, so
-            // highlighted pixels are always inside the body.
+            // 2. Selected: accent-colored figure clipped to selected zone rectangles.
+            //    Mask is rectangular but the figure provides its own shape, so
+            //    highlighted pixels are always inside the body.
             figureImage
                 .foregroundStyle(accentColor)
                 .mask {
                     GeometryReader { geo in
                         ZStack {
                             ForEach(selectedZones, id: \.self) { zone in
-                                rectangleView(for: zone, in: geo.size, fill: Color.white)
+                                maskRect(for: zone, in: geo.size)
                             }
                         }
                     }
                 }
 
-            // Tap layer (transparent, hit-only).
+            // 3. Region hints: dashed outlines on every unselected zone, so
+            //    the user can see where the tappable areas are.
+            GeometryReader { geo in
+                ZStack {
+                    ForEach(unselectedZones, id: \.self) { zone in
+                        outlineRect(for: zone, in: geo.size)
+                    }
+                }
+            }
+
+            // 4. Tap layer — invisible. `.contentShape` and `.onTapGesture`
+            //    must come BEFORE `.position()` so each rectangle's hit
+            //    area is its own frame, not the full canvas.
             GeometryReader { geo in
                 ZStack {
                     ForEach(Array(zones.enumerated()), id: \.offset) { _, zone in
-                        rectangleView(for: zone, in: geo.size, fill: Color.clear)
-                            .contentShape(Rectangle())
-                            .onTapGesture { onToggle(zone.region) }
-                            .accessibilityElement()
-                            .accessibilityLabel(zone.region.displayName)
-                            .accessibilityAddTraits(.isButton)
-                            .accessibilityValue(selectedRegions.contains(zone.region) ? "Selected" : "")
+                        tapZone(for: zone, in: geo.size)
                     }
                 }
             }
@@ -92,13 +99,51 @@ struct BodySilhouetteView: View {
         zones.filter { selectedRegions.contains($0.region) }
     }
 
-    private func rectangleView(for zone: Zone, in size: CGSize, fill: Color) -> some View {
+    private var unselectedZones: [Zone] {
+        zones.filter { !selectedRegions.contains($0.region) }
+    }
+
+    private func maskRect(for zone: Zone, in size: CGSize) -> some View {
         Rectangle()
-            .fill(fill)
+            .fill(Color.white)
             .frame(
                 width: zone.frame.width * size.width,
                 height: zone.frame.height * size.height
             )
+            .position(
+                x: zone.frame.midX * size.width,
+                y: zone.frame.midY * size.height
+            )
+    }
+
+    private func outlineRect(for zone: Zone, in size: CGSize) -> some View {
+        Rectangle()
+            .strokeBorder(
+                outlineColor,
+                style: StrokeStyle(lineWidth: 1, dash: [3, 3])
+            )
+            .frame(
+                width: zone.frame.width * size.width,
+                height: zone.frame.height * size.height
+            )
+            .position(
+                x: zone.frame.midX * size.width,
+                y: zone.frame.midY * size.height
+            )
+    }
+
+    private func tapZone(for zone: Zone, in size: CGSize) -> some View {
+        Color.clear
+            .frame(
+                width: zone.frame.width * size.width,
+                height: zone.frame.height * size.height
+            )
+            .contentShape(Rectangle())
+            .onTapGesture { onToggle(zone.region) }
+            .accessibilityElement()
+            .accessibilityLabel(zone.region.displayName)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityValue(selectedRegions.contains(zone.region) ? "Selected" : "")
             .position(
                 x: zone.frame.midX * size.width,
                 y: zone.frame.midY * size.height
@@ -111,5 +156,9 @@ struct BodySilhouetteView: View {
 
     private var accentColor: Color {
         Color.OF.accent.color(for: colorScheme)
+    }
+
+    private var outlineColor: Color {
+        Color.OF.textMuted.color(for: colorScheme).opacity(0.7)
     }
 }
