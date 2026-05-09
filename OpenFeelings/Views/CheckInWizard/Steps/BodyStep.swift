@@ -1,11 +1,23 @@
 import SwiftUI
 
-/// "Where do you feel it?" — region chips with Everywhere / Nowhere as
-/// italic dashed chips at the front.
+/// "Where do you feel it?" — region chips by default; a stylized body
+/// silhouette is available as a Settings opt-in.
 struct BodyStep: View {
     @Binding var draft: CheckInDraft
+    @AppStorage("checkInBodyView") private var bodyView: String = "chips"
 
     var body: some View {
+        switch bodyView {
+        case "silhouette":
+            silhouetteLayout
+        default:
+            chipsLayout
+        }
+    }
+
+    // MARK: - Chips layout
+
+    private var chipsLayout: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
                 specialChip(.wholeBody, label: "Everywhere")
@@ -18,6 +30,37 @@ struct BodyStep: View {
         .padding(CGFloat.OF.md)
         .background(Color.OF.surface,
                     in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
+    }
+
+    // MARK: - Silhouette layout
+
+    private var silhouetteLayout: some View {
+        VStack(spacing: .OF.lg) {
+            BodySilhouetteView(
+                selectedRegions: silhouetteBinding,
+                onToggle: { region in draft.toggleRegion(region) }
+            )
+            WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+                OFChip(label: "Back", isOn: bindingFor(.back))
+                specialChip(.wholeBody, label: "Everywhere")
+                specialChip(.nowhere, label: "Nowhere")
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+    }
+
+    /// The silhouette view manages its own selected set; we bridge it back
+    /// through `draft.toggleRegion` so exclusivity rules apply.
+    private var silhouetteBinding: Binding<Set<BodyRegion>> {
+        Binding(
+            get: { draft.bodyRegions },
+            set: { newValue in
+                let added = newValue.subtracting(draft.bodyRegions)
+                let removed = draft.bodyRegions.subtracting(newValue)
+                for region in added { draft.toggleRegion(region) }
+                for region in removed { draft.toggleRegion(region) }
+            }
+        )
     }
 
     private var regularRegions: [BodyRegion] {

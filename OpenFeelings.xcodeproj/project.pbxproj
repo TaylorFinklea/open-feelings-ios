@@ -48,6 +48,7 @@
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
 		4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
+		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
 		5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */; };
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
@@ -187,6 +188,7 @@
 		A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepProgressBar.swift; sourceTree = "<group>"; };
 		A638C240E85A7FEA5F2D883F /* IntentionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsView.swift; sourceTree = "<group>"; };
 		A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
+		A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodySilhouetteView.swift; sourceTree = "<group>"; };
 		AA5A4382CFA9DE8E22655357 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		AB442A2270FD273789D8284D /* SensationsStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensationsStep.swift; sourceTree = "<group>"; };
 		B45E70AE3D7D5B3BA5F5D31B /* BodyStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyStep.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 		D3FE4990A6320EF6F8E5FC33 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */,
 				3AE50F3B4D41BD2A8AE31C31 /* MoreDetailDisclosure.swift */,
 				0515B72A8FAC01AA37180E2A /* PersonalizationNudge.swift */,
 				4F0E026042777B83C0ACB5CA /* SelectedFeelingBadge.swift */,
@@ -538,6 +541,7 @@
 				32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */,
 				9B0D1FC76E20AA3CAC8ED6B9 /* BodyEmotionMap.swift in Sources */,
 				4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */,
+				53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */,
 				35CCD3D6A82E4B454ED039FA /* BodyStep.swift in Sources */,
 				65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */,
 				7C142522E509F8C822A13D65 /* CheckInDraft.swift in Sources */,
