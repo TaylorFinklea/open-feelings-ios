@@ -1,13 +1,12 @@
 import SwiftUI
 
-/// Settings → Check In flow. Houses picker style, Body First, body view,
+/// Settings → Check In flow. Houses picker style, Body First,
 /// and the per-dimension promote-to-step toggles.
 struct CheckInFlowSettingsView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @AppStorage("checkInMode") private var pickerStyle = "Wizard"
     @AppStorage("checkInBodyFirst") private var bodyFirst = true
-    @AppStorage("checkInBodyView") private var bodyView = "chips"
     @AppStorage("checkInPromotedSteps") private var promotedRaw = "strength"
 
     var body: some View {
@@ -22,10 +21,6 @@ struct CheckInFlowSettingsView: View {
 
             Section("Body") {
                 Toggle("Body First", isOn: $bodyFirst)
-                Picker("Body view", selection: $bodyView) {
-                    Text("Chips").tag("chips")
-                    Text("Silhouette").tag("silhouette")
-                }
             }
 
             Section("Steps") {
