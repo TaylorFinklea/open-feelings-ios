@@ -157,10 +157,17 @@ struct HistoryView: View {
     }
 }
 
-private struct LogCard: View {
+struct LogCard: View {
     let log: FeelingLog
 
     var body: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            cardContent
+            shareMenu
+        }
+    }
+
+    private var cardContent: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             HStack(alignment: .firstTextBaseline) {
                 Text(log.emotionTitle)
@@ -215,9 +222,22 @@ private struct LogCard: View {
             if !log.note.isEmpty {
                 JournalText(text: log.note)
             }
-
-            shareMenu
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Self.cardAXLabel(for: log))
+    }
+
+    nonisolated static func cardAXLabel(for log: FeelingLog) -> String {
+        let date = log.createdAt.formatted(date: .abbreviated, time: .shortened)
+        let path = log.pathTitle.replacingOccurrences(of: " > ", with: ", ")
+        var parts = ["\(date): \(path)"]
+        if let intensity = log.intensity {
+            parts.append("intensity \(intensity) of 5")
+        }
+        if !log.note.isEmpty {
+            parts.append("with a note")
+        }
+        return parts.joined(separator: ", ")
     }
 
     private var shareMenu: some View {
@@ -311,4 +331,3 @@ private struct LogCard: View {
         }
     }
 }
-

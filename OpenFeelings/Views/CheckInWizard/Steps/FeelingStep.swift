@@ -91,10 +91,16 @@ struct FeelingStep: View {
                         )
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(m.rawValue)
+                .accessibilityValue(mode == m ? "selected" : "")
+                .accessibilityAddTraits(.isButton)
             }
         }
         .padding(4)
         .background(Color.OF.accentSoft.opacity(0.45),
                     in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.chip + 4, style: .continuous))
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Picker mode")
+        .accessibilityHint("Choose Wizard for a guided three-step pick or Wheel for the full wheel.")
     }
 }

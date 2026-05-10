@@ -124,6 +124,8 @@ struct TodayView: View {
             OFSectionHeader(title: "\(todaysLogs.count) check-in\(todaysLogs.count == 1 ? "" : "s") today")
             ForEach(todaysLogs) { log in
                 OFCard { logCardContent(log) }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(Self.todayLogAXLabel(for: log))
             }
         }
     }
@@ -242,7 +244,23 @@ struct TodayView: View {
                     .foregroundStyle(Color.OF.text)
                     .padding(.horizontal, .OF.lg)
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(Self.weekSummaryAXLabel(for: summary))
         }
+    }
+
+    nonisolated static func todayLogAXLabel(for log: FeelingLog) -> String {
+        let time = log.createdAt.formatted(.dateTime.hour().minute())
+        let path = log.pathTitle.replacingOccurrences(of: " > ", with: ", ")
+        if let intensity = log.intensity {
+            return "\(time): \(path), intensity \(intensity) of 5"
+        }
+        return "\(time): \(path)"
+    }
+
+    nonisolated static func weekSummaryAXLabel(for summary: WeekSummary?) -> String {
+        guard let summary else { return "Week summary" }
+        return "This week: \(summary.totalCount) check-ins, top feeling \(summary.topCoreName)"
     }
 
     // MARK: - See all history link

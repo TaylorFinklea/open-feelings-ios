@@ -62,6 +62,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 <!-- Done 2026-05-09 — UI test target landed with `tab.<name>` identifiers on each tab Label and 4 passing smoke tests (cold-launch, tab-switch, wizard renders, Settings rows). Wizard "happy path through Save enabled" remains a v2 nice-to-have. -->
 
 ### VoiceOver labels for Today, History cards, and Wizard mode picker
+<!-- Done 2026-05-10 — Today check-in cards/week summary, History LogCard content, and Wizard/Wheel mode picker now have cohesive VoiceOver labels/state. Added 7 unit tests for AX label helpers; full app + UI test suite passes. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-ax-labels-today-history-wizard-design.md`](../../docs/superpowers/specs/2026-05-10-ax-labels-today-history-wizard-design.md)
 **Scope**: One coordinated AX pass adding `.accessibilityElement(children: .combine)` + `.accessibilityLabel(...)` to Today's check-in cards and week summary, History's per-card `LogCard`, and the Wizard/Wheel segmented picker in `FeelingStep`. ~10–15 small modifier additions plus a few unit tests for the static label helpers.
 **Tier hint**: Haiku — pure pattern-matching against the convention already established in InsightsView's chart-level labels.

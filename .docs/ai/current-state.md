@@ -4,24 +4,23 @@
 
 ## Active Branch
 
-`redesign-warm-calm-v1`
+`main`
 
 ## Last Session Summary
 
-**Date**: 2026-04-30
+**Date**: 2026-05-10
 
-Polish + IA scaffold redesign per `docs/superpowers/specs/2026-04-29-redesign-polish-and-ia-scaffold-design.md`.
+VoiceOver AX label pass per `docs/superpowers/specs/2026-05-10-ax-labels-today-history-wizard-design.md`.
 
-- **Scope**: 5-tab IA (Today / Check In / Insights / Intentions / Settings), warm-calm visual system (`DesignTokens`, `OFColor` ShapeStyle wrapper), new components (`OFCard`, `OFListRow`, `OFEmptyState`, `OFButton`, `OFSectionHeader`, `LiquidGlass`), Today populated/empty states, wheel + wizard color migration via `EmotionColorPalette`, Settings re-skin, History sub-route + re-skin, Lock gate re-skin. Save flow now bounces to Today with a 2s ribbon.
-- **WCAG AA audit**: All 11 token pairs verified. Six failures fixed — accent light darkened (`C97A4F` → `8E4F2C`), textOnAccent dark changed to near-black (`FFFFFF` → `1B1A18`), accentSoft dark deepened (`5C3F2E` → `302118`), happy light darkened (`D9A43A` → `9E741F`), disgusted light darkened (`7AA88A` → `4F785D`).
-- **Reduce-motion audit**: `CheckInView.save()` tab-switch and `TodayView` ribbon animation both gated behind `@Environment(\.accessibilityReduceMotion)`. Wizard step transitions and segmented control (180ms ease-in-out) left ungated — acceptable per HIG.
-- **Build**: simulator build green, 31 XCTest methods pass (0 failures).
+- **Scope**: Today check-in cards and week summary now expose cohesive card-level VoiceOver labels; History `LogCard` content exposes a single summary while preserving the share menu as its own action; the Wizard/Wheel segmented mode control now announces as a contained picker with selected state and hint.
+- **Tests**: Added `HistoryViewAXTests` and `TodayViewAXTests` covering path/date, intensity, note, and week-summary helper strings.
+- **Build**: simulator build green; full unit + UI test suite green.
 
 ## Build Status
 
 - `xcodegen generate` succeeded.
-- `xcodebuild … -sdk iphonesimulator … build` succeeded — BUILD SUCCEEDED, no redesign-related warnings.
-- `xcodebuild … -sdk iphonesimulator … test` succeeded — 31/31 tests pass.
+- `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build` succeeded — BUILD SUCCEEDED.
+- `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test` succeeded — 193 unit tests + 5 UI tests pass.
 
 ## Blockers
 
