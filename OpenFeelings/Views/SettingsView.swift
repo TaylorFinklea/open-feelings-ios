@@ -188,6 +188,17 @@ struct SettingsView: View {
 
     private var sharingSection: some View {
         section(title: "Sharing") {
+            NavigationLink {
+                TherapyReportSettingsView()
+            } label: {
+                OFListRow.chevron(
+                    title: "Period summary for therapist",
+                    subtitle: "Generate a PDF over a chosen window.",
+                    systemImage: "doc.richtext"
+                )
+            }
+            .buttonStyle(.plain)
+            divider
             OFListRow(
                 title: "Apple Journal",
                 subtitle: "Tap the share affordance on any entry, then pick Journal.",
