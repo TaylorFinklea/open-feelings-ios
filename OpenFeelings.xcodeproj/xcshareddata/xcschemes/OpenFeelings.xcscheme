@@ -50,6 +50,17 @@
                ReferencedContainer = "container:OpenFeelings.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B3D0C802247C8A10B428AC41"
+               BuildableName = "OpenFeelingsUITests.xctest"
+               BlueprintName = "OpenFeelingsUITests"
+               ReferencedContainer = "container:OpenFeelings.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

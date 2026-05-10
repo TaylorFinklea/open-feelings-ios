@@ -59,18 +59,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 **Tier hint**: Sonnet — touches 2 files, no design decisions
 -->
 
-### Wire accessibilityIdentifiers for XCUITest on iOS 26 Liquid Glass tab bar
-**Scope**: A first attempt at adding a UI test target was reverted on 2026-04-30. The blocker: iOS 26's Liquid Glass tab bar exposes its items as `_UIFloatingTabBarItemCell` / `_UIFloatingTabBarItemView`, not as `UITabBarButton`. XCUITest's `app.tabBars.buttons["Today"]` selector matches nothing; `tabBars.cells["Today"]` also fails to resolve. The fix is to add explicit `.accessibilityIdentifier(...)` strings to each tab item so XCUITest can find them by ID rather than by automation type. Once tabs are addressable, add a UITest target with smoke tests covering: cold launch → Today selected; tab switching; wizard happy path → Save enabled; Settings toggle visibility; History list rendered after a save.
-**Files**: `project.yml` (add `OpenFeelingsUITests` target with `type: bundle.ui-testing`); `OpenFeelings/Views/RootView.swift` (add `.accessibilityIdentifier("tab.<name>")` to each `Label` inside `.tabItem { ... }`); new `OpenFeelingsUITests/OpenFeelingsUITests.swift`.
-**Acceptance**: The UI test target builds. At least 4 smoke tests pass on iPad (A16) iOS 26.0.1: cold-launch, tab-switch, wizard happy path, Settings rows. Tests use `app.descendants(matching: .any).matching(identifier: "tab.today")` (or equivalent) — not `tabBars.buttons[...]`.
-**Verify**:
-```sh
-xcodegen generate
-xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings \
-  -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' \
-  -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test -only-testing:OpenFeelingsUITests
-```
-**Tier hint**: Sonnet — small `project.yml` change, light `RootView` annotation, ~80 lines of XCUITest. Mostly mechanical once the iOS 26 element-tree pattern is understood.
+<!-- Done 2026-05-09 — UI test target landed with `tab.<name>` identifiers on each tab Label and 4 passing smoke tests (cold-launch, tab-switch, wizard renders, Settings rows). Wizard "happy path through Save enabled" remains a v2 nice-to-have. -->
 
 
 - Emotion taxonomy content is adapted from Open Emotion Wheel v1.1 and must preserve Open Emotion Wheel attribution and CC BY-SA 4.0 licensing.

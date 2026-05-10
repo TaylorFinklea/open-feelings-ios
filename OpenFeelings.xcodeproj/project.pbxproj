@@ -91,6 +91,7 @@
 		A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */; };
 		AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295D45C9D0C561EB42973B20 /* StepNav.swift */; };
 		B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */; };
+		BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */; };
 		BD559B6C26624E9F5DBD4AC8 /* TherapyReportPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CED3B3FE9900D791C1BD4C /* TherapyReportPages.swift */; };
 		BDC94C788370C0FB6C669527 /* CheckInFlowEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D545A44D2FD8E845DA0B4 /* CheckInFlowEngine.swift */; };
 		BE4F6B74031D931677239AA6 /* BodyTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662AD400A8250C1F0AE595B4 /* BodyTaxonomyTests.swift */; };
@@ -113,6 +114,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1135B305160A80A7381274D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9E7C5EE7035B148C0C0D25E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 491C371BB4D3E5E8750110B6;
+			remoteInfo = OpenFeelings;
+		};
 		E661639A6152468CD736ECB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D9E7C5EE7035B148C0C0D25E /* Project object */;
@@ -155,6 +163,7 @@
 		4073497ECC60F9CC7EEBD189 /* CheckInDraftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInDraftTests.swift; sourceTree = "<group>"; };
 		42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFelt.swift; sourceTree = "<group>"; };
 		430D545A44D2FD8E845DA0B4 /* CheckInFlowEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowEngine.swift; sourceTree = "<group>"; };
+		4803243D62430FBFD50B50F1 /* OpenFeelingsUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4863F4EFA1517ABBCA9B87B5 /* BodyEmotionMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyEmotionMapTests.swift; sourceTree = "<group>"; };
 		493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		494ECD530239CC1891D17A81 /* TherapyReportPDFService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportPDFService.swift; sourceTree = "<group>"; };
@@ -189,6 +198,7 @@
 		96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectStep.swift; sourceTree = "<group>"; };
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsUITests.swift; sourceTree = "<group>"; };
 		9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 		9C2393CAA4A99A9EAA5405B6 /* IntentionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionTests.swift; sourceTree = "<group>"; };
 		9CCE216EE5D82F956DC02576 /* BodyEmotionMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyEmotionMap.swift; sourceTree = "<group>"; };
@@ -285,6 +295,7 @@
 			children = (
 				06AA11A4901FC5ED08031FD2 /* OpenFeelings.app */,
 				97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */,
+				4803243D62430FBFD50B50F1 /* OpenFeelingsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -396,6 +407,7 @@
 			children = (
 				64469CC08CD7BDEB30DB2033 /* OpenFeelings */,
 				7DE78C160AD7BBCE152BA5A2 /* OpenFeelingsTests */,
+				C8EC154EF4FBE5EF922AA60F /* OpenFeelingsUITests */,
 				B41E6FBD3699E4EA384EEEFA /* Frameworks */,
 				13A0ECFADCBB4CF7BCCBD81C /* Products */,
 			);
@@ -434,6 +446,14 @@
 				2A9FA20488540C2867C4A648 /* TriggersStep.swift */,
 			);
 			path = Steps;
+			sourceTree = "<group>";
+		};
+		C8EC154EF4FBE5EF922AA60F /* OpenFeelingsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */,
+			);
+			path = OpenFeelingsUITests;
 			sourceTree = "<group>";
 		};
 		CD686D8B6BF46A54F6BD1E8C /* CheckInWizard */ = {
@@ -511,6 +531,24 @@
 			productReference = 97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		B3D0C802247C8A10B428AC41 /* OpenFeelingsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 472DEFB8938D540CF2B25E8F /* Build configuration list for PBXNativeTarget "OpenFeelingsUITests" */;
+			buildPhases = (
+				7024D18B0AE328737B348DBD /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				165745E3F95E0CA8AB526407 /* PBXTargetDependency */,
+			);
+			name = OpenFeelingsUITests;
+			packageProductDependencies = (
+			);
+			productName = OpenFeelingsUITests;
+			productReference = 4803243D62430FBFD50B50F1 /* OpenFeelingsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -525,6 +563,10 @@
 					};
 					A4BF3179DB3DADF6C3A254A7 = {
 						DevelopmentTeam = K7CBQW6MPG;
+					};
+					B3D0C802247C8A10B428AC41 = {
+						DevelopmentTeam = K7CBQW6MPG;
+						TestTargetID = 491C371BB4D3E5E8750110B6;
 					};
 				};
 			};
@@ -544,6 +586,7 @@
 			targets = (
 				491C371BB4D3E5E8750110B6 /* OpenFeelings */,
 				A4BF3179DB3DADF6C3A254A7 /* OpenFeelingsTests */,
+				B3D0C802247C8A10B428AC41 /* OpenFeelingsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -640,6 +683,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7024D18B0AE328737B348DBD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9A0F1A635E4972E322E3B08 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -676,6 +727,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		165745E3F95E0CA8AB526407 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 491C371BB4D3E5E8750110B6 /* OpenFeelings */;
+			targetProxy = 1135B305160A80A7381274D5 /* PBXContainerItemProxy */;
+		};
 		EAACAAD3118413658E818D38 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 491C371BB4D3E5E8750110B6 /* OpenFeelings */;
@@ -684,6 +740,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1ED78FF2BE61AC56074C11E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = OpenFeelings;
+			};
+			name = Debug;
+		};
+		2ECAEFCCCD99AF8358C66AE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = OpenFeelings;
+			};
+			name = Release;
+		};
 		2FB04408068401C617F7651A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -893,6 +985,15 @@
 			buildConfigurations = (
 				57FB6DEDB9EFC86173749EFE /* Debug */,
 				50087E3F8B385E3050A5FDE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		472DEFB8938D540CF2B25E8F /* Build configuration list for PBXNativeTarget "OpenFeelingsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ED78FF2BE61AC56074C11E0 /* Debug */,
+				2ECAEFCCCD99AF8358C66AE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

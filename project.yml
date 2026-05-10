@@ -32,6 +32,7 @@ targets:
     scheme:
       testTargets:
         - OpenFeelingsTests
+        - OpenFeelingsUITests
   OpenFeelingsTests:
     type: bundle.unit-test
     platform: iOS
@@ -44,3 +45,16 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.tests
         DEVELOPMENT_TEAM: K7CBQW6MPG
+  OpenFeelingsUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: OpenFeelingsUITests
+    dependencies:
+      - target: OpenFeelings
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.uitests
+        DEVELOPMENT_TEAM: K7CBQW6MPG
+        TEST_TARGET_NAME: OpenFeelings
