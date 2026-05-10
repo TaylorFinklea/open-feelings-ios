@@ -22,9 +22,11 @@ struct CheckInFlowSettingsView: View {
 
             Section("Body") {
                 Toggle("Body First", isOn: $bodyFirst)
-                Picker("Body view", selection: $bodyView) {
-                    Text("Chips").tag("chips")
-                    Text("Silhouette").tag("silhouette")
+                if FeatureFlags.silhouetteBodyView {
+                    Picker("Body view", selection: $bodyView) {
+                        Text("Chips").tag("chips")
+                        Text("Silhouette").tag("silhouette")
+                    }
                 }
             }
 

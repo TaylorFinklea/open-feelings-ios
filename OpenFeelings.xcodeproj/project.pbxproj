@@ -45,6 +45,7 @@
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9FA20488540C2867C4A648 /* TriggersStep.swift */; };
+		4D59C736DCC60FACE468DB16 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420444BE4D3721C8F87B92D /* FeatureFlags.swift */; };
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
 		4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
@@ -212,6 +213,7 @@
 		E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScale.swift; sourceTree = "<group>"; };
 		EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTaxonomyTests.swift; sourceTree = "<group>"; };
 		F305DB0DD1C152FEAF981408 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		F420444BE4D3721C8F87B92D /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		F6959718821B4B5A9BE5B391 /* MoodStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodStep.swift; sourceTree = "<group>"; };
 		F75137FB505AFD167B0BE54E /* CopingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopingStep.swift; sourceTree = "<group>"; };
 		F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTaxonomy.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */,
 				4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */,
 				4F17029E1FE2971A883A1F44 /* ExportService+Logseq.swift */,
+				F420444BE4D3721C8F87B92D /* FeatureFlags.swift */,
 				270853AFA9340C271CA558F5 /* HealthService.swift */,
 				50CA78BE3C53FCA7FF28ECC5 /* JournalShareService.swift */,
 				B853D8246487F25572AEF0F5 /* ReminderService.swift */,
@@ -561,6 +564,7 @@
 				F5A5FB0C16A9660611B6E7D8 /* EmotionWheelView.swift in Sources */,
 				9A2E3D3C49289BAEB8AA598E /* ExportService+Logseq.swift in Sources */,
 				18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */,
+				4D59C736DCC60FACE468DB16 /* FeatureFlags.swift in Sources */,
 				4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */,
 				942DC9636A36E855CD74856E /* FeelingStep.swift in Sources */,
 				60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */,

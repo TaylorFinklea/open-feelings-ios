@@ -8,7 +8,7 @@ struct BodyStep: View {
 
     var body: some View {
         switch bodyView {
-        case "silhouette":
+        case "silhouette" where FeatureFlags.silhouetteBodyView:
             silhouetteLayout
         default:
             chipsLayout
