@@ -28,6 +28,28 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
     }
 }
 
+/// Sub-route under the Today tab. Today is the parent route; pushing
+/// `.full` onto its path navigates to the full History list.
+enum HistoryRoute: Hashable, Sendable {
+    case full
+}
+
+/// Cross-tab filter state. When non-nil, History narrows its list to logs
+/// matching the filter. Set by Insights chart taps; cleared by the History
+/// banner's Clear affordance.
+enum HistoryFilter: Equatable, Hashable, Sendable {
+    /// Match logs whose secondary name (e.g. "Anxious", "Hopeful") equals
+    /// this string. Case- and accent-sensitive — these come from the
+    /// taxonomy directly, not user input.
+    case secondaryName(String)
+
+    var displayLabel: String {
+        switch self {
+        case .secondaryName(let name): name
+        }
+    }
+}
+
 @MainActor
 @Observable
 final class AppNavigation {
@@ -39,8 +61,33 @@ final class AppNavigation {
 
     var savedRibbon: SavedRibbon?
 
+    /// Optional cross-tab filter. Insights sets this and switches to History;
+    /// History reads it and narrows its query.
+    var historyFilter: HistoryFilter?
+
+    /// Path for the Today tab's NavigationStack. Mutating this from outside
+    /// TodayView lets other tabs (e.g. Insights) deep-link into History.
+    var todayPath: [HistoryRoute] = []
+
     func select(_ tab: AppTab) {
         selectedTab = tab
+    }
+
+    /// Switch to History under the Today tab with a filter pre-applied.
+    /// Programmatically appends `.full` to the Today nav path so the user
+    /// lands on the filtered list, not on Today.
+    func drillIntoHistory(filter: HistoryFilter) {
+        historyFilter = filter
+        selectedTab = .today
+        if !todayPath.contains(.full) {
+            todayPath.append(.full)
+        }
+    }
+
+    /// Clear the active history filter — dismisses the filter banner and
+    /// restores the unfiltered History list.
+    func clearHistoryFilter() {
+        historyFilter = nil
     }
 
     /// Show the "Saved" ribbon for ~2 seconds.

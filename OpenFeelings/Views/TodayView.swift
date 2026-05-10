@@ -259,7 +259,6 @@ struct TodayView: View {
         }
     }
 
-    enum HistoryRoute: Hashable { case full }
 }
 
 #Preview {

@@ -3,16 +3,30 @@ import SwiftUI
 import UIKit
 
 struct HistoryView: View {
-    @Query(sort: \FeelingLog.createdAt, order: .reverse) private var logs: [FeelingLog]
+    @Environment(AppNavigation.self) private var navigation
+    @Query(sort: \FeelingLog.createdAt, order: .reverse) private var allLogs: [FeelingLog]
 
     @State private var shareItem: ShareItem?
     @State private var exportError: String?
+
+    private var logs: [FeelingLog] {
+        guard let filter = navigation.historyFilter else { return allLogs }
+        switch filter {
+        case .secondaryName(let name):
+            return allLogs.filter { $0.secondaryName == name }
+        }
+    }
 
     var body: some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.OF.background, ignoresSafeAreaEdges: .all)
             .navigationTitle("History")
+            .safeAreaInset(edge: .top) {
+                if let filter = navigation.historyFilter {
+                    filterBanner(filter)
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -57,8 +71,12 @@ struct HistoryView: View {
         if logs.isEmpty {
             OFEmptyState(
                 glyph: "tray",
-                title: "No check-ins yet",
-                bodyText: "Check-ins you save will show up here."
+                title: navigation.historyFilter == nil
+                    ? "No check-ins yet"
+                    : "No check-ins match this filter",
+                bodyText: navigation.historyFilter == nil
+                    ? "Check-ins you save will show up here."
+                    : "Try clearing the filter to see all entries."
             )
         } else {
             ScrollView {
@@ -72,6 +90,30 @@ struct HistoryView: View {
                 .padding(.top, CGFloat.OF.lg)
             }
         }
+    }
+
+    @ViewBuilder
+    private func filterBanner(_ filter: HistoryFilter) -> some View {
+        HStack(spacing: .OF.sm) {
+            Image(systemName: "line.3.horizontal.decrease.circle")
+                .foregroundStyle(Color.OF.accent)
+            Text("Showing: \(filter.displayLabel)")
+                .font(.OF.bodyEmphasis)
+                .foregroundStyle(Color.OF.text)
+            Spacer()
+            Button {
+                navigation.clearHistoryFilter()
+            } label: {
+                Text("Clear")
+                    .font(.OF.bodyEmphasis)
+                    .foregroundStyle(Color.OF.accent)
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("history.clearFilter")
+        }
+        .padding(.horizontal, CGFloat.OF.lg)
+        .padding(.vertical, CGFloat.OF.sm)
+        .background(.thinMaterial)
     }
 
     private func exportCSV() {

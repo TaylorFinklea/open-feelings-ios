@@ -6,7 +6,7 @@ struct RootView: View {
     var body: some View {
         @Bindable var navigation = navigation
         TabView(selection: $navigation.selectedTab) {
-            NavigationStack { TodayView() }
+            NavigationStack(path: $navigation.todayPath) { TodayView() }
                 .tabItem {
                     Label(AppTab.today.title, systemImage: AppTab.today.systemImage)
                         .accessibilityIdentifier("tab.today")
