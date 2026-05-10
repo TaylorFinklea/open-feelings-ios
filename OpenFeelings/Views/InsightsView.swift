@@ -188,6 +188,8 @@ private struct InsightsCheckInChart: View {
                         y: .value("Count", entry.count)
                     )
                     .foregroundStyle(Color.OF.accent)
+                    .accessibilityLabel(entry.day.formatted(date: .abbreviated, time: .omitted))
+                    .accessibilityValue(checkInCountPhrase(entry.count))
                 }
                 .frame(height: 160)
                 .chartYAxis {
@@ -223,6 +225,8 @@ private struct InsightsByCoreCard: View {
                         y: .value("Core", entry.coreName)
                     )
                     .foregroundStyle(Color.OF.core(entry.coreID))
+                    .accessibilityLabel(entry.coreName)
+                    .accessibilityValue(checkInCountPhrase(entry.count))
                 }
                 .frame(height: CGFloat(dataset.byCore.count) * 32 + 24)
                 .chartXAxis {
@@ -259,6 +263,8 @@ private struct InsightsTopFeelingsCard: View {
                             y: .value("Name", feeling.name)
                         )
                         .foregroundStyle(Color.OF.core(feeling.coreID))
+                        .accessibilityLabel(feeling.name)
+                        .accessibilityValue(checkInCountPhrase(feeling.count))
                     }
                     .frame(height: CGFloat(dataset.topFeelings.count) * 32 + 24)
                     .chartXAxis {
@@ -293,6 +299,8 @@ private struct InsightsByDayOfWeekCard: View {
                         y: .value("Count", entry.count)
                     )
                     .foregroundStyle(Color.OF.accent)
+                    .accessibilityLabel(entry.label)
+                    .accessibilityValue(checkInCountPhrase(entry.count))
                 }
                 .frame(height: 160)
                 .chartYAxis {
@@ -329,12 +337,15 @@ private struct InsightsIntensityTrendCard: View {
                             )
                             .foregroundStyle(Color.OF.accent)
                             .interpolationMethod(.monotone)
+                            .accessibilityHidden(true)
                             PointMark(
                                 x: .value("Day", entry.day, unit: .day),
                                 y: .value("Intensity", avg)
                             )
                             .foregroundStyle(Color.OF.accent)
                             .symbolSize(40)
+                            .accessibilityLabel(entry.day.formatted(date: .abbreviated, time: .omitted))
+                            .accessibilityValue(String(format: "intensity %.1f of 5", avg))
                         }
                     }
                 }
@@ -374,6 +385,8 @@ private struct InsightsBodyChart: View {
                         y: .value("Region", entry.region.displayName)
                     )
                     .foregroundStyle(Color.OF.accent)
+                    .accessibilityLabel(entry.region.displayName)
+                    .accessibilityValue(checkInCountPhrase(entry.count))
                 }
                 .frame(height: CGFloat(dataset.topBodyRegions.count) * 32 + 24)
                 .chartXAxis {
@@ -444,6 +457,9 @@ private struct InsightsMoodScatter: View {
                         )
                         .foregroundStyle(Color.OF.core(point.coreID))
                         .symbolSize(60)
+                        .accessibilityLabel(point.date.formatted(date: .abbreviated, time: .shortened))
+                        .accessibilityValue(String(format: "energy %.1f, valence %.1f",
+                                                   point.energy, point.valence))
                     }
                 }
                 .frame(height: 220)
@@ -498,6 +514,16 @@ private struct InsightsMoodScatter: View {
             .foregroundStyle(Color.OF.textMuted)
             .padding(6)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: alignment)
+    }
+}
+
+/// VoiceOver-friendly pluralization for chart count values.
+/// "1 check-in" / "5 check-ins" / "no check-ins".
+private func checkInCountPhrase(_ count: Int) -> String {
+    switch count {
+    case 0: "no check-ins"
+    case 1: "1 check-in"
+    default: "\(count) check-ins"
     }
 }
 
