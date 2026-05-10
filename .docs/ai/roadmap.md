@@ -73,6 +73,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 **Tier hint**: Sonnet — multi-file but pattern fully established by build 15's drill-down work.
 
 ### History — swipe-to-delete a check-in
+<!-- Done 2026-05-10 — History cards now expose destructive swipe actions and VoiceOver delete actions behind the specified confirmation alert. Added in-memory SwiftData tests for delete persistence and idempotency; full app + UI test suite passes. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-history-swipe-to-delete-design.md`](../../docs/superpowers/specs/2026-05-10-history-swipe-to-delete-design.md)
 **Scope**: Standard SwiftUI `.swipeActions` + confirmation alert on each `LogCard`, plus an `.accessibilityAction(named: "Delete")` for VoiceOver users. Refactor delete into a static helper `HistoryView.deleteLog(_:in:)` for testability; two unit tests using an in-memory ModelContainer.
 **Tier hint**: Haiku/Sonnet — well-bounded SwiftUI mechanics, ~50 net lines.

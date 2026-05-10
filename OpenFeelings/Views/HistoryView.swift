@@ -4,10 +4,12 @@ import UIKit
 
 struct HistoryView: View {
     @Environment(AppNavigation.self) private var navigation
+    @Environment(\.modelContext) private var modelContext
     @Query(sort: \FeelingLog.createdAt, order: .reverse) private var allLogs: [FeelingLog]
 
     @State private var shareItem: ShareItem?
     @State private var exportError: String?
+    @State private var pendingDelete: FeelingLog?
 
     private var logs: [FeelingLog] {
         guard let filter = navigation.historyFilter else { return allLogs }
@@ -56,6 +58,17 @@ struct HistoryView: View {
             .sheet(item: $shareItem) { item in
                 ActivityView(items: [item.url])
             }
+            .alert("Delete this check-in?", isPresented: deleteAlertBinding) {
+                Button("Cancel", role: .cancel) {}
+                Button("Delete", role: .destructive) {
+                    if let log = pendingDelete {
+                        Self.deleteLog(log, in: modelContext)
+                    }
+                    pendingDelete = nil
+                }
+            } message: {
+                Text("This permanently removes the entry from this device and any iCloud-synced devices.")
+            }
             .alert("Export failed", isPresented: Binding(
                 get: { exportError != nil },
                 set: { if !$0 { exportError = nil } }
@@ -83,6 +96,16 @@ struct HistoryView: View {
                 VStack(spacing: .OF.md) {
                     ForEach(logs) { log in
                         OFCard { LogCard(log: log) }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button(role: .destructive) {
+                                    pendingDelete = log
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
+                            .accessibilityAction(named: "Delete") {
+                                pendingDelete = log
+                            }
                     }
                 }
                 .padding(.horizontal, CGFloat.OF.lg)
@@ -90,6 +113,13 @@ struct HistoryView: View {
                 .padding(.top, CGFloat.OF.lg)
             }
         }
+    }
+
+    private var deleteAlertBinding: Binding<Bool> {
+        Binding(
+            get: { pendingDelete != nil },
+            set: { if !$0 { pendingDelete = nil } }
+        )
     }
 
     @ViewBuilder
@@ -154,6 +184,13 @@ struct HistoryView: View {
         } catch {
             exportError = error.localizedDescription
         }
+    }
+}
+
+extension HistoryView {
+    static func deleteLog(_ log: FeelingLog, in context: ModelContext) {
+        context.delete(log)
+        try? context.save()
     }
 }
 
