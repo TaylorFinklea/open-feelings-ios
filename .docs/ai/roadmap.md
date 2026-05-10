@@ -61,6 +61,21 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 
 <!-- Done 2026-05-09 — UI test target landed with `tab.<name>` identifiers on each tab Label and 4 passing smoke tests (cold-launch, tab-switch, wizard renders, Settings rows). Wizard "happy path through Save enabled" remains a v2 nice-to-have. -->
 
+### VoiceOver labels for Today, History cards, and Wizard mode picker
+**Spec**: [`docs/superpowers/specs/2026-05-10-ax-labels-today-history-wizard-design.md`](../../docs/superpowers/specs/2026-05-10-ax-labels-today-history-wizard-design.md)
+**Scope**: One coordinated AX pass adding `.accessibilityElement(children: .combine)` + `.accessibilityLabel(...)` to Today's check-in cards and week summary, History's per-card `LogCard`, and the Wizard/Wheel segmented picker in `FeelingStep`. ~10–15 small modifier additions plus a few unit tests for the static label helpers.
+**Tier hint**: Haiku — pure pattern-matching against the convention already established in InsightsView's chart-level labels.
+
+### Drill-down v2 — extend Insights tap-to-filter to By core, Body, Day-of-week
+**Spec**: [`docs/superpowers/specs/2026-05-10-drill-down-v2-design.md`](../../docs/superpowers/specs/2026-05-10-drill-down-v2-design.md)
+**Scope**: Three new `HistoryFilter` cases (`.coreID`, `.bodyRegion`, `.weekday`), corresponding predicates in `HistoryView`, and `chartOverlay { proxy in }` tap handlers on the three target charts mirroring the Top Feelings recipe. Adds ~8 unit tests for the new filter cases.
+**Tier hint**: Sonnet — multi-file but pattern fully established by build 15's drill-down work.
+
+### History — swipe-to-delete a check-in
+**Spec**: [`docs/superpowers/specs/2026-05-10-history-swipe-to-delete-design.md`](../../docs/superpowers/specs/2026-05-10-history-swipe-to-delete-design.md)
+**Scope**: Standard SwiftUI `.swipeActions` + confirmation alert on each `LogCard`, plus an `.accessibilityAction(named: "Delete")` for VoiceOver users. Refactor delete into a static helper `HistoryView.deleteLog(_:in:)` for testability; two unit tests using an in-memory ModelContainer.
+**Tier hint**: Haiku/Sonnet — well-bounded SwiftUI mechanics, ~50 net lines.
+
 
 - Emotion taxonomy content is adapted from Open Emotion Wheel v1.1 and must preserve Open Emotion Wheel attribution and CC BY-SA 4.0 licensing.
 - Emotion definitions are original educational summaries with reference-source documentation; they must not be presented as diagnosis or treatment advice.
