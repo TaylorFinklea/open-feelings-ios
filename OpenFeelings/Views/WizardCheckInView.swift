@@ -150,6 +150,7 @@ struct WizardCheckInView: View {
                 }
                 .buttonStyle(.plain)
                 .opacity(isSuggested ? 1 : 0.4)
+                .accessibilityIdentifier("emotion.\(item.name)")
             }
         }
     }

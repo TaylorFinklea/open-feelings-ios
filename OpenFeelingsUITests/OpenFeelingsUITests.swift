@@ -85,6 +85,60 @@ final class OpenFeelingsUITests: XCTestCase {
                       "Check In tab should render the wizard's first step")
     }
 
+    // MARK: - Wizard happy path
+
+    /// Steps through the wizard's default flow (body → feeling → strength →
+    /// reflect) and verifies the Save button is enabled at the end. Doesn't
+    /// actually persist a log — we stop at "Save enabled" to avoid mutating
+    /// the on-disk SwiftData store between test runs.
+    func testWizardHappyPathReachesEnabledSaveButton() {
+        tab("checkIn").tap()
+
+        // Body step (default first when Body First is on): Continue is
+        // always enabled. Just advance.
+        let continueButton = app.buttons["Continue"]
+        XCTAssertTrue(continueButton.waitForExistence(timeout: 3),
+                      "Wizard should render Continue on body step")
+        continueButton.tap()
+
+        // Force Wizard mode — @AppStorage("checkInMode") may be set to
+        // "Wheel" from a prior simulator session.
+        if app.buttons["Wizard"].exists {
+            app.buttons["Wizard"].tap()
+        }
+
+        // Feeling step: drill Happy → Optimistic → Hopeful via stable
+        // accessibility identifiers added to each emotion grid cell.
+        func emotion(_ name: String) -> XCUIElement {
+            app.descendants(matching: .any)
+                .matching(identifier: "emotion.\(name)").firstMatch
+        }
+        XCTAssertTrue(emotion("Happy").waitForExistence(timeout: 5),
+                      "Happy core should appear in Wizard mode")
+        emotion("Happy").tap()
+        XCTAssertTrue(emotion("Optimistic").waitForExistence(timeout: 3))
+        emotion("Optimistic").tap()
+        XCTAssertTrue(emotion("Hopeful").waitForExistence(timeout: 3))
+        emotion("Hopeful").tap()
+
+        // Continue out of Feeling.
+        XCTAssertTrue(continueButton.waitForExistence(timeout: 3))
+        XCTAssertTrue(continueButton.isEnabled,
+                      "Continue should enable once a complete emotion is selected")
+        continueButton.tap()
+
+        // Strength step (default promoted): always advanceable.
+        XCTAssertTrue(continueButton.waitForExistence(timeout: 3))
+        continueButton.tap()
+
+        // Reflect step (final): the primary button switches label.
+        let saveButton = app.buttons["Save check-in"]
+        XCTAssertTrue(saveButton.waitForExistence(timeout: 3),
+                      "Final step should expose 'Save check-in' button")
+        XCTAssertTrue(saveButton.isEnabled,
+                      "Save should be enabled once a complete feeling has been picked")
+    }
+
     // MARK: - Settings exports surface
 
     func testSettingsExposesPeriodSummaryRow() {
