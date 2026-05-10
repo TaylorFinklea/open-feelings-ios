@@ -42,11 +42,26 @@ enum HistoryFilter: Equatable, Hashable, Sendable {
     /// this string. Case- and accent-sensitive — these come from the
     /// taxonomy directly, not user input.
     case secondaryName(String)
+    case coreID(String)
+    case bodyRegion(BodyRegion)
+    case weekday(Int)
 
     var displayLabel: String {
         switch self {
         case .secondaryName(let name): name
+        case .coreID(let id):
+            EmotionTaxonomy.cores.first { $0.id == id }?.name ?? id
+        case .bodyRegion(let region):
+            region.displayName
+        case .weekday(let weekday):
+            Self.weekdayLabel(for: weekday)
         }
+    }
+
+    private static func weekdayLabel(for weekday: Int) -> String {
+        let symbols = Calendar.current.shortWeekdaySymbols
+        let index = max(0, min(symbols.count - 1, weekday - 1))
+        return symbols[index]
     }
 }
 

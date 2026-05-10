@@ -212,12 +212,19 @@ private struct InsightsCheckInChart: View {
 }
 
 private struct InsightsByCoreCard: View {
+    @Environment(AppNavigation.self) private var navigation
     let dataset: InsightsDataset
 
     var body: some View {
         OFCard {
             VStack(alignment: .leading, spacing: .OF.sm) {
-                Text("By core").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                HStack(alignment: .firstTextBaseline) {
+                    Text("By core").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                    Spacer()
+                    Text("Tap a bar to filter History")
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                }
                 Text("Where the feelings cluster")
                     .font(.OF.caption).foregroundStyle(Color.OF.textMuted)
                 Chart(dataset.byCore, id: \.coreID) { entry in
@@ -242,8 +249,29 @@ private struct InsightsByCoreCard: View {
                         AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.text)
                     }
                 }
+                .chartOverlay { proxy in
+                    GeometryReader { geo in
+                        Rectangle()
+                            .fill(Color.clear)
+                            .contentShape(Rectangle())
+                            .onTapGesture { location in
+                                handleTap(at: location, proxy: proxy, geo: geo)
+                            }
+                    }
+                }
             }
         }
+    }
+
+    private func handleTap(at location: CGPoint,
+                           proxy: ChartProxy,
+                           geo: GeometryProxy) {
+        guard let plotFrame = proxy.plotFrame else { return }
+        let plotRect = geo[plotFrame]
+        let relativeY = location.y - plotRect.minY
+        guard let coreName: String = proxy.value(atY: relativeY) else { return }
+        guard let core = EmotionTaxonomy.cores.first(where: { $0.name == coreName }) else { return }
+        navigation.drillIntoHistory(filter: .coreID(core.id))
     }
 
     private var coreSummary: String {
@@ -331,12 +359,19 @@ private struct InsightsTopFeelingsCard: View {
 }
 
 private struct InsightsByDayOfWeekCard: View {
+    @Environment(AppNavigation.self) private var navigation
     let dataset: InsightsDataset
 
     var body: some View {
         OFCard {
             VStack(alignment: .leading, spacing: .OF.sm) {
-                Text("By day of week").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                HStack(alignment: .firstTextBaseline) {
+                    Text("By day of week").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                    Spacer()
+                    Text("Tap a bar to filter History")
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                }
                 Text("When you tend to check in")
                     .font(.OF.caption).foregroundStyle(Color.OF.textMuted)
                 Chart(dataset.byDayOfWeek, id: \.weekday) { entry in
@@ -361,8 +396,30 @@ private struct InsightsByDayOfWeekCard: View {
                         AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.textMuted)
                     }
                 }
+                .chartOverlay { proxy in
+                    GeometryReader { geo in
+                        Rectangle()
+                            .fill(Color.clear)
+                            .contentShape(Rectangle())
+                            .onTapGesture { location in
+                                handleTap(at: location, proxy: proxy, geo: geo)
+                            }
+                    }
+                }
             }
         }
+    }
+
+    private func handleTap(at location: CGPoint,
+                           proxy: ChartProxy,
+                           geo: GeometryProxy) {
+        guard let plotFrame = proxy.plotFrame else { return }
+        let plotRect = geo[plotFrame]
+        let relativeX = location.x - plotRect.minX
+        guard let label: String = proxy.value(atX: relativeX) else { return }
+        let symbols = Calendar.current.shortWeekdaySymbols
+        guard let index = symbols.firstIndex(of: label) else { return }
+        navigation.drillIntoHistory(filter: .weekday(index + 1))
     }
 
     private var dayOfWeekSummary: String {
@@ -434,12 +491,19 @@ private struct InsightsIntensityTrendCard: View {
 }
 
 private struct InsightsBodyChart: View {
+    @Environment(AppNavigation.self) private var navigation
     let dataset: InsightsDataset
 
     var body: some View {
         OFCard {
             VStack(alignment: .leading, spacing: .OF.sm) {
-                Text("Body").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                HStack(alignment: .firstTextBaseline) {
+                    Text("Body").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
+                    Spacer()
+                    Text("Tap a bar to filter History")
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                }
                 Text("Where the feelings live")
                     .font(.OF.caption)
                     .foregroundStyle(Color.OF.textMuted)
@@ -465,8 +529,29 @@ private struct InsightsBodyChart: View {
                         AxisValueLabel().font(.OF.caption).foregroundStyle(Color.OF.text)
                     }
                 }
+                .chartOverlay { proxy in
+                    GeometryReader { geo in
+                        Rectangle()
+                            .fill(Color.clear)
+                            .contentShape(Rectangle())
+                            .onTapGesture { location in
+                                handleTap(at: location, proxy: proxy, geo: geo)
+                            }
+                    }
+                }
             }
         }
+    }
+
+    private func handleTap(at location: CGPoint,
+                           proxy: ChartProxy,
+                           geo: GeometryProxy) {
+        guard let plotFrame = proxy.plotFrame else { return }
+        let plotRect = geo[plotFrame]
+        let relativeY = location.y - plotRect.minY
+        guard let regionName: String = proxy.value(atY: relativeY) else { return }
+        guard let region = BodyRegion.allCases.first(where: { $0.displayName == regionName }) else { return }
+        navigation.drillIntoHistory(filter: .bodyRegion(region))
     }
 
     private var bodySummary: String {

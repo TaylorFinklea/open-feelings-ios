@@ -68,6 +68,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 **Tier hint**: Haiku — pure pattern-matching against the convention already established in InsightsView's chart-level labels.
 
 ### Drill-down v2 — extend Insights tap-to-filter to By core, Body, Day-of-week
+<!-- Done 2026-05-10 — By core, Body, and By day-of-week charts now drill into filtered History via new HistoryFilter cases. Added production filter helper coverage and display-label tests; full app + UI test suite passes. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-drill-down-v2-design.md`](../../docs/superpowers/specs/2026-05-10-drill-down-v2-design.md)
 **Scope**: Three new `HistoryFilter` cases (`.coreID`, `.bodyRegion`, `.weekday`), corresponding predicates in `HistoryView`, and `chartOverlay { proxy in }` tap handlers on the three target charts mirroring the Top Feelings recipe. Adds ~8 unit tests for the new filter cases.
 **Tier hint**: Sonnet — multi-file but pattern fully established by build 15's drill-down work.

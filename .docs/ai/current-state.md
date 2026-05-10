@@ -10,18 +10,18 @@
 
 **Date**: 2026-05-10
 
-History swipe-to-delete per `docs/superpowers/specs/2026-05-10-history-swipe-to-delete-design.md`, following the completed VoiceOver AX label pass.
+Drill-down v2 per `docs/superpowers/specs/2026-05-10-drill-down-v2-design.md`, following the completed AX label and swipe-to-delete passes.
 
-- **Scope**: History cards now support trailing destructive swipe actions, a matching VoiceOver `Delete` action, and the specified confirmation alert before deleting from SwiftData. `HistoryView.deleteLog(_:in:)` centralizes deletion for tests.
-- **Also completed**: Today/History/Wizard VoiceOver labels from `docs/superpowers/specs/2026-05-10-ax-labels-today-history-wizard-design.md` and committed as `8b0ede0`.
-- **Tests**: Added `HistoryDeleteTests` for in-memory SwiftData deletion/removal and idempotency, plus the earlier AX helper tests.
+- **Scope**: `HistoryFilter` now supports core, body-region, and weekday cases; History filtering uses `HistoryView.filteredLogs(_:filter:)`; Insights By core / Body / By day-of-week charts now show the tap-to-filter caption and drill into filtered History with chart overlays.
+- **Also completed**: Today/History/Wizard VoiceOver labels committed as `8b0ede0`; History swipe-to-delete committed as `eeada0e`.
+- **Tests**: Added `HistoryFilterPredicateTests` and expanded `AppNavigationTests` for new filter labels/equality, on top of the earlier AX and delete tests.
 - **Build**: simulator build green; full unit + UI test suite green.
 
 ## Build Status
 
 - `xcodegen generate` succeeded.
 - `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build` succeeded — BUILD SUCCEEDED.
-- `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test` succeeded — 195 unit tests + 5 UI tests pass.
+- `xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad (A16),OS=26.0.1' -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO test` succeeded — 205 unit tests + 5 UI tests pass.
 
 ## Blockers
 

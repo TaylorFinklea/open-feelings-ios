@@ -12,11 +12,7 @@ struct HistoryView: View {
     @State private var pendingDelete: FeelingLog?
 
     private var logs: [FeelingLog] {
-        guard let filter = navigation.historyFilter else { return allLogs }
-        switch filter {
-        case .secondaryName(let name):
-            return allLogs.filter { $0.secondaryName == name }
-        }
+        Self.filteredLogs(allLogs, filter: navigation.historyFilter)
     }
 
     var body: some View {
@@ -188,6 +184,21 @@ struct HistoryView: View {
 }
 
 extension HistoryView {
+    nonisolated static func filteredLogs(_ logs: [FeelingLog], filter: HistoryFilter?) -> [FeelingLog] {
+        guard let filter else { return logs }
+        switch filter {
+        case .secondaryName(let name):
+            return logs.filter { $0.secondaryName == name }
+        case .coreID(let id):
+            return logs.filter { $0.coreID == id }
+        case .bodyRegion(let region):
+            return logs.filter { $0.bodyRegions.contains(region) }
+        case .weekday(let weekday):
+            let calendar = Calendar.current
+            return logs.filter { calendar.component(.weekday, from: $0.createdAt) == weekday }
+        }
+    }
+
     static func deleteLog(_ log: FeelingLog, in context: ModelContext) {
         context.delete(log)
         try? context.save()

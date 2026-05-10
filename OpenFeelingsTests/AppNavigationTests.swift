@@ -64,4 +64,30 @@ final class AppNavigationTests: XCTestCase {
     func testHistoryFilterDisplayLabelMatchesSecondaryName() {
         XCTAssertEqual(HistoryFilter.secondaryName("Anxious").displayLabel, "Anxious")
     }
+
+    func testHistoryFilterCoreIDDisplayLabelResolvesCoreName() {
+        XCTAssertEqual(HistoryFilter.coreID("happy").displayLabel, "Happy")
+        XCTAssertEqual(HistoryFilter.coreID("sad").displayLabel, "Sad")
+    }
+
+    func testHistoryFilterCoreIDFallsBackToRawIDWhenUnknown() {
+        XCTAssertEqual(HistoryFilter.coreID("not-a-core").displayLabel, "not-a-core")
+    }
+
+    func testHistoryFilterBodyRegionDisplayLabelMatchesEnumDisplayName() {
+        let region = BodyRegion.allCases.first { $0 != .wholeBody && $0 != .nowhere }!
+        XCTAssertEqual(HistoryFilter.bodyRegion(region).displayLabel, region.displayName)
+    }
+
+    func testHistoryFilterWeekdayDisplayLabelIsAShortSymbol() {
+        let symbols = Calendar.current.shortWeekdaySymbols
+        for weekday in 1...7 {
+            XCTAssertEqual(HistoryFilter.weekday(weekday).displayLabel, symbols[weekday - 1])
+        }
+    }
+
+    func testHistoryFilterEqualityIsCaseAware() {
+        XCTAssertNotEqual(HistoryFilter.secondaryName("Anxious"),
+                          HistoryFilter.coreID("Anxious"))
+    }
 }
