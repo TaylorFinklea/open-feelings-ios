@@ -8,6 +8,7 @@ struct IntentionsView: View {
 
     @State private var todayDraft: String = ""
     @State private var draftLoaded = false
+    @State private var expandedIDs: Set<UUID> = []
 
     private var startOfToday: Date { Calendar.current.startOfDay(for: Date()) }
 
@@ -135,24 +136,17 @@ struct IntentionsView: View {
         VStack(alignment: .leading, spacing: .OF.md) {
             OFSectionHeader(title: "Look back")
             ForEach(pastIntentions) { intention in
-                OFCard { lookBackRow(intention) }
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func lookBackRow(_ intention: Intention) -> some View {
-        VStack(alignment: .leading, spacing: .OF.xs) {
-            Text(intention.date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
-                .font(.OF.caption)
-                .foregroundStyle(Color.OF.textMuted)
-            Text(intention.text)
-                .font(.OF.body)
-                .foregroundStyle(Color.OF.text)
-            if let cores = IntentionDayFelt.topCoreNames(in: intention.date, logs: logs) {
-                Text("felt: \(cores.joined(separator: ", "))")
-                    .font(.OF.caption)
-                    .foregroundStyle(Color.OF.textMuted)
+                PastIntentionRow(
+                    intention: intention,
+                    topCoreNames: IntentionDayFelt.topCoreNames(in: intention.date, logs: logs),
+                    isExpanded: expandedIDs.contains(intention.id),
+                    onExpand: { expandedIDs.insert(intention.id) },
+                    onCollapse: { expandedIDs.remove(intention.id) },
+                    onSave: { newReflection in
+                        intention.reflection = newReflection
+                        try? modelContext.save()
+                    }
+                )
             }
         }
     }
@@ -165,6 +159,137 @@ struct IntentionsView: View {
             title: "Set today's intention.",
             bodyText: "Choose what you'd like to feel or remember. We'll show you how the day lands."
         )
+    }
+}
+
+// MARK: - PastIntentionRow
+
+/// One row in the look-back list. Owns its own draft text so each card's
+/// editor is self-contained — collapsing one row doesn't disturb another's
+/// pending changes.
+private struct PastIntentionRow: View {
+    let intention: Intention
+    let topCoreNames: [String]?
+    let isExpanded: Bool
+    let onExpand: () -> Void
+    let onCollapse: () -> Void
+    let onSave: (String) -> Void
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var draft: String = ""
+    @State private var draftLoaded = false
+
+    private var hasUnsavedChanges: Bool {
+        Intention.normalizedReflection(draft) != intention.reflection
+    }
+
+    private var statusText: String {
+        if intention.reflection.isEmpty
+            && Intention.normalizedReflection(draft).isEmpty {
+            return "Not yet reflected"
+        }
+        if hasUnsavedChanges { return "Unsaved changes" }
+        return "Saved"
+    }
+
+    var body: some View {
+        OFCard {
+            VStack(alignment: .leading, spacing: .OF.xs) {
+                Text(intention.date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+                Text(intention.text)
+                    .font(.OF.body)
+                    .foregroundStyle(Color.OF.text)
+                if let cores = topCoreNames {
+                    Text("felt: \(cores.joined(separator: ", "))")
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                }
+                if isExpanded {
+                    expandedEditor
+                } else {
+                    collapsedAffordance
+                }
+            }
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.18),
+                       value: isExpanded)
+        }
+        .onAppear { loadDraftIfNeeded() }
+        .onChange(of: intention.reflection) { _, newValue in
+            // External update — adopt only if the user hasn't typed anything
+            // that would otherwise be discarded.
+            if !hasUnsavedChanges { draft = newValue }
+        }
+    }
+
+    @ViewBuilder
+    private var collapsedAffordance: some View {
+        if intention.reflection.isEmpty {
+            OFButton("Reflect on this day", style: .secondary, action: onExpand)
+                .frame(maxWidth: 220)
+                .padding(.top, .OF.xs)
+        } else {
+            VStack(alignment: .leading, spacing: .OF.xs) {
+                Text("Reflection")
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+                Text(intention.reflection)
+                    .font(.OF.body)
+                    .foregroundStyle(Color.OF.text)
+                Button(action: onExpand) {
+                    Text("Edit")
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.accent)
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(.top, .OF.xs)
+        }
+    }
+
+    private var expandedEditor: some View {
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            TextField("How did this land?", text: $draft, axis: .vertical)
+                .lineLimit(2...6)
+                .font(.OF.body)
+                .padding(CGFloat.OF.md)
+                .background(Color.OF.surface,
+                            in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
+                .overlay {
+                    RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
+                        .stroke(Color.OF.divider, lineWidth: 1)
+                }
+            HStack {
+                Text(statusText)
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+                Spacer()
+                if hasUnsavedChanges {
+                    OFButton("Cancel", style: .secondary) {
+                        draft = intention.reflection
+                        onCollapse()
+                    }
+                    .frame(maxWidth: 100)
+                }
+                OFButton(hasUnsavedChanges ? "Save" : "Done",
+                         style: hasUnsavedChanges ? .primary : .secondary) {
+                    if hasUnsavedChanges {
+                        onSave(Intention.normalizedReflection(draft))
+                    }
+                    onCollapse()
+                }
+                .frame(maxWidth: 100)
+            }
+        }
+        .padding(.top, .OF.xs)
+    }
+
+    private func loadDraftIfNeeded() {
+        if !draftLoaded {
+            draft = intention.reflection
+            draftLoaded = true
+        }
     }
 }
 
