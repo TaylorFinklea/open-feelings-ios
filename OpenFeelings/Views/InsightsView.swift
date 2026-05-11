@@ -1,3 +1,4 @@
+import Accessibility
 import Charts
 import SwiftData
 import SwiftUI
@@ -238,6 +239,7 @@ private struct InsightsByCoreCard: View {
                     .accessibilityValue(checkInCountPhrase(entry.count))
                 }
                 .accessibilityLabel(InsightsSummary.byCore(dataset.byCore))
+                .accessibilityChartDescriptor(ByCoreChartAX(dataset: dataset))
                 .frame(height: CGFloat(dataset.byCore.count) * 32 + 24)
                 .chartXAxis {
                     AxisMarks(values: .automatic(desiredCount: 4)) { _ in
@@ -276,6 +278,17 @@ private struct InsightsByCoreCard: View {
     }
 }
 
+private struct ByCoreChartAX: AXChartDescriptorRepresentable {
+    let dataset: InsightsDataset
+
+    func makeChartDescriptor() -> AXChartDescriptor {
+        InsightsChartDescriptor.barCategorical(
+            title: "By core",
+            items: dataset.byCore.map { (category: $0.coreName, count: $0.count) }
+        )
+    }
+}
+
 private struct InsightsTopFeelingsCard: View {
     @Environment(AppNavigation.self) private var navigation
     let dataset: InsightsDataset
@@ -307,6 +320,7 @@ private struct InsightsTopFeelingsCard: View {
                         .accessibilityValue(checkInCountPhrase(feeling.count))
                     }
                     .accessibilityLabel(InsightsSummary.topFeelings(dataset.topFeelings))
+                    .accessibilityChartDescriptor(TopFeelingsChartAX(dataset: dataset))
                     .frame(height: CGFloat(dataset.topFeelings.count) * 32 + 24)
                     .chartXAxis {
                         AxisMarks(values: .automatic(desiredCount: 4)) { _ in
@@ -342,6 +356,17 @@ private struct InsightsTopFeelingsCard: View {
         let relativeY = location.y - plotRect.minY
         guard let name: String = proxy.value(atY: relativeY) else { return }
         navigation.drillIntoHistory(filter: .secondaryName(name))
+    }
+}
+
+private struct TopFeelingsChartAX: AXChartDescriptorRepresentable {
+    let dataset: InsightsDataset
+
+    func makeChartDescriptor() -> AXChartDescriptor {
+        InsightsChartDescriptor.barCategorical(
+            title: "Top feelings",
+            items: dataset.topFeelings.map { (category: $0.name, count: $0.count) }
+        )
     }
 }
 
@@ -693,6 +718,44 @@ enum InsightsSummary {
 
     static func moodScatter(_ pointCount: Int) -> String {
         "Mood scale chart, \(pointCount) data point\(pointCount == 1 ? "" : "s")"
+    }
+}
+
+enum InsightsChartDescriptor {
+    static func barCategorical(title: String,
+                               items: [(category: String, count: Int)]) -> AXChartDescriptor {
+        let categories = items.map(\.category)
+        let categoryOrder = categories.isEmpty ? ["No data"] : categories
+        let maxCount = max(1, items.map(\.count).max() ?? 1)
+        let xAxis = AXCategoricalDataAxisDescriptor(title: title, categoryOrder: categoryOrder)
+        let yAxis = AXNumericDataAxisDescriptor(
+            title: "Check-ins",
+            range: 0.0...Double(maxCount),
+            gridlinePositions: [0.0, Double(maxCount)]
+        ) { value in
+            checkInCountPhrase(Int(value.rounded()))
+        }
+        let sourceItems = items.isEmpty ? [(category: "No data", count: 0)] : items
+        let points = sourceItems.map { item in
+            AXDataPoint(x: item.category,
+                        y: Double(item.count),
+                        additionalValues: [],
+                        label: item.category)
+        }
+        let series = AXDataSeriesDescriptor(
+            name: title,
+            isContinuous: false,
+            dataPoints: points
+        )
+
+        return AXChartDescriptor(
+            title: title,
+            summary: nil,
+            xAxis: xAxis,
+            yAxis: yAxis,
+            additionalAxes: [],
+            series: [series]
+        )
     }
 }
 
