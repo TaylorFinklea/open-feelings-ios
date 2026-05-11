@@ -98,16 +98,19 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 **Tier hint**: Sonnet — small UX feature + tested helper, ~80 net lines including tests.
 
 ### AXChartDescriptor for Top Feelings and By Core charts
+<!-- Done 2026-05-10 — Top Feelings and By Core charts now expose AXChartDescriptorRepresentable chart details through a shared categorical bar descriptor builder. Added 7 descriptor-shape tests, including the SDK-safe empty-data placeholder case. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-ax-chart-descriptor-design.md`](../../docs/superpowers/specs/2026-05-10-ax-chart-descriptor-design.md)
 **Scope**: Implement `AXChartDescriptorRepresentable` on the two highest-value Insights charts so VoiceOver's rotor exposes a "Chart Details" navigation item. Shared `barCategorical(title:items:)` builder + small per-chart wrappers. ~6 unit tests for descriptor shape (title, series count, data-point ordering). Other charts deferred.
 **Tier hint**: Sonnet — Apple-specific AX API, structure is mostly mechanical once the API pattern is grasped.
 
 ### Wizard chip accessibility identifiers + smoke UI test
+<!-- Done 2026-05-10 — Wizard chips now derive stable `chip.*` accessibility identifiers, the Body "Everywhere" control exposes the same identifier pattern and selected trait, and a UI smoke test verifies tapping a chip selects it. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-wizard-chip-identifiers-design.md`](../../docs/superpowers/specs/2026-05-10-wizard-chip-identifiers-design.md)
 **Scope**: `OFChip` auto-derives an `.accessibilityIdentifier` from its label ("Chest" → `chip.chest`). Every chip in the wizard becomes XCUITest-targetable for future test coverage. Adds 6 unit tests for the identifier transform plus a UI smoke test that taps the Body Everywhere chip and asserts `.isSelected`.
 **Tier hint**: Haiku — one-file change, predictable text transform, simple tests.
 
 ### History — edit the note on a saved check-in
+<!-- Done 2026-05-10 — History cards now expose an inline Edit note affordance and VoiceOver action, presenting a reusable note editor sheet. Added in-memory SwiftData tests for note update, trim, clear, and idempotent missing-log behavior. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-history-edit-note-design.md`](../../docs/superpowers/specs/2026-05-10-history-edit-note-design.md)
 **Scope**: Add an "Edit note" swipe action and VoiceOver action on each History card. Tap → modal sheet with a TextEditor pre-filled with the current note; Save persists via `HistoryView.updateNote(_:to:in:)`. Note-only — emotion/intensity stay read-only by design (the moment, not the journal). 4 unit tests with an in-memory ModelContainer.
 **Tier hint**: Sonnet — small feature, established sheet-binding pattern, schema unchanged.
