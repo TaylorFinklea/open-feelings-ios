@@ -95,6 +95,8 @@ struct BodyStep: View {
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(draft.bodyRegions.contains(region) ? .isSelected : [])
+        .accessibilityIdentifier(OFChip.identifier(for: label))
     }
 
     private func bindingFor(_ region: BodyRegion) -> Binding<Bool> {

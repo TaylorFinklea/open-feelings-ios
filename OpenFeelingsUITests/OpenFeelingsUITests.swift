@@ -139,6 +139,20 @@ final class OpenFeelingsUITests: XCTestCase {
                       "Save should be enabled once a complete feeling has been picked")
     }
 
+    func testWizardBodyChipBecomesSelectedAfterTap() {
+        tab("checkIn").tap()
+
+        let chip = app.descendants(matching: .any)
+            .matching(identifier: "chip.everywhere")
+            .firstMatch
+        XCTAssertTrue(chip.waitForExistence(timeout: 3),
+                      "Body step Everywhere chip should expose chip.everywhere identifier")
+
+        XCTAssertFalse(chip.isSelected, "Chip starts unselected")
+        chip.tap()
+        XCTAssertTrue(chip.isSelected, "Chip should become selected after tap")
+    }
+
     // MARK: - Settings exports surface
 
     func testSettingsExposesPeriodSummaryRow() {

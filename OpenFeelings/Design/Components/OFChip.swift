@@ -29,6 +29,28 @@ struct OFChip: View {
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isOn ? .isSelected : [])
+        .accessibilityIdentifier(Self.identifier(for: label))
+    }
+
+    nonisolated static func identifier(for label: String) -> String {
+        var output = ""
+        var lastWasSeparator = true
+
+        for character in label.lowercased() {
+            if character.isLetter || character.isNumber {
+                output.append(character)
+                lastWasSeparator = false
+            } else if !lastWasSeparator {
+                output.append("-")
+                lastWasSeparator = true
+            }
+        }
+
+        while output.hasSuffix("-") {
+            output.removeLast()
+        }
+
+        return "chip.\(output)"
     }
 }
 
