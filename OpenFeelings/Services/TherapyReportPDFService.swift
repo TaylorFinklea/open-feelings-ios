@@ -1,6 +1,20 @@
 import SwiftUI
 import UIKit
 
+/// Value-typed manifest of a single page in the PDF.
+enum TherapyReportPage: Equatable {
+    case cover
+    case patterns
+    case notable
+    case entries(pageNumber: Int, totalPages: Int)
+    case intentions
+
+    var isEntries: Bool {
+        if case .entries = self { return true }
+        return false
+    }
+}
+
 /// Renders a `TherapyReportData` to a multipage PDF using
 /// `UIGraphicsPDFRenderer` + `ImageRenderer`. Text remains vector (search-
 /// able), not rasterized.
@@ -21,12 +35,14 @@ enum TherapyReportPDFService {
         let bounds = CGRect(origin: .zero, size: pageSize)
         let renderer = UIGraphicsPDFRenderer(bounds: bounds, format: format)
 
-        let pages = makePages(for: report)
+        let pageList = pages(for: report)
         let data = renderer.pdfData { ctx in
-            for page in pages {
+            for page in pageList {
                 ctx.beginPage()
-                let imageRenderer = ImageRenderer(content: page.frame(width: pageSize.width,
-                                                                      height: pageSize.height))
+                let imageRenderer = ImageRenderer(
+                    content: view(for: page, report: report)
+                        .frame(width: pageSize.width, height: pageSize.height)
+                )
                 imageRenderer.render { _, render in
                     render(ctx.cgContext)
                 }
@@ -41,11 +57,8 @@ enum TherapyReportPDFService {
 
     // MARK: - Page composition
 
-    private static func makePages(for report: TherapyReportData) -> [AnyView] {
-        var pages: [AnyView] = [
-            AnyView(TherapyCoverPage(report: report)),
-            AnyView(TherapyPatternsPage(report: report)),
-        ]
+    static func pages(for report: TherapyReportData) -> [TherapyReportPage] {
+        var pages: [TherapyReportPage] = [.cover, .patterns]
 
         switch report.detailLevel {
         case .patternsOnly:
@@ -53,33 +66,50 @@ enum TherapyReportPDFService {
 
         case .patternsAndNotable:
             if !report.notableLogs.isEmpty {
-                pages.append(AnyView(TherapyEntriesPage(
-                    title: "Notable entries",
-                    logs: report.notableLogs,
-                    pageNumber: nil,
-                    totalPages: nil
-                )))
+                pages.append(.notable)
             }
 
         case .fullEntries:
-            let chunks = stride(from: 0, to: report.allLogs.count, by: entriesPerPage).map { start in
-                Array(report.allLogs[start..<min(start + entriesPerPage, report.allLogs.count)])
-            }
-            for (index, chunk) in chunks.enumerated() {
-                pages.append(AnyView(TherapyEntriesPage(
-                    title: "Check-ins",
-                    logs: chunk,
-                    pageNumber: index + 1,
-                    totalPages: chunks.count
-                )))
+            let totalPages = (report.allLogs.count + entriesPerPage - 1) / entriesPerPage
+            for index in 0..<totalPages {
+                pages.append(.entries(pageNumber: index + 1, totalPages: totalPages))
             }
         }
 
         if !report.intentions.isEmpty {
-            pages.append(AnyView(TherapyIntentionsPage(summaries: report.intentions)))
+            pages.append(.intentions)
         }
 
         return pages
+    }
+
+    @ViewBuilder
+    private static func view(for page: TherapyReportPage, report: TherapyReportData) -> some View {
+        switch page {
+        case .cover:
+            TherapyCoverPage(report: report)
+        case .patterns:
+            TherapyPatternsPage(report: report)
+        case .notable:
+            TherapyEntriesPage(
+                title: "Notable entries",
+                logs: report.notableLogs,
+                pageNumber: nil,
+                totalPages: nil
+            )
+        case .entries(let pageNumber, let totalPages):
+            let start = (pageNumber - 1) * entriesPerPage
+            let end = min(start + entriesPerPage, report.allLogs.count)
+            let chunk = Array(report.allLogs[start..<end])
+            TherapyEntriesPage(
+                title: "Check-ins",
+                logs: chunk,
+                pageNumber: pageNumber,
+                totalPages: totalPages
+            )
+        case .intentions:
+            TherapyIntentionsPage(summaries: report.intentions)
+        }
     }
 
     private static func filename(for report: TherapyReportData) -> String {
