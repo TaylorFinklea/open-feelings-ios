@@ -10,6 +10,7 @@ struct HistoryView: View {
     @State private var shareItem: ShareItem?
     @State private var exportError: String?
     @State private var pendingDelete: FeelingLog?
+    @State private var editingLog: FeelingLog?
 
     private var logs: [FeelingLog] {
         Self.filteredLogs(allLogs, filter: navigation.historyFilter)
@@ -54,6 +55,11 @@ struct HistoryView: View {
             .sheet(item: $shareItem) { item in
                 ActivityView(items: [item.url])
             }
+            .sheet(item: $editingLog) { log in
+                NoteEditorSheet(log: log) { newNote in
+                    Self.updateNote(log, to: newNote, in: modelContext)
+                }
+            }
             .alert("Delete this check-in?", isPresented: deleteAlertBinding) {
                 Button("Cancel", role: .cancel) {}
                 Button("Delete", role: .destructive) {
@@ -94,7 +100,11 @@ struct HistoryView: View {
                         VStack(alignment: .leading, spacing: .OF.md) {
                             OFSectionHeader(title: group.label)
                             ForEach(group.logs) { log in
-                                OFCard { LogCard(log: log) }
+                                OFCard {
+                                    LogCard(log: log) {
+                                        editingLog = log
+                                    }
+                                }
                                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                         Button(role: .destructive) {
                                             pendingDelete = log
@@ -104,6 +114,9 @@ struct HistoryView: View {
                                     }
                                     .accessibilityAction(named: "Delete") {
                                         pendingDelete = log
+                                    }
+                                    .accessibilityAction(named: "Edit note") {
+                                        editingLog = log
                                     }
                             }
                         }
@@ -248,6 +261,11 @@ extension HistoryView {
         try? context.save()
     }
 
+    nonisolated static func updateNote(_ log: FeelingLog, to newNote: String, in context: ModelContext) {
+        log.note = newNote
+        try? context.save()
+    }
+
     private nonisolated static func labelFor(day: Date, today: Date, yesterday: Date) -> String {
         if day == today { return "Today" }
         if day == yesterday { return "Yesterday" }
@@ -257,6 +275,12 @@ extension HistoryView {
 
 struct LogCard: View {
     let log: FeelingLog
+    let onEditNote: () -> Void
+
+    init(log: FeelingLog, onEditNote: @escaping () -> Void = {}) {
+        self.log = log
+        self.onEditNote = onEditNote
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
@@ -343,6 +367,14 @@ struct LogCard: View {
         let shareTitle = "Open Feelings — \(log.createdAt.formatted(date: .abbreviated, time: .shortened))"
 
         return HStack {
+            Button {
+                onEditNote()
+            } label: {
+                Label("Edit note", systemImage: "square.and.pencil")
+                    .font(.OF.caption.weight(.medium))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(Color.OF.accent)
             Spacer()
             Menu {
                 ShareLink(
