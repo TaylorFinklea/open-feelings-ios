@@ -191,7 +191,8 @@ private struct InsightsCheckInChart: View {
                     .accessibilityLabel(entry.day.formatted(date: .abbreviated, time: .omitted))
                     .accessibilityValue(checkInCountPhrase(entry.count))
                 }
-                .accessibilityLabel("Check-ins per day chart, \(checkInCountPhrase(dataset.totalCount)) over \(dataset.countsPerDay.count) day\(dataset.countsPerDay.count == 1 ? "" : "s")")
+                .accessibilityLabel(InsightsSummary.checkInsPerDay(totalCount: dataset.totalCount,
+                                                                    dayCount: dataset.countsPerDay.count))
                 .frame(height: 160)
                 .chartYAxis {
                     AxisMarks(position: .leading) { _ in
@@ -236,7 +237,7 @@ private struct InsightsByCoreCard: View {
                     .accessibilityLabel(entry.coreName)
                     .accessibilityValue(checkInCountPhrase(entry.count))
                 }
-                .accessibilityLabel(coreSummary)
+                .accessibilityLabel(InsightsSummary.byCore(dataset.byCore))
                 .frame(height: CGFloat(dataset.byCore.count) * 32 + 24)
                 .chartXAxis {
                     AxisMarks(values: .automatic(desiredCount: 4)) { _ in
@@ -273,13 +274,6 @@ private struct InsightsByCoreCard: View {
         guard let core = EmotionTaxonomy.cores.first(where: { $0.name == coreName }) else { return }
         navigation.drillIntoHistory(filter: .coreID(core.id))
     }
-
-    private var coreSummary: String {
-        guard let top = dataset.byCore.first else {
-            return "By core chart, no data"
-        }
-        return "By core chart, top is \(top.coreName) with \(checkInCountPhrase(top.count))"
-    }
 }
 
 private struct InsightsTopFeelingsCard: View {
@@ -312,7 +306,7 @@ private struct InsightsTopFeelingsCard: View {
                         .accessibilityLabel(feeling.name)
                         .accessibilityValue(checkInCountPhrase(feeling.count))
                     }
-                    .accessibilityLabel(topFeelingsSummary)
+                    .accessibilityLabel(InsightsSummary.topFeelings(dataset.topFeelings))
                     .frame(height: CGFloat(dataset.topFeelings.count) * 32 + 24)
                     .chartXAxis {
                         AxisMarks(values: .automatic(desiredCount: 4)) { _ in
@@ -349,13 +343,6 @@ private struct InsightsTopFeelingsCard: View {
         guard let name: String = proxy.value(atY: relativeY) else { return }
         navigation.drillIntoHistory(filter: .secondaryName(name))
     }
-
-    private var topFeelingsSummary: String {
-        guard let top = dataset.topFeelings.first else {
-            return "Top feelings chart, no data"
-        }
-        return "Top feelings chart, top is \(top.name) with \(checkInCountPhrase(top.count))"
-    }
 }
 
 private struct InsightsByDayOfWeekCard: View {
@@ -383,7 +370,7 @@ private struct InsightsByDayOfWeekCard: View {
                     .accessibilityLabel(entry.label)
                     .accessibilityValue(checkInCountPhrase(entry.count))
                 }
-                .accessibilityLabel(dayOfWeekSummary)
+                .accessibilityLabel(InsightsSummary.byDayOfWeek(dataset.byDayOfWeek))
                 .frame(height: 160)
                 .chartYAxis {
                     AxisMarks(position: .leading) { _ in
@@ -421,14 +408,6 @@ private struct InsightsByDayOfWeekCard: View {
         guard let index = symbols.firstIndex(of: label) else { return }
         navigation.drillIntoHistory(filter: .weekday(index + 1))
     }
-
-    private var dayOfWeekSummary: String {
-        let busiest = dataset.byDayOfWeek.max(by: { $0.count < $1.count })
-        guard let top = busiest, top.count > 0 else {
-            return "By day of week chart, no data"
-        }
-        return "By day of week chart, busiest is \(top.label) with \(checkInCountPhrase(top.count))"
-    }
 }
 
 private struct InsightsIntensityTrendCard: View {
@@ -461,7 +440,7 @@ private struct InsightsIntensityTrendCard: View {
                         }
                     }
                 }
-                .accessibilityLabel(intensityTrendSummary)
+                .accessibilityLabel(InsightsSummary.intensityTrend(dataset.intensityTrend))
                 .chartYScale(domain: 1...5)
                 .frame(height: 160)
                 .chartYAxis {
@@ -479,14 +458,6 @@ private struct InsightsIntensityTrendCard: View {
                 }
             }
         }
-    }
-
-    private var intensityTrendSummary: String {
-        let values = dataset.intensityTrend.compactMap(\.avgIntensity)
-        guard !values.isEmpty else { return "Intensity trend chart, no data" }
-        let avg = values.reduce(0, +) / Double(values.count)
-        return String(format: "Intensity trend chart, average %.1f of 5 across %d day%@",
-                      avg, values.count, values.count == 1 ? "" : "s")
     }
 }
 
@@ -516,7 +487,7 @@ private struct InsightsBodyChart: View {
                     .accessibilityLabel(entry.region.displayName)
                     .accessibilityValue(checkInCountPhrase(entry.count))
                 }
-                .accessibilityLabel(bodySummary)
+                .accessibilityLabel(InsightsSummary.body(dataset.topBodyRegions))
                 .frame(height: CGFloat(dataset.topBodyRegions.count) * 32 + 24)
                 .chartXAxis {
                     AxisMarks(values: .automatic(desiredCount: 4)) { _ in
@@ -552,13 +523,6 @@ private struct InsightsBodyChart: View {
         guard let regionName: String = proxy.value(atY: relativeY) else { return }
         guard let region = BodyRegion.allCases.first(where: { $0.displayName == regionName }) else { return }
         navigation.drillIntoHistory(filter: .bodyRegion(region))
-    }
-
-    private var bodySummary: String {
-        guard let top = dataset.topBodyRegions.first else {
-            return "Body chart, no regions captured"
-        }
-        return "Body chart, most-felt is \(top.region.displayName) with \(checkInCountPhrase(top.count))"
     }
 }
 
@@ -619,7 +583,7 @@ private struct InsightsMoodScatter: View {
                                                    point.energy, point.valence))
                     }
                 }
-                .accessibilityLabel("Mood scale chart, \(dataset.moodPoints.count) data point\(dataset.moodPoints.count == 1 ? "" : "s")")
+                .accessibilityLabel(InsightsSummary.moodScatter(dataset.moodPoints.count))
                 .frame(height: 220)
                 .chartXScale(domain: -1...1)
                 .chartYScale(domain: -1...1)
@@ -677,11 +641,58 @@ private struct InsightsMoodScatter: View {
 
 /// VoiceOver-friendly pluralization for chart count values.
 /// "1 check-in" / "5 check-ins" / "no check-ins".
-private func checkInCountPhrase(_ count: Int) -> String {
+func checkInCountPhrase(_ count: Int) -> String {
     switch count {
     case 0: "no check-ins"
     case 1: "1 check-in"
     default: "\(count) check-ins"
+    }
+}
+
+enum InsightsSummary {
+    static func checkInsPerDay(totalCount: Int, dayCount: Int) -> String {
+        "Check-ins per day chart, \(checkInCountPhrase(totalCount)) over \(dayCount) day\(dayCount == 1 ? "" : "s")"
+    }
+
+    static func byCore(_ entries: [InsightsDataset.CoreCount]) -> String {
+        guard let top = entries.first else {
+            return "By core chart, no data"
+        }
+        return "By core chart, top is \(top.coreName) with \(checkInCountPhrase(top.count))"
+    }
+
+    static func topFeelings(_ entries: [InsightsDataset.FeelingCount]) -> String {
+        guard let top = entries.first else {
+            return "Top feelings chart, no data"
+        }
+        return "Top feelings chart, top is \(top.name) with \(checkInCountPhrase(top.count))"
+    }
+
+    static func byDayOfWeek(_ entries: [InsightsDataset.DOWCount]) -> String {
+        let busiest = entries.max(by: { $0.count < $1.count })
+        guard let top = busiest, top.count > 0 else {
+            return "By day of week chart, no data"
+        }
+        return "By day of week chart, busiest is \(top.label) with \(checkInCountPhrase(top.count))"
+    }
+
+    static func intensityTrend(_ entries: [InsightsDataset.DayIntensity]) -> String {
+        let values = entries.compactMap(\.avgIntensity)
+        guard !values.isEmpty else { return "Intensity trend chart, no data" }
+        let avg = values.reduce(0, +) / Double(values.count)
+        return String(format: "Intensity trend chart, average %.1f of 5 across %d day%@",
+                      avg, values.count, values.count == 1 ? "" : "s")
+    }
+
+    static func body(_ entries: [InsightsDataset.BodyRegionCount]) -> String {
+        guard let top = entries.first else {
+            return "Body chart, no regions captured"
+        }
+        return "Body chart, most-felt is \(top.region.displayName) with \(checkInCountPhrase(top.count))"
+    }
+
+    static func moodScatter(_ pointCount: Int) -> String {
+        "Mood scale chart, \(pointCount) data point\(pointCount == 1 ? "" : "s")"
     }
 }
 
