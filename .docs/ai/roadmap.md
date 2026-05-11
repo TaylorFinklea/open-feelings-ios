@@ -80,19 +80,37 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 **Tier hint**: Haiku/Sonnet — well-bounded SwiftUI mechanics, ~50 net lines.
 
 ### Unit tests for Insights chart summary strings
+<!-- Done 2026-05-10 — Extracted chart-level VoiceOver summaries into `InsightsSummary` and added 15 unit tests covering empty, singular/plural, top-entry, intensity, body, and mood scatter cases. Full app + UI test suite passes. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-insights-summary-tests-design.md`](../../docs/superpowers/specs/2026-05-10-insights-summary-tests-design.md)
 **Scope**: Backfill missing coverage on the chart-level `.accessibilityLabel(...)` summaries shipped in build 15. Extract the 5 inline `private var ...Summary: String` computed properties into a top-level `enum InsightsSummary { static func ... }`, swap the call sites, and add ~16 unit tests covering empty data, pluralization, and the busiest/most-felt/top-N selection logic. No UI or model change.
 **Tier hint**: Haiku — tests-only deliverable with a mechanical refactor.
 
 ### Unit tests for TherapyReportPDFService page composition
+<!-- Done 2026-05-10 — Replaced `makePages(for:)` with value-typed `TherapyReportPage` manifests plus renderer mapping. Added 13 UIKit-free page-composition tests; full app + UI test suite passes. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-therapy-report-page-composition-tests-design.md`](../../docs/superpowers/specs/2026-05-10-therapy-report-page-composition-tests-design.md)
 **Scope**: Extract the private `makePages(for:) -> [AnyView]` page-builder into a pure value-typed `static func pages(for:) -> [TherapyReportPage]` + a small `view(for:report:)` renderer mapping. Add ~12 tests for the page-list shape across all three detail levels, with and without intentions, including the 5-per-page pagination math. No UIKit at test time.
 **Tier hint**: Sonnet — tests-only deliverable plus the makePages refactor.
 
 ### History — group cards by date
+<!-- Done 2026-05-10 — History now groups filtered logs under `OFSectionHeader` day buckets. Added `HistoryView.groupByDay(_:now:calendar:)` and 8 tests for bucketing, ordering, and labels; full app + UI test suite passes. -->
 **Spec**: [`docs/superpowers/specs/2026-05-10-history-date-grouping-design.md`](../../docs/superpowers/specs/2026-05-10-history-date-grouping-design.md)
 **Scope**: Insert `OFSectionHeader`s between History cards so logs group under day-of-week headers ("Today", "Yesterday", "Thu, May 8"). Extract a static `groupByDay(_:now:calendar:)` helper and add ~8 tests for bucketing, sort order, and label resolution. Filter banner and swipe-to-delete already work alongside this — no regressions expected.
 **Tier hint**: Sonnet — small UX feature + tested helper, ~80 net lines including tests.
+
+### AXChartDescriptor for Top Feelings and By Core charts
+**Spec**: [`docs/superpowers/specs/2026-05-10-ax-chart-descriptor-design.md`](../../docs/superpowers/specs/2026-05-10-ax-chart-descriptor-design.md)
+**Scope**: Implement `AXChartDescriptorRepresentable` on the two highest-value Insights charts so VoiceOver's rotor exposes a "Chart Details" navigation item. Shared `barCategorical(title:items:)` builder + small per-chart wrappers. ~6 unit tests for descriptor shape (title, series count, data-point ordering). Other charts deferred.
+**Tier hint**: Sonnet — Apple-specific AX API, structure is mostly mechanical once the API pattern is grasped.
+
+### Wizard chip accessibility identifiers + smoke UI test
+**Spec**: [`docs/superpowers/specs/2026-05-10-wizard-chip-identifiers-design.md`](../../docs/superpowers/specs/2026-05-10-wizard-chip-identifiers-design.md)
+**Scope**: `OFChip` auto-derives an `.accessibilityIdentifier` from its label ("Chest" → `chip.chest`). Every chip in the wizard becomes XCUITest-targetable for future test coverage. Adds 6 unit tests for the identifier transform plus a UI smoke test that taps the Body Everywhere chip and asserts `.isSelected`.
+**Tier hint**: Haiku — one-file change, predictable text transform, simple tests.
+
+### History — edit the note on a saved check-in
+**Spec**: [`docs/superpowers/specs/2026-05-10-history-edit-note-design.md`](../../docs/superpowers/specs/2026-05-10-history-edit-note-design.md)
+**Scope**: Add an "Edit note" swipe action and VoiceOver action on each History card. Tap → modal sheet with a TextEditor pre-filled with the current note; Save persists via `HistoryView.updateNote(_:to:in:)`. Note-only — emotion/intensity stay read-only by design (the moment, not the journal). 4 unit tests with an in-memory ModelContainer.
+**Tier hint**: Sonnet — small feature, established sheet-binding pattern, schema unchanged.
 
 
 - Emotion taxonomy content is adapted from Open Emotion Wheel v1.1 and must preserve Open Emotion Wheel attribution and CC BY-SA 4.0 licensing.
