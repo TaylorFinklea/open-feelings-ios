@@ -89,19 +89,24 @@ struct HistoryView: View {
             )
         } else {
             ScrollView {
-                VStack(spacing: .OF.md) {
-                    ForEach(logs) { log in
-                        OFCard { LogCard(log: log) }
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button(role: .destructive) {
-                                    pendingDelete = log
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
+                VStack(alignment: .leading, spacing: .OF.lg) {
+                    ForEach(Self.groupByDay(logs)) { group in
+                        VStack(alignment: .leading, spacing: .OF.md) {
+                            OFSectionHeader(title: group.label)
+                            ForEach(group.logs) { log in
+                                OFCard { LogCard(log: log) }
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button(role: .destructive) {
+                                            pendingDelete = log
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                                    .accessibilityAction(named: "Delete") {
+                                        pendingDelete = log
+                                    }
                             }
-                            .accessibilityAction(named: "Delete") {
-                                pendingDelete = log
-                            }
+                        }
                     }
                 }
                 .padding(.horizontal, CGFloat.OF.lg)
@@ -184,6 +189,45 @@ struct HistoryView: View {
 }
 
 extension HistoryView {
+    struct DayGroup: Identifiable, Equatable {
+        var id: Date { day }
+        let day: Date
+        let label: String
+        let logs: [FeelingLog]
+
+        static func == (lhs: DayGroup, rhs: DayGroup) -> Bool {
+            lhs.day == rhs.day
+                && lhs.label == rhs.label
+                && lhs.logs.map(\.id) == rhs.logs.map(\.id)
+        }
+    }
+
+    nonisolated static func groupByDay(_ logs: [FeelingLog],
+                                       now: Date = Date(),
+                                       calendar: Calendar = .current) -> [DayGroup] {
+        let sorted = logs.sorted { $0.createdAt > $1.createdAt }
+        let today = calendar.startOfDay(for: now)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+
+        var buckets: [(day: Date, logs: [FeelingLog])] = []
+        for log in sorted {
+            let day = calendar.startOfDay(for: log.createdAt)
+            if buckets.last?.day == day {
+                buckets[buckets.count - 1].logs.append(log)
+            } else {
+                buckets.append((day: day, logs: [log]))
+            }
+        }
+
+        return buckets.map { bucket in
+            DayGroup(
+                day: bucket.day,
+                label: labelFor(day: bucket.day, today: today, yesterday: yesterday),
+                logs: bucket.logs
+            )
+        }
+    }
+
     nonisolated static func filteredLogs(_ logs: [FeelingLog], filter: HistoryFilter?) -> [FeelingLog] {
         guard let filter else { return logs }
         switch filter {
@@ -202,6 +246,12 @@ extension HistoryView {
     static func deleteLog(_ log: FeelingLog, in context: ModelContext) {
         context.delete(log)
         try? context.save()
+    }
+
+    private nonisolated static func labelFor(day: Date, today: Date, yesterday: Date) -> String {
+        if day == today { return "Today" }
+        if day == yesterday { return "Yesterday" }
+        return day.formatted(.dateTime.weekday(.abbreviated).month(.abbreviated).day())
     }
 }
 
