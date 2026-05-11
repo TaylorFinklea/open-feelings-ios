@@ -79,6 +79,21 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 **Scope**: Standard SwiftUI `.swipeActions` + confirmation alert on each `LogCard`, plus an `.accessibilityAction(named: "Delete")` for VoiceOver users. Refactor delete into a static helper `HistoryView.deleteLog(_:in:)` for testability; two unit tests using an in-memory ModelContainer.
 **Tier hint**: Haiku/Sonnet — well-bounded SwiftUI mechanics, ~50 net lines.
 
+### Unit tests for Insights chart summary strings
+**Spec**: [`docs/superpowers/specs/2026-05-10-insights-summary-tests-design.md`](../../docs/superpowers/specs/2026-05-10-insights-summary-tests-design.md)
+**Scope**: Backfill missing coverage on the chart-level `.accessibilityLabel(...)` summaries shipped in build 15. Extract the 5 inline `private var ...Summary: String` computed properties into a top-level `enum InsightsSummary { static func ... }`, swap the call sites, and add ~16 unit tests covering empty data, pluralization, and the busiest/most-felt/top-N selection logic. No UI or model change.
+**Tier hint**: Haiku — tests-only deliverable with a mechanical refactor.
+
+### Unit tests for TherapyReportPDFService page composition
+**Spec**: [`docs/superpowers/specs/2026-05-10-therapy-report-page-composition-tests-design.md`](../../docs/superpowers/specs/2026-05-10-therapy-report-page-composition-tests-design.md)
+**Scope**: Extract the private `makePages(for:) -> [AnyView]` page-builder into a pure value-typed `static func pages(for:) -> [TherapyReportPage]` + a small `view(for:report:)` renderer mapping. Add ~12 tests for the page-list shape across all three detail levels, with and without intentions, including the 5-per-page pagination math. No UIKit at test time.
+**Tier hint**: Sonnet — tests-only deliverable plus the makePages refactor.
+
+### History — group cards by date
+**Spec**: [`docs/superpowers/specs/2026-05-10-history-date-grouping-design.md`](../../docs/superpowers/specs/2026-05-10-history-date-grouping-design.md)
+**Scope**: Insert `OFSectionHeader`s between History cards so logs group under day-of-week headers ("Today", "Yesterday", "Thu, May 8"). Extract a static `groupByDay(_:now:calendar:)` helper and add ~8 tests for bucketing, sort order, and label resolution. Filter banner and swipe-to-delete already work alongside this — no regressions expected.
+**Tier hint**: Sonnet — small UX feature + tested helper, ~80 net lines including tests.
+
 
 - Emotion taxonomy content is adapted from Open Emotion Wheel v1.1 and must preserve Open Emotion Wheel attribution and CC BY-SA 4.0 licensing.
 - Emotion definitions are original educational summaries with reference-source documentation; they must not be presented as diagnosis or treatment advice.
