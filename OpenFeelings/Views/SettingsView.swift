@@ -122,12 +122,14 @@ struct SettingsView: View {
 
     private var privacySection: some View {
         section(title: "Privacy") {
-            OFListRow(title: "Require Face ID or passcode", systemImage: "lock.shield") {
-                Toggle("", isOn: $appLockEnabled)
-                    .labelsHidden()
-                    .tint(Color.OF.accent.color(for: colorScheme))
+            if FeatureFlags.appLockEnabled {
+                OFListRow(title: "Require Face ID or passcode", systemImage: "lock.shield") {
+                    Toggle("", isOn: $appLockEnabled)
+                        .labelsHidden()
+                        .tint(Color.OF.accent.color(for: colorScheme))
+                }
+                divider
             }
-            divider
             OFListRow(title: "Data storage",
                       subtitle: "On device + private iCloud",
                       systemImage: "lock.icloud")

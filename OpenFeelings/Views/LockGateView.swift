@@ -9,9 +9,13 @@ struct LockGateView<Content: View>: View {
 
     let content: () -> Content
 
+    private var lockActive: Bool {
+        FeatureFlags.appLockEnabled && appLockEnabled
+    }
+
     var body: some View {
         Group {
-            if appLockEnabled && !isUnlocked {
+            if lockActive && !isUnlocked {
                 lockedView
             } else {
                 content()
@@ -22,7 +26,7 @@ struct LockGateView<Content: View>: View {
             // control center, incoming calls, and notification center all pass
             // the scene through .inactive — using `!= .active` here would undo
             // a successful unlock right as the prompt dismisses.
-            if appLockEnabled && newPhase == .background {
+            if lockActive && newPhase == .background {
                 isUnlocked = false
             }
         }
