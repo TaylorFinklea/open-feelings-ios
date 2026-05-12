@@ -43,9 +43,17 @@ enum TherapyReportPDFService {
                     content: view(for: page, report: report)
                         .frame(width: pageSize.width, height: pageSize.height)
                 )
+                // PDF contexts use Cartesian (origin bottom-left); SwiftUI's
+                // ImageRenderer draws in UIKit coords (origin top-left). Flip
+                // the Y axis around the page height so content lands right-
+                // side up. Save/restore so consecutive pages start clean.
+                ctx.cgContext.saveGState()
+                ctx.cgContext.translateBy(x: 0, y: pageSize.height)
+                ctx.cgContext.scaleBy(x: 1, y: -1)
                 imageRenderer.render { _, render in
                     render(ctx.cgContext)
                 }
+                ctx.cgContext.restoreGState()
             }
         }
 
