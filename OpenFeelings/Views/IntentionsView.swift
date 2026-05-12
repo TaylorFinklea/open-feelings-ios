@@ -9,6 +9,7 @@ struct IntentionsView: View {
     @State private var todayDraft: String = ""
     @State private var draftLoaded = false
     @State private var expandedIDs: Set<UUID> = []
+    @FocusState private var todayFocused: Bool
 
     private var startOfToday: Date { Calendar.current.startOfDay(for: Date()) }
 
@@ -43,8 +44,22 @@ struct IntentionsView: View {
             .padding(.bottom, CGFloat.OF.xxxl)
         }
         .background(Color.OF.background, ignoresSafeAreaEdges: .all)
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button {
+                    todayFocused = false
+                } label: {
+                    Label("Hide keyboard", systemImage: "keyboard.chevron.compact.down")
+                        .labelStyle(.iconOnly)
+                        .font(.title3)
+                }
+                .accessibilityLabel("Hide keyboard")
+            }
+        }
         .onAppear { loadDraftIfNeeded() }
         .onChange(of: todaysIntention?.text) { _, _ in loadDraftIfNeeded() }
     }
@@ -74,6 +89,7 @@ struct IntentionsView: View {
                 TextField("Pause when I feel rushed.", text: $todayDraft, axis: .vertical)
                     .lineLimit(2...6)
                     .font(.OF.body)
+                    .focused($todayFocused)
                     .padding(CGFloat.OF.md)
                     .background(Color.OF.surface,
                                 in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
@@ -128,6 +144,7 @@ struct IntentionsView: View {
             modelContext.insert(new)
         }
         try? modelContext.save()
+        todayFocused = false
     }
 
     // MARK: - Look-back
