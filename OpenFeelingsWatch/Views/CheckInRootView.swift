@@ -2,15 +2,23 @@ import SwiftUI
 
 struct CheckInRootView: View {
     @Environment(WatchSessionClient.self) private var sessionClient
-    @State private var step: Step = .feeling
+    @State private var step: Step = .core
     @State private var selectedCore: EmotionCore?
+    @State private var selectedSecondary: EmotionSecondary?
+    @State private var selectedSpecific: EmotionSpecific?
     @State private var intensity: Int = 3
+    @State private var bodyRegions: Set<BodyRegion> = []
+    @State private var bodySensations: Set<BodySensation> = []
     @State private var note: String = ""
     @State private var didSend: Bool = false
 
     enum Step: Hashable {
-        case feeling
+        case core
+        case secondary
+        case specific
         case intensity
+        case body
+        case sensations
         case note
         case confirm
     }
@@ -25,63 +33,138 @@ struct CheckInRootView: View {
     @ViewBuilder
     private var content: some View {
         switch step {
-        case .feeling:
+        case .core:
             CoreFeelingPicker { core in
                 selectedCore = core
-                step = .intensity
+                selectedSecondary = nil
+                selectedSpecific = nil
+                step = .secondary
             }
+
+        case .secondary:
+            if let core = selectedCore {
+                SecondaryFeelingPicker(
+                    core: core,
+                    onStopAtCore: { step = .intensity },
+                    onSelect: { secondary in
+                        selectedSecondary = secondary
+                        selectedSpecific = nil
+                        step = .specific
+                    }
+                )
+            }
+
+        case .specific:
+            if let secondary = selectedSecondary {
+                SpecificFeelingPicker(
+                    secondary: secondary,
+                    onStopAtSecondary: { step = .intensity },
+                    onSelect: { specific in
+                        selectedSpecific = specific
+                        step = .intensity
+                    }
+                )
+            }
+
         case .intensity:
             if let core = selectedCore {
                 IntensityPicker(
                     core: core,
                     intensity: $intensity,
-                    onContinue: { step = .note },
-                    onBack: { step = .feeling }
+                    onContinue: { step = .body },
+                    onBack: { step = backStepFromIntensity }
                 )
             }
+
+        case .body:
+            BodyRegionPicker(
+                selection: $bodyRegions,
+                onContinue: { step = shouldShowSensations ? .sensations : .note }
+            )
+
+        case .sensations:
+            SensationPicker(
+                selection: $bodySensations,
+                onContinue: { step = .note }
+            )
+
         case .note:
             NoteEntryView(
                 note: $note,
                 onContinue: { step = .confirm },
-                onBack: { step = .intensity }
+                onBack: { step = .body }
             )
+
         case .confirm:
             confirmView
         }
     }
 
+    private var backStepFromIntensity: Step {
+        if selectedSecondary != nil { return .specific }
+        return .secondary
+    }
+
+    private var shouldShowSensations: Bool {
+        !bodyRegions.isEmpty && !bodyRegions.contains(.nowhere)
+    }
+
+    private var feelingPath: String {
+        let parts = [selectedCore?.name, selectedSecondary?.name, selectedSpecific?.name]
+            .compactMap { $0 }
+        return parts.joined(separator: " › ")
+    }
+
     private var confirmView: some View {
-        VStack(spacing: 12) {
-            if let core = selectedCore {
-                Text(core.name)
-                    .font(.title3)
+        ScrollView {
+            VStack(spacing: 10) {
+                Text(feelingPath)
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+
                 Text("Intensity \(intensity)")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
-                if !note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    Text(note)
+
+                if !bodyRegions.isEmpty {
+                    Text(bodyRegions.map(\.displayName).sorted().joined(separator: ", "))
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+
+                if !bodySensations.isEmpty {
+                    Text(bodySensations.map(\.displayName).sorted().joined(separator: ", "))
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+
+                if !trimmedNote.isEmpty {
+                    Text(trimmedNote)
                         .font(.footnote)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 4)
                 }
-            }
-            if didSend {
-                Label("Sent", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-            } else {
-                Button {
-                    sendPayload()
-                } label: {
-                    Label("Send", systemImage: "paperplane.fill")
-                        .frame(maxWidth: .infinity)
+
+                if didSend {
+                    Label("Sent", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                    Button("New Check-In") { reset() }
+                } else {
+                    Button(action: sendPayload) {
+                        Label("Send", systemImage: "paperplane.fill")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
-                .buttonStyle(.borderedProminent)
             }
-            if didSend {
-                Button("New Check-In") { reset() }
-            }
+            .padding()
         }
-        .padding()
+    }
+
+    private var trimmedNote: String {
+        note.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func sendPayload() {
@@ -89,17 +172,27 @@ struct CheckInRootView: View {
         let payload = WatchCheckInPayload(
             coreID: core.id,
             coreName: core.name,
+            secondaryID: selectedSecondary?.id,
+            secondaryName: selectedSecondary?.name,
+            specificID: selectedSpecific?.id,
+            specificName: selectedSpecific?.name,
             intensity: intensity,
-            note: note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : note
+            bodyRegions: bodyRegions.map(\.rawValue),
+            bodySensations: bodySensations.map(\.rawValue),
+            note: trimmedNote.isEmpty ? nil : trimmedNote
         )
         sessionClient.send(payload)
         didSend = true
     }
 
     private func reset() {
-        step = .feeling
+        step = .core
         selectedCore = nil
+        selectedSecondary = nil
+        selectedSpecific = nil
         intensity = 3
+        bodyRegions = []
+        bodySensations = []
         note = ""
         didSend = false
     }

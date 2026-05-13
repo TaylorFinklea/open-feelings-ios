@@ -68,22 +68,29 @@ final class WatchSyncService: NSObject {
         return ((try? context.fetchCount(descriptor)) ?? 0) > 0
     }
 
-    // The mapping from a lean watch payload to a full `FeelingLog`.
-    // Watch entries carry only core feeling + optional intensity + optional note.
-    // Other FeelingLog fields are left at defaults so the entry reads cleanly in
-    // Today view as "<Core>" without a fake secondary path, and so future iOS
-    // edits can fill in detail without conflicts.
+    // Maps a watch payload (which may stop at any feeling-drill level and may
+    // include body regions/sensations) into a full `FeelingLog`. Unknown body
+    // tokens are dropped silently via the BodyRegion/BodySensation parse helpers
+    // so a schema drift between watch and phone can't crash the receive path.
     func makeFeelingLog(from payload: WatchCheckInPayload) -> FeelingLog {
         let initialHealthStatus: HealthSyncStatus = isHealthEnabled ? .pending : .notRequested
         let trimmedNote = payload.note?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let regions = payload.bodyRegions.compactMap(BodyRegion.init(rawValue:))
+        let sensations = payload.bodySensations.compactMap(BodySensation.init(rawValue:))
         return FeelingLog(
             id: payload.id,
             createdAt: payload.createdAt,
             coreID: payload.coreID,
             coreName: payload.coreName,
+            secondaryID: payload.secondaryID ?? "",
+            secondaryName: payload.secondaryName ?? "",
+            specificID: payload.specificID ?? "",
+            specificName: payload.specificName ?? "",
             intensity: payload.intensity,
             note: trimmedNote,
             healthSyncStatus: initialHealthStatus,
+            bodyRegions: regions,
+            bodySensations: sensations,
             captureSource: "watch"
         )
     }

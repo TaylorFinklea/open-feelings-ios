@@ -86,26 +86,39 @@ final class FeelingLog {
         self.captureSource = captureSource
     }
 
-    // Convenience init for entries captured from a non-iPhone source (e.g., Apple Watch),
-    // where only the core feeling is known. Secondary/specific path stay empty so the
-    // Today view shows "<Core>" cleanly and a later iOS edit can fill in detail.
+    // Convenience init for entries captured from a non-iPhone source (e.g., Apple Watch).
+    // Watch payloads carry the emotion path as raw IDs/names rather than an EmotionSelection
+    // — the watch may stop at any drill level, so secondary/specific are optional and stored
+    // as empty strings when absent, mirroring how the iOS path renders partial selections.
     init(
         id: UUID,
         createdAt: Date,
         coreID: String,
         coreName: String,
+        secondaryID: String = "",
+        secondaryName: String = "",
+        specificID: String = "",
+        specificName: String = "",
         intensity: Int?,
         note: String,
         healthSyncStatus: HealthSyncStatus,
+        bodyRegions: [BodyRegion] = [],
+        bodySensations: [BodySensation] = [],
         captureSource: String
     ) {
         self.id = id
         self.createdAt = createdAt
         self.coreID = coreID
         self.coreName = coreName
+        self.secondaryID = secondaryID
+        self.secondaryName = secondaryName
+        self.specificID = specificID
+        self.specificName = specificName
         self.intensity = intensity
         self.note = note
         healthSyncStatusRaw = healthSyncStatus.rawValue
+        bodyRegionsRaw = BodyRegion.encodeList(bodyRegions)
+        bodySensationsRaw = BodySensation.encodeList(bodySensations)
         self.captureSource = captureSource
     }
 

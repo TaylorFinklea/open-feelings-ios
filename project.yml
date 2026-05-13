@@ -44,6 +44,7 @@ targets:
       - path: OpenFeelingsWatch
       - path: OpenFeelings/Shared
       - path: OpenFeelings/Models/EmotionTaxonomy.swift
+      - path: OpenFeelings/Models/BodyTaxonomy.swift
     dependencies:
       - sdk: WatchConnectivity.framework
     settings:

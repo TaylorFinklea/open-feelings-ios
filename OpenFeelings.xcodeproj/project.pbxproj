@@ -25,6 +25,8 @@
 		18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */; };
 		189D1693B1C37C03C1976141 /* WeekSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */; };
 		1A824B16E348EDA780D3550E /* JournalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24DA87BAAB515E03C03965D /* JournalText.swift */; };
+		212D290737542E9A4F507DBD /* SecondaryFeelingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4BCFF283DD0D0F66527D705 /* SecondaryFeelingPicker.swift */; };
+		21C88844821E3A38CCB8002F /* BodyTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */; };
 		2738E06A6C334EC851C7B103 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4C624625E9E1C8E4381C457 /* Assets.xcassets */; };
 		2B2D4B5BE6783AA819C122FD /* OFChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DFD5B60E08A57A1FFBDA /* OFChip.swift */; };
 		2B7CCCA566134D1C3BD9ABFE /* OFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEC32E3B681940E6AEEC72 /* OFButton.swift */; };
@@ -44,9 +46,11 @@
 		39569C6CB305989603C0C187 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C7552D87622E0084230E5E /* WatchConnectivity.framework */; };
 		397ABA5F8FAFD64C1EC14019 /* LearnedBodyMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E574AA868473503162215C /* LearnedBodyMap.swift */; };
 		399059894BECDC267871CEDE /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F6FF9EEE69BDBD038A224B /* InsightsView.swift */; };
+		3CFA80EE13B5665871E1D1CE /* SpecificFeelingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A230E1202D1D42214CE2F /* SpecificFeelingPicker.swift */; };
 		3D5BDB7D779D26BDA9905666 /* WheelViewportTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CD3074A5394FAAE9FBB07B /* WheelViewportTransformTests.swift */; };
 		3FD3936D3F358291ED7B7FD9 /* MoodScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */; };
 		406AE87BB5B6683201CC353F /* CheckInDraftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4073497ECC60F9CC7EEBD189 /* CheckInDraftTests.swift */; };
+		40C2D0C262E0CE5974F24722 /* SensationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467A1BE03FA4A9092BADB1FB /* SensationPicker.swift */; };
 		4111A094708B2A54B9557B70 /* ExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */; };
 		424AAD19887413FB7CAFBBCD /* LearnedBodyMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8CC033A8036714D6596C7C /* LearnedBodyMapTests.swift */; };
 		42E45D793A6B92B8E2D75185 /* ContextStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = C461C99EA02F647B219DBACC /* ContextStep.swift */; };
@@ -108,6 +112,7 @@
 		A6EF522C92D7DD08E1852A91 /* StepProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */; };
 		A7087DF600D27FA710FB840C /* Intention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139F747628A106913257991 /* Intention.swift */; };
 		A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */; };
+		AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */; };
 		AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295D45C9D0C561EB42973B20 /* StepNav.swift */; };
 		B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */; };
 		B6FD43FFC5F3CEB1EED4919D /* WatchCheckInPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E063AD3C5F9E15541D46AC /* WatchCheckInPayload.swift */; };
@@ -219,6 +224,7 @@
 		42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFelt.swift; sourceTree = "<group>"; };
 		430D545A44D2FD8E845DA0B4 /* CheckInFlowEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowEngine.swift; sourceTree = "<group>"; };
 		464D885245E0FF5E70E4FF20 /* OpenFeelingsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenFeelingsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		467A1BE03FA4A9092BADB1FB /* SensationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensationPicker.swift; sourceTree = "<group>"; };
 		4803243D62430FBFD50B50F1 /* OpenFeelingsUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4863F4EFA1517ABBCA9B87B5 /* BodyEmotionMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyEmotionMapTests.swift; sourceTree = "<group>"; };
 		493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
@@ -265,6 +271,7 @@
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E063AD3C5F9E15541D46AC /* WatchCheckInPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInPayload.swift; sourceTree = "<group>"; };
+		9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyRegionPicker.swift; sourceTree = "<group>"; };
 		9A91A71CCB26AE83A2F45AB9 /* InsightsSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsSummaryTests.swift; sourceTree = "<group>"; };
 		9B347D3DFDCF1B5DDBA9ECA8 /* HistoryDateGroupingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDateGroupingTests.swift; sourceTree = "<group>"; };
 		9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsUITests.swift; sourceTree = "<group>"; };
@@ -277,6 +284,7 @@
 		A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardCheckInView.swift; sourceTree = "<group>"; };
 		A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMapSettingsView.swift; sourceTree = "<group>"; };
 		A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepProgressBar.swift; sourceTree = "<group>"; };
+		A4BCFF283DD0D0F66527D705 /* SecondaryFeelingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryFeelingPicker.swift; sourceTree = "<group>"; };
 		A638C240E85A7FEA5F2D883F /* IntentionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsView.swift; sourceTree = "<group>"; };
 		A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModeTests.swift; sourceTree = "<group>"; };
 		A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodySilhouetteView.swift; sourceTree = "<group>"; };
@@ -311,6 +319,7 @@
 		E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScale.swift; sourceTree = "<group>"; };
 		EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTaxonomyTests.swift; sourceTree = "<group>"; };
 		F305DB0DD1C152FEAF981408 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		F40A230E1202D1D42214CE2F /* SpecificFeelingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificFeelingPicker.swift; sourceTree = "<group>"; };
 		F420444BE4D3721C8F87B92D /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		F6959718821B4B5A9BE5B391 /* MoodStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodStep.swift; sourceTree = "<group>"; };
 		F75137FB505AFD167B0BE54E /* CopingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopingStep.swift; sourceTree = "<group>"; };
@@ -390,10 +399,14 @@
 		31BDFCDB21B2C74430FA1704 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */,
 				5C11D8D490876864723023D4 /* CheckInRootView.swift */,
 				13E2166C782A963AA06ACC3B /* CoreFeelingPicker.swift */,
 				DAE13AE950D2FC48D6396207 /* IntensityPicker.swift */,
 				E3D68D35EA481C77B2226517 /* NoteEntryView.swift */,
+				A4BCFF283DD0D0F66527D705 /* SecondaryFeelingPicker.swift */,
+				467A1BE03FA4A9092BADB1FB /* SensationPicker.swift */,
+				F40A230E1202D1D42214CE2F /* SpecificFeelingPicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -868,12 +881,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */,
+				21C88844821E3A38CCB8002F /* BodyTaxonomy.swift in Sources */,
 				4DEC3D3D1CDB695B2FDACA6F /* CheckInRootView.swift in Sources */,
 				4DF1FCB2092988CE954C1507 /* CoreFeelingPicker.swift in Sources */,
 				2D7523DB9F3627E60DCAB521 /* EmotionTaxonomy.swift in Sources */,
 				088A0A9547D3AF1856032AD0 /* IntensityPicker.swift in Sources */,
 				D5F720F7DB22873766889092 /* NoteEntryView.swift in Sources */,
 				32BB847E8084657FD00587CE /* OpenFeelingsWatchApp.swift in Sources */,
+				212D290737542E9A4F507DBD /* SecondaryFeelingPicker.swift in Sources */,
+				40C2D0C262E0CE5974F24722 /* SensationPicker.swift in Sources */,
+				3CFA80EE13B5665871E1D1CE /* SpecificFeelingPicker.swift in Sources */,
 				B6FD43FFC5F3CEB1EED4919D /* WatchCheckInPayload.swift in Sources */,
 				6B45C1549F740BE3821481CB /* WatchSessionClient.swift in Sources */,
 			);

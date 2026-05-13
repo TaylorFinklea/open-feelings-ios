@@ -19,7 +19,13 @@ final class WatchSyncServiceTests: XCTestCase {
         id: UUID = UUID(),
         coreID: String = "happy",
         coreName: String = "Happy",
+        secondaryID: String? = nil,
+        secondaryName: String? = nil,
+        specificID: String? = nil,
+        specificName: String? = nil,
         intensity: Int? = 4,
+        bodyRegions: [String] = [],
+        bodySensations: [String] = [],
         note: String? = "logged from wrist"
     ) -> WatchCheckInPayload {
         WatchCheckInPayload(
@@ -27,7 +33,13 @@ final class WatchSyncServiceTests: XCTestCase {
             createdAt: Date(timeIntervalSince1970: 1_700_000_000),
             coreID: coreID,
             coreName: coreName,
+            secondaryID: secondaryID,
+            secondaryName: secondaryName,
+            specificID: specificID,
+            specificName: specificName,
             intensity: intensity,
+            bodyRegions: bodyRegions,
+            bodySensations: bodySensations,
             note: note
         )
     }
@@ -37,13 +49,12 @@ final class WatchSyncServiceTests: XCTestCase {
         return (try? context.fetch(FetchDescriptor<FeelingLog>())) ?? []
     }
 
-    func testMakeFeelingLogMapsWatchFieldsAndLeavesPathEmpty() throws {
+    func testMakeFeelingLogCoreOnlyPath() throws {
         let service = WatchSyncService(healthService: HealthService())
         let payload = makePayload(intensity: 3, note: "  trimmed  ")
 
         let log = service.makeFeelingLog(from: payload)
 
-        XCTAssertEqual(log.id, payload.id)
         XCTAssertEqual(log.coreID, "happy")
         XCTAssertEqual(log.coreName, "Happy")
         XCTAssertEqual(log.intensity, 3)
@@ -53,10 +64,58 @@ final class WatchSyncServiceTests: XCTestCase {
         XCTAssertTrue(log.secondaryName.isEmpty)
         XCTAssertTrue(log.specificID.isEmpty)
         XCTAssertTrue(log.specificName.isEmpty)
-        XCTAssertNil(log.moodEnergy)
-        XCTAssertNil(log.moodValence)
         XCTAssertTrue(log.bodyRegions.isEmpty)
-        XCTAssertTrue(log.triggers.isEmpty)
+        XCTAssertTrue(log.bodySensations.isEmpty)
+    }
+
+    func testMakeFeelingLogFullDrillAndBody() throws {
+        let service = WatchSyncService(healthService: HealthService())
+        let payload = makePayload(
+            secondaryID: "optimistic",
+            secondaryName: "Optimistic",
+            specificID: "hopeful",
+            specificName: "Hopeful",
+            bodyRegions: ["chest", "head"],
+            bodySensations: ["warm", "fluttery"]
+        )
+
+        let log = service.makeFeelingLog(from: payload)
+
+        XCTAssertEqual(log.secondaryID, "optimistic")
+        XCTAssertEqual(log.secondaryName, "Optimistic")
+        XCTAssertEqual(log.specificID, "hopeful")
+        XCTAssertEqual(log.specificName, "Hopeful")
+        XCTAssertEqual(log.pathTitle, "Happy > Optimistic > Hopeful")
+        XCTAssertEqual(Set(log.bodyRegions), Set([.chest, .head]))
+        XCTAssertEqual(Set(log.bodySensations), Set([.warm, .fluttery]))
+    }
+
+    func testMakeFeelingLogPartialDrillCoreAndSecondary() throws {
+        let service = WatchSyncService(healthService: HealthService())
+        let payload = makePayload(
+            coreName: "Fearful",
+            secondaryID: "anxious",
+            secondaryName: "Anxious"
+        )
+
+        let log = service.makeFeelingLog(from: payload)
+
+        XCTAssertEqual(log.secondaryName, "Anxious")
+        XCTAssertTrue(log.specificName.isEmpty)
+        XCTAssertEqual(log.pathTitle, "Fearful > Anxious")
+    }
+
+    func testMakeFeelingLogDropsUnknownBodyTokensSilently() throws {
+        let service = WatchSyncService(healthService: HealthService())
+        let payload = makePayload(
+            bodyRegions: ["chest", "elbow_typo"],
+            bodySensations: ["warm", "vibrating_typo"]
+        )
+
+        let log = service.makeFeelingLog(from: payload)
+
+        XCTAssertEqual(log.bodyRegions, [.chest])
+        XCTAssertEqual(log.bodySensations, [.warm])
     }
 
     func testIngestInsertsExactlyOneRow() throws {
