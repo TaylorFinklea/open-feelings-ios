@@ -45,6 +45,7 @@ final class FeelingLog {
     var copingRaw: String = ""
     var moodEnergy: Double?
     var moodValence: Double?
+    var captureSource: String = "phone"
 
     init(
         id: UUID = UUID(),
@@ -60,7 +61,8 @@ final class FeelingLog {
         triggers: [Trigger] = [],
         coping: [Coping] = [],
         moodEnergy: Double? = nil,
-        moodValence: Double? = nil
+        moodValence: Double? = nil,
+        captureSource: String = "phone"
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -81,6 +83,30 @@ final class FeelingLog {
         copingRaw = Coping.encodeList(coping)
         self.moodEnergy = moodEnergy
         self.moodValence = moodValence
+        self.captureSource = captureSource
+    }
+
+    // Convenience init for entries captured from a non-iPhone source (e.g., Apple Watch),
+    // where only the core feeling is known. Secondary/specific path stay empty so the
+    // Today view shows "<Core>" cleanly and a later iOS edit can fill in detail.
+    init(
+        id: UUID,
+        createdAt: Date,
+        coreID: String,
+        coreName: String,
+        intensity: Int?,
+        note: String,
+        healthSyncStatus: HealthSyncStatus,
+        captureSource: String
+    ) {
+        self.id = id
+        self.createdAt = createdAt
+        self.coreID = coreID
+        self.coreName = coreName
+        self.intensity = intensity
+        self.note = note
+        healthSyncStatusRaw = healthSyncStatus.rawValue
+        self.captureSource = captureSource
     }
 
     var healthSyncStatus: HealthSyncStatus {

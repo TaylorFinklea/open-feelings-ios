@@ -22,6 +22,9 @@ targets:
       - sdk: HealthKit.framework
       - sdk: LocalAuthentication.framework
       - sdk: UserNotifications.framework
+      - sdk: WatchConnectivity.framework
+      - target: OpenFeelingsWatch
+        embed: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings
@@ -33,6 +36,26 @@ targets:
       testTargets:
         - OpenFeelingsTests
         - OpenFeelingsUITests
+  OpenFeelingsWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: OpenFeelingsWatch
+      - path: OpenFeelings/Shared
+      - path: OpenFeelings/Models/EmotionTaxonomy.swift
+    dependencies:
+      - sdk: WatchConnectivity.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.watchkitapp
+        DEVELOPMENT_TEAM: K7CBQW6MPG
+        PRODUCT_NAME: OpenFeelings
+        INFOPLIST_FILE: OpenFeelingsWatch/Info.plist
+        CODE_SIGN_ENTITLEMENTS: OpenFeelingsWatch/OpenFeelingsWatch.entitlements
+        TARGETED_DEVICE_FAMILY: "4"
+        SDKROOT: watchos
+        SUPPORTS_MACCATALYST: NO
   OpenFeelingsTests:
     type: bundle.unit-test
     platform: iOS
@@ -45,6 +68,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.tests
         DEVELOPMENT_TEAM: K7CBQW6MPG
+        GENERATE_INFOPLIST_FILE: YES
   OpenFeelingsUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -58,3 +82,4 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.uitests
         DEVELOPMENT_TEAM: K7CBQW6MPG
         TEST_TARGET_NAME: OpenFeelings
+        GENERATE_INFOPLIST_FILE: YES

@@ -6,6 +6,7 @@ struct OpenFeelingsApp: App {
     @State private var modelContainer: ModelContainer?
     @State private var healthService = HealthService()
     @State private var navigation = AppNavigation()
+    @State private var watchSyncService: WatchSyncService?
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
 
     var body: some Scene {
@@ -28,11 +29,19 @@ struct OpenFeelingsApp: App {
             .environment(healthService)
             .environment(navigation)
             .task {
+                // Activate WatchConnectivity early so transferUserInfo payloads
+                // queued before the SwiftData container is ready get buffered
+                // rather than dropped.
+                if watchSyncService == nil {
+                    watchSyncService = WatchSyncService(healthService: healthService)
+                }
                 // Defer SwiftData container init until after the first frame so
                 // the lock screen renders without waiting on store/CloudKit setup.
                 // .task fires after onAppear, on @MainActor.
                 if modelContainer == nil {
-                    modelContainer = OpenFeelingsApp.makeModelContainer()
+                    let container = OpenFeelingsApp.makeModelContainer()
+                    modelContainer = container
+                    watchSyncService?.attach(modelContainer: container)
                 }
             }
         }
