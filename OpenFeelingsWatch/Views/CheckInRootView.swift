@@ -2,7 +2,11 @@ import SwiftUI
 
 struct CheckInRootView: View {
     @Environment(WatchSessionClient.self) private var sessionClient
-    @State private var step: Step = .core
+
+    // Drives both flow advancement (append to push) and back-navigation (system
+    // edge-swipe and nav-bar chevron both pop the last entry automatically).
+    @State private var path: [Step] = []
+
     @State private var selectedCore: EmotionCore?
     @State private var selectedSecondary: EmotionSecondary?
     @State private var selectedSpecific: EmotionSpecific?
@@ -13,7 +17,6 @@ struct CheckInRootView: View {
     @State private var didSend: Bool = false
 
     enum Step: Hashable {
-        case core
         case secondary
         case specific
         case intensity
@@ -24,32 +27,30 @@ struct CheckInRootView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            content
-                .navigationTitle("Check In")
-        }
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        switch step {
-        case .core:
+        NavigationStack(path: $path) {
             CoreFeelingPicker { core in
                 selectedCore = core
                 selectedSecondary = nil
                 selectedSpecific = nil
-                step = .secondary
+                path.append(.secondary)
             }
+            .navigationTitle("Check In")
+            .navigationDestination(for: Step.self) { destination(for: $0) }
+        }
+    }
 
+    @ViewBuilder
+    private func destination(for step: Step) -> some View {
+        switch step {
         case .secondary:
             if let core = selectedCore {
                 SecondaryFeelingPicker(
                     core: core,
-                    onStopAtCore: { step = .intensity },
+                    onStopAtCore: { path.append(.intensity) },
                     onSelect: { secondary in
                         selectedSecondary = secondary
                         selectedSpecific = nil
-                        step = .specific
+                        path.append(.specific)
                     }
                 )
             }
@@ -58,10 +59,10 @@ struct CheckInRootView: View {
             if let secondary = selectedSecondary {
                 SpecificFeelingPicker(
                     secondary: secondary,
-                    onStopAtSecondary: { step = .intensity },
+                    onStopAtSecondary: { path.append(.intensity) },
                     onSelect: { specific in
                         selectedSpecific = specific
-                        step = .intensity
+                        path.append(.intensity)
                     }
                 )
             }
@@ -71,28 +72,26 @@ struct CheckInRootView: View {
                 IntensityPicker(
                     core: core,
                     intensity: $intensity,
-                    onContinue: { step = .body },
-                    onBack: { step = backStepFromIntensity }
+                    onContinue: { path.append(.body) }
                 )
             }
 
         case .body:
             BodyRegionPicker(
                 selection: $bodyRegions,
-                onContinue: { step = shouldShowSensations ? .sensations : .note }
+                onContinue: { path.append(shouldShowSensations ? .sensations : .note) }
             )
 
         case .sensations:
             SensationPicker(
                 selection: $bodySensations,
-                onContinue: { step = .note }
+                onContinue: { path.append(.note) }
             )
 
         case .note:
             NoteEntryView(
                 note: $note,
-                onContinue: { step = .confirm },
-                onBack: { step = .body }
+                onContinue: { path.append(.confirm) }
             )
 
         case .confirm:
@@ -100,19 +99,14 @@ struct CheckInRootView: View {
         }
     }
 
-    private var backStepFromIntensity: Step {
-        if selectedSecondary != nil { return .specific }
-        return .secondary
-    }
-
     private var shouldShowSensations: Bool {
         !bodyRegions.isEmpty && !bodyRegions.contains(.nowhere)
     }
 
     private var feelingPath: String {
-        let parts = [selectedCore?.name, selectedSecondary?.name, selectedSpecific?.name]
+        [selectedCore?.name, selectedSecondary?.name, selectedSpecific?.name]
             .compactMap { $0 }
-        return parts.joined(separator: " › ")
+            .joined(separator: " › ")
     }
 
     private var confirmView: some View {
@@ -161,6 +155,7 @@ struct CheckInRootView: View {
             }
             .padding()
         }
+        .navigationTitle("Review")
     }
 
     private var trimmedNote: String {
@@ -186,7 +181,7 @@ struct CheckInRootView: View {
     }
 
     private func reset() {
-        step = .core
+        path = []
         selectedCore = nil
         selectedSecondary = nil
         selectedSpecific = nil

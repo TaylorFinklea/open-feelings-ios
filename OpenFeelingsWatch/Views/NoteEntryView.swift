@@ -3,7 +3,6 @@ import SwiftUI
 struct NoteEntryView: View {
     @Binding var note: String
     var onContinue: () -> Void
-    var onBack: () -> Void
 
     @FocusState private var noteFocused: Bool
 
@@ -16,11 +15,8 @@ struct NoteEntryView: View {
                 .focused($noteFocused)
                 .submitLabel(.done)
                 .lineLimit(1...4)
-            HStack {
-                Button("Back", action: onBack)
-                Button("Next", action: onContinue)
-                    .buttonStyle(.borderedProminent)
-            }
+            Button("Next", action: onContinue)
+                .buttonStyle(.borderedProminent)
         }
         .padding()
         .onAppear { noteFocused = true }

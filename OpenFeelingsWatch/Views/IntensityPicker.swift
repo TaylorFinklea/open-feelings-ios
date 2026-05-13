@@ -4,7 +4,6 @@ struct IntensityPicker: View {
     let core: EmotionCore
     @Binding var intensity: Int
     var onContinue: () -> Void
-    var onBack: () -> Void
 
     @FocusState private var crownFocused: Bool
 
@@ -33,11 +32,8 @@ struct IntensityPicker: View {
                 }
             }
 
-            HStack {
-                Button("Back", action: onBack)
-                Button("Next", action: onContinue)
-                    .buttonStyle(.borderedProminent)
-            }
+            Button("Next", action: onContinue)
+                .buttonStyle(.borderedProminent)
         }
         .padding()
         .focusable(true)
