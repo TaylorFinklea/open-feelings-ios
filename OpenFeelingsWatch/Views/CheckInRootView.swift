@@ -2,39 +2,53 @@ import SwiftUI
 
 struct CheckInRootView: View {
     @Environment(WatchSessionClient.self) private var sessionClient
-
-    // Hoisted to the app entry so its lifecycle never gets tangled with the
-    // navigation stack's view recreation.
     @Environment(CheckInWizardState.self) private var wizard
+    @Environment(WatchSettingsStore.self) private var settingsStore
 
     @State private var path: [Step] = []
 
     enum Step: Hashable {
+        case sensations
+        case core         // pushed-onto-stack core picker (body-first flow)
         case secondary
         case specific
         case intensity
-        case body
-        case sensations
         case note
         case confirm
     }
 
     var body: some View {
         NavigationStack(path: $path) {
-            CoreFeelingPicker { core in
-                wizard.core = core
-                wizard.secondary = nil
-                wizard.specific = nil
-                path.append(.secondary)
-            }
-            .navigationTitle("Check In")
-            .navigationDestination(for: Step.self) { destination(for: $0) }
+            rootView
+                .navigationTitle("Check In")
+                .navigationDestination(for: Step.self) { destination(for: $0) }
+        }
+    }
+
+    @ViewBuilder
+    private var rootView: some View {
+        if settingsStore.settings.bodyFirst {
+            BodyRegionPicker(
+                selection: Binding(get: { wizard.bodyRegions }, set: { wizard.bodyRegions = $0 }),
+                onContinue: { advanceFromBody() }
+            )
+        } else {
+            corePicker
         }
     }
 
     @ViewBuilder
     private func destination(for step: Step) -> some View {
         switch step {
+        case .sensations:
+            SensationPicker(
+                selection: Binding(get: { wizard.bodySensations }, set: { wizard.bodySensations = $0 }),
+                onContinue: { path.append(.core) }
+            )
+
+        case .core:
+            corePicker
+
         case .secondary:
             if let core = wizard.core {
                 SecondaryFeelingPicker(
@@ -65,21 +79,9 @@ struct CheckInRootView: View {
                 IntensityPicker(
                     core: core,
                     intensity: Binding(get: { wizard.intensity }, set: { wizard.intensity = $0 }),
-                    onContinue: { path.append(.body) }
+                    onContinue: { path.append(.note) }
                 )
             }
-
-        case .body:
-            BodyRegionPicker(
-                selection: Binding(get: { wizard.bodyRegions }, set: { wizard.bodyRegions = $0 }),
-                onContinue: { path.append(wizard.shouldShowSensations ? .sensations : .note) }
-            )
-
-        case .sensations:
-            SensationPicker(
-                selection: Binding(get: { wizard.bodySensations }, set: { wizard.bodySensations = $0 }),
-                onContinue: { path.append(.note) }
-            )
 
         case .note:
             NoteEntryView(
@@ -89,6 +91,25 @@ struct CheckInRootView: View {
 
         case .confirm:
             confirmView
+        }
+    }
+
+    private var corePicker: some View {
+        CoreFeelingPicker { core in
+            wizard.core = core
+            wizard.secondary = nil
+            wizard.specific = nil
+            path.append(.secondary)
+        }
+    }
+
+    // Body-first flow: after picking body regions, branch to sensations (when
+    // promoted in iOS settings) or straight to the core picker.
+    private func advanceFromBody() {
+        if settingsStore.settings.sensationsPromoted {
+            path.append(.sensations)
+        } else {
+            path.append(.core)
         }
     }
 

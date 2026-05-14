@@ -9,6 +9,7 @@ import WatchConnectivity
 final class WatchSessionClient: NSObject {
     private(set) var pendingCount: Int = 0
     private(set) var lastSendError: String?
+    weak var settingsStore: WatchSettingsStore?
 
     private var pendingTransfers: [UUID: TransferRecord] = [:]
     private let queueURL: URL
@@ -33,6 +34,12 @@ final class WatchSessionClient: NSObject {
         let session = WCSession.default
         session.delegate = self
         session.activate()
+        // Seed settings from the cached applicationContext so cold launches
+        // before iOS is reachable still get a non-default flow if one was
+        // previously delivered.
+        if let cached = WatchCheckInSettings.decode(applicationContext: session.receivedApplicationContext) {
+            settingsStore?.update(cached)
+        }
         #endif
     }
 
@@ -88,6 +95,13 @@ extension WatchSessionClient: WCSessionDelegate {
         activationDidCompleteWith activationState: WCSessionActivationState,
         error: Error?
     ) {}
+
+    nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
+        guard let settings = WatchCheckInSettings.decode(applicationContext: applicationContext) else { return }
+        Task { @MainActor [weak self] in
+            self?.settingsStore?.update(settings)
+        }
+    }
 
     nonisolated func session(_ session: WCSession, didFinish userInfoTransfer: WCSessionUserInfoTransfer, error: Error?) {
         let userInfo = userInfoTransfer.userInfo

@@ -28,6 +28,7 @@ struct OpenFeelingsApp: App {
             .preferredColorScheme(appearanceMode.colorScheme)
             .environment(healthService)
             .environment(navigation)
+            .environment(watchSyncService)
             .task {
                 // Activate WatchConnectivity early so transferUserInfo payloads
                 // queued before the SwiftData container is ready get buffered

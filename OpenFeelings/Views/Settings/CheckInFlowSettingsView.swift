@@ -4,6 +4,7 @@ import SwiftUI
 /// and the per-dimension promote-to-step toggles.
 struct CheckInFlowSettingsView: View {
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(WatchSyncService.self) private var watchSync: WatchSyncService?
 
     @AppStorage("checkInMode") private var pickerStyle = "Wizard"
     @AppStorage("checkInBodyFirst") private var bodyFirst = true
@@ -42,6 +43,8 @@ struct CheckInFlowSettingsView: View {
         .navigationTitle("Check In flow")
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.OF.background, ignoresSafeAreaEdges: .all)
+        .onChange(of: bodyFirst) { _, _ in watchSync?.pushFlowSettings() }
+        .onChange(of: promotedRaw) { _, _ in watchSync?.pushFlowSettings() }
     }
 
     private var promotableKinds: [CheckInStepKind] {

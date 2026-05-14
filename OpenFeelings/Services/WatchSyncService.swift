@@ -5,6 +5,7 @@ import WatchConnectivity
 #endif
 
 @MainActor
+@Observable
 final class WatchSyncService: NSObject {
     private weak var healthService: HealthService?
     private var modelContainer: ModelContainer?
@@ -31,6 +32,27 @@ final class WatchSyncService: NSObject {
         let session = WCSession.default
         session.delegate = self
         session.activate()
+        #endif
+    }
+
+    // Pushed on session activation and explicitly from the flow-settings view
+    // when the user dismisses it. WCSession dedupes identical contexts so
+    // repeated calls are cheap.
+    func pushFlowSettings() {
+        #if canImport(WatchConnectivity)
+        guard WCSession.isSupported() else { return }
+        let defaults = UserDefaults.standard
+        let bodyFirst = defaults.object(forKey: "checkInBodyFirst") as? Bool ?? true
+        let promotedRaw = defaults.string(forKey: "checkInPromotedSteps") ?? "strength"
+        let sensationsPromoted = promotedRaw
+            .split(separator: ",")
+            .contains { $0.trimmingCharacters(in: .whitespaces) == "sensations" }
+        let settings = WatchCheckInSettings(
+            bodyFirst: bodyFirst,
+            sensationsPromoted: sensationsPromoted
+        )
+        guard let context = try? settings.applicationContext() else { return }
+        try? WCSession.default.updateApplicationContext(context)
         #endif
     }
 
@@ -103,7 +125,11 @@ extension WatchSyncService: WCSessionDelegate {
         activationDidCompleteWith activationState: WCSessionActivationState,
         error: Error?
     ) {
-        // No-op: errors here aren't actionable; transferUserInfo retries on its own.
+        // Push current settings as soon as the session is live so the watch
+        // never has to ask. New paired watches pick up the same applicationContext.
+        Task { @MainActor [weak self] in
+            self?.pushFlowSettings()
+        }
     }
 
     nonisolated func sessionDidBecomeInactive(_ session: WCSession) {}

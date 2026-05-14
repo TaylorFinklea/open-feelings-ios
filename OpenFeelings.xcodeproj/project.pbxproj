@@ -91,6 +91,7 @@
 		7C142522E509F8C822A13D65 /* CheckInDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9A872D72EDAD8E42137BB5 /* CheckInDraft.swift */; };
 		7EAE6D48259BA29E3396F10C /* JournalShareServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00FD5F9445C2DD71F9600FE /* JournalShareServiceTests.swift */; };
 		80852C2F4E568359FBD158C5 /* TherapyReportPDFServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A44364C666A3699459891C6 /* TherapyReportPDFServiceTests.swift */; };
+		829BEEFF2F252718BA95707E /* WatchCheckInSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */; };
 		86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A4382CFA9DE8E22655357 /* HistoryView.swift */; };
 		8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */; };
 		8DAD0AF27D2EF7F4F9494D6E /* GreetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764DCB6D65D0FAA3772A4AAA /* GreetingTests.swift */; };
@@ -126,7 +127,9 @@
 		C6D9AFD5AB828C33817FD1C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D67BAF0CDDAEB30DA7B36F6 /* Assets.xcassets */; };
 		C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C932D5F22945AFFBE7E2E184 /* RootView.swift */; };
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
+		CDBD062828BA92D93932A903 /* WatchCheckInSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */; };
 		CE0318F0BF006DB29544475E /* StrengthStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518E478CE65EB2DA13685C61 /* StrengthStep.swift */; };
+		CE732280C7427FC328F78C0C /* WatchSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB79132B33CB384631F146 /* WatchSettingsStore.swift */; };
 		CF83AB346BACEBA934FD811E /* MoodStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6959718821B4B5A9BE5B391 /* MoodStep.swift */; };
 		D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67A46078B6257523BDCA760 /* SettingsView.swift */; };
 		D2366692E84C4389A4B3F7EA /* UserBodyMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */; };
@@ -203,6 +206,7 @@
 		1E36FA186526385FF499AE4E /* StepHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeader.swift; sourceTree = "<group>"; };
 		1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColor.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
+		246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInSettings.swift; sourceTree = "<group>"; };
 		25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPalette.swift; sourceTree = "<group>"; };
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
 		295D45C9D0C561EB42973B20 /* StepNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepNav.swift; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 		3B34230A9CB898470920148B /* EmotionDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitions.swift; sourceTree = "<group>"; };
 		3BA060D8C4EECFFA215E9C86 /* OpenFeelingsWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsWatchApp.swift; sourceTree = "<group>"; };
 		3BD5CE6E917C19C55E6B3679 /* FeelingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingStep.swift; sourceTree = "<group>"; };
+		3DAB79132B33CB384631F146 /* WatchSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSettingsStore.swift; sourceTree = "<group>"; };
 		3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockService.swift; sourceTree = "<group>"; };
 		4073497ECC60F9CC7EEBD189 /* CheckInDraftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInDraftTests.swift; sourceTree = "<group>"; };
 		42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFelt.swift; sourceTree = "<group>"; };
@@ -435,6 +440,7 @@
 			children = (
 				B21F7225D1167F723EC98F10 /* CheckInWizardState.swift */,
 				555051881E4EB6BEE6441D3D /* WatchSessionClient.swift */,
+				3DAB79132B33CB384631F146 /* WatchSettingsStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -543,6 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				97E063AD3C5F9E15541D46AC /* WatchCheckInPayload.swift */,
+				246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -874,6 +881,7 @@
 				4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */,
 				9D1C2A46735BF5A7C3D7BAE2 /* UserBodyMap.swift in Sources */,
 				31EA02F0D4D045B03BC52A7D /* WatchCheckInPayload.swift in Sources */,
+				CDBD062828BA92D93932A903 /* WatchCheckInSettings.swift in Sources */,
 				BD27EC055FD4DC1826AB1E06 /* WatchSyncService.swift in Sources */,
 				B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */,
 				35B8237F53C22352502C858B /* WizardCheckInView.swift in Sources */,
@@ -897,7 +905,9 @@
 				40C2D0C262E0CE5974F24722 /* SensationPicker.swift in Sources */,
 				3CFA80EE13B5665871E1D1CE /* SpecificFeelingPicker.swift in Sources */,
 				B6FD43FFC5F3CEB1EED4919D /* WatchCheckInPayload.swift in Sources */,
+				829BEEFF2F252718BA95707E /* WatchCheckInSettings.swift in Sources */,
 				6B45C1549F740BE3821481CB /* WatchSessionClient.swift in Sources */,
+				CE732280C7427FC328F78C0C /* WatchSettingsStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
