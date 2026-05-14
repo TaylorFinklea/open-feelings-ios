@@ -16,9 +16,13 @@ struct CheckInRootView: View {
     @State private var note: String = ""
     @State private var didSend: Bool = false
 
+    // Carrying the drill value INSIDE the path entry (instead of reading it
+    // out of @State at destination time) avoids a watchOS NavigationStack
+    // race where the destination resolves before the @State write propagates,
+    // which manifested as a blank screen after picking a core.
     enum Step: Hashable {
-        case secondary
-        case specific
+        case secondary(EmotionCore)
+        case specific(EmotionSecondary)
         case intensity
         case body
         case sensations
@@ -32,7 +36,7 @@ struct CheckInRootView: View {
                 selectedCore = core
                 selectedSecondary = nil
                 selectedSpecific = nil
-                path.append(.secondary)
+                path.append(.secondary(core))
             }
             .navigationTitle("Check In")
             .navigationDestination(for: Step.self) { destination(for: $0) }
@@ -42,30 +46,26 @@ struct CheckInRootView: View {
     @ViewBuilder
     private func destination(for step: Step) -> some View {
         switch step {
-        case .secondary:
-            if let core = selectedCore {
-                SecondaryFeelingPicker(
-                    core: core,
-                    onStopAtCore: { path.append(.intensity) },
-                    onSelect: { secondary in
-                        selectedSecondary = secondary
-                        selectedSpecific = nil
-                        path.append(.specific)
-                    }
-                )
-            }
+        case .secondary(let core):
+            SecondaryFeelingPicker(
+                core: core,
+                onStopAtCore: { path.append(.intensity) },
+                onSelect: { secondary in
+                    selectedSecondary = secondary
+                    selectedSpecific = nil
+                    path.append(.specific(secondary))
+                }
+            )
 
-        case .specific:
-            if let secondary = selectedSecondary {
-                SpecificFeelingPicker(
-                    secondary: secondary,
-                    onStopAtSecondary: { path.append(.intensity) },
-                    onSelect: { specific in
-                        selectedSpecific = specific
-                        path.append(.intensity)
-                    }
-                )
-            }
+        case .specific(let secondary):
+            SpecificFeelingPicker(
+                secondary: secondary,
+                onStopAtSecondary: { path.append(.intensity) },
+                onSelect: { specific in
+                    selectedSpecific = specific
+                    path.append(.intensity)
+                }
+            )
 
         case .intensity:
             if let core = selectedCore {
