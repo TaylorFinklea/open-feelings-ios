@@ -3,26 +3,15 @@ import SwiftUI
 struct CheckInRootView: View {
     @Environment(WatchSessionClient.self) private var sessionClient
 
-    // Drives both flow advancement (append to push) and back-navigation (system
-    // edge-swipe and nav-bar chevron both pop the last entry automatically).
+    // Hoisted to the app entry so its lifecycle never gets tangled with the
+    // navigation stack's view recreation.
+    @Environment(CheckInWizardState.self) private var wizard
+
     @State private var path: [Step] = []
 
-    @State private var selectedCore: EmotionCore?
-    @State private var selectedSecondary: EmotionSecondary?
-    @State private var selectedSpecific: EmotionSpecific?
-    @State private var intensity: Int = 3
-    @State private var bodyRegions: Set<BodyRegion> = []
-    @State private var bodySensations: Set<BodySensation> = []
-    @State private var note: String = ""
-    @State private var didSend: Bool = false
-
-    // Carrying the drill value INSIDE the path entry (instead of reading it
-    // out of @State at destination time) avoids a watchOS NavigationStack
-    // race where the destination resolves before the @State write propagates,
-    // which manifested as a blank screen after picking a core.
     enum Step: Hashable {
-        case secondary(EmotionCore)
-        case specific(EmotionSecondary)
+        case secondary
+        case specific
         case intensity
         case body
         case sensations
@@ -33,10 +22,10 @@ struct CheckInRootView: View {
     var body: some View {
         NavigationStack(path: $path) {
             CoreFeelingPicker { core in
-                selectedCore = core
-                selectedSecondary = nil
-                selectedSpecific = nil
-                path.append(.secondary(core))
+                wizard.core = core
+                wizard.secondary = nil
+                wizard.specific = nil
+                path.append(.secondary)
             }
             .navigationTitle("Check In")
             .navigationDestination(for: Step.self) { destination(for: $0) }
@@ -46,51 +35,55 @@ struct CheckInRootView: View {
     @ViewBuilder
     private func destination(for step: Step) -> some View {
         switch step {
-        case .secondary(let core):
-            SecondaryFeelingPicker(
-                core: core,
-                onStopAtCore: { path.append(.intensity) },
-                onSelect: { secondary in
-                    selectedSecondary = secondary
-                    selectedSpecific = nil
-                    path.append(.specific(secondary))
-                }
-            )
+        case .secondary:
+            if let core = wizard.core {
+                SecondaryFeelingPicker(
+                    core: core,
+                    onStopAtCore: { path.append(.intensity) },
+                    onSelect: { secondary in
+                        wizard.secondary = secondary
+                        wizard.specific = nil
+                        path.append(.specific)
+                    }
+                )
+            }
 
-        case .specific(let secondary):
-            SpecificFeelingPicker(
-                secondary: secondary,
-                onStopAtSecondary: { path.append(.intensity) },
-                onSelect: { specific in
-                    selectedSpecific = specific
-                    path.append(.intensity)
-                }
-            )
+        case .specific:
+            if let secondary = wizard.secondary {
+                SpecificFeelingPicker(
+                    secondary: secondary,
+                    onStopAtSecondary: { path.append(.intensity) },
+                    onSelect: { specific in
+                        wizard.specific = specific
+                        path.append(.intensity)
+                    }
+                )
+            }
 
         case .intensity:
-            if let core = selectedCore {
+            if let core = wizard.core {
                 IntensityPicker(
                     core: core,
-                    intensity: $intensity,
+                    intensity: Binding(get: { wizard.intensity }, set: { wizard.intensity = $0 }),
                     onContinue: { path.append(.body) }
                 )
             }
 
         case .body:
             BodyRegionPicker(
-                selection: $bodyRegions,
-                onContinue: { path.append(shouldShowSensations ? .sensations : .note) }
+                selection: Binding(get: { wizard.bodyRegions }, set: { wizard.bodyRegions = $0 }),
+                onContinue: { path.append(wizard.shouldShowSensations ? .sensations : .note) }
             )
 
         case .sensations:
             SensationPicker(
-                selection: $bodySensations,
+                selection: Binding(get: { wizard.bodySensations }, set: { wizard.bodySensations = $0 }),
                 onContinue: { path.append(.note) }
             )
 
         case .note:
             NoteEntryView(
-                note: $note,
+                note: Binding(get: { wizard.note }, set: { wizard.note = $0 }),
                 onContinue: { path.append(.confirm) }
             )
 
@@ -99,52 +92,42 @@ struct CheckInRootView: View {
         }
     }
 
-    private var shouldShowSensations: Bool {
-        !bodyRegions.isEmpty && !bodyRegions.contains(.nowhere)
-    }
-
-    private var feelingPath: String {
-        [selectedCore?.name, selectedSecondary?.name, selectedSpecific?.name]
-            .compactMap { $0 }
-            .joined(separator: " › ")
-    }
-
     private var confirmView: some View {
         ScrollView {
             VStack(spacing: 10) {
-                Text(feelingPath)
+                Text(wizard.feelingPath)
                     .font(.headline)
                     .multilineTextAlignment(.center)
 
-                Text("Intensity \(intensity)")
+                Text("Intensity \(wizard.intensity)")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
 
-                if !bodyRegions.isEmpty {
-                    Text(bodyRegions.map(\.displayName).sorted().joined(separator: ", "))
+                if !wizard.bodyRegions.isEmpty {
+                    Text(wizard.bodyRegions.map(\.displayName).sorted().joined(separator: ", "))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }
 
-                if !bodySensations.isEmpty {
-                    Text(bodySensations.map(\.displayName).sorted().joined(separator: ", "))
+                if !wizard.bodySensations.isEmpty {
+                    Text(wizard.bodySensations.map(\.displayName).sorted().joined(separator: ", "))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }
 
-                if !trimmedNote.isEmpty {
-                    Text(trimmedNote)
+                if !wizard.trimmedNote.isEmpty {
+                    Text(wizard.trimmedNote)
                         .font(.footnote)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 4)
                 }
 
-                if didSend {
+                if wizard.didSend {
                     Label("Sent", systemImage: "checkmark.circle.fill")
                         .foregroundStyle(.green)
-                    Button("New Check-In") { reset() }
+                    Button("New Check-In") { startOver() }
                 } else {
                     Button(action: sendPayload) {
                         Label("Send", systemImage: "paperplane.fill")
@@ -158,37 +141,26 @@ struct CheckInRootView: View {
         .navigationTitle("Review")
     }
 
-    private var trimmedNote: String {
-        note.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
     private func sendPayload() {
-        guard let core = selectedCore else { return }
+        guard let core = wizard.core else { return }
         let payload = WatchCheckInPayload(
             coreID: core.id,
             coreName: core.name,
-            secondaryID: selectedSecondary?.id,
-            secondaryName: selectedSecondary?.name,
-            specificID: selectedSpecific?.id,
-            specificName: selectedSpecific?.name,
-            intensity: intensity,
-            bodyRegions: bodyRegions.map(\.rawValue),
-            bodySensations: bodySensations.map(\.rawValue),
-            note: trimmedNote.isEmpty ? nil : trimmedNote
+            secondaryID: wizard.secondary?.id,
+            secondaryName: wizard.secondary?.name,
+            specificID: wizard.specific?.id,
+            specificName: wizard.specific?.name,
+            intensity: wizard.intensity,
+            bodyRegions: wizard.bodyRegions.map(\.rawValue),
+            bodySensations: wizard.bodySensations.map(\.rawValue),
+            note: wizard.trimmedNote.isEmpty ? nil : wizard.trimmedNote
         )
         sessionClient.send(payload)
-        didSend = true
+        wizard.didSend = true
     }
 
-    private func reset() {
+    private func startOver() {
+        wizard.reset()
         path = []
-        selectedCore = nil
-        selectedSecondary = nil
-        selectedSpecific = nil
-        intensity = 3
-        bodyRegions = []
-        bodySensations = []
-        note = ""
-        didSend = false
     }
 }
