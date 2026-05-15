@@ -121,6 +121,7 @@
 		AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */; };
 		AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295D45C9D0C561EB42973B20 /* StepNav.swift */; };
 		B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */; };
+		B194F3755CE32B4AC5A0C7AC /* ValueSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E439E888FD8844FE1C1262 /* ValueSort.swift */; };
 		B6FD43FFC5F3CEB1EED4919D /* WatchCheckInPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E063AD3C5F9E15541D46AC /* WatchCheckInPayload.swift */; };
 		BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */; };
 		BD27EC055FD4DC1826AB1E06 /* WatchSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6625DA0A4DB7B1A02D92A7ED /* WatchSyncService.swift */; };
@@ -330,6 +331,7 @@
 		D9D201B86C580BD30270D860 /* TherapyReportDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportDataTests.swift; sourceTree = "<group>"; };
 		DAE13AE950D2FC48D6396207 /* IntensityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityPicker.swift; sourceTree = "<group>"; };
 		E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsApp.swift; sourceTree = "<group>"; };
+		E0E439E888FD8844FE1C1262 /* ValueSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueSort.swift; sourceTree = "<group>"; };
 		E249B39B8711CDB62DAA306E /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		E3D68D35EA481C77B2226517 /* NoteEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEntryView.swift; sourceTree = "<group>"; };
 		E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFeltTests.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 				76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */,
 				86992BC2A4EE056BCADB460D /* UserBodyMap.swift */,
 				9797D76DFCBC7CA258543F98 /* ValueRef.swift */,
+				E0E439E888FD8844FE1C1262 /* ValueSort.swift */,
 				2E52DC47D854C08EFC02025E /* ValueTaxonomy.swift */,
 			);
 			path = Models;
@@ -898,6 +901,7 @@
 				4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */,
 				9D1C2A46735BF5A7C3D7BAE2 /* UserBodyMap.swift in Sources */,
 				A734D9135EB4F7121ABC4628 /* ValueRef.swift in Sources */,
+				B194F3755CE32B4AC5A0C7AC /* ValueSort.swift in Sources */,
 				840E046623A5BCC40646527C /* ValueTaxonomy.swift in Sources */,
 				31EA02F0D4D045B03BC52A7D /* WatchCheckInPayload.swift in Sources */,
 				CDBD062828BA92D93932A903 /* WatchCheckInSettings.swift in Sources */,
