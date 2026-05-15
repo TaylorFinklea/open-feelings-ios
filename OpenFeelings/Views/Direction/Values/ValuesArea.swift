@@ -22,10 +22,7 @@ struct ValuesArea: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .sheet(isPresented: $showingSort) {
-            // Placeholder — SortFlowView lands in Task 10.
-            Text("Sort flow — Task 10")
-                .padding()
-                .presentationDetents([.medium])
+            SortFlowView()
         }
     }
 }

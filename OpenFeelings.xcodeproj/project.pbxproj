@@ -73,6 +73,7 @@
 		4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
 		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
+		57DFE55ECCF0FC0766DAD683 /* SortFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF9C6E53AFBC30763A9317 /* SortFlowView.swift */; };
 		5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */; };
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		5F9EE41748C175A0D24C2FAE /* IntentionsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE0CC94DAE2CD18AB5511A6 /* IntentionsContent.swift */; };
@@ -210,6 +211,7 @@
 		0515B72A8FAC01AA37180E2A /* PersonalizationNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNudge.swift; sourceTree = "<group>"; };
 		05EEFFA054F354594D37D639 /* CustomBodyRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBodyRegion.swift; sourceTree = "<group>"; };
 		06AA11A4901FC5ED08031FD2 /* OpenFeelings.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OpenFeelings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		07DF9C6E53AFBC30763A9317 /* SortFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortFlowView.swift; sourceTree = "<group>"; };
 		08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPaletteTests.swift; sourceTree = "<group>"; };
 		0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenFeelings.entitlements; sourceTree = "<group>"; };
 		1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 				A6C43C92E7BFEE1B49D5081D /* ConfirmSortView.swift */,
 				D768AB532C66BDD55F591197 /* FinalistsStepView.swift */,
 				7CBBEA7CD9EF58BED1BF5761 /* RankStepView.swift */,
+				07DF9C6E53AFBC30763A9317 /* SortFlowView.swift */,
 			);
 			path = Sort;
 			sourceTree = "<group>";
@@ -950,6 +953,7 @@
 				0933844880766DAE10CB0CF9 /* SensationsStep.swift in Sources */,
 				D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */,
 				42EA729916148685FC11E4A5 /* ShareSheet.swift in Sources */,
+				57DFE55ECCF0FC0766DAD683 /* SortFlowView.swift in Sources */,
 				AC100A947EAA79DA0D1CC2C4 /* SortSession.swift in Sources */,
 				98940F4B2A48443EFE09A1D2 /* StepHeader.swift in Sources */,
 				AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */,
