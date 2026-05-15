@@ -27,12 +27,12 @@ struct RootView: View {
                 }
                 .tag(AppTab.insights)
 
-            NavigationStack { IntentionsView() }
+            NavigationStack { DirectionView() }
                 .tabItem {
-                    Label(AppTab.intentions.title, systemImage: AppTab.intentions.systemImage)
-                        .accessibilityIdentifier("tab.intentions")
+                    Label(AppTab.direction.title, systemImage: AppTab.direction.systemImage)
+                        .accessibilityIdentifier("tab.direction")
                 }
-                .tag(AppTab.intentions)
+                .tag(AppTab.direction)
 
             NavigationStack { SettingsView() }
                 .tabItem {

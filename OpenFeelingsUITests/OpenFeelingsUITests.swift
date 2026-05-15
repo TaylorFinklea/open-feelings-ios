@@ -29,7 +29,7 @@ final class OpenFeelingsUITests: XCTestCase {
                       "Today tab identifier should be reachable on cold launch")
         XCTAssertTrue(tab("checkIn").exists)
         XCTAssertTrue(tab("insights").exists)
-        XCTAssertTrue(tab("intentions").exists)
+        XCTAssertTrue(tab("direction").exists)
         XCTAssertTrue(tab("settings").exists)
     }
 
@@ -41,11 +41,10 @@ final class OpenFeelingsUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Settings"].waitForExistence(timeout: 3),
                       "Settings tab should show its navigation title")
 
-        // Intentions tab on a fresh launch shows the empty hero with a
-        // recognizable "Intention" display title.
-        tab("intentions").tap()
-        XCTAssertTrue(app.staticTexts["Intention"].waitForExistence(timeout: 3),
-                      "Intentions tab should show its hero title")
+        // Direction tab on a fresh launch shows the navigation title "Direction".
+        tab("direction").tap()
+        XCTAssertTrue(app.staticTexts["Direction"].waitForExistence(timeout: 3),
+                      "Direction tab should show its navigation title")
 
         // Insights tab shows the "Patterns" header (or an empty-state
         // title when there are no logs).

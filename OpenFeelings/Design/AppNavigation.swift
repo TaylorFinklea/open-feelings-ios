@@ -4,7 +4,7 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
     case today
     case checkIn
     case insights
-    case intentions
+    case direction
     case settings
 
     var title: String {
@@ -12,7 +12,7 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
         case .today:      "Today"
         case .checkIn:    "Check In"
         case .insights:   "Insights"
-        case .intentions: "Intentions"
+        case .direction:  "Direction"
         case .settings:   "Settings"
         }
     }
@@ -22,7 +22,7 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
         case .today:      "sun.horizon"
         case .checkIn:    "circle.grid.3x3"
         case .insights:   "chart.line.uptrend.xyaxis"
-        case .intentions: "leaf"
+        case .direction:  "leaf"
         case .settings:   "gearshape"
         }
     }

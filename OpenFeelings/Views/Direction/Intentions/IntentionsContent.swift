@@ -1,7 +1,7 @@
 import SwiftData
 import SwiftUI
 
-struct IntentionsView: View {
+struct IntentionsContent: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Intention.date, order: .reverse) private var intentions: [Intention]
     @Query(sort: \FeelingLog.createdAt, order: .reverse) private var logs: [FeelingLog]
@@ -28,25 +28,19 @@ struct IntentionsView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: .OF.xl) {
-                heroHeader
-                if intentions.isEmpty && logs.isEmpty {
-                    emptyHero
-                } else {
-                    todayEditor
-                    if !pastIntentions.isEmpty {
-                        lookBackSection
-                    }
+        VStack(alignment: .leading, spacing: .OF.xl) {
+            Text("Intentions")
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(Color.OF.text)
+            if intentions.isEmpty && logs.isEmpty {
+                emptyHero
+            } else {
+                todayEditor
+                if !pastIntentions.isEmpty {
+                    lookBackSection
                 }
             }
-            .padding(.horizontal, CGFloat.OF.lg)
-            .padding(.bottom, CGFloat.OF.xxxl)
         }
-        .background(Color.OF.background, ignoresSafeAreaEdges: .all)
-        .scrollDismissesKeyboard(.interactively)
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
@@ -62,20 +56,6 @@ struct IntentionsView: View {
         }
         .onAppear { loadDraftIfNeeded() }
         .onChange(of: todaysIntention?.text) { _, _ in loadDraftIfNeeded() }
-    }
-
-    // MARK: - Hero
-
-    private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: .OF.xs) {
-            Text("Today")
-                .font(.OF.caption)
-                .foregroundStyle(Color.OF.textMuted)
-            Text("Intention")
-                .font(.OF.display)
-                .foregroundStyle(Color.OF.text)
-        }
-        .padding(.top, .OF.lg)
     }
 
     // MARK: - Today editor
@@ -308,9 +288,4 @@ private struct PastIntentionRow: View {
             draftLoaded = true
         }
     }
-}
-
-#Preview {
-    NavigationStack { IntentionsView() }
-        .modelContainer(for: [FeelingLog.self, Intention.self], inMemory: true)
 }

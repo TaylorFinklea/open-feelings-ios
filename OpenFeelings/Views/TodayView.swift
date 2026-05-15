@@ -95,12 +95,12 @@ struct TodayView: View {
                     Text(intention.text)
                         .font(.OF.body)
                         .foregroundStyle(Color.OF.text)
-                    Button("Edit") { navigation.select(.intentions) }
+                    Button("Edit") { navigation.select(.direction) }
                         .font(.OF.caption.weight(.medium))
                         .foregroundStyle(Color.OF.accent)
                 } else {
                     Button {
-                        navigation.select(.intentions)
+                        navigation.select(.direction)
                     } label: {
                         Text("Set today's intention")
                             .font(.OF.body)
