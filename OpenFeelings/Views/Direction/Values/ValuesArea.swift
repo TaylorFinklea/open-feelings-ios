@@ -7,6 +7,7 @@ struct ValuesArea: View {
     @Query(sort: \CommittedAction.createdAt, order: .reverse) private var actions: [CommittedAction]
     @State private var showingSort = false
     @State private var showingEditor = false
+    @State private var detail: ValueDetail?
 
     private var activeSort: ValueSort? { sorts.first }
 
@@ -29,6 +30,9 @@ struct ValuesArea: View {
                 CommittedActionEditor(rankedTop: active.rankedTop, customs: customs)
             }
         }
+        .sheet(item: $detail) { selected in
+            ValueDetailSheet(ref: selected.ref, customs: customs)
+        }
     }
 
     @ViewBuilder
@@ -47,21 +51,30 @@ struct ValuesArea: View {
         }
 
         ForEach(Array(active.rankedTop.enumerated()), id: \.offset) { pair in
-            HStack {
-                Text("\(pair.offset + 1)")
-                    .font(.subheadline.weight(.semibold))
-                    .frame(width: 24, alignment: .leading)
-                    .foregroundStyle(Color.OF.textMuted)
-                Text(ValueRef.displayName(for: pair.element, customs: customs))
-                    .foregroundStyle(Color.OF.text)
+            Button {
+                detail = ValueDetail(ref: pair.element)
+            } label: {
+                HStack {
+                    Text("\(pair.offset + 1)")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(width: 24, alignment: .leading)
+                        .foregroundStyle(Color.OF.textMuted)
+                    Text(ValueRef.displayName(for: pair.element, customs: customs))
+                        .foregroundStyle(Color.OF.text)
+                    Spacer()
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.OF.textMuted)
+                }
+                .padding(.vertical, .OF.xs)
+                .padding(.horizontal, .OF.sm)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
+                        .fill(Color.OF.surface)
+                )
             }
-            .padding(.vertical, .OF.xs)
-            .padding(.horizontal, .OF.sm)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
-                    .fill(Color.OF.surface)
-            )
+            .buttonStyle(.plain)
         }
 
         HStack {
@@ -91,6 +104,47 @@ struct ValuesArea: View {
                 .buttonStyle(.plain)
             }
         }
+    }
+}
+
+private struct ValueDetail: Identifiable {
+    let ref: String
+    var id: String { ref }
+}
+
+private struct ValueDetailSheet: View {
+    let ref: String
+    let customs: [CustomValue]
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: .OF.md) {
+                Text(ValueRef.displayName(for: ref, customs: customs))
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(Color.OF.text)
+                if !ValueRef.isCustom(ref), let def = ValueTaxonomy.definition(id: ref) {
+                    Text(def.description)
+                        .font(.body)
+                        .foregroundStyle(Color.OF.textMuted)
+                } else if ValueRef.isCustom(ref) {
+                    Text("Your custom value.")
+                        .font(.body)
+                        .foregroundStyle(Color.OF.textMuted)
+                }
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.OF.lg)
+            .background(Color.OF.background, ignoresSafeAreaEdges: .all)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium])
     }
 }
 

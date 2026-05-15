@@ -202,6 +202,35 @@ final class ValuesTests: XCTestCase {
     }
 
     @MainActor
+    func testSortSessionFinalizeReturnsNilOutsideConfirmingPhase() throws {
+        let context = try makeContext()
+        let session = sampleSession()
+
+        // .bucketing: finalize is a no-op
+        XCTAssertNil(session.finalize(into: context))
+
+        // Drive to .pickingFinalists
+        while let ref = session.currentRef {
+            session.bucket(ref, into: .veryImportant)
+        }
+        XCTAssertTrue(session.advancePhase())
+        XCTAssertEqual(session.phase, .pickingFinalists)
+        XCTAssertNil(session.finalize(into: context))
+
+        // Drive to .ranking
+        for ref in session.veryImportantPool.prefix(3) {
+            session.toggleFinalist(ref)
+        }
+        XCTAssertTrue(session.advancePhase())
+        XCTAssertEqual(session.phase, .ranking)
+        XCTAssertNil(session.finalize(into: context))
+
+        try context.save()
+        let rows = try context.fetch(FetchDescriptor<ValueSort>())
+        XCTAssertEqual(rows.count, 0, "finalize must not insert outside .confirming")
+    }
+
+    @MainActor
     func testSortSessionFinalizeWritesValueSortRow() throws {
         let context = try makeContext()
         let session = sampleSession()

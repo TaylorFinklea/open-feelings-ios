@@ -20,5 +20,11 @@ struct DirectionView: View {
 
 #Preview {
     NavigationStack { DirectionView() }
-        .modelContainer(for: [FeelingLog.self, Intention.self], inMemory: true)
+        .modelContainer(for: [
+            FeelingLog.self,
+            Intention.self,
+            CustomValue.self,
+            ValueSort.self,
+            CommittedAction.self
+        ], inMemory: true)
 }

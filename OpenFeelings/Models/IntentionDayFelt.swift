@@ -1,6 +1,6 @@
 import Foundation
 
-/// Pure-logic helper for the IntentionsView look-back: derives the top N core
+/// Pure-logic helper for the Intentions look-back: derives the top N core
 /// names for a given calendar day from a list of FeelingLogs. Used to render
 /// the "felt: X, Y" subtitle on each past-intention row.
 enum IntentionDayFelt {

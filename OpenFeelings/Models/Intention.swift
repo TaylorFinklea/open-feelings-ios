@@ -1,9 +1,9 @@
 import Foundation
 import SwiftData
 
-/// A free-text daily intention. One per day max — the IntentionsView upserts
-/// by `date` (normalized to start-of-day) so re-saving on the same day mutates
-/// the existing row rather than creating a duplicate.
+/// A free-text daily intention. One per day max — the Intentions area on the
+/// Direction tab upserts by `date` (normalized to start-of-day) so re-saving
+/// on the same day mutates the existing row rather than creating a duplicate.
 ///
 /// `reflection` is filled in *after* the day, on the look-back list. Empty
 /// string means "not yet reflected on" rather than "explicitly empty".

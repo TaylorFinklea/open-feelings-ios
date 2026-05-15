@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct FinalistsStepView: View {
-    @Bindable var session: SortSession
+    let session: SortSession
     @Query(sort: \CustomValue.createdAt) private var customs: [CustomValue]
 
     var body: some View {
@@ -69,9 +69,9 @@ struct FinalistsStepView: View {
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
-                    .fill(selected ? AnyShapeStyle(Color.accentColor.opacity(0.18)) : AnyShapeStyle(Color.OF.surface))
+                    .fill(selected ? AnyShapeStyle(Color.OF.accent.opacity(0.18)) : AnyShapeStyle(Color.OF.surface))
             )
-            .foregroundStyle(selected ? AnyShapeStyle(Color.accentColor) : AnyShapeStyle(Color.OF.text))
+            .foregroundStyle(selected ? AnyShapeStyle(Color.OF.accent) : AnyShapeStyle(Color.OF.text))
         }
         .buttonStyle(.plain)
     }

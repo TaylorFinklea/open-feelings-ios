@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct RankStepView: View {
-    @Bindable var session: SortSession
+    let session: SortSession
     @Query(sort: \CustomValue.createdAt) private var customs: [CustomValue]
 
     var body: some View {
@@ -30,6 +30,7 @@ struct RankStepView: View {
                     session.reorderRanked(from: source, to: destination)
                 }
             }
+            .scrollContentBackground(.hidden)
             .environment(\.editMode, .constant(.active))
 
             Button("Continue") { session.advancePhase() }

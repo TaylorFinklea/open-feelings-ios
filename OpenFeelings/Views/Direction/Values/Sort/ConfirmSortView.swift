@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ConfirmSortView: View {
-    @Bindable var session: SortSession
+    let session: SortSession
     @Query(sort: \CustomValue.createdAt) private var customs: [CustomValue]
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
@@ -27,6 +27,7 @@ struct ConfirmSortView: View {
                 }
             }
             .listStyle(.plain)
+            .scrollContentBackground(.hidden)
 
             Button("Confirm") {
                 if session.finalize(into: context) != nil {

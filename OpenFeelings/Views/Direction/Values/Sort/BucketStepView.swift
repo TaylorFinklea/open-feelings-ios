@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct BucketStepView: View {
-    @Bindable var session: SortSession
+    let session: SortSession
     @Environment(\.modelContext) private var context
 
     @Query(sort: \CustomValue.createdAt) private var customs: [CustomValue]

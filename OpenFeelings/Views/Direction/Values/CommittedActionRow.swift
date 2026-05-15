@@ -17,7 +17,7 @@ struct CommittedActionRow: View {
         HStack(spacing: .OF.sm) {
             Image(systemName: action.isDone ? "checkmark.square.fill" : "square")
                 .font(.title3)
-                .foregroundStyle(action.isDone ? AnyShapeStyle(Color.accentColor) : AnyShapeStyle(Color.OF.textMuted))
+                .foregroundStyle(action.isDone ? AnyShapeStyle(Color.OF.accent) : AnyShapeStyle(Color.OF.textMuted))
             VStack(alignment: .leading, spacing: 2) {
                 Text(action.title)
                     .font(.body)
