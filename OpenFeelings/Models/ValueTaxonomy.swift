@@ -10,6 +10,7 @@ struct ValueDefinition: Hashable, Sendable, Identifiable {
     let description: String
 }
 
+/// Namespace for the curated values deck shipped with the app.
 enum ValueTaxonomy {
     static let all: [ValueDefinition] = [
         .init(id: "acceptance",    name: "Acceptance",    description: "Receiving myself and others as we are."),

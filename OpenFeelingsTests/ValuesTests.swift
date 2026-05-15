@@ -1,8 +1,6 @@
-import SwiftData
 import XCTest
 @testable import OpenFeelings
 
-@MainActor
 final class ValuesTests: XCTestCase {
     func testValueTaxonomyIntegrity() {
         let all = ValueTaxonomy.all
