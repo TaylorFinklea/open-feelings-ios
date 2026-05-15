@@ -6,7 +6,7 @@ struct DirectionView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: .OF.xl) {
                 IntentionsContent()
-                ValuesAreaPlaceholder()
+                ValuesArea()
             }
             .padding(.horizontal, CGFloat.OF.lg)
             .padding(.bottom, CGFloat.OF.xxxl)
@@ -15,19 +15,6 @@ struct DirectionView: View {
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Direction")
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-/// Placeholder filled in by Task 8.
-private struct ValuesAreaPlaceholder: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: .OF.sm) {
-            Text("Values")
-                .font(.title3.weight(.semibold))
-            Text("Coming next.")
-                .foregroundStyle(Color.OF.textMuted)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

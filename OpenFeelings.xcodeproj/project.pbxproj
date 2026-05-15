@@ -64,6 +64,7 @@
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9FA20488540C2867C4A648 /* TriggersStep.swift */; };
+		4D58EB600386EB9402677B44 /* ValuesArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0252121081E2D097294EB095 /* ValuesArea.swift */; };
 		4D59C736DCC60FACE468DB16 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420444BE4D3721C8F87B92D /* FeatureFlags.swift */; };
 		4DEC3D3D1CDB695B2FDACA6F /* CheckInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11D8D490876864723023D4 /* CheckInRootView.swift */; };
 		4DF1FCB2092988CE954C1507 /* CoreFeelingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2166C782A963AA06ACC3B /* CoreFeelingPicker.swift */; };
@@ -198,6 +199,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0252121081E2D097294EB095 /* ValuesArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesArea.swift; sourceTree = "<group>"; };
 		03A39CE3CFFB6A17B71E95B9 /* TherapyReportSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportSettingsView.swift; sourceTree = "<group>"; };
 		04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBodyMapTests.swift; sourceTree = "<group>"; };
 		046676990FE85881F78D3406 /* OFChipIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFChipIdentifierTests.swift; sourceTree = "<group>"; };
@@ -648,6 +650,14 @@
 			path = CheckInWizard;
 			sourceTree = "<group>";
 		};
+		D19B8C2BB4EB8A79AD06B5E7 /* Values */ = {
+			isa = PBXGroup;
+			children = (
+				0252121081E2D097294EB095 /* ValuesArea.swift */,
+			);
+			path = Values;
+			sourceTree = "<group>";
+		};
 		D25338855B8DAF0B63759E65 /* OpenFeelingsWatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -680,6 +690,7 @@
 			children = (
 				6024EEE2E361EA2CDA93B0A5 /* DirectionView.swift */,
 				E6CF061543426DD353971D6D /* Intentions */,
+				D19B8C2BB4EB8A79AD06B5E7 /* Values */,
 			);
 			path = Direction;
 			sourceTree = "<group>";
@@ -931,6 +942,7 @@
 				A734D9135EB4F7121ABC4628 /* ValueRef.swift in Sources */,
 				B194F3755CE32B4AC5A0C7AC /* ValueSort.swift in Sources */,
 				840E046623A5BCC40646527C /* ValueTaxonomy.swift in Sources */,
+				4D58EB600386EB9402677B44 /* ValuesArea.swift in Sources */,
 				31EA02F0D4D045B03BC52A7D /* WatchCheckInPayload.swift in Sources */,
 				CDBD062828BA92D93932A903 /* WatchCheckInSettings.swift in Sources */,
 				BD27EC055FD4DC1826AB1E06 /* WatchSyncService.swift in Sources */,
