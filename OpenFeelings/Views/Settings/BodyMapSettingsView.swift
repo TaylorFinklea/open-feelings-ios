@@ -10,8 +10,11 @@ struct BodyMapSettingsView: View {
 
     @Query private var bodyMaps: [UserBodyMap]
     @Query private var allLogs: [FeelingLog]
+    @Query(sort: \CustomBodyRegion.createdAt) private var customRegions: [CustomBodyRegion]
 
     @State private var editingRegion: BodyRegion?
+    @State private var showingAddCustom = false
+    @State private var newCustomName = ""
 
     private var bodyMap: UserBodyMap? { bodyMaps.first }
 
@@ -47,6 +50,28 @@ struct BodyMapSettingsView: View {
                 }
             }
 
+            Section("Your regions") {
+                if customRegions.isEmpty {
+                    Text("Add places that fit your body — anywhere from \"left arm\" to \"jaw.\" Picks land on your check-ins alongside the built-in regions and the app learns from them the same way.")
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                }
+                ForEach(customRegions) { region in
+                    HStack {
+                        Text(region.name).foregroundStyle(Color.OF.text)
+                        Spacer()
+                    }
+                }
+                .onDelete(perform: deleteCustomRegions)
+
+                Button {
+                    newCustomName = ""
+                    showingAddCustom = true
+                } label: {
+                    Label("Add region", systemImage: "plus.circle")
+                }
+            }
+
             Section {
                 Button(role: .destructive) {
                     bodyMap?.resetAll()
@@ -62,6 +87,20 @@ struct BodyMapSettingsView: View {
             EditBodyRegionView(region: region, bodyMap: bodyMap)
                 .environment(\.modelContext, modelContext)
         }
+        .sheet(isPresented: $showingAddCustom) {
+            AddCustomBodyRegionView(name: $newCustomName) { trimmed in
+                let region = CustomBodyRegion(name: trimmed)
+                modelContext.insert(region)
+                try? modelContext.save()
+            }
+        }
+    }
+
+    private func deleteCustomRegions(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(customRegions[index])
+        }
+        try? modelContext.save()
     }
 
     private func coreSummary(for region: BodyRegion) -> String {
@@ -129,5 +168,48 @@ private struct EditBodyRegionView: View {
                 if isOn { selectedCoreIDs.insert(id) } else { selectedCoreIDs.remove(id) }
             }
         )
+    }
+}
+
+private struct AddCustomBodyRegionView: View {
+    @Binding var name: String
+    var onSave: (String) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @FocusState private var fieldFocused: Bool
+
+    private var trimmed: String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("e.g., left arm, jaw", text: $name)
+                        .focused($fieldFocused)
+                        .textInputAutocapitalization(.sentences)
+                        .submitLabel(.done)
+                        .onSubmit(commit)
+                }
+            }
+            .navigationTitle("New region")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Add", action: commit).disabled(trimmed.isEmpty)
+                }
+            }
+            .onAppear { fieldFocused = true }
+        }
+    }
+
+    private func commit() {
+        guard !trimmed.isEmpty else { return }
+        onSave(trimmed)
+        dismiss()
     }
 }

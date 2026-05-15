@@ -39,7 +39,9 @@ struct CheckInView: View {
     }
 
     private var learnedMap: LearnedBodyMap {
-        guard learnFromHistory else { return LearnedBodyMap(counts: [:], totals: [:]) }
+        guard learnFromHistory else {
+            return LearnedBodyMap(counts: [:], totals: [:], customCounts: [:], customTotals: [:])
+        }
         return LearnedBodyMap.compute(from: allLogs)
     }
 
@@ -247,6 +249,9 @@ struct CheckInView: View {
             moodEnergy: draft.includeMoodScale ? draft.moodEnergy : nil,
             moodValence: draft.includeMoodScale ? draft.moodValence : nil
         )
+        // Set custom region IDs after construction since the main init builds
+        // from an EmotionSelection (no place for raw IDs there).
+        log.customBodyRegionIDs = Array(draft.customBodyRegionIDs)
         modelContext.insert(log)
         try? modelContext.save()
         draft.reset()

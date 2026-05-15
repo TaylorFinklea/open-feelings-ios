@@ -38,6 +38,7 @@ final class FeelingLog {
     var note: String = ""
     var healthSyncStatusRaw: String = HealthSyncStatus.notRequested.rawValue
     var bodyRegionsRaw: String = ""
+    var customBodyRegionIDsRaw: String = ""
     var bodySensationsRaw: String = ""
     var contextPlacesRaw: String = ""
     var contextPeopleRaw: String = ""
@@ -140,6 +141,19 @@ final class FeelingLog {
     var bodyRegions: [BodyRegion] {
         get { BodyRegion.parseList(bodyRegionsRaw) }
         set { bodyRegionsRaw = BodyRegion.encodeList(newValue) }
+    }
+
+    /// User-defined body region IDs the user picked for this log. Stored as a
+    /// comma-separated raw string of UUIDs to mirror `bodyRegionsRaw`'s shape.
+    var customBodyRegionIDs: [UUID] {
+        get {
+            customBodyRegionIDsRaw
+                .split(separator: ",")
+                .compactMap { UUID(uuidString: String($0)) }
+        }
+        set {
+            customBodyRegionIDsRaw = newValue.map { $0.uuidString }.joined(separator: ",")
+        }
     }
 
     var bodySensations: [BodySensation] {

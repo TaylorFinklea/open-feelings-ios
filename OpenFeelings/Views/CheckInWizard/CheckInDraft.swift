@@ -11,6 +11,7 @@ struct CheckInDraft {
     var moodEnergy: Double = 0
     var moodValence: Double = 0
     var bodyRegions: Set<BodyRegion> = []
+    var customBodyRegionIDs: Set<UUID> = []
     var bodySensations: Set<BodySensation> = []
     var contextPlaces: Set<ContextPlace> = []
     var contextPeople: Set<ContextPeople> = []
@@ -31,10 +32,11 @@ struct CheckInDraft {
         let hasExclusive = bodyRegions.contains(.wholeBody) || bodyRegions.contains(.nowhere)
 
         if isExclusive {
-            if bodyRegions == [region] {
+            if bodyRegions == [region] && customBodyRegionIDs.isEmpty {
                 bodyRegions = []
             } else {
                 bodyRegions = [region]
+                customBodyRegionIDs = []
             }
             return
         }
@@ -48,6 +50,22 @@ struct CheckInDraft {
             bodyRegions.remove(region)
         } else {
             bodyRegions.insert(region)
+        }
+    }
+
+    /// Toggles a user-defined region. Custom regions never act exclusively —
+    /// they coexist with built-ins. But picking one clears Everywhere/Nowhere,
+    /// since those are still meant to mean "no specific location."
+    mutating func toggleCustomRegion(_ id: UUID) {
+        if bodyRegions.contains(.wholeBody) || bodyRegions.contains(.nowhere) {
+            bodyRegions.remove(.wholeBody)
+            bodyRegions.remove(.nowhere)
+        }
+
+        if customBodyRegionIDs.contains(id) {
+            customBodyRegionIDs.remove(id)
+        } else {
+            customBodyRegionIDs.insert(id)
         }
     }
 

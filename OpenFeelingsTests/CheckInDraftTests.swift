@@ -54,4 +54,42 @@ final class CheckInDraftTests: XCTestCase {
         draft.toggleRegion(.chest)
         XCTAssertEqual(draft.bodyRegions, [.chest])
     }
+
+    // MARK: - Custom region toggle semantics
+
+    func testToggleCustomRegionAddsAndRemoves() {
+        var draft = CheckInDraft()
+        let id = UUID()
+        draft.toggleCustomRegion(id)
+        XCTAssertEqual(draft.customBodyRegionIDs, [id])
+        draft.toggleCustomRegion(id)
+        XCTAssertTrue(draft.customBodyRegionIDs.isEmpty)
+    }
+
+    func testToggleCustomRegionClearsEverywhere() {
+        var draft = CheckInDraft()
+        draft.toggleRegion(.wholeBody)
+        let id = UUID()
+        draft.toggleCustomRegion(id)
+        XCTAssertTrue(draft.bodyRegions.isEmpty)
+        XCTAssertEqual(draft.customBodyRegionIDs, [id])
+    }
+
+    func testPickingEverywhereClearsCustomRegions() {
+        var draft = CheckInDraft()
+        let id = UUID()
+        draft.toggleCustomRegion(id)
+        draft.toggleRegion(.wholeBody)
+        XCTAssertEqual(draft.bodyRegions, [.wholeBody])
+        XCTAssertTrue(draft.customBodyRegionIDs.isEmpty)
+    }
+
+    func testCustomAndBuiltInRegularRegionsCoexist() {
+        var draft = CheckInDraft()
+        let id = UUID()
+        draft.toggleRegion(.chest)
+        draft.toggleCustomRegion(id)
+        XCTAssertEqual(draft.bodyRegions, [.chest])
+        XCTAssertEqual(draft.customBodyRegionIDs, [id])
+    }
 }

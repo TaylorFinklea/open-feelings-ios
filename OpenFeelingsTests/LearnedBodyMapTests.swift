@@ -10,9 +10,9 @@ final class LearnedBodyMapTests: XCTestCase {
         return EmotionSelection(core: core, secondary: sec, specific: nil)
     }
 
-    private func log(secondary: String, regions: [BodyRegion]) -> FeelingLog {
+    private func log(secondary: String, regions: [BodyRegion], customIDs: [UUID] = []) -> FeelingLog {
         let sel = selection(secondary)
-        return FeelingLog(
+        let log = FeelingLog(
             selection: sel,
             intensity: nil,
             note: "",
@@ -26,6 +26,8 @@ final class LearnedBodyMapTests: XCTestCase {
             moodEnergy: nil,
             moodValence: nil
         )
+        log.customBodyRegionIDs = customIDs
+        return log
     }
 
     func testEmptyLogsHasNoDominant() {
@@ -68,5 +70,35 @@ final class LearnedBodyMapTests: XCTestCase {
         let map = LearnedBodyMap.compute(from: logs)
         XCTAssertEqual(map.totals[.chest], 8)
         XCTAssertEqual(map.counts[.chest]?["anxious"], 6)
+    }
+
+    // MARK: - Custom region learning
+
+    func testCustomRegionDominantBelowSampleThresholdReturnsNil() {
+        let leftArm = UUID()
+        let logs = (0..<4).map { _ in log(secondary: "anxious", regions: [], customIDs: [leftArm]) }
+        let map = LearnedBodyMap.compute(from: logs)
+        XCTAssertNil(map.dominantSecondary(forCustomID: leftArm))
+    }
+
+    func testCustomRegionDominantAtThreshold() {
+        // 5 samples, 4 anxious — same ≥5/≥60% threshold as built-ins.
+        let leftArm = UUID()
+        let logs = (0..<4).map { _ in log(secondary: "anxious", regions: [], customIDs: [leftArm]) }
+                  + (0..<1).map { _ in log(secondary: "insecure", regions: [], customIDs: [leftArm]) }
+        let map = LearnedBodyMap.compute(from: logs)
+        XCTAssertEqual(map.dominantSecondary(forCustomID: leftArm), "anxious")
+    }
+
+    func testCustomAndBuiltInAccumulateSeparately() {
+        let leftArm = UUID()
+        // Same log carries both a built-in and a custom region — should
+        // increment both counters independently.
+        let logs = (0..<5).map { _ in log(secondary: "anxious", regions: [.chest], customIDs: [leftArm]) }
+        let map = LearnedBodyMap.compute(from: logs)
+        XCTAssertEqual(map.totals[.chest], 5)
+        XCTAssertEqual(map.customTotals[leftArm], 5)
+        XCTAssertEqual(map.dominantSecondary(for: .chest), "anxious")
+        XCTAssertEqual(map.dominantSecondary(forCustomID: leftArm), "anxious")
     }
 }

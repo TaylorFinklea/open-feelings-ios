@@ -28,20 +28,35 @@ enum BodyEmotionMap {
     /// across all regions. If the intersection is empty (regions disagree),
     /// falls back to the union so the user always sees some highlight.
     ///
-    /// `overrides` will be wired in once `UserBodyMap` exists; for now this
-    /// signature accepts an `Any?` placeholder via `nil` callers.
+    /// Custom regions don't have curated defaults — they contribute only when
+    /// learning has crossed the threshold; their dominant secondary's parent
+    /// core feeds the suggestion set so a well-trained custom region behaves
+    /// like a curated one.
     static func suggestedCores(
         for regions: Set<BodyRegion>,
-        overrides: UserBodyMap?
+        customRegionIDs: Set<UUID> = [],
+        overrides: UserBodyMap?,
+        learned: LearnedBodyMap? = nil
     ) -> Set<String> {
-        guard !regions.isEmpty else { return [] }
+        var perRegionSets: [Set<String>] = []
 
-        let perRegionSets = regions.map { region -> Set<String> in
+        for region in regions {
             if let overridden = overrides?.coreIDs(for: region), !overridden.isEmpty {
-                return Set(overridden)
+                perRegionSets.append(Set(overridden))
+            } else {
+                perRegionSets.append(Set(defaultCores(for: region)))
             }
-            return Set(defaultCores(for: region))
         }
+
+        for id in customRegionIDs {
+            if let learnedCore = learnedCore(forCustomID: id, learned: learned) {
+                perRegionSets.append([learnedCore])
+            }
+            // No defaults / overrides for custom regions in v1 — silently
+            // contribute nothing when the user hasn't trained the region yet.
+        }
+
+        guard !perRegionSets.isEmpty else { return [] }
 
         let intersection = perRegionSets.dropFirst().reduce(perRegionSets.first ?? []) { acc, next in
             acc.intersection(next)
@@ -50,5 +65,12 @@ enum BodyEmotionMap {
             return intersection
         }
         return perRegionSets.reduce(Set<String>()) { $0.union($1) }
+    }
+
+    private static func learnedCore(forCustomID id: UUID, learned: LearnedBodyMap?) -> String? {
+        guard let learned, let secondaryID = learned.dominantSecondary(forCustomID: id) else { return nil }
+        return EmotionTaxonomy.cores.first { core in
+            core.secondaries.contains { $0.id == secondaryID }
+        }?.id
     }
 }

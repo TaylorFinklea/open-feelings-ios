@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 /// "Where do you feel it?" — region chips by default; a stylized body
@@ -5,6 +6,7 @@ import SwiftUI
 struct BodyStep: View {
     @Binding var draft: CheckInDraft
     @AppStorage("checkInBodyView") private var bodyView: String = "chips"
+    @Query(sort: \CustomBodyRegion.createdAt) private var customRegions: [CustomBodyRegion]
 
     var body: some View {
         switch bodyView {
@@ -18,12 +20,34 @@ struct BodyStep: View {
     // MARK: - Chips layout
 
     private var chipsLayout: some View {
+        VStack(alignment: .leading, spacing: .OF.md) {
+            VStack(alignment: .leading, spacing: .OF.sm) {
+                WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
+                    specialChip(.wholeBody, label: "Everywhere")
+                    specialChip(.nowhere, label: "Nowhere")
+                    ForEach(regularRegions, id: \.self) { region in
+                        OFChip(label: region.displayName, isOn: bindingFor(region))
+                    }
+                }
+            }
+            .padding(CGFloat.OF.md)
+            .background(Color.OF.surface,
+                        in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
+
+            if !customRegions.isEmpty {
+                customRegionsCard
+            }
+        }
+    }
+
+    private var customRegionsCard: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
+            Text("Your regions")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
             WrapLayout(hSpacing: CGFloat.OF.sm, vSpacing: CGFloat.OF.sm) {
-                specialChip(.wholeBody, label: "Everywhere")
-                specialChip(.nowhere, label: "Nowhere")
-                ForEach(regularRegions, id: \.self) { region in
-                    OFChip(label: region.displayName, isOn: bindingFor(region))
+                ForEach(customRegions) { region in
+                    OFChip(label: region.name, isOn: bindingFor(customID: region.id))
                 }
             }
         }
@@ -103,6 +127,13 @@ struct BodyStep: View {
         Binding(
             get: { draft.bodyRegions.contains(region) },
             set: { _ in draft.toggleRegion(region) }
+        )
+    }
+
+    private func bindingFor(customID id: UUID) -> Binding<Bool> {
+        Binding(
+            get: { draft.customBodyRegionIDs.contains(id) },
+            set: { _ in draft.toggleCustomRegion(id) }
         )
     }
 }
