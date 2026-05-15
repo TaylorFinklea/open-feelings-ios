@@ -43,7 +43,7 @@ final class ValuesTests: XCTestCase {
 
     private func makeContext(schema overrideSchema: Schema? = nil) throws -> ModelContext {
         let schema = overrideSchema ?? Schema([
-            CustomValue.self, ValueSort.self
+            CustomValue.self, ValueSort.self, CommittedAction.self
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: schema, configurations: [config])
@@ -96,5 +96,59 @@ final class ValuesTests: XCTestCase {
         descriptor.fetchLimit = 1
         let active = try context.fetch(descriptor).first
         XCTAssertEqual(active?.rankedTop, ["growth"])
+    }
+
+    func testCommittedActionLifecycleMarkDoneSetsCompletedAt() throws {
+        let action = CommittedAction(title: "Call my brother", valueRef: "family",
+                                     whatsHard: "We haven't spoken in a year.")
+        XCTAssertFalse(action.isDone)
+        XCTAssertNil(action.completedAt)
+        XCTAssertEqual(action.reflection, "")
+
+        let now = Date()
+        action.markDone(at: now)
+
+        XCTAssertTrue(action.isDone)
+        XCTAssertEqual(action.completedAt, now)
+        XCTAssertEqual(action.title, "Call my brother")
+        XCTAssertEqual(action.valueRef, "family")
+        XCTAssertEqual(action.whatsHard, "We haven't spoken in a year.")
+        XCTAssertEqual(action.reflection, "")
+    }
+
+    func testCommittedActionPersistsAcrossReSort() throws {
+        let context = try makeContext()
+        let action = CommittedAction(title: "Hard 1:1", valueRef: "honesty")
+        context.insert(action)
+
+        // First sort exists.
+        let first = ValueSort(bucketAssignments: ["honesty": .veryImportant],
+                              rankedTop: ["honesty"])
+        context.insert(first)
+        try context.save()
+
+        // User re-sorts and "honesty" gets dropped from the new ranked list.
+        let second = ValueSort(createdAt: Date(timeIntervalSinceNow: 10),
+                               bucketAssignments: ["growth": .veryImportant],
+                               rankedTop: ["growth"])
+        context.insert(second)
+        try context.save()
+
+        let descriptor = FetchDescriptor<CommittedAction>()
+        let found = try context.fetch(descriptor)
+        XCTAssertEqual(found.count, 1)
+        XCTAssertEqual(found.first?.valueRef, "honesty")
+    }
+
+    func testCommittedActionWithDroppedValueRefStillResolvesToFallback() {
+        let action = CommittedAction(title: "x", valueRef: "honesty")
+        // Active sort no longer includes "honesty"; ranked list is just ["growth"].
+        let activeRanked: [String] = ["growth"]
+        let inActive = activeRanked.contains(action.valueRef)
+        XCTAssertFalse(inActive)
+        let label = inActive
+            ? ValueRef.displayName(for: action.valueRef, customs: [])
+            : "(not in current values)"
+        XCTAssertEqual(label, "(not in current values)")
     }
 }

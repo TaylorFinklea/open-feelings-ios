@@ -122,6 +122,7 @@
 		AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295D45C9D0C561EB42973B20 /* StepNav.swift */; };
 		B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */; };
 		B194F3755CE32B4AC5A0C7AC /* ValueSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E439E888FD8844FE1C1262 /* ValueSort.swift */; };
+		B2D11F3F6E6C9B16E8EB20D9 /* CommittedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236B1A0FE40264A55E92C958 /* CommittedAction.swift */; };
 		B6FD43FFC5F3CEB1EED4919D /* WatchCheckInPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E063AD3C5F9E15541D46AC /* WatchCheckInPayload.swift */; };
 		BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */; };
 		BD27EC055FD4DC1826AB1E06 /* WatchSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6625DA0A4DB7B1A02D92A7ED /* WatchSyncService.swift */; };
@@ -213,6 +214,7 @@
 		1E36FA186526385FF499AE4E /* StepHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeader.swift; sourceTree = "<group>"; };
 		1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColor.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
+		236B1A0FE40264A55E92C958 /* CommittedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedAction.swift; sourceTree = "<group>"; };
 		246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInSettings.swift; sourceTree = "<group>"; };
 		25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPalette.swift; sourceTree = "<group>"; };
 		270853AFA9340C271CA558F5 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 			children = (
 				9CCE216EE5D82F956DC02576 /* BodyEmotionMap.swift */,
 				F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */,
+				236B1A0FE40264A55E92C958 /* CommittedAction.swift */,
 				2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */,
 				05EEFFA054F354594D37D639 /* CustomBodyRegion.swift */,
 				91C275EE1C366DCFED648B8F /* CustomValue.swift */,
@@ -839,6 +842,7 @@
 				9FDF2AA07587BE3FE57CFE26 /* CheckInFlowSettingsView.swift in Sources */,
 				5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */,
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
+				B2D11F3F6E6C9B16E8EB20D9 /* CommittedAction.swift in Sources */,
 				42E45D793A6B92B8E2D75185 /* ContextStep.swift in Sources */,
 				4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */,
 				08B4B6A550B775996DD07EF8 /* CopingStep.swift in Sources */,
