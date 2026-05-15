@@ -151,4 +151,82 @@ final class ValuesTests: XCTestCase {
             : "(not in current values)"
         XCTAssertEqual(label, "(not in current values)")
     }
+
+    @MainActor
+    private func sampleSession(_ customs: [CustomValue] = []) -> SortSession {
+        SortSession(curated: ValueTaxonomy.all, custom: customs)
+    }
+
+    @MainActor
+    func testSortSessionAdvanceRefusesWhenBucketingIncomplete() {
+        let session = sampleSession()
+        XCTAssertEqual(session.phase, .bucketing)
+        let advanced = session.advancePhase()
+        XCTAssertFalse(advanced)
+        XCTAssertEqual(session.phase, .bucketing)
+    }
+
+    @MainActor
+    func testSortSessionFinalistsCappedAtTen() {
+        let session = sampleSession()
+        // Bucket the first 12 cards as veryImportant.
+        for _ in 0..<12 {
+            guard let ref = session.currentRef else { break }
+            session.bucket(ref, into: .veryImportant)
+        }
+        // Now bucket everything else as notForMe so we can advance.
+        while let ref = session.currentRef {
+            session.bucket(ref, into: .notForMe)
+        }
+        XCTAssertTrue(session.advancePhase())
+        XCTAssertEqual(session.phase, .pickingFinalists)
+
+        let pool = session.veryImportantPool
+        XCTAssertEqual(pool.count, 12)
+
+        for ref in pool { session.toggleFinalist(ref) }
+        XCTAssertEqual(session.finalists.count, 10, "cap at 10 enforced")
+    }
+
+    @MainActor
+    func testSortSessionUndoRevertsLastBucket() {
+        let session = sampleSession()
+        guard let first = session.currentRef else { return XCTFail("empty deck") }
+        session.bucket(first, into: .veryImportant)
+        XCTAssertEqual(session.assignments[first], .veryImportant)
+        XCTAssertNotEqual(session.currentRef, first)
+        let undone = session.undoLastBucket()
+        XCTAssertTrue(undone)
+        XCTAssertNil(session.assignments[first])
+        XCTAssertEqual(session.currentRef, first)
+    }
+
+    @MainActor
+    func testSortSessionFinalizeWritesValueSortRow() throws {
+        let context = try makeContext()
+        let session = sampleSession()
+        // Bucket all into notForMe except the first 3 which go to veryImportant.
+        for i in 0..<3 {
+            if let ref = session.currentRef {
+                session.bucket(ref, into: .veryImportant)
+            }
+            _ = i
+        }
+        while let ref = session.currentRef {
+            session.bucket(ref, into: .notForMe)
+        }
+        XCTAssertTrue(session.advancePhase())
+        for ref in session.veryImportantPool { session.toggleFinalist(ref) }
+        XCTAssertTrue(session.advancePhase())                  // pickingFinalists → ranking
+        XCTAssertEqual(session.ranked.count, session.finalists.count)
+        XCTAssertTrue(session.advancePhase())                  // ranking → confirming
+        let written = session.finalize(into: context)
+        XCTAssertNotNil(written)
+        try context.save()
+
+        let descriptor = FetchDescriptor<ValueSort>()
+        let rows = try context.fetch(descriptor)
+        XCTAssertEqual(rows.count, 1)
+        XCTAssertEqual(rows.first?.rankedTop.count, 3)
+    }
 }
