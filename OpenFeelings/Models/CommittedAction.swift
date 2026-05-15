@@ -25,7 +25,7 @@ final class CommittedAction {
         self.createdAt = createdAt
         self.title = title.trimmingCharacters(in: .whitespacesAndNewlines)
         self.valueRef = valueRef
-        self.whatsHard = whatsHard
+        self.whatsHard = whatsHard.trimmingCharacters(in: .whitespacesAndNewlines)
         self.isDone = false
         self.completedAt = nil
         self.reflection = ""
