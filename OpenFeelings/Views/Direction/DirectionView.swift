@@ -1,9 +1,10 @@
+import SwiftData
 import SwiftUI
 
 struct DirectionView: View {
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: .OF.xl) {
                 IntentionsContent()
                 ValuesAreaPlaceholder()
             }
@@ -20,11 +21,11 @@ struct DirectionView: View {
 /// Placeholder filled in by Task 8.
 private struct ValuesAreaPlaceholder: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: .OF.sm) {
             Text("Values")
                 .font(.title3.weight(.semibold))
             Text("Coming next.")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.OF.textMuted)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -32,4 +33,5 @@ private struct ValuesAreaPlaceholder: View {
 
 #Preview {
     NavigationStack { DirectionView() }
+        .modelContainer(for: [FeelingLog.self, Intention.self], inMemory: true)
 }
