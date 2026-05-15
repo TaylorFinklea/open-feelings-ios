@@ -51,11 +51,12 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.watchkitapp
         DEVELOPMENT_TEAM: K7CBQW6MPG
-        PRODUCT_NAME: OpenFeelings
+        PRODUCT_NAME: OpenFeelingsWatch
         INFOPLIST_FILE: OpenFeelingsWatch/Info.plist
         CODE_SIGN_ENTITLEMENTS: OpenFeelingsWatch/OpenFeelingsWatch.entitlements
         TARGETED_DEVICE_FAMILY: "4"
         SDKROOT: watchos
+        SUPPORTED_PLATFORMS: "watchsimulator watchos"
         SUPPORTS_MACCATALYST: NO
   OpenFeelingsTests:
     type: bundle.unit-test

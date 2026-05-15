@@ -1071,9 +1071,10 @@
 				DEVELOPMENT_TEAM = K7CBQW6MPG;
 				INFOPLIST_FILE = OpenFeelingsWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.watchkitapp;
-				PRODUCT_NAME = OpenFeelings;
+				PRODUCT_NAME = OpenFeelingsWatch;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
@@ -1204,9 +1205,10 @@
 				DEVELOPMENT_TEAM = K7CBQW6MPG;
 				INFOPLIST_FILE = OpenFeelingsWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.watchkitapp;
-				PRODUCT_NAME = OpenFeelings;
+				PRODUCT_NAME = OpenFeelingsWatch;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
