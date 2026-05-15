@@ -89,7 +89,8 @@ final class SortSession {
             return true
         case .pickingFinalists:
             guard !finalists.isEmpty else { return false }
-            ranked = finalists
+            ranked = finalists.filter { assignments[$0] == .veryImportant }
+            guard !ranked.isEmpty else { return false }
             phase = .ranking
             return true
         case .ranking:

@@ -206,11 +206,10 @@ final class ValuesTests: XCTestCase {
         let context = try makeContext()
         let session = sampleSession()
         // Bucket all into notForMe except the first 3 which go to veryImportant.
-        for i in 0..<3 {
+        for _ in 0..<3 {
             if let ref = session.currentRef {
                 session.bucket(ref, into: .veryImportant)
             }
-            _ = i
         }
         while let ref = session.currentRef {
             session.bucket(ref, into: .notForMe)
