@@ -17,4 +17,26 @@ final class ValuesTests: XCTestCase {
                             "id is not a lowercase slug: \(def.id)")
         }
     }
+
+    func testValueRefDisplayNameResolvesCurated() {
+        let name = ValueRef.displayName(for: "family", customs: [])
+        XCTAssertEqual(name, "Family")
+    }
+
+    func testValueRefDisplayNameResolvesCustom() {
+        let uuid = UUID()
+        let custom = CustomValue(id: uuid, name: "Surfing")
+        let name = ValueRef.displayName(for: "custom:\(uuid.uuidString)", customs: [custom])
+        XCTAssertEqual(name, "Surfing")
+    }
+
+    func testValueRefDisplayNameMissingCustomFallback() {
+        let name = ValueRef.displayName(for: "custom:\(UUID().uuidString)", customs: [])
+        XCTAssertEqual(name, "(removed value)")
+    }
+
+    func testValueRefIsCustom() {
+        XCTAssertTrue(ValueRef.isCustom("custom:abc"))
+        XCTAssertFalse(ValueRef.isCustom("family"))
+    }
 }
