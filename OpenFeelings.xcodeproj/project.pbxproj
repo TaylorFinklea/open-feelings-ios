@@ -51,6 +51,7 @@
 		399059894BECDC267871CEDE /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F6FF9EEE69BDBD038A224B /* InsightsView.swift */; };
 		3CFA80EE13B5665871E1D1CE /* SpecificFeelingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A230E1202D1D42214CE2F /* SpecificFeelingPicker.swift */; };
 		3D5BDB7D779D26BDA9905666 /* WheelViewportTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CD3074A5394FAAE9FBB07B /* WheelViewportTransformTests.swift */; };
+		3FA772F1B723C79677EF62DE /* CommittedActionDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44780243E482EB5D78C76E28 /* CommittedActionDetail.swift */; };
 		3FD3936D3F358291ED7B7FD9 /* MoodScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */; };
 		406AE87BB5B6683201CC353F /* CheckInDraftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4073497ECC60F9CC7EEBD189 /* CheckInDraftTests.swift */; };
 		40C2D0C262E0CE5974F24722 /* SensationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467A1BE03FA4A9092BADB1FB /* SensationPicker.swift */; };
@@ -72,6 +73,7 @@
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
 		4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
+		513C6BCD1F5F3922318DE79A /* CommittedActionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */; };
 		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
 		57DFE55ECCF0FC0766DAD683 /* SortFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF9C6E53AFBC30763A9317 /* SortFlowView.swift */; };
 		5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */; };
@@ -124,6 +126,7 @@
 		A7087DF600D27FA710FB840C /* Intention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139F747628A106913257991 /* Intention.swift */; };
 		A734D9135EB4F7121ABC4628 /* ValueRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9797D76DFCBC7CA258543F98 /* ValueRef.swift */; };
 		A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */; };
+		A99F8451F595166A5D20D5A4 /* CommittedActionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0DF6147C567857C6EFA437 /* CommittedActionEditor.swift */; };
 		AC100A947EAA79DA0D1CC2C4 /* SortSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0BDF28242540BC1CC9387 /* SortSession.swift */; };
 		AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */; };
 		AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295D45C9D0C561EB42973B20 /* StepNav.swift */; };
@@ -250,12 +253,14 @@
 		42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFelt.swift; sourceTree = "<group>"; };
 		430D545A44D2FD8E845DA0B4 /* CheckInFlowEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowEngine.swift; sourceTree = "<group>"; };
 		43C0BDF28242540BC1CC9387 /* SortSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortSession.swift; sourceTree = "<group>"; };
+		44780243E482EB5D78C76E28 /* CommittedActionDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedActionDetail.swift; sourceTree = "<group>"; };
 		464D885245E0FF5E70E4FF20 /* OpenFeelingsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenFeelingsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		467A1BE03FA4A9092BADB1FB /* SensationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensationPicker.swift; sourceTree = "<group>"; };
 		4803243D62430FBFD50B50F1 /* OpenFeelingsUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4863F4EFA1517ABBCA9B87B5 /* BodyEmotionMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyEmotionMapTests.swift; sourceTree = "<group>"; };
 		493A5AC7F3B3BD365062DB5D /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		494ECD530239CC1891D17A81 /* TherapyReportPDFService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportPDFService.swift; sourceTree = "<group>"; };
+		4C0DF6147C567857C6EFA437 /* CommittedActionEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedActionEditor.swift; sourceTree = "<group>"; };
 		4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		4F0E026042777B83C0ACB5CA /* SelectedFeelingBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedFeelingBadge.swift; sourceTree = "<group>"; };
 		4F17029E1FE2971A883A1F44 /* ExportService+Logseq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportService+Logseq.swift"; sourceTree = "<group>"; };
@@ -264,6 +269,7 @@
 		555051881E4EB6BEE6441D3D /* WatchSessionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionClient.swift; sourceTree = "<group>"; };
 		5A8F5995687D5BC27C333E2B /* ValuesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesTests.swift; sourceTree = "<group>"; };
 		5B09F2AFDF52B93CA13FB865 /* HistoryNoteUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryNoteUpdateTests.swift; sourceTree = "<group>"; };
+		5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedActionRow.swift; sourceTree = "<group>"; };
 		5C11D8D490876864723023D4 /* CheckInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInRootView.swift; sourceTree = "<group>"; };
 		5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowSettingsView.swift; sourceTree = "<group>"; };
 		6024EEE2E361EA2CDA93B0A5 /* DirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionView.swift; sourceTree = "<group>"; };
@@ -663,6 +669,9 @@
 		D19B8C2BB4EB8A79AD06B5E7 /* Values */ = {
 			isa = PBXGroup;
 			children = (
+				44780243E482EB5D78C76E28 /* CommittedActionDetail.swift */,
+				4C0DF6147C567857C6EFA437 /* CommittedActionEditor.swift */,
+				5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */,
 				0252121081E2D097294EB095 /* ValuesArea.swift */,
 				D968A3309F606577866EA7A0 /* Sort */,
 			);
@@ -900,6 +909,9 @@
 				5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */,
 				8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */,
 				B2D11F3F6E6C9B16E8EB20D9 /* CommittedAction.swift in Sources */,
+				3FA772F1B723C79677EF62DE /* CommittedActionDetail.swift in Sources */,
+				A99F8451F595166A5D20D5A4 /* CommittedActionEditor.swift in Sources */,
+				513C6BCD1F5F3922318DE79A /* CommittedActionRow.swift in Sources */,
 				19EC3059DFD5C0D2DF5F7649 /* ConfirmSortView.swift in Sources */,
 				42E45D793A6B92B8E2D75185 /* ContextStep.swift in Sources */,
 				4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */,
