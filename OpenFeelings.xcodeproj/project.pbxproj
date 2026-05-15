@@ -116,6 +116,7 @@
 		A6EF192827257C28B35C8DB7 /* TherapyReportSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A39CE3CFFB6A17B71E95B9 /* TherapyReportSettingsView.swift */; };
 		A6EF522C92D7DD08E1852A91 /* StepProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */; };
 		A7087DF600D27FA710FB840C /* Intention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139F747628A106913257991 /* Intention.swift */; };
+		A734D9135EB4F7121ABC4628 /* ValueRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9797D76DFCBC7CA258543F98 /* ValueRef.swift */; };
 		A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */; };
 		AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */; };
 		AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295D45C9D0C561EB42973B20 /* StepNav.swift */; };
@@ -141,6 +142,7 @@
 		DCE91AE6501FB582480508DA /* TherapyReportDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D201B86C580BD30270D860 /* TherapyReportDataTests.swift */; };
 		DD33FA92DFE817DF833DD6D1 /* EmotionColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */; };
 		E0F257C1963925D1CBC6FCE3 /* MoreDetailDisclosure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE50F3B4D41BD2A8AE31C31 /* MoreDetailDisclosure.swift */; };
+		E3BA4FE3AB22B90F3692A602 /* CustomValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C275EE1C366DCFED648B8F /* CustomValue.swift */; };
 		E40C48CD97294796C278116A /* ContextTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */; };
 		E5CDDE9B3D4D74F5C82D4C72 /* NoteEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67883588A892337E51FF1047 /* NoteEditorSheet.swift */; };
 		EAA4BD296FE9B3789D321049 /* BodyEmotionMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4863F4EFA1517ABBCA9B87B5 /* BodyEmotionMapTests.swift */; };
@@ -277,11 +279,13 @@
 		8F9A872D72EDAD8E42137BB5 /* CheckInDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInDraft.swift; sourceTree = "<group>"; };
 		8FEB00ED37F9809278819E66 /* WatchSyncServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSyncServiceTests.swift; sourceTree = "<group>"; };
 		9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
+		91C275EE1C366DCFED648B8F /* CustomValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomValue.swift; sourceTree = "<group>"; };
 		952F0F1CC79ADD3F6CC64F03 /* ExportServiceMarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceMarkdownTests.swift; sourceTree = "<group>"; };
 		96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryTests.swift; sourceTree = "<group>"; };
 		96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectStep.swift; sourceTree = "<group>"; };
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
 		97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OpenFeelingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9797D76DFCBC7CA258543F98 /* ValueRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueRef.swift; sourceTree = "<group>"; };
 		97E063AD3C5F9E15541D46AC /* WatchCheckInPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInPayload.swift; sourceTree = "<group>"; };
 		9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyRegionPicker.swift; sourceTree = "<group>"; };
 		9A91A71CCB26AE83A2F45AB9 /* InsightsSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsSummaryTests.swift; sourceTree = "<group>"; };
@@ -385,6 +389,7 @@
 				F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */,
 				2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */,
 				05EEFFA054F354594D37D639 /* CustomBodyRegion.swift */,
+				91C275EE1C366DCFED648B8F /* CustomValue.swift */,
 				3B34230A9CB898470920148B /* EmotionDefinitions.swift */,
 				7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */,
 				D1C1969664DAE9332E91F254 /* FeelingLog.swift */,
@@ -395,6 +400,7 @@
 				E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */,
 				76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */,
 				86992BC2A4EE056BCADB460D /* UserBodyMap.swift */,
+				9797D76DFCBC7CA258543F98 /* ValueRef.swift */,
 				2E52DC47D854C08EFC02025E /* ValueTaxonomy.swift */,
 			);
 			path = Models;
@@ -834,6 +840,7 @@
 				4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */,
 				08B4B6A550B775996DD07EF8 /* CopingStep.swift in Sources */,
 				05674727C913E03FB4327823 /* CustomBodyRegion.swift in Sources */,
+				E3BA4FE3AB22B90F3692A602 /* CustomValue.swift in Sources */,
 				FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */,
 				DD33FA92DFE817DF833DD6D1 /* EmotionColor.swift in Sources */,
 				9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */,
@@ -890,6 +897,7 @@
 				4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */,
 				4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */,
 				9D1C2A46735BF5A7C3D7BAE2 /* UserBodyMap.swift in Sources */,
+				A734D9135EB4F7121ABC4628 /* ValueRef.swift in Sources */,
 				840E046623A5BCC40646527C /* ValueTaxonomy.swift in Sources */,
 				31EA02F0D4D045B03BC52A7D /* WatchCheckInPayload.swift in Sources */,
 				CDBD062828BA92D93932A903 /* WatchCheckInSettings.swift in Sources */,
