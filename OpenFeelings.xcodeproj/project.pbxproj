@@ -159,6 +159,7 @@
 		E3BA4FE3AB22B90F3692A602 /* CustomValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C275EE1C366DCFED648B8F /* CustomValue.swift */; };
 		E40C48CD97294796C278116A /* ContextTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */; };
 		E5CDDE9B3D4D74F5C82D4C72 /* NoteEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67883588A892337E51FF1047 /* NoteEditorSheet.swift */; };
+		E787F18B56FB1444A1F14B4D /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F44FC6DFF670C8C5349C58 /* PrivacyPolicyView.swift */; };
 		EAA4BD296FE9B3789D321049 /* BodyEmotionMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4863F4EFA1517ABBCA9B87B5 /* BodyEmotionMapTests.swift */; };
 		ED0B67AD789F0B3243FC5F1B /* SelectedFeelingBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0E026042777B83C0ACB5CA /* SelectedFeelingBadge.swift */; };
 		F4F77872D9D77888690E6CDE /* HistoryFilterPredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBA239F10ED300594279E8C /* HistoryFilterPredicateTests.swift */; };
@@ -211,6 +212,7 @@
 /* Begin PBXFileReference section */
 		0252121081E2D097294EB095 /* ValuesArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesArea.swift; sourceTree = "<group>"; };
 		03A39CE3CFFB6A17B71E95B9 /* TherapyReportSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportSettingsView.swift; sourceTree = "<group>"; };
+		03F44FC6DFF670C8C5349C58 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBodyMapTests.swift; sourceTree = "<group>"; };
 		046676990FE85881F78D3406 /* OFChipIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFChipIdentifierTests.swift; sourceTree = "<group>"; };
 		0515B72A8FAC01AA37180E2A /* PersonalizationNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNudge.swift; sourceTree = "<group>"; };
@@ -582,6 +584,7 @@
 				85F6FF9EEE69BDBD038A224B /* InsightsView.swift */,
 				FEC7DB1837474E15C9A66E13 /* LockGateView.swift */,
 				67883588A892337E51FF1047 /* NoteEditorSheet.swift */,
+				03F44FC6DFF670C8C5349C58 /* PrivacyPolicyView.swift */,
 				C932D5F22945AFFBE7E2E184 /* RootView.swift */,
 				B67A46078B6257523BDCA760 /* SettingsView.swift */,
 				E249B39B8711CDB62DAA306E /* TodayView.swift */,
@@ -963,6 +966,7 @@
 				364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */,
 				94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */,
 				4525E98E91208FE49B00EBFE /* PersonalizationNudge.swift in Sources */,
+				E787F18B56FB1444A1F14B4D /* PrivacyPolicyView.swift in Sources */,
 				7F5C9B056FD17F6247D017D0 /* RankStepView.swift in Sources */,
 				5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */,
 				0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */,

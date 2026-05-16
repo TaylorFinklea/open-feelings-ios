@@ -133,6 +133,17 @@ struct SettingsView: View {
             OFListRow(title: "Data storage",
                       subtitle: "On device + private iCloud",
                       systemImage: "lock.icloud")
+            divider
+            NavigationLink {
+                PrivacyPolicyView()
+            } label: {
+                OFListRow.chevron(
+                    title: "Privacy policy",
+                    subtitle: "Effective \(PrivacyPolicyView.effectiveDate)",
+                    systemImage: "hand.raised"
+                )
+            }
+            .buttonStyle(.plain)
             footerCaption("Open Feelings has no accounts, ads, analytics, or third-party SDKs.")
         }
     }

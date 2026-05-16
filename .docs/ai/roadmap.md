@@ -26,7 +26,10 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [ ] Manual end-to-end verification of Direction tab + sort flow + committed actions on the TestFlight build (Task 13 of the Values plan).
 
 ### Next
-- [ ] Add app icon, launch branding, and App Store privacy policy copy.
+- [x] App icon (light/dark/tinted 1024×1024 set already in place).
+- [x] Launch branding (LaunchBackground color set with light + dark variants).
+- [x] App Store privacy policy copy — `docs/PRIVACY.md` is canonical; `PrivacyPolicyView` in Settings → Privacy renders it in-app.
+- [ ] Host `docs/PRIVACY.md` somewhere stable (GitHub Pages, project site, gist) and paste the URL into App Store Connect → App Privacy. The in-app effective date must match the hosted copy.
 - [ ] Manually validate iCloud sync between two signed-in devices.
 - [x] Review the Open Emotion Wheel attribution/license presentation before release.
 - [ ] Add UI tests for the watch check-in flow, the Direction tab (Intentions + Values sort), and the export entry points.
