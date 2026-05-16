@@ -1,0 +1,169 @@
+import XCTest
+
+/// UI smoke tests for the Direction tab and Values sort flow. Like the
+/// rest of OpenFeelingsUITests, these run against the simulator's
+/// persistent SwiftData store — they're written defensively so they
+/// pass whether or not prior runs left logs, intentions, or a saved
+/// ValueSort behind.
+final class DirectionUITests: XCTestCase {
+
+    private var app: XCUIApplication!
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        app = XCUIApplication()
+        app.launchArguments = ["-uiTestingMode", "1"]
+        app.launch()
+    }
+
+    private func tab(_ name: String) -> XCUIElement {
+        app.descendants(matching: .any).matching(identifier: "tab.\(name)").firstMatch
+    }
+
+    /// "Start the sort" appears in the empty-state card; "Re-sort" appears
+    /// once a ValueSort exists. Both lead to SortFlowView.
+    private func sortAffordance() -> XCUIElement {
+        let start = app.buttons["Start the sort"]
+        if start.exists { return start }
+        return app.buttons["Re-sort"]
+    }
+
+    // MARK: - Headers
+
+    func testDirectionTabRendersIntentionsAndValuesHeaders() {
+        tab("direction").tap()
+
+        let intentions = app.staticTexts["Intentions"]
+        XCTAssertTrue(intentions.waitForExistence(timeout: 3),
+                      "Direction tab should render an Intentions section header")
+
+        // Values header lives further down; scroll the surrounding view
+        // until it comes into reach. The Direction tab is one ScrollView.
+        let values = app.staticTexts["Values"]
+        var attempts = 0
+        while !values.exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
+        }
+        XCTAssertTrue(values.exists,
+                      "Direction tab should render a Values section header")
+    }
+
+    // MARK: - Sort affordance
+
+    func testValuesAreaExposesSortAffordance() {
+        tab("direction").tap()
+
+        // Scroll to bring the ValuesArea into view if needed.
+        var attempts = 0
+        while !sortAffordance().exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
+        }
+
+        XCTAssertTrue(sortAffordance().exists,
+                      "Values area should expose either 'Start the sort' or 'Re-sort'")
+    }
+
+    // MARK: - Sort flow modal
+
+    func testSortFlowOpensBucketStep() {
+        tab("direction").tap()
+
+        var attempts = 0
+        while !sortAffordance().exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
+        }
+        XCTAssertTrue(sortAffordance().waitForExistence(timeout: 3))
+        sortAffordance().tap()
+
+        // SortFlowView mounts a NavigationStack with title "Sort values".
+        XCTAssertTrue(app.navigationBars["Sort values"].waitForExistence(timeout: 5),
+                      "Sort flow should open with Sort values navigation title")
+
+        // Bucket step exposes three primary bucket buttons.
+        XCTAssertTrue(app.buttons["Very important"].exists,
+                      "Bucket step should expose 'Very important' button")
+        XCTAssertTrue(app.buttons["Important"].exists,
+                      "Bucket step should expose 'Important' button")
+        XCTAssertTrue(app.buttons["Not for me"].exists,
+                      "Bucket step should expose 'Not for me' button")
+    }
+
+    // MARK: - Bucket progress + undo
+
+    /// Locates the "{N} of {M}" progress text. Stable across deck sizes.
+    private func progressText() -> XCUIElement {
+        app.staticTexts.matching(
+            NSPredicate(format: "label MATCHES '^[0-9]+ of [0-9]+$'")
+        ).firstMatch
+    }
+
+    private func progressIndex() -> Int? {
+        let label = progressText().label
+        return Int(label.split(separator: " ").first.map(String.init) ?? "")
+    }
+
+    func testBucketAdvancesProgressAndUndoRestoresIt() {
+        tab("direction").tap()
+
+        var attempts = 0
+        while !sortAffordance().exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
+        }
+        XCTAssertTrue(sortAffordance().waitForExistence(timeout: 3))
+        sortAffordance().tap()
+
+        XCTAssertTrue(progressText().waitForExistence(timeout: 5),
+                      "Bucket step should render '{N} of {M}' progress text")
+        guard let before = progressIndex() else {
+            return XCTFail("Could not parse initial bucket progress index")
+        }
+
+        app.buttons["Very important"].tap()
+
+        // The card advances and the progress text re-renders with index+1.
+        // Re-query the progress text in case the previous element invalidated.
+        let advancedPredicate = NSPredicate(format:
+            "label MATCHES '^[0-9]+ of [0-9]+$' AND label BEGINSWITH '\(before + 1) '")
+        let advanced = app.staticTexts.matching(advancedPredicate).firstMatch
+        XCTAssertTrue(advanced.waitForExistence(timeout: 3),
+                      "Progress should advance from \(before) to \(before + 1) after bucketing")
+
+        // Undo restores the prior index.
+        XCTAssertTrue(app.buttons["Undo"].exists,
+                      "Undo affordance should appear after bucketing the first card")
+        app.buttons["Undo"].tap()
+
+        let restoredPredicate = NSPredicate(format:
+            "label MATCHES '^[0-9]+ of [0-9]+$' AND label BEGINSWITH '\(before) '")
+        let restored = app.staticTexts.matching(restoredPredicate).firstMatch
+        XCTAssertTrue(restored.waitForExistence(timeout: 3),
+                      "Undo should restore progress back to \(before)")
+    }
+
+    // MARK: - Cancel
+
+    func testSortFlowCancelDismissesModal() {
+        tab("direction").tap()
+
+        var attempts = 0
+        while !sortAffordance().exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
+        }
+        XCTAssertTrue(sortAffordance().waitForExistence(timeout: 3))
+        sortAffordance().tap()
+
+        let bar = app.navigationBars["Sort values"]
+        XCTAssertTrue(bar.waitForExistence(timeout: 5))
+        bar.buttons["Cancel"].tap()
+
+        XCTAssertFalse(bar.waitForExistence(timeout: 1),
+                       "Sort flow should dismiss after Cancel")
+        XCTAssertTrue(tab("direction").exists,
+                      "Direction tab should still be selectable after dismissing sort flow")
+    }
+}

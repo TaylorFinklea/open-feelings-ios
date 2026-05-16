@@ -103,6 +103,7 @@
 		840E046623A5BCC40646527C /* ValueTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52DC47D854C08EFC02025E /* ValueTaxonomy.swift */; };
 		86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A4382CFA9DE8E22655357 /* HistoryView.swift */; };
 		8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */; };
+		894E36AE8AF8BE75B4DDDEDC /* DirectionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */; };
 		8DAD0AF27D2EF7F4F9494D6E /* GreetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764DCB6D65D0FAA3772A4AAA /* GreetingTests.swift */; };
 		8F4E090731AA8589BE47CC27 /* BucketStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8809ADE585EA5E987EF6398A /* BucketStepView.swift */; };
 		8FB433BA5A35DB2556E8A643 /* InsightsSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A91A71CCB26AE83A2F45AB9 /* InsightsSummaryTests.swift */; };
@@ -330,6 +331,7 @@
 		AA5A4382CFA9DE8E22655357 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		AB442A2270FD273789D8284D /* SensationsStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensationsStep.swift; sourceTree = "<group>"; };
 		ABC071B7FFCF4E5B30B9C4C4 /* TodayViewAXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewAXTests.swift; sourceTree = "<group>"; };
+		B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionUITests.swift; sourceTree = "<group>"; };
 		B21F7225D1167F723EC98F10 /* CheckInWizardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInWizardState.swift; sourceTree = "<group>"; };
 		B45E70AE3D7D5B3BA5F5D31B /* BodyStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyStep.swift; sourceTree = "<group>"; };
 		B624F35F9610784AEA13A3A1 /* CheckInStepKindTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInStepKindTests.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 		C8EC154EF4FBE5EF922AA60F /* OpenFeelingsUITests */ = {
 			isa = PBXGroup;
 			children = (
+				B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */,
 				9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */,
 			);
 			path = OpenFeelingsUITests;
@@ -1018,6 +1021,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				894E36AE8AF8BE75B4DDDEDC /* DirectionUITests.swift in Sources */,
 				BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
