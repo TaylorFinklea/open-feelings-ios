@@ -1,10 +1,13 @@
 import SwiftUI
 
-/// In-app rendering of `docs/PRIVACY.md`. Kept in lockstep with the canonical
-/// markdown file so the hosted URL (used in App Store Connect) and the
-/// in-app view stay aligned. When you update one, update the other.
+/// In-app rendering of the privacy policy. The canonical text lives in the
+/// repo-root `PRIVACY.md` file and is also published on the marketing site
+/// (web/src/routes/privacy/+page.svelte → openfeelings.finklea.dev/privacy).
+/// When you update the policy, update all three: root `PRIVACY.md`, the
+/// Svelte page, and this view's `effectiveDate` + section bodies.
 struct PrivacyPolicyView: View {
-    static let effectiveDate = "2026-05-15"
+    /// Mirrors the "Effective date" line in repo-root `PRIVACY.md`.
+    static let effectiveDate = "May 10, 2026"
 
     var body: some View {
         ScrollView {
@@ -14,98 +17,108 @@ struct PrivacyPolicyView: View {
                     .foregroundStyle(Color.OF.textMuted)
 
                 paragraph(
-                    "Open Feelings is a free, open-source iOS app for naming "
-                  + "and logging emotions. This policy describes what data "
-                  + "Open Feelings handles and where that data lives."
-                )
-
-                section(
-                    title: "What we collect",
-                    body: "Open Feelings does not collect, transmit, or sell "
-                        + "any data about you. There is no server, no account, "
-                        + "no analytics, and no third-party SDK in this app."
-                )
-
-                section(
-                    title: "Where your data lives",
-                    body: "Your check-in entries, intentions, value sorts, and "
-                        + "committed actions are stored on your device using "
-                        + "SwiftData. If you are signed in to iCloud and have "
-                        + "iCloud Drive enabled, the same data is mirrored to "
-                        + "your private iCloud database "
-                        + "(container iCloud.dev.finklea.openfeelings), which "
-                        + "is visible only to you on the Apple IDs you "
-                        + "control. Apple's privacy terms govern iCloud sync."
+                    "Open Feelings is a personal emotion-logging app. This "
+                  + "policy explains, in plain language, what data the app "
+                  + "handles and where it lives. The short answer: the app "
+                  + "collects nothing about you, sends nothing to us, and "
+                  + "stores everything you write in places you control."
                 )
 
                 VStack(alignment: .leading, spacing: .OF.sm) {
-                    heading("Optional integrations (off by default)")
-                    bullet("Apple Health. If you enable Apple Health support "
-                         + "in Settings, Open Feelings writes each check-in "
-                         + "as a State of Mind entry. Open Feelings does not "
-                         + "read your Health data. You can revoke access at "
-                         + "any time in iOS Settings → Health.")
-                    bullet("Daily reminder notifications. If you enable "
-                         + "reminders, Open Feelings schedules local "
-                         + "notifications on your device. No notification "
-                         + "text is sent to any server.")
-                    bullet("Apple Watch. If you install the paired Apple "
-                         + "Watch app, check-ins captured on the watch are "
-                         + "delivered to your phone via WatchConnectivity and "
-                         + "stored in the same on-device and private iCloud "
-                         + "locations described above.")
+                    heading("What data the app handles")
+                    paragraph("Open Feelings handles only the data you choose to enter:")
+                    bullet("Emotion check-ins — the feeling you pick from the "
+                         + "wheel or wizard, optional intensity, optional body "
+                         + "regions, optional context, optional triggers and "
+                         + "coping strategies, optional mood-scale values, and "
+                         + "any free-text note you write.")
+                    bullet("Daily intentions — the optional one-sentence "
+                         + "intention you set each day and the optional "
+                         + "reflection you write afterward.")
+                    bullet("App preferences — your check-in flow settings "
+                         + "(picker style, body view mode, promoted steps), "
+                         + "reminder time, app-lock toggle, appearance mode, "
+                         + "and Apple Health opt-in.")
+                    paragraph("That's the entire list. There is no analytics "
+                            + "SDK, no advertising SDK, no crash reporter, no "
+                            + "fingerprinting, no telemetry. No third-party "
+                            + "SDKs of any kind are bundled in the app.")
+                }
+
+                VStack(alignment: .leading, spacing: .OF.sm) {
+                    heading("Where the data lives")
+                    bullet("On your device. Check-ins, intentions, and "
+                         + "preferences live in a local SwiftData store on the "
+                         + "device. They never leave the device unless you "
+                         + "turn on iCloud sync (below) or you explicitly tap "
+                         + "the share affordance to send a copy somewhere.")
+                    bullet("In your private iCloud database. If you are "
+                         + "signed in to iCloud, Apple's CloudKit framework "
+                         + "can sync your check-ins between your own devices "
+                         + "using the private database scoped to your Apple "
+                         + "ID. The developer of Open Feelings has no access "
+                         + "to that database. Apple's privacy policy applies.")
+                    bullet("In Apple Health (optional). If you turn on the "
+                         + "Apple Health integration in Settings, each saved "
+                         + "check-in writes a \"State of Mind\" sample to the "
+                         + "Health app. This is write-only — Open Feelings "
+                         + "never reads back from Health. The data lives in "
+                         + "Health, governed by Apple's HealthKit privacy "
+                         + "model.")
+                }
+
+                VStack(alignment: .leading, spacing: .OF.sm) {
+                    heading("What the app does not do")
+                    bullet("It does not require an account or sign-in of any kind.")
+                    bullet("It does not contact any third-party server. The "
+                         + "app makes no network requests other than the "
+                         + "CloudKit traffic Apple performs on its own when "
+                         + "iCloud sync is on.")
+                    bullet("It does not show ads or track you across apps or websites.")
+                    bullet("It does not collect contacts, photos, location, microphone, or camera data.")
+                    bullet("It does not send or sell your data to anyone.")
+                }
+
+                VStack(alignment: .leading, spacing: .OF.sm) {
+                    heading("Sharing you control")
+                    paragraph("The app provides a few ways to share data, all initiated by you:")
+                    bullet("History exports. From the History tab, you can "
+                         + "export check-ins as CSV, JSON, plain text, "
+                         + "Markdown, or Logseq. Each export hands a file to "
+                         + "the iOS share sheet. Nothing leaves the device "
+                         + "until you pick a destination.")
+                    bullet("Therapy summary PDF. From Settings → Sharing → "
+                         + "Period summary for therapist, you can generate a "
+                         + "PDF over a chosen window and detail level. The "
+                         + "PDF stays on the device until you tap share.")
+                    bullet("Apple Journal / Day One handoff. From any "
+                         + "individual check-in you can send a Markdown "
+                         + "summary to Apple Journal, Day One, Notes, or any "
+                         + "other app via the iOS share sheet.")
                 }
 
                 section(
-                    title: "Sharing entries",
-                    body: "Entries leave the app only when you tap a share "
-                        + "affordance. The iOS share sheet hands the entry to "
-                        + "whichever app you choose (Apple Journal, Day One, "
-                        + "Notes, or any other share-sheet target). The data "
-                        + "then becomes subject to that app's privacy policy."
-                )
-
-                section(
-                    title: "Diagnostics",
-                    body: "If you have iOS Settings → Privacy & Security → "
-                        + "Analytics & Improvements → \"Share with App "
-                        + "Developers\" turned on, Apple may share anonymized "
-                        + "crash reports with the developer. These reports do "
-                        + "not contain your check-in content. You can opt out "
-                        + "in iOS Settings."
-                )
-
-                section(
                     title: "Children",
-                    body: "Open Feelings is not directed at children under 13. "
-                        + "We do not knowingly collect data from anyone."
+                    body: "The app is not directed to children under 13 and "
+                        + "does not knowingly collect data from children."
                 )
 
                 section(
                     title: "Changes to this policy",
-                    body: "If we change this policy, we'll update the "
-                        + "Effective date above and surface the new policy in "
-                        + "the app's Settings → Privacy section."
+                    body: "If the policy changes, the new version will be "
+                        + "published in this file and the \"Last updated\" "
+                        + "date above will move forward. Material changes "
+                        + "will be described in release notes."
                 )
 
                 VStack(alignment: .leading, spacing: .OF.xs) {
-                    heading("Open source")
-                    paragraph(
-                        "Open Feelings is open source. The MIT-licensed Swift "
-                      + "source and the adapted CC BY-SA 4.0 emotion taxonomy "
-                      + "are documented in ATTRIBUTION.md and DATA-LICENSE.md."
-                    )
-                    Link("github.com/TaylorFinklea/open-feelings-ios",
-                         destination: URL(string: "https://github.com/TaylorFinklea/open-feelings-ios")!)
-                        .font(.OF.caption)
-                        .foregroundStyle(Color.OF.accent)
-                }
-
-                VStack(alignment: .leading, spacing: .OF.xs) {
                     heading("Contact")
-                    paragraph("Questions or concerns? Open an issue:")
-                    Link("github.com/TaylorFinklea/open-feelings-ios/issues",
-                         destination: URL(string: "https://github.com/TaylorFinklea/open-feelings-ios/issues")!)
+                    paragraph("Open Feelings is maintained by Taylor Finklea. "
+                            + "For privacy questions, file an issue at the "
+                            + "project's GitHub repository or email the "
+                            + "address listed in the App Store contact field.")
+                    Link("openfeelings.finklea.dev/privacy",
+                         destination: URL(string: "https://openfeelings.finklea.dev/privacy")!)
                         .font(.OF.caption)
                         .foregroundStyle(Color.OF.accent)
                 }
