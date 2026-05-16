@@ -17,22 +17,27 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] Add wheel pinch zoom, rotation, zoomed panning, and reset interactions.
 - [x] Add clinically informed educational definitions for selected emotions.
 - [x] Redesign: 5-tab IA scaffold, warm-calm design tokens, new components, Today/History/Settings re-skin, save-bounce ribbon, WCAG AA contrast audit + fixes, reduce-motion gating.
+- [x] Direction tab — Intentions area + Values area (50-item curated deck + customs, bucket/finalist/rank sort flow, ranked-top persistence, CommittedAction lifecycle). Shipped in build 27.
+- [x] Custom body regions — user-defined regions wired through check-in UI, learning pipeline (`LearnedBodyMap.customCounts/Totals`), and `BodyEmotionMap.suggestedCores(...)`. Shipped in build 27.
+- [x] Apple Watch check-in target — drill picker with stop-at-any-level + body flow, NavigationStack with carried drill value, settings synced from iOS. Shipped across builds 21–26.
 - [ ] Review the definition copy with the therapist or another licensed clinician before release.
 - [ ] Configure production CloudKit schema and App Store distribution settings.
 - [ ] Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid Glass simulator walkthroughs (Daisy).
+- [ ] Manual end-to-end verification of Direction tab + sort flow + committed actions on the TestFlight build (Task 13 of the Values plan).
 
 ### Next
 - [ ] Add app icon, launch branding, and App Store privacy policy copy.
 - [ ] Manually validate iCloud sync between two signed-in devices.
 - [x] Review the Open Emotion Wheel attribution/license presentation before release.
-- [ ] Add UI tests for check-in flows and export entry points.
-- [ ] Insights surface — functional (charts, trends, week/month views).
-- [ ] Therapy-bridge export (structured PDF / shareable summary for therapist sessions).
-- [ ] Richer check-in fields — data + UI (body, context, triggers/coping, mood scale).
-- [ ] Intentions surface — functional (set daily intentions, track completion).
+- [ ] Add UI tests for the watch check-in flow, the Direction tab (Intentions + Values sort), and the export entry points.
+- [x] Insights surface — functional (charts, trends, week/month views).
+- [x] Therapy-bridge export (structured PDF / shareable summary for therapist sessions).
+- [x] Richer check-in fields — data + UI (body, custom body regions, triggers/coping, mood scale).
+- [x] Intentions surface — functional (set daily intentions, track completion). Lives on the Direction tab.
 
 ### Later
-- [ ] Consider richer reflection prompts, charts, and Apple Health read/import support after v1 privacy review.
+- [ ] Consider richer reflection prompts and Apple Health read/import support after v1 privacy review.
+- [ ] Watch complication / standalone watch features (independent watch app, historical reads on watch).
 
 ## Milestones
 
