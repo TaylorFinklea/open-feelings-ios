@@ -21,7 +21,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] Custom body regions — user-defined regions wired through check-in UI, learning pipeline (`LearnedBodyMap.customCounts/Totals`), and `BodyEmotionMap.suggestedCores(...)`. Shipped in build 27.
 - [x] Apple Watch check-in target — drill picker with stop-at-any-level + body flow, NavigationStack with carried drill value, settings synced from iOS. Shipped across builds 21–26.
 - [ ] Review the definition copy with the therapist or another licensed clinician before release.
-- [ ] Configure production CloudKit schema and App Store distribution settings.
+- [ ] Configure production CloudKit schema and App Store distribution settings. (Runbook updated 2026-05-16 to cover all seven `@Model` types in current schema; see `docs/release/cloudkit-production-deployment.md`. Likely silent sync failure on current TestFlight installs until production schema is re-deployed with the new types/fields.)
 - [ ] Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid Glass simulator walkthroughs (Daisy).
 - [ ] Manual end-to-end verification of Direction tab + sort flow + committed actions on the TestFlight build (Task 13 of the Values plan).
 
