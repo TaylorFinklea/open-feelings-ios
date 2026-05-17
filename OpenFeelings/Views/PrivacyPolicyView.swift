@@ -6,117 +6,171 @@ import SwiftUI
 /// When you update the policy, update all three: root `PRIVACY.md`, the
 /// Svelte page, and this view's `effectiveDate` + section bodies.
 struct PrivacyPolicyView: View {
-    /// Mirrors the "Effective date" line in repo-root `PRIVACY.md`.
-    static let effectiveDate = "May 10, 2026"
+    /// Mirrors the "Effective" line in repo-root `PRIVACY.md`.
+    static let effectiveDate = "May 16, 2026"
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: .OF.lg) {
-                Text("Effective date: \(Self.effectiveDate)")
-                    .font(.OF.caption)
-                    .foregroundStyle(Color.OF.textMuted)
+                VStack(alignment: .leading, spacing: .OF.xs) {
+                    Text("Effective: \(Self.effectiveDate)")
+                    Text("Bundle ID: dev.finklea.openfeelings")
+                    Text("Developer: Taylor Finklea")
+                }
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
 
-                paragraph(
-                    "Open Feelings is a personal emotion-logging app. This "
-                  + "policy explains, in plain language, what data the app "
-                  + "handles and where it lives. The short answer: the app "
-                  + "collects nothing about you, sends nothing to us, and "
-                  + "stores everything you write in places you control."
+                section(
+                    title: "The short version",
+                    body: "Open Feelings is a private, on-device tool for "
+                        + "naming and logging emotions. Everything you write "
+                        + "stays on your device and, if you allow it, in "
+                        + "your private iCloud database. We never see it. "
+                        + "There is no server we control, no account, no "
+                        + "analytics, no ads, and no third-party SDKs."
                 )
 
                 VStack(alignment: .leading, spacing: .OF.sm) {
-                    heading("What data the app handles")
+                    heading("What we don't collect")
+                    paragraph("Open Feelings does not:")
+                    bullet("Create accounts or require sign-in.")
+                    bullet("Send your check-ins, intentions, value sorts, "
+                         + "committed actions, notes, intensity values, body "
+                         + "regions, mood-scale values, timestamps, or any "
+                         + "other content to any server we run. We don't run "
+                         + "any servers.")
+                    bullet("Use analytics, telemetry, crash reporters, "
+                         + "advertising IDs, fingerprinting, or any other "
+                         + "tracking.")
+                    bullet("Embed third-party SDKs that could collect data.")
+                    bullet("Share, sell, rent, or trade any user information.")
+                    bullet("Read your contacts, calendars, photos, location, camera, or microphone.")
+                }
+
+                VStack(alignment: .leading, spacing: .OF.sm) {
+                    heading("What you enter, the app stores")
                     paragraph("Open Feelings handles only the data you choose to enter:")
-                    bullet("Emotion check-ins — the feeling you pick from the "
-                         + "wheel or wizard, optional intensity, optional body "
-                         + "regions, optional context, optional triggers and "
-                         + "coping strategies, optional mood-scale values, and "
-                         + "any free-text note you write.")
+                    bullet("Emotion check-ins — the feeling you pick from "
+                         + "the wheel or wizard, optional intensity (1–5), "
+                         + "optional body regions (curated or custom), "
+                         + "optional body sensations, optional context, "
+                         + "optional triggers and coping strategies, "
+                         + "optional mood-scale values, and any free-text "
+                         + "note.")
                     bullet("Daily intentions — the optional one-sentence "
-                         + "intention you set each day and the optional "
+                         + "intention you set each day, and the optional "
                          + "reflection you write afterward.")
-                    bullet("App preferences — your check-in flow settings "
-                         + "(picker style, body view mode, promoted steps), "
-                         + "reminder time, app-lock toggle, appearance mode, "
-                         + "and Apple Health opt-in.")
-                    paragraph("That's the entire list. There is no analytics "
-                            + "SDK, no advertising SDK, no crash reporter, no "
-                            + "fingerprinting, no telemetry. No third-party "
-                            + "SDKs of any kind are bundled in the app.")
+                    bullet("Value sorts and committed actions — your "
+                         + "bucketing of curated and custom values, your "
+                         + "top-ranked list, and any committed actions you "
+                         + "define (title, value reference, what's hard, "
+                         + "reflection, completion).")
+                    bullet("App preferences — check-in flow settings (picker "
+                         + "style, body view mode, promoted steps), custom "
+                         + "body regions and custom values you've added, "
+                         + "reminder time, appearance mode, and Apple Health "
+                         + "opt-in.")
                 }
 
                 VStack(alignment: .leading, spacing: .OF.sm) {
                     heading("Where the data lives")
-                    bullet("On your device. Check-ins, intentions, and "
-                         + "preferences live in a local SwiftData store on the "
-                         + "device. They never leave the device unless you "
-                         + "turn on iCloud sync (below) or you explicitly tap "
-                         + "the share affordance to send a copy somewhere.")
+                    bullet("On your device. A local SwiftData store in the "
+                         + "app sandbox. The data never leaves the device "
+                         + "unless you turn on iCloud sync (below) or "
+                         + "explicitly tap a share affordance.")
                     bullet("In your private iCloud database. If you are "
-                         + "signed in to iCloud, Apple's CloudKit framework "
-                         + "can sync your check-ins between your own devices "
-                         + "using the private database scoped to your Apple "
-                         + "ID. The developer of Open Feelings has no access "
-                         + "to that database. Apple's privacy policy applies.")
-                    bullet("In Apple Health (optional). If you turn on the "
-                         + "Apple Health integration in Settings, each saved "
-                         + "check-in writes a \"State of Mind\" sample to the "
-                         + "Health app. This is write-only — Open Feelings "
-                         + "never reads back from Health. The data lives in "
-                         + "Health, governed by Apple's HealthKit privacy "
-                         + "model.")
+                         + "signed in to iCloud and have iCloud Drive "
+                         + "enabled for Open Feelings, Apple's CloudKit "
+                         + "framework syncs your data between your own "
+                         + "devices using the private database scoped to "
+                         + "your Apple ID. The developer of Open Feelings "
+                         + "has no access to that database. Apple's privacy "
+                         + "policy applies.")
+                    bullet("In Apple Health (optional). If you turn on Apple "
+                         + "Health support, each saved check-in writes a "
+                         + "momentary \"State of Mind\" sample to your "
+                         + "Health database. Open Feelings never reads back "
+                         + "from Health. You control this in iOS Settings → "
+                         + "Privacy & Security → Health → Open Feelings.")
                 }
 
+                section(
+                    title: "Apple Watch",
+                    body: "If you install the paired Apple Watch app, "
+                        + "watch-originated check-ins are delivered to your "
+                        + "phone via Apple's WatchConnectivity framework and "
+                        + "stored in the same on-device and (optional) "
+                        + "private iCloud locations described above. The "
+                        + "watch app makes no network requests."
+                )
+
                 VStack(alignment: .leading, spacing: .OF.sm) {
-                    heading("What the app does not do")
-                    bullet("It does not require an account or sign-in of any kind.")
-                    bullet("It does not contact any third-party server. The "
-                         + "app makes no network requests other than the "
-                         + "CloudKit traffic Apple performs on its own when "
-                         + "iCloud sync is on.")
-                    bullet("It does not show ads or track you across apps or websites.")
-                    bullet("It does not collect contacts, photos, location, microphone, or camera data.")
-                    bullet("It does not send or sell your data to anyone.")
+                    heading("Optional integrations (off by default)")
+                    paragraph("Each integration below is off by default and "
+                            + "requires explicit per-permission consent "
+                            + "through the system prompts iOS provides. You "
+                            + "can disable any of them at any time in Open "
+                            + "Feelings → Settings or in iOS Settings.")
+                    bullet("Apple Health — State of Mind (write-only). See above.")
+                    bullet("Daily reminder notifications. If you turn on "
+                         + "daily reminders, iOS schedules a local "
+                         + "notification at the time you choose. Nothing is "
+                         + "sent to any server.")
                 }
 
                 VStack(alignment: .leading, spacing: .OF.sm) {
                     heading("Sharing you control")
-                    paragraph("The app provides a few ways to share data, all initiated by you:")
-                    bullet("History exports. From the History tab, you can "
-                         + "export check-ins as CSV, JSON, plain text, "
-                         + "Markdown, or Logseq. Each export hands a file to "
-                         + "the iOS share sheet. Nothing leaves the device "
-                         + "until you pick a destination.")
+                    paragraph("All sharing is initiated by you:")
+                    bullet("History exports. From the History tab you can "
+                         + "export check-ins as CSV, JSON, Markdown, or "
+                         + "plain text. The file is created in a temporary "
+                         + "location and handed to the iOS share sheet; you "
+                         + "decide where it goes.")
                     bullet("Therapy summary PDF. From Settings → Sharing → "
-                         + "Period summary for therapist, you can generate a "
-                         + "PDF over a chosen window and detail level. The "
-                         + "PDF stays on the device until you tap share.")
-                    bullet("Apple Journal / Day One handoff. From any "
-                         + "individual check-in you can send a Markdown "
-                         + "summary to Apple Journal, Day One, Notes, or any "
-                         + "other app via the iOS share sheet.")
+                         + "Period summary for therapist, you can generate "
+                         + "a PDF over a chosen window and detail level. "
+                         + "The PDF stays on the device until you tap share.")
+                    bullet("Apple Journal / Day One / Notes handoff. From "
+                         + "any individual check-in you can send a Markdown "
+                         + "summary to Apple Journal, Day One, Notes, or "
+                         + "any other share-sheet target.")
                 }
 
                 section(
                     title: "Children",
-                    body: "The app is not directed to children under 13 and "
-                        + "does not knowingly collect data from children."
+                    body: "Open Feelings is not directed at children under "
+                        + "13 and does not knowingly collect data from "
+                        + "anyone — because we do not collect data at all."
                 )
+
+                VStack(alignment: .leading, spacing: .OF.sm) {
+                    heading("Your rights and how to delete your data")
+                    bullet("Delete the app from your device to remove the local database.")
+                    bullet("Delete your iCloud copy by going to iOS Settings "
+                         + "→ [your name] → iCloud → See All → Open "
+                         + "Feelings, or by deleting the app while signed "
+                         + "in to iCloud.")
+                    bullet("Revoke any optional integration at any time in "
+                         + "Open Feelings → Settings or in iOS Settings.")
+                    paragraph("Because there is no server we control, there "
+                            + "is no account or copy on our side to delete.")
+                }
 
                 section(
                     title: "Changes to this policy",
-                    body: "If the policy changes, the new version will be "
-                        + "published in this file and the \"Last updated\" "
-                        + "date above will move forward. Material changes "
-                        + "will be described in release notes."
+                    body: "If we ever change what the app does in a way "
+                        + "that changes this policy, we'll update the "
+                        + "Effective date at the top and ship the new "
+                        + "policy as part of an app update. The app does "
+                        + "not phone home to fetch policy updates "
+                        + "dynamically."
                 )
 
                 VStack(alignment: .leading, spacing: .OF.xs) {
                     heading("Contact")
-                    paragraph("Open Feelings is maintained by Taylor Finklea. "
-                            + "For privacy questions, file an issue at the "
-                            + "project's GitHub repository or email the "
-                            + "address listed in the App Store contact field.")
+                    paragraph("Questions, corrections, or concerns: email "
+                            + "taylor.finklea@gmail.com, or file an issue "
+                            + "at the project's GitHub repository.")
                     Link("openfeelings.finklea.dev/privacy",
                          destination: URL(string: "https://openfeelings.finklea.dev/privacy")!)
                         .font(.OF.caption)

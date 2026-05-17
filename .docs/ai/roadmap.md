@@ -28,8 +28,8 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 ### Next
 - [x] App icon (light/dark/tinted 1024×1024 set already in place).
 - [x] Launch branding (LaunchBackground color set with light + dark variants).
-- [x] App Store privacy policy copy — repo-root `PRIVACY.md` is canonical; hosted at <https://openfeelings.finklea.dev/privacy> via the SvelteKit site under `web/`. `PrivacyPolicyView` in Settings → Privacy mirrors the same text in-app.
-- [ ] Reconcile drift: `PRIVACY.md` says "Effective: May 10, 2026" while `web/src/routes/privacy/+page.svelte` says "Effective: May 5, 2026" and uses a slightly different copy. Pick one as canonical and re-sync the other two. `PrivacyPolicyView.effectiveDate` currently mirrors `PRIVACY.md`.
+- [x] App Store privacy policy copy — reconciled single text dated May 16, 2026 lives in repo-root `PRIVACY.md`, the SvelteKit page (`web/src/routes/privacy/+page.svelte` → openfeelings.finklea.dev/privacy), and `PrivacyPolicyView` in Settings → Privacy. All three are in lockstep; cover currently-shipping features (value sorts, committed actions, custom regions/values, Apple Watch, triggers/coping/mood, full export menu, therapy PDF, journal handoff). App lock language removed since feature is flagged off.
+- [ ] Deploy the updated SvelteKit site to Cloudflare Pages so openfeelings.finklea.dev/privacy serves the May 16, 2026 copy. (Code change is committed; the page still serves the previous May 5 copy until you redeploy.)
 - [ ] Paste <https://openfeelings.finklea.dev/privacy> into App Store Connect → App Information → Privacy Policy URL. Privacy Nutrition Label form: select "Data Not Collected" for every category.
 - [ ] Manually validate iCloud sync between two signed-in devices.
 - [x] Review the Open Emotion Wheel attribution/license presentation before release.
