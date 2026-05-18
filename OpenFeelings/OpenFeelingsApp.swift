@@ -7,6 +7,7 @@ struct OpenFeelingsApp: App {
     @State private var healthService = HealthService()
     @State private var navigation = AppNavigation()
     @State private var watchSyncService: WatchSyncService?
+    @State private var cloudSyncMonitor = CloudSyncMonitor()
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
 
     var body: some Scene {
@@ -29,6 +30,7 @@ struct OpenFeelingsApp: App {
             .environment(healthService)
             .environment(navigation)
             .environment(watchSyncService)
+            .environment(cloudSyncMonitor)
             .task {
                 // Activate WatchConnectivity early so transferUserInfo payloads
                 // queued before the SwiftData container is ready get buffered

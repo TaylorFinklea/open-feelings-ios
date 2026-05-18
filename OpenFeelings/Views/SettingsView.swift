@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(HealthService.self) private var healthService
+    @Environment(CloudSyncMonitor.self) private var cloudSyncMonitor
     @Environment(\.colorScheme) private var colorScheme
 
     @AppStorage("appLockEnabled") private var appLockEnabled = false
@@ -133,6 +134,12 @@ struct SettingsView: View {
             OFListRow(title: "Data storage",
                       subtitle: "On device + private iCloud",
                       systemImage: "lock.icloud")
+            divider
+            OFListRow(title: "iCloud sync",
+                      subtitle: cloudSyncMonitor.state.statusLine,
+                      systemImage: cloudSyncMonitor.state.isFailing
+                          ? "exclamationmark.icloud"
+                          : "checkmark.icloud")
             divider
             NavigationLink {
                 PrivacyPolicyView()

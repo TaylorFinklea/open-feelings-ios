@@ -25,7 +25,10 @@ final class OpenFeelingsUITests: XCTestCase {
     // MARK: - Cold launch
 
     func testColdLaunchTabsAreReachable() {
-        XCTAssertTrue(tab("today").waitForExistence(timeout: 5),
+        // Cold sim launches on iOS 26 with the full SwiftData schema + CloudKit
+        // observer wiring can take 6-8 seconds to render the root view tree.
+        // The previous 5s timeout was racing that on slower sims.
+        XCTAssertTrue(tab("today").waitForExistence(timeout: 10),
                       "Today tab identifier should be reachable on cold launch")
         XCTAssertTrue(tab("checkIn").exists)
         XCTAssertTrue(tab("insights").exists)
