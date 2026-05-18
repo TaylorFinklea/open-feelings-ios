@@ -10,6 +10,13 @@ struct WizardCheckInView: View {
     @State private var selectedCore: EmotionCore?
     @State private var selectedSecondary: EmotionSecondary?
 
+    /// User explicitly committed at the current drill depth via "Just <name>".
+    /// `.core` means stop at core; `.secondary` means stop at secondary. When
+    /// set, the deeper-level grid is hidden and a confirmation card shows.
+    @State private var stoppedAt: StopLevel?
+
+    private enum StopLevel { case core, secondary }
+
     var body: some View {
         VStack(alignment: .leading, spacing: .OF.lg) {
             stepHeader
@@ -24,34 +31,65 @@ struct WizardCheckInView: View {
                     withAnimation(.OF.quick) {
                         selectedCore = core
                         selectedSecondary = nil
+                        stoppedAt = nil
                         selection = EmotionSelection(core: core, secondary: nil, specific: nil)
                     }
                 }
+            } else if let selectedCore, stoppedAt == .core {
+                stopConfirmation(name: selectedCore.name) {
+                    // Resume drilling — bring back the secondary grid.
+                    withAnimation(.OF.quick) { stoppedAt = nil }
+                }
             } else if let selectedCore, selectedSecondary == nil {
-                emotionGrid(
-                    selectedCore.secondaries,
-                    coreID: { _ in selectedCore.id },
-                    depth: .secondary,
-                    applyDimming: false
-                ) { secondary in
-                    withAnimation(.OF.quick) {
-                        selectedSecondary = secondary
-                        selection = EmotionSelection(core: selectedCore, secondary: secondary, specific: nil)
+                VStack(alignment: .leading, spacing: .OF.md) {
+                    stopAtLevelRow(label: "Just \(selectedCore.name)") {
+                        withAnimation(.OF.quick) {
+                            stoppedAt = .core
+                            selection = EmotionSelection(core: selectedCore, secondary: nil, specific: nil)
+                        }
+                    }
+                    emotionGrid(
+                        selectedCore.secondaries,
+                        coreID: { _ in selectedCore.id },
+                        depth: .secondary,
+                        applyDimming: false
+                    ) { secondary in
+                        withAnimation(.OF.quick) {
+                            selectedSecondary = secondary
+                            stoppedAt = nil
+                            selection = EmotionSelection(core: selectedCore, secondary: secondary, specific: nil)
+                        }
                     }
                 }
+            } else if let selectedSecondary, stoppedAt == .secondary {
+                stopConfirmation(name: selectedSecondary.name) {
+                    withAnimation(.OF.quick) { stoppedAt = nil }
+                }
             } else if let selectedCore, let selectedSecondary {
-                emotionGrid(
-                    selectedSecondary.specifics,
-                    coreID: { _ in selectedCore.id },
-                    depth: .specific,
-                    applyDimming: false
-                ) { specific in
-                    withAnimation(.OF.quick) {
-                        selection = EmotionSelection(
-                            core: selectedCore,
-                            secondary: selectedSecondary,
-                            specific: specific
-                        )
+                VStack(alignment: .leading, spacing: .OF.md) {
+                    stopAtLevelRow(label: "Just \(selectedSecondary.name)") {
+                        withAnimation(.OF.quick) {
+                            stoppedAt = .secondary
+                            selection = EmotionSelection(
+                                core: selectedCore,
+                                secondary: selectedSecondary,
+                                specific: nil
+                            )
+                        }
+                    }
+                    emotionGrid(
+                        selectedSecondary.specifics,
+                        coreID: { _ in selectedCore.id },
+                        depth: .specific,
+                        applyDimming: false
+                    ) { specific in
+                        withAnimation(.OF.quick) {
+                            selection = EmotionSelection(
+                                core: selectedCore,
+                                secondary: selectedSecondary,
+                                specific: specific
+                            )
+                        }
                     }
                 }
             }
@@ -61,6 +99,7 @@ struct WizardCheckInView: View {
                     withAnimation(.OF.quick) {
                         selectedCore = nil
                         selectedSecondary = nil
+                        stoppedAt = nil
                         selection = nil
                     }
                 } label: {
@@ -91,10 +130,71 @@ struct WizardCheckInView: View {
     private var currentPrompt: String {
         if selectedCore == nil {
             "What is the closest broad feeling?"
+        } else if stoppedAt != nil {
+            "Tap Continue, or pick more specifically."
         } else if selectedSecondary == nil {
             "Which direction is closest?"
         } else {
             "Which specific word fits best?"
+        }
+    }
+
+    /// Pill-style row offered above each drill grid: "Just <parent name>".
+    /// Visually distinct from the grid tiles so users can spot the stop-here
+    /// path even on a quick scan.
+    @ViewBuilder
+    private func stopAtLevelRow(label: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: .OF.sm) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(Color.OF.accent.color(for: colorScheme))
+                Text(label)
+                    .font(.OF.bodyEmphasis)
+                    .foregroundStyle(Color.OF.text)
+                Spacer(minLength: 0)
+            }
+            .frame(maxWidth: .infinity, minHeight: 48)
+            .padding(.horizontal, CGFloat.OF.md)
+            .background(
+                Color.OF.accent.color(for: colorScheme).opacity(0.10),
+                in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
+            )
+            .overlay {
+                RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
+                    .stroke(Color.OF.accent.color(for: colorScheme).opacity(0.45), lineWidth: 1)
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("emotion.\(label)")
+    }
+
+    /// Card shown after the user taps "Just <name>". Mirrors the watch's
+    /// approach — confirmation that the selection is committed at this depth,
+    /// with a path back to drilling further if they change their mind.
+    @ViewBuilder
+    private func stopConfirmation(name: String, onResume: @escaping () -> Void) -> some View {
+        VStack(alignment: .leading, spacing: .OF.md) {
+            HStack(spacing: .OF.sm) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(Color.OF.accent.color(for: colorScheme))
+                Text("Just \(name)")
+                    .font(.OF.headline)
+                    .foregroundStyle(Color.OF.text)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, minHeight: 56)
+            .padding(.horizontal, CGFloat.OF.md)
+            .background(
+                Color.OF.accent.color(for: colorScheme).opacity(0.10),
+                in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
+            )
+
+            Button(action: onResume) {
+                Label("Pick more specifically", systemImage: "chevron.right")
+                    .font(.OF.bodyEmphasis)
+                    .foregroundStyle(Color.OF.accent)
+            }
+            .buttonStyle(.plain)
         }
     }
 

@@ -128,8 +128,13 @@ final class FeelingLog {
         set { healthSyncStatusRaw = newValue.rawValue }
     }
 
+    /// Headline label used on Today + History cards. Falls through deepest to
+    /// shallowest so stop-at-core entries (from watch, or now from iOS) still
+    /// render the core name instead of an empty string.
     var emotionTitle: String {
-        specificName.isEmpty ? secondaryName : specificName
+        if !specificName.isEmpty { return specificName }
+        if !secondaryName.isEmpty { return secondaryName }
+        return coreName
     }
 
     var pathTitle: String {

@@ -53,8 +53,12 @@ struct EmotionSelection: Identifiable, Hashable {
         [core.name, secondary?.name, specific?.name].compactMap { $0 }.joined(separator: " > ")
     }
 
+    /// A selection is considered "complete enough to save" as soon as a core
+    /// is picked. Secondary and specific are optional — the user can stop at
+    /// any level. Mirrors the Apple Watch flow which has always supported
+    /// stop-at-any-level via "Just <name>" affordances.
     var isComplete: Bool {
-        secondary != nil && specific != nil
+        true  // `core` is non-optional on EmotionSelection
     }
 }
 

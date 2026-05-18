@@ -9,11 +9,18 @@ final class CheckInDraftTests: XCTestCase {
     func testCompleteSelectionEnablesSave() {
         let core = EmotionTaxonomy.cores[0]
         let sec = core.secondaries[0]
-        var draft = CheckInDraft()
-        draft.selection = EmotionSelection(core: core, secondary: sec, specific: nil)
-        // Selection requires both secondary AND specific; isComplete should be false here.
-        XCTAssertFalse(draft.canSave)
         let spec = sec.specifics[0]
+        var draft = CheckInDraft()
+
+        // Core-only is now saveable (stop-at-any-level mirrors the watch).
+        draft.selection = EmotionSelection(core: core, secondary: nil, specific: nil)
+        XCTAssertTrue(draft.canSave)
+
+        // Core + secondary is also saveable.
+        draft.selection = EmotionSelection(core: core, secondary: sec, specific: nil)
+        XCTAssertTrue(draft.canSave)
+
+        // Full drill is saveable.
         draft.selection = EmotionSelection(core: core, secondary: sec, specific: spec)
         XCTAssertTrue(draft.canSave)
     }
