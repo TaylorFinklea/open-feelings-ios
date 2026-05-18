@@ -36,6 +36,7 @@ targets:
       testTargets:
         - OpenFeelingsTests
         - OpenFeelingsUITests
+        - OpenFeelingsWatchTests
   OpenFeelingsWatch:
     type: application
     platform: watchOS
@@ -58,6 +59,9 @@ targets:
         SDKROOT: watchos
         SUPPORTED_PLATFORMS: "watchsimulator watchos"
         SUPPORTS_MACCATALYST: NO
+    scheme:
+      testTargets:
+        - OpenFeelingsWatchTests
   OpenFeelingsTests:
     type: bundle.unit-test
     platform: iOS
@@ -85,3 +89,19 @@ targets:
         DEVELOPMENT_TEAM: K7CBQW6MPG
         TEST_TARGET_NAME: OpenFeelings
         GENERATE_INFOPLIST_FILE: YES
+  OpenFeelingsWatchTests:
+    type: bundle.unit-test
+    platform: watchOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: OpenFeelingsWatchTests
+    dependencies:
+      - target: OpenFeelingsWatch
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.finklea.openfeelings.watchkitapp.tests
+        DEVELOPMENT_TEAM: K7CBQW6MPG
+        GENERATE_INFOPLIST_FILE: YES
+        SDKROOT: watchos
+        SUPPORTED_PLATFORMS: "watchsimulator watchos"
+        SUPPORTS_MACCATALYST: NO

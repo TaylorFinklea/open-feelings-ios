@@ -101,10 +101,12 @@
 		7F5C9B056FD17F6247D017D0 /* RankStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBEA7CD9EF58BED1BF5761 /* RankStepView.swift */; };
 		80852C2F4E568359FBD158C5 /* TherapyReportPDFServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A44364C666A3699459891C6 /* TherapyReportPDFServiceTests.swift */; };
 		829BEEFF2F252718BA95707E /* WatchCheckInSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */; };
+		83A18F802C5FE4DA5EA41A52 /* WatchSettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */; };
 		840E046623A5BCC40646527C /* ValueTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52DC47D854C08EFC02025E /* ValueTaxonomy.swift */; };
 		86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5A4382CFA9DE8E22655357 /* HistoryView.swift */; };
 		8932D616F1DE3C04B3C4E8CD /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */; };
 		894E36AE8AF8BE75B4DDDEDC /* DirectionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */; };
+		8C95AD19FBA0CB39066545D7 /* CheckInWizardStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1DCE16DC1D950E9D553482 /* CheckInWizardStateTests.swift */; };
 		8DAD0AF27D2EF7F4F9494D6E /* GreetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764DCB6D65D0FAA3772A4AAA /* GreetingTests.swift */; };
 		8F4E090731AA8589BE47CC27 /* BucketStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8809ADE585EA5E987EF6398A /* BucketStepView.swift */; };
 		8FB433BA5A35DB2556E8A643 /* InsightsSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A91A71CCB26AE83A2F45AB9 /* InsightsSummaryTests.swift */; };
@@ -186,6 +188,13 @@
 			remoteGlobalIDString = C99B038DD20D96390F265759;
 			remoteInfo = OpenFeelingsWatch;
 		};
+		2D80B8EBCF4FAFADDE32C7E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9E7C5EE7035B148C0C0D25E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C99B038DD20D96390F265759;
+			remoteInfo = OpenFeelingsWatch;
+		};
 		E661639A6152468CD736ECB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D9E7C5EE7035B148C0C0D25E /* Project object */;
@@ -227,6 +236,7 @@
 		1772A8BCB2595E645C9E5080 /* HistoryDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDeleteTests.swift; sourceTree = "<group>"; };
 		17DC44721733546416582778 /* EmotionTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyTests.swift; sourceTree = "<group>"; };
 		186F1042FF9CD96AF90DFC95 /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
+		19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSettingsStoreTests.swift; sourceTree = "<group>"; };
 		1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		1E36FA186526385FF499AE4E /* StepHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeader.swift; sourceTree = "<group>"; };
 		1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColor.swift; sourceTree = "<group>"; };
@@ -360,6 +370,7 @@
 		D9D201B86C580BD30270D860 /* TherapyReportDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportDataTests.swift; sourceTree = "<group>"; };
 		DAE13AE950D2FC48D6396207 /* IntensityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityPicker.swift; sourceTree = "<group>"; };
 		DBE0CC94DAE2CD18AB5511A6 /* IntentionsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsContent.swift; sourceTree = "<group>"; };
+		DC1DCE16DC1D950E9D553482 /* CheckInWizardStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInWizardStateTests.swift; sourceTree = "<group>"; };
 		E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsApp.swift; sourceTree = "<group>"; };
 		E0E439E888FD8844FE1C1262 /* ValueSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueSort.swift; sourceTree = "<group>"; };
 		E249B39B8711CDB62DAA306E /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
@@ -374,6 +385,7 @@
 		F75137FB505AFD167B0BE54E /* CopingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopingStep.swift; sourceTree = "<group>"; };
 		F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTaxonomy.swift; sourceTree = "<group>"; };
 		FEC7DB1837474E15C9A66E13 /* LockGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockGateView.swift; sourceTree = "<group>"; };
+		FEEF499AAF6634F14668C985 /* OpenFeelingsWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenFeelingsWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -448,6 +460,7 @@
 				97617B9D541CCB359B4F59FE /* OpenFeelingsTests.xctest */,
 				4803243D62430FBFD50B50F1 /* OpenFeelingsUITests.xctest */,
 				464D885245E0FF5E70E4FF20 /* OpenFeelingsWatch.app */,
+				FEEF499AAF6634F14668C985 /* OpenFeelingsWatchTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -574,6 +587,15 @@
 			path = OpenFeelingsTests;
 			sourceTree = "<group>";
 		};
+		8161508BA3FEB0311F9EE1C8 /* OpenFeelingsWatchTests */ = {
+			isa = PBXGroup;
+			children = (
+				DC1DCE16DC1D950E9D553482 /* CheckInWizardStateTests.swift */,
+				19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */,
+			);
+			path = OpenFeelingsWatchTests;
+			sourceTree = "<group>";
+		};
 		8B710F70BEF9924575FCE7E9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -613,6 +635,7 @@
 				7DE78C160AD7BBCE152BA5A2 /* OpenFeelingsTests */,
 				C8EC154EF4FBE5EF922AA60F /* OpenFeelingsUITests */,
 				D25338855B8DAF0B63759E65 /* OpenFeelingsWatch */,
+				8161508BA3FEB0311F9EE1C8 /* OpenFeelingsWatchTests */,
 				B41E6FBD3699E4EA384EEEFA /* Frameworks */,
 				13A0ECFADCBB4CF7BCCBD81C /* Products */,
 			);
@@ -756,6 +779,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3B22FDA6258A9A67C519453E /* OpenFeelingsWatchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0DDD79D9193736A898B0D33 /* Build configuration list for PBXNativeTarget "OpenFeelingsWatchTests" */;
+			buildPhases = (
+				65772E803C311548D4E9428B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4EFD7455CC2AF8C14AD07F82 /* PBXTargetDependency */,
+			);
+			name = OpenFeelingsWatchTests;
+			packageProductDependencies = (
+			);
+			productName = OpenFeelingsWatchTests;
+			productReference = FEEF499AAF6634F14668C985 /* OpenFeelingsWatchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		491C371BB4D3E5E8750110B6 /* OpenFeelings */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7DC79E471B7F4F7FB77A3033 /* Build configuration list for PBXNativeTarget "OpenFeelings" */;
@@ -841,6 +882,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					3B22FDA6258A9A67C519453E = {
+						DevelopmentTeam = K7CBQW6MPG;
+					};
 					491C371BB4D3E5E8750110B6 = {
 						DevelopmentTeam = K7CBQW6MPG;
 					};
@@ -874,6 +918,7 @@
 				A4BF3179DB3DADF6C3A254A7 /* OpenFeelingsTests */,
 				B3D0C802247C8A10B428AC41 /* OpenFeelingsUITests */,
 				C99B038DD20D96390F265759 /* OpenFeelingsWatch */,
+				3B22FDA6258A9A67C519453E /* OpenFeelingsWatchTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1024,6 +1069,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		65772E803C311548D4E9428B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C95AD19FBA0CB39066545D7 /* CheckInWizardStateTests.swift in Sources */,
+				83A18F802C5FE4DA5EA41A52 /* WatchSettingsStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7024D18B0AE328737B348DBD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1088,6 +1142,11 @@
 			target = 491C371BB4D3E5E8750110B6 /* OpenFeelings */;
 			targetProxy = 1135B305160A80A7381274D5 /* PBXContainerItemProxy */;
 		};
+		4EFD7455CC2AF8C14AD07F82 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C99B038DD20D96390F265759 /* OpenFeelingsWatch */;
+			targetProxy = 2D80B8EBCF4FAFADDE32C7E1 /* PBXContainerItemProxy */;
+		};
 		88C1EBB67175F0A1F5FC7DBB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C99B038DD20D96390F265759 /* OpenFeelingsWatch */;
@@ -1119,6 +1178,28 @@
 				TEST_TARGET_NAME = OpenFeelings;
 			};
 			name = Debug;
+		};
+		21EB84F08F2F7FDAB4DC2C48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.watchkitapp.tests;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenFeelingsWatch.app/OpenFeelingsWatch";
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
 		};
 		2ECAEFCCCD99AF8358C66AE5 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1173,6 +1254,28 @@
 				SUPPORTED_PLATFORMS = "watchsimulator watchos";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		40AC5C6BD9F7C886054308D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = K7CBQW6MPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.finklea.openfeelings.watchkitapp.tests;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenFeelingsWatch.app/OpenFeelingsWatch";
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1411,6 +1514,15 @@
 			buildConfigurations = (
 				2FB04408068401C617F7651A /* Debug */,
 				5220961AD3D8DAF937917563 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B0DDD79D9193736A898B0D33 /* Build configuration list for PBXNativeTarget "OpenFeelingsWatchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40AC5C6BD9F7C886054308D9 /* Debug */,
+				21EB84F08F2F7FDAB4DC2C48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
