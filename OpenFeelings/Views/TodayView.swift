@@ -148,6 +148,13 @@ struct TodayView: View {
                         .font(.OF.caption)
                         .foregroundStyle(Color.OF.textMuted)
                 }
+                if log.captureSource == "watch" {
+                    Label("Apple Watch", systemImage: "applewatch")
+                        .labelStyle(.iconOnly)
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                        .accessibilityLabel("From Apple Watch")
+                }
             }
             if let summary = bodySummary(for: log) {
                 Text(summary)
@@ -252,10 +259,14 @@ struct TodayView: View {
     nonisolated static func todayLogAXLabel(for log: FeelingLog) -> String {
         let time = log.createdAt.formatted(.dateTime.hour().minute())
         let path = log.pathTitle.replacingOccurrences(of: " > ", with: ", ")
+        var parts = ["\(time): \(path)"]
         if let intensity = log.intensity {
-            return "\(time): \(path), intensity \(intensity) of 5"
+            parts.append("intensity \(intensity) of 5")
         }
-        return "\(time): \(path)"
+        if log.captureSource == "watch" {
+            parts.append("from Apple Watch")
+        }
+        return parts.joined(separator: ", ")
     }
 
     nonisolated static func weekSummaryAXLabel(for summary: WeekSummary?) -> String {

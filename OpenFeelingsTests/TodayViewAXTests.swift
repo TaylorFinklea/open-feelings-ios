@@ -3,10 +3,14 @@ import XCTest
 
 final class TodayViewAXTests: XCTestCase {
     private func log(createdAt: Date = Date(timeIntervalSince1970: 1_715_000_000),
-                     intensity: Int? = nil) -> FeelingLog {
+                     intensity: Int? = nil,
+                     captureSource: String = "phone") -> FeelingLog {
         let core = EmotionTaxonomy.cores.first { $0.id == "happy" }!
         let selection = EmotionSelection(core: core, secondary: nil, specific: nil)
-        let log = FeelingLog(selection: selection, intensity: intensity, note: "")
+        let log = FeelingLog(selection: selection,
+                             intensity: intensity,
+                             note: "",
+                             captureSource: captureSource)
         log.createdAt = createdAt
         return log
     }
@@ -29,5 +33,11 @@ final class TodayViewAXTests: XCTestCase {
     func testWeekSummaryAXLabelIncludesCountAndTopFeeling() {
         let summary = WeekSummary(topCoreID: "happy", topCoreName: "Happy", totalCount: 2)
         XCTAssertEqual(TodayView.weekSummaryAXLabel(for: summary), "This week: 2 check-ins, top feeling Happy")
+    }
+
+    func testTodayLogAXLabelMentionsAppleWatchOnlyForWatchSource() {
+        XCTAssertFalse(TodayView.todayLogAXLabel(for: log()).contains("Apple Watch"))
+        XCTAssertTrue(TodayView.todayLogAXLabel(for: log(captureSource: "watch"))
+                      .contains("from Apple Watch"))
     }
 }

@@ -315,6 +315,13 @@ struct LogCard: View {
                 Label(log.healthSyncStatus.label, systemImage: "heart.text.square")
                     .font(.OF.caption)
                     .foregroundStyle(Color.OF.textMuted)
+                if log.captureSource == "watch" {
+                    Label("Apple Watch", systemImage: "applewatch")
+                        .labelStyle(.iconOnly)
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                        .accessibilityLabel("From Apple Watch")
+                }
             }
 
             if let summary = bodySummary(for: log) {
@@ -358,6 +365,9 @@ struct LogCard: View {
         }
         if !log.note.isEmpty {
             parts.append("with a note")
+        }
+        if log.captureSource == "watch" {
+            parts.append("from Apple Watch")
         }
         return parts.joined(separator: ", ")
     }

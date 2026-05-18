@@ -2,10 +2,15 @@ import XCTest
 @testable import OpenFeelings
 
 final class HistoryViewAXTests: XCTestCase {
-    private func log(intensity: Int? = nil, note: String = "") -> FeelingLog {
+    private func log(intensity: Int? = nil,
+                     note: String = "",
+                     captureSource: String = "phone") -> FeelingLog {
         let core = EmotionTaxonomy.cores.first { $0.id == "happy" }!
         let selection = EmotionSelection(core: core, secondary: nil, specific: nil)
-        let log = FeelingLog(selection: selection, intensity: intensity, note: note)
+        let log = FeelingLog(selection: selection,
+                             intensity: intensity,
+                             note: note,
+                             captureSource: captureSource)
         log.createdAt = Date(timeIntervalSince1970: 1_715_000_000)
         return log
     }
@@ -22,5 +27,15 @@ final class HistoryViewAXTests: XCTestCase {
 
     func testCardAXLabelMentionsNoteWhenPresent() {
         XCTAssertTrue(LogCard.cardAXLabel(for: log(note: "x")).contains("with a note"))
+    }
+
+    func testCardAXLabelMentionsAppleWatchForWatchSource() {
+        let phone = LogCard.cardAXLabel(for: log(captureSource: "phone"))
+        XCTAssertFalse(phone.contains("Apple Watch"),
+                       "Phone entries should not announce a source")
+
+        let watch = LogCard.cardAXLabel(for: log(captureSource: "watch"))
+        XCTAssertTrue(watch.contains("from Apple Watch"),
+                      "Watch entries should announce 'from Apple Watch'")
     }
 }
