@@ -1,5 +1,6 @@
 import Foundation
 import CoreData
+import CloudKit
 
 /// Observable surface for the CloudKit private-database mirror powering
 /// SwiftData. Watches `NSPersistentCloudKitContainer.eventChangedNotification`
@@ -50,11 +51,54 @@ final class CloudSyncMonitor {
         // Event completed.
         state.phase = .idle
         if let error {
-            state.lastError = error.localizedDescription
+            state.lastError = Self.describe(error: error)
         } else {
             state.lastError = nil
             state.lastSuccessAt = endDate
         }
+    }
+
+    /// Turns a raw CloudKit error into a one-line, user-meaningful string.
+    /// Exposed `static` for unit tests; called from `apply(...)` on real
+    /// events. The default `Error.localizedDescription` for
+    /// `CKError.partialFailure` is the famously useless "The operation
+    /// couldn't be completed" — the actual cause lives in the per-record
+    /// sub-errors. Dig those out first; fall back to friendly text for a
+    /// handful of well-known top-level CKError codes; final fallback is the
+    /// localized description.
+    static func describe(error: Error) -> String {
+        let nsError = error as NSError
+
+        // Partial failure: pull the first sub-error's message. That's where
+        // schema-mismatch / permission errors actually live.
+        if let perRecord = nsError.userInfo[CKPartialErrorsByItemIDKey]
+            as? [AnyHashable: Error],
+           let firstSub = perRecord.values.first {
+            let baseMsg = (firstSub as NSError).localizedDescription
+            let n = perRecord.count
+            return n > 1 ? "\(baseMsg) (and \(n - 1) more)" : baseMsg
+        }
+
+        // Friendly top-level CKError mappings for the common cases.
+        if nsError.domain == CKErrorDomain {
+            switch nsError.code {
+            case CKError.Code.networkUnavailable.rawValue,
+                 CKError.Code.networkFailure.rawValue:
+                return "Network unavailable"
+            case CKError.Code.notAuthenticated.rawValue:
+                return "Not signed in to iCloud"
+            case CKError.Code.quotaExceeded.rawValue:
+                return "iCloud storage full"
+            case CKError.Code.permissionFailure.rawValue:
+                return "iCloud permission denied"
+            case CKError.Code.serverRejectedRequest.rawValue:
+                return "CloudKit rejected the request"
+            default:
+                break
+            }
+        }
+
+        return nsError.localizedDescription
     }
 }
 

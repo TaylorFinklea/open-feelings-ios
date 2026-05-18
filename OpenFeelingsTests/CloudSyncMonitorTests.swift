@@ -1,5 +1,6 @@
 import XCTest
 import CoreData
+import CloudKit
 @testable import OpenFeelings
 
 @MainActor
@@ -101,5 +102,90 @@ final class CloudSyncMonitorTests: XCTestCase {
         XCTAssertTrue(state.isFailing)
         state.lastError = nil
         XCTAssertFalse(state.isFailing)
+    }
+
+    // MARK: - describe(error:)
+
+    /// Synthesizes an NSError with the CKErrorDomain partial-failure shape so
+    /// we don't have to make a real CloudKit round-trip. CKError bridges to
+    /// NSError, so the production extraction path treats both identically.
+    private func partialFailureNSError(subErrors: [Error]) -> NSError {
+        var byID: [AnyHashable: Error] = [:]
+        for (i, sub) in subErrors.enumerated() {
+            byID["record-\(i)"] = sub
+        }
+        return NSError(
+            domain: CKErrorDomain,
+            code: CKError.Code.partialFailure.rawValue,
+            userInfo: [
+                NSLocalizedDescriptionKey: "The operation couldn't be completed.",
+                CKPartialErrorsByItemIDKey: byID
+            ]
+        )
+    }
+
+    func testDescribePullsSubErrorMessageOutOfPartialFailure() {
+        let sub = NSError(
+            domain: CKErrorDomain,
+            code: CKError.Code.serverRejectedRequest.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: "Did not find record type: CD_ValueSort"]
+        )
+        let top = partialFailureNSError(subErrors: [sub])
+        XCTAssertEqual(CloudSyncMonitor.describe(error: top),
+                       "Did not find record type: CD_ValueSort")
+    }
+
+    func testDescribeAppendsCountWhenMultipleSubErrors() {
+        let subs: [Error] = (0..<3).map { _ in
+            NSError(domain: CKErrorDomain,
+                    code: CKError.Code.serverRejectedRequest.rawValue,
+                    userInfo: [NSLocalizedDescriptionKey: "Record rejected"])
+        }
+        let top = partialFailureNSError(subErrors: subs)
+        XCTAssertEqual(CloudSyncMonitor.describe(error: top),
+                       "Record rejected (and 2 more)")
+    }
+
+    func testDescribeMapsNetworkUnavailable() {
+        let err = NSError(domain: CKErrorDomain,
+                          code: CKError.Code.networkUnavailable.rawValue,
+                          userInfo: [NSLocalizedDescriptionKey: "internal"])
+        XCTAssertEqual(CloudSyncMonitor.describe(error: err), "Network unavailable")
+    }
+
+    func testDescribeMapsNotAuthenticated() {
+        let err = NSError(domain: CKErrorDomain,
+                          code: CKError.Code.notAuthenticated.rawValue,
+                          userInfo: [NSLocalizedDescriptionKey: "internal"])
+        XCTAssertEqual(CloudSyncMonitor.describe(error: err), "Not signed in to iCloud")
+    }
+
+    func testDescribeMapsQuotaExceeded() {
+        let err = NSError(domain: CKErrorDomain,
+                          code: CKError.Code.quotaExceeded.rawValue,
+                          userInfo: [NSLocalizedDescriptionKey: "internal"])
+        XCTAssertEqual(CloudSyncMonitor.describe(error: err), "iCloud storage full")
+    }
+
+    func testDescribeFallsThroughToLocalizedDescriptionForUnmappedErrors() {
+        let err = SampleError(errorDescription: "Something else")
+        XCTAssertEqual(CloudSyncMonitor.describe(error: err), "Something else")
+    }
+
+    /// End-to-end: a partial-failure event should populate `lastError` with
+    /// the sub-error message — the whole point of build 29.
+    func testApplyExtractsSubErrorIntoLastErrorOnPartialFailure() {
+        let monitor = CloudSyncMonitor()
+        let sub = NSError(
+            domain: CKErrorDomain,
+            code: CKError.Code.serverRejectedRequest.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: "Did not find record type: CD_ValueSort"]
+        )
+        let top = partialFailureNSError(subErrors: [sub])
+        monitor.apply(eventType: .export,
+                      endDate: Date(timeIntervalSince1970: 1_700_000_000),
+                      error: top)
+        XCTAssertEqual(monitor.state.lastError,
+                       "Did not find record type: CD_ValueSort")
     }
 }
