@@ -19,6 +19,7 @@
 		0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */; };
 		0E61B04B729FF069F3E8660B /* OpenFeelingsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 464D885245E0FF5E70E4FF20 /* OpenFeelingsWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0EECCA9D39125FBE8BD6F190 /* HistoryDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1772A8BCB2595E645C9E5080 /* HistoryDeleteTests.swift */; };
+		11E7485B87FD74EB6418162A /* IntensityAfterStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF27F09F26D13733FBFB23 /* IntensityAfterStepView.swift */; };
 		12D615BFB4D8CCD1130E8081 /* CheckInWizardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21F7225D1167F723EC98F10 /* CheckInWizardState.swift */; };
 		12E0F2178AC63F6B482A809B /* TherapyReportPDFService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494ECD530239CC1891D17A81 /* TherapyReportPDFService.swift */; };
 		13FBCFA3838B55A7F8024F1F /* HealthKitMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */; };
@@ -165,6 +166,7 @@
 		D2366692E84C4389A4B3F7EA /* UserBodyMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */; };
 		D5F720F7DB22873766889092 /* NoteEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D68D35EA481C77B2226517 /* NoteEntryView.swift */; };
 		D74AEFAFBF80DCFDEEFF1DB5 /* OFChipIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046676990FE85881F78D3406 /* OFChipIdentifierTests.swift */; };
+		D941E4AFD7FC37D9A9369870 /* IntensityBeforeStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA984EC84246B36AB79CB8 /* IntensityBeforeStepView.swift */; };
 		DCE91AE6501FB582480508DA /* TherapyReportDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D201B86C580BD30270D860 /* TherapyReportDataTests.swift */; };
 		DD33FA92DFE817DF833DD6D1 /* EmotionColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */; };
 		E0F257C1963925D1CBC6FCE3 /* MoreDetailDisclosure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE50F3B4D41BD2A8AE31C31 /* MoreDetailDisclosure.swift */; };
@@ -243,6 +245,7 @@
 		08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPaletteTests.swift; sourceTree = "<group>"; };
 		0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenFeelings.entitlements; sourceTree = "<group>"; };
 		1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
+		13AA984EC84246B36AB79CB8 /* IntensityBeforeStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityBeforeStepView.swift; sourceTree = "<group>"; };
 		13E2166C782A963AA06ACC3B /* CoreFeelingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFeelingPicker.swift; sourceTree = "<group>"; };
 		149A4C4A97B738376AD3E160 /* ThinkingPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingPatternTests.swift; sourceTree = "<group>"; };
 		156795D51040306BD09F3006 /* WatchCheckInPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInPayloadTests.swift; sourceTree = "<group>"; };
@@ -383,6 +386,7 @@
 		C932D5F22945AFFBE7E2E184 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		CF19FBBEBB70FAB772C3F0D7 /* AutomaticThoughtStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticThoughtStepView.swift; sourceTree = "<group>"; };
 		CF70B3380626A0D857A1E2AC /* ExportServiceLogseqTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceLogseqTests.swift; sourceTree = "<group>"; };
+		D0BF27F09F26D13733FBFB23 /* IntensityAfterStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityAfterStepView.swift; sourceTree = "<group>"; };
 		D1C1969664DAE9332E91F254 /* FeelingLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingLog.swift; sourceTree = "<group>"; };
 		D24DA87BAAB515E03C03965D /* JournalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalText.swift; sourceTree = "<group>"; };
 		D4E574AA868473503162215C /* LearnedBodyMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedBodyMap.swift; sourceTree = "<group>"; };
@@ -723,6 +727,8 @@
 			children = (
 				CF19FBBEBB70FAB772C3F0D7 /* AutomaticThoughtStepView.swift */,
 				2D3D2A13B60308C25971A4EE /* BalancedThoughtStepView.swift */,
+				D0BF27F09F26D13733FBFB23 /* IntensityAfterStepView.swift */,
+				13AA984EC84246B36AB79CB8 /* IntensityBeforeStepView.swift */,
 				71CF4E23D538966CA19D7776 /* SituationStepView.swift */,
 			);
 			path = Steps;
@@ -1046,6 +1052,8 @@
 				86C9EC37D0756765FBE998D3 /* HistoryView.swift in Sources */,
 				6A086118F58A2014E3049A71 /* InsightsDataset.swift in Sources */,
 				399059894BECDC267871CEDE /* InsightsView.swift in Sources */,
+				11E7485B87FD74EB6418162A /* IntensityAfterStepView.swift in Sources */,
+				D941E4AFD7FC37D9A9369870 /* IntensityBeforeStepView.swift in Sources */,
 				A7087DF600D27FA710FB840C /* Intention.swift in Sources */,
 				09858D6FE2E2838C5D30AD81 /* IntentionDayFelt.swift in Sources */,
 				5F9EE41748C175A0D24C2FAE /* IntentionsContent.swift in Sources */,
