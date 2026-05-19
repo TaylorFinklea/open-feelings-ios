@@ -157,6 +157,7 @@
 		C0518E4DB7713EB43577A2A8 /* ConfirmThoughtRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC28A12718203B61FA2AB0A3 /* ConfirmThoughtRecordView.swift */; };
 		C1126811FE520C76188AB997 /* ThinkingPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A4C4A97B738376AD3E160 /* ThinkingPatternTests.swift */; };
 		C6D9AFD5AB828C33817FD1C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D67BAF0CDDAEB30DA7B36F6 /* Assets.xcassets */; };
+		C78CDAFD2A57C15E0FA4C0B9 /* ThoughtRecordFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7B581A685C8C61114425E2 /* ThoughtRecordFlowView.swift */; };
 		C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C932D5F22945AFFBE7E2E184 /* RootView.swift */; };
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
 		CDBD062828BA92D93932A903 /* WatchCheckInSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */; };
@@ -382,6 +383,7 @@
 		B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInStepKind.swift; sourceTree = "<group>"; };
 		B9D05B5BB1CF3FE4BCB02F59 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		BA01967BCD9E433554336344 /* TherapyReportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportData.swift; sourceTree = "<group>"; };
+		BE7B581A685C8C61114425E2 /* ThoughtRecordFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordFlowView.swift; sourceTree = "<group>"; };
 		C0762EAB12117A0ADE07609B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C461C99EA02F647B219DBACC /* ContextStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextStep.swift; sourceTree = "<group>"; };
 		C4C624625E9E1C8E4381C457 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				FB26B3BCCA1315DB2966C32F /* ThoughtRecordDraft.swift */,
+				BE7B581A685C8C61114425E2 /* ThoughtRecordFlowView.swift */,
 				C66A03C991BB7375AF674D4C /* Steps */,
 			);
 			path = Thoughts;
@@ -1105,6 +1108,7 @@
 				5DAE409713FC56BCD82B6849 /* ThinkingPattern.swift in Sources */,
 				F887CB2FB810E9472C262D9E /* ThoughtRecord.swift in Sources */,
 				A7629B4DE619403DC3CA28A8 /* ThoughtRecordDraft.swift in Sources */,
+				C78CDAFD2A57C15E0FA4C0B9 /* ThoughtRecordFlowView.swift in Sources */,
 				71E478571A4718C3EE53657D /* TodayView.swift in Sources */,
 				4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */,
 				4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */,
