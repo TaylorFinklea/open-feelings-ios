@@ -66,6 +66,7 @@
 		42F96DD600BC611CA17FCD72 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */; };
 		4525E98E91208FE49B00EBFE /* PersonalizationNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0515B72A8FAC01AA37180E2A /* PersonalizationNudge.swift */; };
 		46C276F4A404056684E8DAEB /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186F1042FF9CD96AF90DFC95 /* AppIconView.swift */; };
+		46E068FD43EB2503862C8D34 /* ThoughtRecordDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442BC13FDE1D89F6D5E2B148 /* ThoughtRecordDetail.swift */; };
 		490A441FEE0CCD3676BFD8DD /* CheckInStepKindTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B624F35F9610784AEA13A3A1 /* CheckInStepKindTests.swift */; };
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
@@ -289,6 +290,7 @@
 		42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFelt.swift; sourceTree = "<group>"; };
 		430D545A44D2FD8E845DA0B4 /* CheckInFlowEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowEngine.swift; sourceTree = "<group>"; };
 		43C0BDF28242540BC1CC9387 /* SortSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortSession.swift; sourceTree = "<group>"; };
+		442BC13FDE1D89F6D5E2B148 /* ThoughtRecordDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordDetail.swift; sourceTree = "<group>"; };
 		44780243E482EB5D78C76E28 /* CommittedActionDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedActionDetail.swift; sourceTree = "<group>"; };
 		464D885245E0FF5E70E4FF20 /* OpenFeelingsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenFeelingsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		467A1BE03FA4A9092BADB1FB /* SensationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensationPicker.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 		135C2A03E786FA642E1529B2 /* Thoughts */ = {
 			isa = PBXGroup;
 			children = (
+				442BC13FDE1D89F6D5E2B148 /* ThoughtRecordDetail.swift */,
 				FB26B3BCCA1315DB2966C32F /* ThoughtRecordDraft.swift */,
 				BE7B581A685C8C61114425E2 /* ThoughtRecordFlowView.swift */,
 				C66A03C991BB7375AF674D4C /* Steps */,
@@ -1107,6 +1110,7 @@
 				A6EF192827257C28B35C8DB7 /* TherapyReportSettingsView.swift in Sources */,
 				5DAE409713FC56BCD82B6849 /* ThinkingPattern.swift in Sources */,
 				F887CB2FB810E9472C262D9E /* ThoughtRecord.swift in Sources */,
+				46E068FD43EB2503862C8D34 /* ThoughtRecordDetail.swift in Sources */,
 				A7629B4DE619403DC3CA28A8 /* ThoughtRecordDraft.swift in Sources */,
 				C78CDAFD2A57C15E0FA4C0B9 /* ThoughtRecordFlowView.swift in Sources */,
 				71E478571A4718C3EE53657D /* TodayView.swift in Sources */,
