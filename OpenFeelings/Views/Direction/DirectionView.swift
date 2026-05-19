@@ -7,6 +7,7 @@ struct DirectionView: View {
             VStack(alignment: .leading, spacing: .OF.xl) {
                 IntentionsContent()
                 ValuesArea()
+                ThoughtRecordsArea()
             }
             .padding(.horizontal, CGFloat.OF.lg)
             .padding(.bottom, CGFloat.OF.xxxl)
@@ -25,6 +26,7 @@ struct DirectionView: View {
             Intention.self,
             CustomValue.self,
             ValueSort.self,
-            CommittedAction.self
+            CommittedAction.self,
+            ThoughtRecord.self
         ], inMemory: true)
 }
