@@ -130,6 +130,7 @@
 		9D075BFB8688F6D306F5E192 /* IntentionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2393CAA4A99A9EAA5405B6 /* IntentionTests.swift */; };
 		9D1C2A46735BF5A7C3D7BAE2 /* UserBodyMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86992BC2A4EE056BCADB460D /* UserBodyMap.swift */; };
 		9D8191F168CD0B9A2DC899D3 /* EmotionDefinitionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */; };
+		9DE701F977D874DC502C6EFC /* ThoughtRecordsArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE31C63805D2DE5DDFD28DAD /* ThoughtRecordsArea.swift */; };
 		9FDF2AA07587BE3FE57CFE26 /* CheckInFlowSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */; };
 		A127251766B53F49634A5895 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C7552D87622E0084230E5E /* WatchConnectivity.framework */; };
 		A435516EA3885BD3BCCCCD2E /* CloudSyncMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2CF52F1E3C8AEEC4A4904 /* CloudSyncMonitorTests.swift */; };
@@ -166,6 +167,7 @@
 		CE732280C7427FC328F78C0C /* WatchSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB79132B33CB384631F146 /* WatchSettingsStore.swift */; };
 		CE911E60BBD6305108448AA3 /* ThoughtRecordDraftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FDE9D2839E382374CFEFF8 /* ThoughtRecordDraftTests.swift */; };
 		CF83AB346BACEBA934FD811E /* MoodStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6959718821B4B5A9BE5B391 /* MoodStep.swift */; };
+		D01709812B1915100171BBE9 /* ThoughtRecordsAreaPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22406335968ABE1682FF6FCD /* ThoughtRecordsAreaPersistenceTests.swift */; };
 		D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67A46078B6257523BDCA760 /* SettingsView.swift */; };
 		D2366692E84C4389A4B3F7EA /* UserBodyMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */; };
 		D5F720F7DB22873766889092 /* NoteEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D68D35EA481C77B2226517 /* NoteEntryView.swift */; };
@@ -261,6 +263,7 @@
 		1E36FA186526385FF499AE4E /* StepHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeader.swift; sourceTree = "<group>"; };
 		1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColor.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
+		22406335968ABE1682FF6FCD /* ThoughtRecordsAreaPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordsAreaPersistenceTests.swift; sourceTree = "<group>"; };
 		236B1A0FE40264A55E92C958 /* CommittedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedAction.swift; sourceTree = "<group>"; };
 		246FF3C81FAF6DA04D7DC616 /* WatchCheckInSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInSettings.swift; sourceTree = "<group>"; };
 		25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColorPalette.swift; sourceTree = "<group>"; };
@@ -392,6 +395,7 @@
 		C5A964AA9D5F2263F3F404ED /* CheckInFlowEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowEngineTests.swift; sourceTree = "<group>"; };
 		C6CD3074A5394FAAE9FBB07B /* WheelViewportTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelViewportTransformTests.swift; sourceTree = "<group>"; };
 		C932D5F22945AFFBE7E2E184 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		CE31C63805D2DE5DDFD28DAD /* ThoughtRecordsArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordsArea.swift; sourceTree = "<group>"; };
 		CF19FBBEBB70FAB772C3F0D7 /* AutomaticThoughtStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticThoughtStepView.swift; sourceTree = "<group>"; };
 		CF70B3380626A0D857A1E2AC /* ExportServiceLogseqTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceLogseqTests.swift; sourceTree = "<group>"; };
 		D0BF27F09F26D13733FBFB23 /* IntensityAfterStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityAfterStepView.swift; sourceTree = "<group>"; };
@@ -497,6 +501,7 @@
 				442BC13FDE1D89F6D5E2B148 /* ThoughtRecordDetail.swift */,
 				FB26B3BCCA1315DB2966C32F /* ThoughtRecordDraft.swift */,
 				BE7B581A685C8C61114425E2 /* ThoughtRecordFlowView.swift */,
+				CE31C63805D2DE5DDFD28DAD /* ThoughtRecordsArea.swift */,
 				C66A03C991BB7375AF674D4C /* Steps */,
 			);
 			path = Thoughts;
@@ -628,6 +633,7 @@
 				3A44364C666A3699459891C6 /* TherapyReportPDFServiceTests.swift */,
 				149A4C4A97B738376AD3E160 /* ThinkingPatternTests.swift */,
 				F5FDE9D2839E382374CFEFF8 /* ThoughtRecordDraftTests.swift */,
+				22406335968ABE1682FF6FCD /* ThoughtRecordsAreaPersistenceTests.swift */,
 				93DC74397E0B0CEBBC7E1189 /* ThoughtRecordTests.swift */,
 				ABC071B7FFCF4E5B30B9C4C4 /* TodayViewAXTests.swift */,
 				62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */,
@@ -1113,6 +1119,7 @@
 				46E068FD43EB2503862C8D34 /* ThoughtRecordDetail.swift in Sources */,
 				A7629B4DE619403DC3CA28A8 /* ThoughtRecordDraft.swift in Sources */,
 				C78CDAFD2A57C15E0FA4C0B9 /* ThoughtRecordFlowView.swift in Sources */,
+				9DE701F977D874DC502C6EFC /* ThoughtRecordsArea.swift in Sources */,
 				71E478571A4718C3EE53657D /* TodayView.swift in Sources */,
 				4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */,
 				4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */,
@@ -1210,6 +1217,7 @@
 				C1126811FE520C76188AB997 /* ThinkingPatternTests.swift in Sources */,
 				CE911E60BBD6305108448AA3 /* ThoughtRecordDraftTests.swift in Sources */,
 				EA05BBB9CDECF686B9F2E060 /* ThoughtRecordTests.swift in Sources */,
+				D01709812B1915100171BBE9 /* ThoughtRecordsAreaPersistenceTests.swift in Sources */,
 				68E95B34E2877C8A748EE5E4 /* TodayViewAXTests.swift in Sources */,
 				623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */,
 				D2366692E84C4389A4B3F7EA /* UserBodyMapTests.swift in Sources */,
