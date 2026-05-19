@@ -10,11 +10,11 @@ new fields, new indexes) can be re-deployed at any time. Field
 **removals** and **type changes** are not supported in production — you'd
 have to roll out a new container.
 
-> ⚠️ **Likely silent-sync failure right now.** Builds 21–27 added new
+> ⚠️ **Likely silent-sync failure right now.** Builds 21–29 added new
 > SwiftData @Model classes (`CustomBodyRegion`, `CustomValue`,
-> `ValueSort`, `CommittedAction`, `UserBodyMap`) and new fields on
-> `FeelingLog` (`customBodyRegionIDsRaw`, `captureSource`). If the
-> Production schema only has the original `CD_FeelingLog` +
+> `ValueSort`, `CommittedAction`, `UserBodyMap`, `ThoughtRecord`) and new
+> fields on `FeelingLog` (`customBodyRegionIDsRaw`, `captureSource`). If
+> the Production schema only has the original `CD_FeelingLog` +
 > `CD_Intention` from earlier work, the TestFlight build on a real device
 > will store records locally but **silently fail** to mirror anything
 > involving the new types/fields to iCloud. Run through this runbook
@@ -127,6 +127,20 @@ CloudKit on every record type and are omitted from the tables below.
 No `id` field — singleton-record pattern (one record per private DB).
 `recordName` provides the only identity. No queryable indexes needed.
 
+### `CD_ThoughtRecord` — *new since build 29*
+
+| SwiftData property | CloudKit field | Type | Notes |
+|---|---|---|---|
+| `id` | `CD_id` | String (UUID) | |
+| `createdAt` | `CD_createdAt` | Date | **Queryable index required** — newest-first sort on Direction tab |
+| `situation` | `CD_situation` | String | Optional context |
+| `automaticThought` | `CD_automaticThought` | String | The noticed thought (required to save) |
+| `intensityBefore` | `CD_intensityBefore` | Int (optional) | 1…5 |
+| `patternsRaw` | `CD_patternsRaw` | String | Comma-joined `ThinkingPattern` raw values |
+| `balancedThought` | `CD_balancedThought` | String | Reframe (required to save) |
+| `intensityAfter` | `CD_intensityAfter` | Int (optional) | 1…5 |
+| `linkedLogID` | `CD_linkedLogID` | String (UUID, optional) | Optional FK to `FeelingLog.id` |
+
 ---
 
 ## Steps
@@ -166,9 +180,9 @@ Visit <https://icloud.developer.apple.com> → **CloudKit Database** →
 container **`iCloud.dev.finklea.openfeelings`** → **Development**
 environment.
 
-Verify all seven record types exist with the fields listed above:
+Verify all eight record types exist with the fields listed above:
 `CD_FeelingLog`, `CD_Intention`, `CD_CustomBodyRegion`, `CD_CustomValue`,
-`CD_ValueSort`, `CD_CommittedAction`, `CD_UserBodyMap`.
+`CD_ValueSort`, `CD_CommittedAction`, `CD_UserBodyMap`, `CD_ThoughtRecord`.
 
 If any field is missing on `CD_FeelingLog`, the most likely cause is that
 your step 1 check-in didn't exercise it (e.g., no watch entry → no
@@ -192,6 +206,7 @@ Index**:
 | `CD_CustomValue` | `CD_createdAt` | Queryable |
 | `CD_ValueSort` | `CD_createdAt` | Queryable |
 | `CD_CommittedAction` | `CD_createdAt` | Queryable |
+| `CD_ThoughtRecord` | `CD_createdAt` | Queryable |
 
 `CD_UserBodyMap` doesn't need an index — it's a singleton fetched by
 `recordName`.
