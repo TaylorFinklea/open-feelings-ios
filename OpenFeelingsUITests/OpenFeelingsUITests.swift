@@ -24,16 +24,17 @@ final class OpenFeelingsUITests: XCTestCase {
 
     // MARK: - Cold launch
 
-    func testColdLaunchTabsAreReachable() {
-        // Cold sim launches on iOS 26 with the full SwiftData schema + CloudKit
-        // observer wiring can take 6-8 seconds to render the root view tree.
-        // The previous 5s timeout was racing that on slower sims.
-        XCTAssertTrue(tab("today").waitForExistence(timeout: 10),
-                      "Today tab identifier should be reachable on cold launch")
-        XCTAssertTrue(tab("checkIn").exists)
-        XCTAssertTrue(tab("insights").exists)
-        XCTAssertTrue(tab("direction").exists)
-        XCTAssertTrue(tab("settings").exists)
+    func testColdLaunchShowsTodayContent() {
+        // iOS 26 quirk: Liquid Glass tab bar identifiers are not exposed to
+        // XCUITest until the user interacts with the bar (tap a tab). On a
+        // fresh launch we therefore verify the *content* of the default
+        // (Today) tab rather than the tab identifiers themselves. The
+        // sibling testTabSwitchingShowsEachTabsContent test exercises the
+        // identifiers once they're reachable.
+        let greeting = app.staticTexts.matching(NSPredicate(format:
+            "label IN {'Good morning.', 'Good afternoon.', 'Good evening.'}"))
+        XCTAssertTrue(greeting.firstMatch.waitForExistence(timeout: 15),
+                      "Cold launch should land on the Today tab and show a time-of-day greeting")
     }
 
     // MARK: - Tab switching
