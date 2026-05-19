@@ -39,6 +39,7 @@
 		2D7523DB9F3627E60DCAB521 /* EmotionTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */; };
 		2D7F3E55328881C064C1F30B /* AppearanceModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72D429D414F0046295E2E50 /* AppearanceModeTests.swift */; };
 		2F2B16B97C23CCE836AE5373 /* WatchSyncServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB00ED37F9809278819E66 /* WatchSyncServiceTests.swift */; };
+		3021F685DDBDF4E3F2FE0823 /* PatternsStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B691E4E4F7F841A160120A /* PatternsStepView.swift */; };
 		3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DC44721733546416582778 /* EmotionTaxonomyTests.swift */; };
 		31EA02F0D4D045B03BC52A7D /* WatchCheckInPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E063AD3C5F9E15541D46AC /* WatchCheckInPayload.swift */; };
 		32BB847E8084657FD00587CE /* OpenFeelingsWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA060D8C4EECFFA215E9C86 /* OpenFeelingsWatchApp.swift */; };
@@ -307,6 +308,7 @@
 		5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowSettingsView.swift; sourceTree = "<group>"; };
 		6024EEE2E361EA2CDA93B0A5 /* DirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionView.swift; sourceTree = "<group>"; };
 		60CAF5B22D477191AAC90A68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		61B691E4E4F7F841A160120A /* PatternsStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsStepView.swift; sourceTree = "<group>"; };
 		62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerCopingTaxonomyTests.swift; sourceTree = "<group>"; };
 		65D5FDED989398FD2671303C /* InsightsChartDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsChartDescriptorTests.swift; sourceTree = "<group>"; };
 		6625DA0A4DB7B1A02D92A7ED /* WatchSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSyncService.swift; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 				2D3D2A13B60308C25971A4EE /* BalancedThoughtStepView.swift */,
 				D0BF27F09F26D13733FBFB23 /* IntensityAfterStepView.swift */,
 				13AA984EC84246B36AB79CB8 /* IntensityBeforeStepView.swift */,
+				61B691E4E4F7F841A160120A /* PatternsStepView.swift */,
 				71CF4E23D538966CA19D7776 /* SituationStepView.swift */,
 			);
 			path = Steps;
@@ -1073,6 +1076,7 @@
 				648E8E699680F70D0013BC77 /* OFListRow.swift in Sources */,
 				364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */,
 				94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */,
+				3021F685DDBDF4E3F2FE0823 /* PatternsStepView.swift in Sources */,
 				4525E98E91208FE49B00EBFE /* PersonalizationNudge.swift in Sources */,
 				E787F18B56FB1444A1F14B4D /* PrivacyPolicyView.swift in Sources */,
 				7F5C9B056FD17F6247D017D0 /* RankStepView.swift in Sources */,
