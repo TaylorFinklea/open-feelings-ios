@@ -78,6 +78,7 @@
 		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
 		57DFE55ECCF0FC0766DAD683 /* SortFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF9C6E53AFBC30763A9317 /* SortFlowView.swift */; };
 		5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */; };
+		5DAE409713FC56BCD82B6849 /* ThinkingPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD9B582B31C6DE08D360104 /* ThinkingPattern.swift */; };
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		5F9EE41748C175A0D24C2FAE /* IntentionsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE0CC94DAE2CD18AB5511A6 /* IntentionsContent.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
@@ -147,6 +148,7 @@
 		BDC94C788370C0FB6C669527 /* CheckInFlowEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D545A44D2FD8E845DA0B4 /* CheckInFlowEngine.swift */; };
 		BE4F6B74031D931677239AA6 /* BodyTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662AD400A8250C1F0AE595B4 /* BodyTaxonomyTests.swift */; };
 		BF33A818F631C5B167456EE7 /* HistoryViewAXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC747E5175AA458493E26C /* HistoryViewAXTests.swift */; };
+		C1126811FE520C76188AB997 /* ThinkingPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A4C4A97B738376AD3E160 /* ThinkingPatternTests.swift */; };
 		C6D9AFD5AB828C33817FD1C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D67BAF0CDDAEB30DA7B36F6 /* Assets.xcassets */; };
 		C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C932D5F22945AFFBE7E2E184 /* RootView.swift */; };
 		CB7880FD868691E4911F05C0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */; };
@@ -235,6 +237,7 @@
 		0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenFeelings.entitlements; sourceTree = "<group>"; };
 		1292B5645B01B5EFDB92AE05 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
 		13E2166C782A963AA06ACC3B /* CoreFeelingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFeelingPicker.swift; sourceTree = "<group>"; };
+		149A4C4A97B738376AD3E160 /* ThinkingPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingPatternTests.swift; sourceTree = "<group>"; };
 		156795D51040306BD09F3006 /* WatchCheckInPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInPayloadTests.swift; sourceTree = "<group>"; };
 		1772A8BCB2595E645C9E5080 /* HistoryDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDeleteTests.swift; sourceTree = "<group>"; };
 		17DC44721733546416582778 /* EmotionTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyTests.swift; sourceTree = "<group>"; };
@@ -390,6 +393,7 @@
 		F6959718821B4B5A9BE5B391 /* MoodStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodStep.swift; sourceTree = "<group>"; };
 		F75137FB505AFD167B0BE54E /* CopingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopingStep.swift; sourceTree = "<group>"; };
 		F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTaxonomy.swift; sourceTree = "<group>"; };
+		FAD9B582B31C6DE08D360104 /* ThinkingPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingPattern.swift; sourceTree = "<group>"; };
 		FEC7DB1837474E15C9A66E13 /* LockGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockGateView.swift; sourceTree = "<group>"; };
 		FEEF499AAF6634F14668C985 /* OpenFeelingsWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenFeelingsWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -450,6 +454,7 @@
 				D4E574AA868473503162215C /* LearnedBodyMap.swift */,
 				E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */,
 				43C0BDF28242540BC1CC9387 /* SortSession.swift */,
+				FAD9B582B31C6DE08D360104 /* ThinkingPattern.swift */,
 				76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */,
 				86992BC2A4EE056BCADB460D /* UserBodyMap.swift */,
 				9797D76DFCBC7CA258543F98 /* ValueRef.swift */,
@@ -583,6 +588,7 @@
 				6FE10432679F29E5F24BA6F4 /* StopAtAnyLevelTests.swift */,
 				D9D201B86C580BD30270D860 /* TherapyReportDataTests.swift */,
 				3A44364C666A3699459891C6 /* TherapyReportPDFServiceTests.swift */,
+				149A4C4A97B738376AD3E160 /* ThinkingPatternTests.swift */,
 				ABC071B7FFCF4E5B30B9C4C4 /* TodayViewAXTests.swift */,
 				62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */,
 				04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */,
@@ -1040,6 +1046,7 @@
 				12E0F2178AC63F6B482A809B /* TherapyReportPDFService.swift in Sources */,
 				BD559B6C26624E9F5DBD4AC8 /* TherapyReportPages.swift in Sources */,
 				A6EF192827257C28B35C8DB7 /* TherapyReportSettingsView.swift in Sources */,
+				5DAE409713FC56BCD82B6849 /* ThinkingPattern.swift in Sources */,
 				71E478571A4718C3EE53657D /* TodayView.swift in Sources */,
 				4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */,
 				4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */,
@@ -1134,6 +1141,7 @@
 				720455266E313A8DA9F37FC5 /* StopAtAnyLevelTests.swift in Sources */,
 				DCE91AE6501FB582480508DA /* TherapyReportDataTests.swift in Sources */,
 				80852C2F4E568359FBD158C5 /* TherapyReportPDFServiceTests.swift in Sources */,
+				C1126811FE520C76188AB997 /* ThinkingPatternTests.swift in Sources */,
 				68E95B34E2877C8A748EE5E4 /* TodayViewAXTests.swift in Sources */,
 				623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */,
 				D2366692E84C4389A4B3F7EA /* UserBodyMapTests.swift in Sources */,
