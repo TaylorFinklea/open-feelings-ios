@@ -277,6 +277,8 @@ struct LogCard: View {
     let log: FeelingLog
     let onEditNote: () -> Void
 
+    @State private var showingThoughtRecord = false
+
     init(log: FeelingLog, onEditNote: @escaping () -> Void = {}) {
         self.log = log
         self.onEditNote = onEditNote
@@ -286,6 +288,9 @@ struct LogCard: View {
         VStack(alignment: .leading, spacing: .OF.sm) {
             cardContent
             shareMenu
+        }
+        .sheet(isPresented: $showingThoughtRecord) {
+            ThoughtRecordFlowView(draft: ThoughtRecordDraft.from(log: log))
         }
     }
 
@@ -387,6 +392,11 @@ struct LogCard: View {
             .foregroundStyle(Color.OF.accent)
             Spacer()
             Menu {
+                Button {
+                    showingThoughtRecord = true
+                } label: {
+                    Label("Examine this thought", systemImage: "questionmark.bubble")
+                }
                 ShareLink(
                     item: entryMarkdown,
                     subject: Text(shareTitle),
