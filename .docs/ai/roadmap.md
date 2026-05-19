@@ -18,6 +18,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] Add clinically informed educational definitions for selected emotions.
 - [x] Redesign: 5-tab IA scaffold, warm-calm design tokens, new components, Today/History/Settings re-skin, save-bounce ribbon, WCAG AA contrast audit + fixes, reduce-motion gating.
 - [x] Direction tab — Intentions area + Values area (50-item curated deck + customs, bucket/finalist/rank sort flow, ranked-top persistence, CommittedAction lifecycle). Shipped in build 27.
+- [x] Direction tab — Thought Records area. Burns-style 6-step wizard (situation → automatic thought → intensity-before → 8-chip thinking-pattern picker → balanced thought → intensity-after) with confirm step. Optional FK to FeelingLog via "Examine this thought" share-menu entry on LogCard. 33 new unit tests. Will ship in build 30.
 - [x] Custom body regions — user-defined regions wired through check-in UI, learning pipeline (`LearnedBodyMap.customCounts/Totals`), and `BodyEmotionMap.suggestedCores(...)`. Shipped in build 27.
 - [x] Apple Watch check-in target — drill picker with stop-at-any-level + body flow, NavigationStack with carried drill value, settings synced from iOS. Shipped across builds 21–26.
 - [ ] Review the definition copy with the therapist or another licensed clinician before release.
