@@ -168,9 +168,30 @@
     <li class="step">
       <input type="checkbox" id="s1-1">
       <label for="s1-1">
-        Install a <strong>signed device build</strong> on iPhone (not TestFlight):
-        <pre><code>xcodegen generate &amp;&amp; xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -destination 'generic/platform=iOS' -derivedDataPath DerivedData build</code></pre>
-        Then install on iPhone via Xcode &rarr; Window &rarr; Devices and Simulators.
+        Regenerate the project (only needed if files were added since last open):
+        <pre><code>xcodegen generate</code></pre>
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s1-1b">
+      <label for="s1-1b">
+        Plug iPhone into Mac with a cable. Open Xcode &rarr; <strong>File &rarr; Open</strong> &rarr; <code class="inline">OpenFeelings.xcodeproj</code>.
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s1-1c">
+      <label for="s1-1c">
+        In the destination dropdown next to the ▶ button, pick your <strong>iPhone</strong> (not a simulator).
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s1-1d">
+      <label for="s1-1d">
+        Click <strong>▶ Run</strong> (or ⌘R). Xcode builds, signs, installs, and launches on the phone. This Debug build hits <strong>Development</strong> CloudKit, which is what we need to populate.
+        <ul>
+          <li>If the phone shows "Untrusted Developer": iPhone Settings &rarr; General &rarr; VPN &amp; Device Management &rarr; trust your dev profile.</li>
+          <li>If you get "Developer Mode required": iPhone Settings &rarr; Privacy &amp; Security &rarr; Developer Mode &rarr; On (restart required).</li>
+        </ul>
       </label>
     </li>
     <li class="step">
