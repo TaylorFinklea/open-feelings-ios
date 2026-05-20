@@ -8,9 +8,25 @@
 
 ## Last Session Summary
 
-**Date**: 2026-05-19
+**Date**: 2026-05-20
 
-Multi-session arc: builds 28, 29, 30 to TestFlight. Major changes:
+Shipped build 31 to TestFlight. Single landing:
+
+- **Local backup + restore (build 31)**: New `BackupService` writes every
+  SwiftData `@Model` (FeelingLog, Intention, UserBodyMap,
+  CustomBodyRegion, CustomValue, ValueSort, CommittedAction,
+  ThoughtRecord) into a single JSON envelope via flat per-model Codable
+  mirrors. Import is merge-only with per-type dedup: UUID id for most
+  types, start-of-day date for Intention, singleton-skip for UserBodyMap.
+  Schema-versioned envelope; imports refuse higher versions with a clear
+  error. UI: new Settings "Backup" section between Privacy and Reminders
+  with Export + Import rows, confirmation alert listing per-type counts,
+  summary alert after with "Imported N new, skipped M already-present"
+  breakdown. 9 new unit tests. **Purpose: defensive checkpoint before the
+  CloudKit Production schema redeploy** — user can export the phone's
+  state, do the deploy, and restore if anything goes sideways.
+
+### Prior multi-session arc (builds 28–30)
 
 - **CBT Thought Records (build 30)**: New `@Model` `ThoughtRecord` + 8-case
   `ThinkingPattern` enum + value-type `ThoughtRecordDraft`. Burns-style
@@ -72,11 +88,11 @@ Multi-session arc: builds 28, 29, 30 to TestFlight. Major changes:
 ## Build Status
 
 - `xcodegen generate` succeeded.
-- Full iOS unit test suite: **376 passing** (343 → 376, +33 for thought
-  records + stop-at-any-level + CloudKit sync error mapping).
+- Full iOS unit test suite: **385 passing** (376 → 385, +9 for backup
+  service).
 - Full iOS UI test suite: **11 passing**.
 - watchOS unit test suite: **16 passing** (on "OF Watch Test" sim).
-- Build 30 archive + export + upload to TestFlight: `** EXPORT SUCCEEDED **`.
+- Build 31 archive + export + upload to TestFlight: `** EXPORT SUCCEEDED **`.
 
 ## Blockers
 
