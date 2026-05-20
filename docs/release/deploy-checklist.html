@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CloudKit Production Deploy — Checklist</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa;
+    --fg: #1c1c1e;
+    --muted: #6b6b6f;
+    --card: #ffffff;
+    --border: #e5e5ea;
+    --accent: #8E4F2C;
+    --code-bg: #1c1c1e;
+    --code-fg: #f0f0f0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000;
+      --fg: #f0f0f0;
+      --muted: #98989d;
+      --card: #1c1c1e;
+      --border: #38383a;
+      --accent: #D8916A;
+      --code-bg: #2c2c2e;
+      --code-fg: #f0f0f0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    padding: 24px 16px 80px;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+  h1 { font-size: 1.7rem; margin: 0 0 4px; }
+  .lede { color: var(--muted); margin: 0 0 24px; }
+  .reset {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin: 0 0 20px;
+  }
+  .reset:hover { color: var(--accent); border-color: var(--accent); }
+
+  section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 0 0 16px;
+  }
+  section h2 {
+    font-size: 1.05rem;
+    margin: 0 0 12px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  ol { padding-left: 0; margin: 0; list-style: none; counter-reset: step; }
+  li.step {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 10px;
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+  }
+  li.step:first-child { border-top: 0; padding-top: 0; }
+  li.step:last-child { padding-bottom: 0; }
+  li.step input[type="checkbox"] {
+    margin: 4px 0 0;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--accent);
+  }
+  li.step label {
+    cursor: pointer;
+  }
+  li.step.done label {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  li.step .sub {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  /* Bullet sub-lists inside a step */
+  li.step ul { margin: 6px 0 0; padding-left: 18px; }
+  li.step ul li { margin: 2px 0; color: var(--muted); font-size: 0.9rem; }
+
+  /* Code block + copy button */
+  pre {
+    background: var(--code-bg);
+    color: var(--code-fg);
+    padding: 12px 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
+    margin: 8px 0 0;
+    position: relative;
+  }
+  pre code { background: none; padding: 0; color: inherit; font: inherit; }
+  .copy-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(255,255,255,0.08);
+    color: var(--code-fg);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .copy-btn:hover { opacity: 1; }
+  .copy-btn.copied { color: #6dde88; border-color: #6dde88; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 0.9rem; }
+  th, td { padding: 4px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+  th { font-weight: 600; color: var(--muted); }
+  td:last-child { color: var(--muted); }
+
+  a { color: var(--accent); }
+  code.inline {
+    font: 0.95em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: rgba(127,127,127,0.18);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Deploy checklist</h1>
+<p class="lede">CloudKit production schema → iPad sync. Tick items as you go; your progress is saved in this browser.</p>
+<button class="reset" onclick="resetAll()">Reset all checkmarks</button>
+
+<section>
+  <h2>Before you start</h2>
+  <ol>
+    <li class="step">
+      <input type="checkbox" id="s0-1">
+      <label for="s0-1">
+        Settings → Backup → <strong>Export backup</strong>. Save the file somewhere safe (iCloud Drive or AirDrop to Mac).
+      </label>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>1. Populate the Development schema</h2>
+  <ol>
+    <li class="step">
+      <input type="checkbox" id="s1-1">
+      <label for="s1-1">
+        Install a <strong>signed device build</strong> on iPhone (not TestFlight):
+        <pre><code>xcodegen generate &amp;&amp; xcodebuild -project OpenFeelings.xcodeproj -scheme OpenFeelings -destination 'generic/platform=iOS' -derivedDataPath DerivedData build</code></pre>
+        Then install on iPhone via Xcode &rarr; Window &rarr; Devices and Simulators.
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s1-2">
+      <label for="s1-2">
+        On iPhone, exercise every record type:
+        <ul>
+          <li>Save one check-in with intensity + body region + custom region + triggers/coping + mood + note</li>
+          <li>Save one check-in from the paired Apple Watch</li>
+          <li>Set today's intention; add a reflection on a previous day</li>
+          <li>Add one custom body region (Settings &rarr; Body map)</li>
+          <li>Add one custom value during a value sort</li>
+          <li>Complete a value sort (bucket &rarr; finalists &rarr; rank &rarr; confirm)</li>
+          <li>Create a committed action; mark it done; write a reflection</li>
+          <li>Create one thought record (Direction tab)</li>
+          <li>Toggle one body-map override (Settings &rarr; Body map)</li>
+        </ul>
+      </label>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>2. Verify Development schema</h2>
+  <ol>
+    <li class="step">
+      <input type="checkbox" id="s2-1">
+      <label for="s2-1">
+        Open <a href="https://icloud.developer.apple.com" target="_blank" rel="noopener">icloud.developer.apple.com</a> &rarr; <strong>CloudKit Database</strong> &rarr; container <code class="inline">iCloud.dev.finklea.openfeelings</code> &rarr; <strong>Development</strong>.
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s2-2">
+      <label for="s2-2">
+        Confirm all 8 record types exist:
+        <ul>
+          <li><code class="inline">CD_FeelingLog</code></li>
+          <li><code class="inline">CD_Intention</code></li>
+          <li><code class="inline">CD_CustomBodyRegion</code></li>
+          <li><code class="inline">CD_CustomValue</code></li>
+          <li><code class="inline">CD_ValueSort</code></li>
+          <li><code class="inline">CD_CommittedAction</code></li>
+          <li><code class="inline">CD_UserBodyMap</code></li>
+          <li><code class="inline">CD_ThoughtRecord</code></li>
+        </ul>
+      </label>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>3. Add queryable indexes (Development)</h2>
+  <ol>
+    <li class="step">
+      <input type="checkbox" id="s3-1">
+      <label for="s3-1">
+        On each record type below, click <strong>Indexes</strong> &rarr; <strong>Add Index</strong> &rarr; pick the field &rarr; type <strong>Queryable</strong>.
+        <table>
+          <thead><tr><th>Record type</th><th>Field</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">CD_FeelingLog</code></td><td><code class="inline">CD_createdAt</code></td></tr>
+            <tr><td><code class="inline">CD_Intention</code></td><td><code class="inline">CD_date</code></td></tr>
+            <tr><td><code class="inline">CD_CustomBodyRegion</code></td><td><code class="inline">CD_createdAt</code></td></tr>
+            <tr><td><code class="inline">CD_CustomValue</code></td><td><code class="inline">CD_createdAt</code></td></tr>
+            <tr><td><code class="inline">CD_ValueSort</code></td><td><code class="inline">CD_createdAt</code></td></tr>
+            <tr><td><code class="inline">CD_CommittedAction</code></td><td><code class="inline">CD_createdAt</code></td></tr>
+            <tr><td><code class="inline">CD_ThoughtRecord</code></td><td><code class="inline">CD_createdAt</code></td></tr>
+          </tbody>
+        </table>
+      </label>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>4. Deploy to Production</h2>
+  <ol>
+    <li class="step">
+      <input type="checkbox" id="s4-1">
+      <label for="s4-1">
+        Click <strong>Deploy Schema Changes…</strong> (top-right of CloudKit Console).
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s4-2">
+      <label for="s4-2">
+        Review the diff. Should show <strong>8 record types added</strong>, <strong>7 queryable indexes added</strong>, <strong>no deletions</strong>. If you see anything else, stop and revisit step 1.
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s4-3">
+      <label for="s4-3">
+        Click <strong>Deploy</strong>. Wait for the success banner.
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s4-4">
+      <label for="s4-4">
+        Switch environment toggle to <strong>Production</strong>. Spot-check one record type — should match Development.
+      </label>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>5. Verify on iPad</h2>
+  <ol>
+    <li class="step">
+      <input type="checkbox" id="s5-1">
+      <label for="s5-1">
+        On iPad, open Open Feelings. Wait ~60 seconds.
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s5-2">
+      <label for="s5-2">
+        Settings &rarr; Privacy &rarr; <strong>iCloud sync</strong>. Should now read "<strong>Synced X seconds ago</strong>" (not "Sync error").
+      </label>
+    </li>
+    <li class="step">
+      <input type="checkbox" id="s5-3">
+      <label for="s5-3">
+        Pull up Today / History — your iPhone's check-ins should appear.
+      </label>
+    </li>
+  </ol>
+</section>
+
+<script>
+  // Persist checkbox state in localStorage so progress survives page reloads.
+  const STORAGE_KEY = 'of-deploy-checklist-v1';
+  function load() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        if (saved[cb.id]) {
+          cb.checked = true;
+          cb.closest('li.step')?.classList.add('done');
+        }
+      });
+    } catch {}
+  }
+  function save() {
+    const state = {};
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      if (cb.checked) state[cb.id] = true;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+  function resetAll() {
+    if (!confirm('Clear all checkmarks?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      cb.closest('li.step')?.classList.remove('done');
+    });
+  }
+  document.addEventListener('change', e => {
+    if (e.target.matches('input[type="checkbox"]')) {
+      e.target.closest('li.step')?.classList.toggle('done', e.target.checked);
+      save();
+    }
+  });
+
+  // Add a copy button to every <pre><code> block.
+  document.querySelectorAll('pre').forEach(pre => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', async () => {
+      const text = pre.querySelector('code')?.textContent ?? pre.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1500);
+      } catch {
+        btn.textContent = 'Copy failed';
+      }
+    });
+    pre.appendChild(btn);
+  });
+
+  load();
+</script>
+</body>
+</html>
