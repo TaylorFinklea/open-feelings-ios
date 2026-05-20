@@ -22,6 +22,7 @@ struct SettingsView: View {
                 appearanceSection
                 checkInSection
                 privacySection
+                BackupSection()
                 remindersSection
                 healthSection
                 sharingSection
