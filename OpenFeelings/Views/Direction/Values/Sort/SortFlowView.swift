@@ -14,7 +14,7 @@ struct SortFlowView: View {
             Group {
                 if let session {
                     switch session.phase {
-                    case .bucketing:        BucketStepView(session: session)
+                    case .bucketing:        SwipeBucketStepView(session: session)
                     case .pickingFinalists: FinalistsStepView(session: session)
                     case .ranking:          RankStepView(session: session)
                     case .confirming:       ConfirmSortView(session: session)
