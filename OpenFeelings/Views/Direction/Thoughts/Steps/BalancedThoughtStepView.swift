@@ -3,7 +3,7 @@ import SwiftUI
 /// Step 5. Required: a balanced/alternative way of looking at the situation.
 /// Continue disabled until non-empty.
 struct BalancedThoughtStepView: View {
-    @Binding var draft: ThoughtRecordDraft
+    @Bindable var draft: ThoughtRecordDraft
     let onContinue: () -> Void
 
     private var canAdvance: Bool {
@@ -28,6 +28,7 @@ struct BalancedThoughtStepView: View {
                       axis: .vertical)
                 .lineLimit(3...8)
                 .font(.OF.body)
+                .accessibilityIdentifier("thought-record.field.balanced")
                 .padding(CGFloat.OF.md)
                 .background(Color.OF.surface,
                             in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
@@ -44,6 +45,7 @@ struct BalancedThoughtStepView: View {
             .buttonStyle(.borderedProminent)
             .disabled(!canAdvance)
             .opacity(canAdvance ? 1 : 0.4)
+            .accessibilityIdentifier("thought-record.continue")
         }
         .padding(CGFloat.OF.md)
         .navigationTitle("A balanced view")

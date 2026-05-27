@@ -1,10 +1,10 @@
 import SwiftData
 import SwiftUI
 
-/// Hosts the 7-screen thought-record wizard. Driven by an in-memory
+/// Hosts the 7-screen thought-record wizard. Driven by an `@Observable`
 /// `ThoughtRecordDraft`. Save behavior depends on whether `existingRecord`
 /// is set (edit) or nil (new). Caller is responsible for dismissing the
-/// sheet — this view just calls `onComplete` after Save or Cancel.
+/// sheet — this view just calls `dismiss()` after Save or Cancel.
 struct ThoughtRecordFlowView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
@@ -14,15 +14,20 @@ struct ThoughtRecordFlowView: View {
     /// pass `ThoughtRecordDraft.from(log:)`. For the edit flow, pass
     /// `ThoughtRecordDraft.from(record:)` AND set `existingRecord` to that
     /// record.
-    @State var draft: ThoughtRecordDraft
-    var existingRecord: ThoughtRecord?
+    @State private var draft: ThoughtRecordDraft
+    private let existingRecord: ThoughtRecord?
 
     @State private var path: [Step] = []
     @State private var showingCancelAlert = false
     /// Snapshot of the draft at sheet-open time. Compared in `isDirty` to
     /// decide whether Cancel should confirm. Captured in `.task` rather than
     /// `init` so the draft pre-fills (e.g. from `from(log:)`) are included.
-    @State private var initialDraft: ThoughtRecordDraft?
+    @State private var initialSnapshot: ThoughtRecordDraft.Snapshot?
+
+    init(draft: ThoughtRecordDraft, existingRecord: ThoughtRecord? = nil) {
+        self._draft = State(initialValue: draft)
+        self.existingRecord = existingRecord
+    }
 
     enum Step: Hashable {
         case automaticThought
@@ -34,13 +39,13 @@ struct ThoughtRecordFlowView: View {
     }
 
     private var isDirty: Bool {
-        guard let initial = initialDraft else { return false }
-        return draft != initial
+        guard let initial = initialSnapshot else { return false }
+        return draft.snapshot != initial
     }
 
     var body: some View {
         NavigationStack(path: $path) {
-            SituationStepView(draft: $draft) {
+            SituationStepView(draft: draft) {
                 path.append(.automaticThought)
             }
             .toolbar { cancelToolbar }
@@ -50,8 +55,8 @@ struct ThoughtRecordFlowView: View {
             }
         }
         .task {
-            if initialDraft == nil {
-                initialDraft = draft
+            if initialSnapshot == nil {
+                initialSnapshot = draft.snapshot
             }
         }
         .alert("Discard changes?", isPresented: $showingCancelAlert) {
@@ -79,23 +84,23 @@ struct ThoughtRecordFlowView: View {
     private func destination(for step: Step) -> some View {
         switch step {
         case .automaticThought:
-            AutomaticThoughtStepView(draft: $draft) {
+            AutomaticThoughtStepView(draft: draft) {
                 path.append(.intensityBefore)
             }
         case .intensityBefore:
-            IntensityBeforeStepView(draft: $draft) {
+            IntensityBeforeStepView(draft: draft) {
                 path.append(.patterns)
             }
         case .patterns:
-            PatternsStepView(draft: $draft) {
+            PatternsStepView(draft: draft) {
                 path.append(.balancedThought)
             }
         case .balancedThought:
-            BalancedThoughtStepView(draft: $draft) {
+            BalancedThoughtStepView(draft: draft) {
                 path.append(.intensityAfter)
             }
         case .intensityAfter:
-            IntensityAfterStepView(draft: $draft) {
+            IntensityAfterStepView(draft: draft) {
                 path.append(.confirm)
             }
         case .confirm:

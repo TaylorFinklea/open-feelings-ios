@@ -57,6 +57,7 @@ struct ThoughtRecordsArea: View {
             }
             .buttonStyle(.borderedProminent)
             .padding(.top, CGFloat.OF.xs)
+            .accessibilityIdentifier("thought-record.start")
         }
         .padding(CGFloat.OF.md)
         .background(
@@ -75,6 +76,7 @@ struct ThoughtRecordsArea: View {
             Button { showingWizard = true } label: {
                 Image(systemName: "plus")
             }
+            .accessibilityIdentifier("thought-record.start")
         }
 
         ForEach(records) { record in

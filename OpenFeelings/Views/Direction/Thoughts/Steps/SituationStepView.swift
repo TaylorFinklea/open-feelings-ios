@@ -3,7 +3,7 @@ import SwiftUI
 /// Step 1 of the thought-record wizard. Optional free-text context for the
 /// thought ("What was happening?"). Empty is OK — Continue is always enabled.
 struct SituationStepView: View {
-    @Binding var draft: ThoughtRecordDraft
+    @Bindable var draft: ThoughtRecordDraft
     let onContinue: () -> Void
 
     var body: some View {
@@ -22,6 +22,7 @@ struct SituationStepView: View {
                       axis: .vertical)
                 .lineLimit(2...6)
                 .font(.OF.body)
+                .accessibilityIdentifier("thought-record.field.situation")
                 .padding(CGFloat.OF.md)
                 .background(Color.OF.surface,
                             in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
@@ -36,6 +37,7 @@ struct SituationStepView: View {
                 Text("Continue").frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityIdentifier("thought-record.continue")
         }
         .padding(CGFloat.OF.md)
         .navigationTitle("Thought record")

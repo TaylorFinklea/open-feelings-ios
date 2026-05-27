@@ -4,7 +4,7 @@ import SwiftUI
 /// picker matching `StrengthStep`'s visual; Continue gated on a non-nil
 /// selection.
 struct IntensityBeforeStepView: View {
-    @Binding var draft: ThoughtRecordDraft
+    @Bindable var draft: ThoughtRecordDraft
     let onContinue: () -> Void
 
     var body: some View {
@@ -28,6 +28,7 @@ struct IntensityBeforeStepView: View {
             .buttonStyle(.borderedProminent)
             .disabled(draft.intensityBefore == nil)
             .opacity(draft.intensityBefore == nil ? 0.4 : 1)
+            .accessibilityIdentifier("thought-record.continue")
         }
         .padding(CGFloat.OF.md)
         .navigationTitle("Before")

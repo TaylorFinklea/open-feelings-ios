@@ -1,12 +1,14 @@
 import Foundation
 
-/// In-memory wizard state for a thought record. Value-type so mutations
-/// don't persist until the confirm step calls `toThoughtRecord()` (for the
-/// new flow) or `apply(to:)` (for the edit flow). Mirrors the pattern of
-/// `CheckInDraft` for the iOS wizard and `SortSession` for the value sort.
-/// Equatable so the wizard can detect dirty state for the cancel-confirm
-/// alert in `ThoughtRecordFlowView`.
-struct ThoughtRecordDraft: Equatable {
+/// In-memory wizard state for a thought record. Reference type so that
+/// SwiftUI's `@State` + `@Bindable` machinery propagates field writes
+/// correctly across NavigationStack push destinations on iOS 26. (See
+/// decisions.md 2026-05-27 entry — a struct-typed draft was silently
+/// losing writes through `.navigationDestination(for:)`.)
+/// Mirrors the pattern of `SortSession`, the other multi-step
+/// `@Observable` wizard state class in the codebase.
+@Observable
+final class ThoughtRecordDraft {
     var id: UUID = UUID()
     var situation: String = ""
     var automaticThought: String = ""
@@ -15,6 +17,8 @@ struct ThoughtRecordDraft: Equatable {
     var balancedThought: String = ""
     var intensityAfter: Int?
     var linkedLogID: UUID?
+
+    init() {}
 
     /// True iff the confirm step's Save button should be enabled. Same rule
     /// as `ThoughtRecord.isSaveable`.
@@ -27,11 +31,41 @@ struct ThoughtRecordDraft: Equatable {
             && intensityAfter != nil
     }
 
+    /// Frozen value-type snapshot of the current draft. The wizard host
+    /// captures one of these at sheet-open time and compares against
+    /// `snapshot` on every render to decide whether Cancel should confirm.
+    /// We can't compare two `ThoughtRecordDraft` references directly —
+    /// they'd be the same instance, so any "==" we wrote would be a no-op
+    /// for dirty detection.
+    struct Snapshot: Equatable {
+        let id: UUID
+        let situation: String
+        let automaticThought: String
+        let intensityBefore: Int?
+        let patterns: [ThinkingPattern]
+        let balancedThought: String
+        let intensityAfter: Int?
+        let linkedLogID: UUID?
+    }
+
+    var snapshot: Snapshot {
+        Snapshot(
+            id: id,
+            situation: situation,
+            automaticThought: automaticThought,
+            intensityBefore: intensityBefore,
+            patterns: patterns,
+            balancedThought: balancedThought,
+            intensityAfter: intensityAfter,
+            linkedLogID: linkedLogID
+        )
+    }
+
     /// Pre-fill from a check-in. Used by the "Examine this thought" share-
     /// menu entry on `LogCard`. `situation` becomes `"<pathTitle> · <time>"`,
     /// `intensityBefore` mirrors the log's intensity if set.
     static func from(log: FeelingLog) -> ThoughtRecordDraft {
-        var draft = ThoughtRecordDraft()
+        let draft = ThoughtRecordDraft()
         draft.linkedLogID = log.id
         let time = log.createdAt.formatted(date: .omitted, time: .shortened)
         let path = log.pathTitle.replacingOccurrences(of: " > ", with: " · ")
@@ -43,7 +77,7 @@ struct ThoughtRecordDraft: Equatable {
     /// Pre-fill from an existing record (edit flow). Carries the record's
     /// `id` so the confirm step's `apply(to:)` updates that row.
     static func from(record: ThoughtRecord) -> ThoughtRecordDraft {
-        var draft = ThoughtRecordDraft()
+        let draft = ThoughtRecordDraft()
         draft.id = record.id
         draft.situation = record.situation
         draft.automaticThought = record.automaticThought

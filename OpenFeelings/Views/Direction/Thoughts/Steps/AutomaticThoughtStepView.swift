@@ -3,7 +3,7 @@ import SwiftUI
 /// Step 2. Required: the thought the user noticed. Continue disabled until
 /// the field has non-whitespace text.
 struct AutomaticThoughtStepView: View {
-    @Binding var draft: ThoughtRecordDraft
+    @Bindable var draft: ThoughtRecordDraft
     let onContinue: () -> Void
 
     private var canAdvance: Bool {
@@ -28,6 +28,7 @@ struct AutomaticThoughtStepView: View {
                       axis: .vertical)
                 .lineLimit(3...8)
                 .font(.OF.body)
+                .accessibilityIdentifier("thought-record.field.thought")
                 .padding(CGFloat.OF.md)
                 .background(Color.OF.surface,
                             in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
@@ -44,6 +45,7 @@ struct AutomaticThoughtStepView: View {
             .buttonStyle(.borderedProminent)
             .disabled(!canAdvance)
             .opacity(canAdvance ? 1 : 0.4)
+            .accessibilityIdentifier("thought-record.continue")
         }
         .padding(CGFloat.OF.md)
         .navigationTitle("The thought")

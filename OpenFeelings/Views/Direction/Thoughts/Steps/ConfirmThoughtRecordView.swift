@@ -19,26 +19,32 @@ struct ConfirmThoughtRecordView: View {
             VStack(alignment: .leading, spacing: CGFloat.OF.lg) {
                 section(title: "Situation",
                         body: draft.situation.isEmpty ? "—" : draft.situation,
+                        identifier: "thought-record.confirm.situation",
                         onEdit: { onEdit(.situation) })
 
                 section(title: "Thought",
                         body: draft.automaticThought,
+                        identifier: "thought-record.confirm.thought",
                         onEdit: { onEdit(.automaticThought) })
 
                 section(title: "Intensity before",
                         body: intensityLabel(draft.intensityBefore),
+                        identifier: "thought-record.confirm.intensity-before",
                         onEdit: { onEdit(.intensityBefore) })
 
                 section(title: "Patterns",
                         body: patternsLabel,
+                        identifier: "thought-record.confirm.patterns",
                         onEdit: { onEdit(.patterns) })
 
                 section(title: "Balanced view",
                         body: draft.balancedThought,
+                        identifier: "thought-record.confirm.balanced",
                         onEdit: { onEdit(.balancedThought) })
 
                 section(title: "Intensity after",
                         body: intensityLabel(draft.intensityAfter),
+                        identifier: "thought-record.confirm.intensity-after",
                         onEdit: { onEdit(.intensityAfter) })
 
                 Button(action: onSave) {
@@ -48,6 +54,7 @@ struct ConfirmThoughtRecordView: View {
                 .disabled(!draft.isSaveable)
                 .opacity(draft.isSaveable ? 1 : 0.4)
                 .padding(.top, CGFloat.OF.md)
+                .accessibilityIdentifier("thought-record.save")
             }
             .padding(CGFloat.OF.md)
         }
@@ -67,7 +74,8 @@ struct ConfirmThoughtRecordView: View {
     }
 
     @ViewBuilder
-    private func section(title: String, body: String, onEdit: @escaping () -> Void) -> some View {
+    private func section(title: String, body: String, identifier: String,
+                         onEdit: @escaping () -> Void) -> some View {
         VStack(alignment: .leading, spacing: CGFloat.OF.xs) {
             HStack {
                 Text(title)
@@ -84,6 +92,7 @@ struct ConfirmThoughtRecordView: View {
                 .font(.OF.body)
                 .foregroundStyle(Color.OF.text)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityIdentifier(identifier)
         }
         .padding(CGFloat.OF.md)
         .background(Color.OF.surface,

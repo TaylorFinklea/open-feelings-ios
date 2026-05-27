@@ -3,7 +3,7 @@ import SwiftUI
 /// Step 6. How strong the feeling feels *after* the reframe. Reuses the
 /// `intensityDotsPicker` helper defined in IntensityBeforeStepView.swift.
 struct IntensityAfterStepView: View {
-    @Binding var draft: ThoughtRecordDraft
+    @Bindable var draft: ThoughtRecordDraft
     let onContinue: () -> Void
 
     var body: some View {
@@ -27,6 +27,7 @@ struct IntensityAfterStepView: View {
             .buttonStyle(.borderedProminent)
             .disabled(draft.intensityAfter == nil)
             .opacity(draft.intensityAfter == nil ? 0.4 : 1)
+            .accessibilityIdentifier("thought-record.continue")
         }
         .padding(CGFloat.OF.md)
         .navigationTitle("After")

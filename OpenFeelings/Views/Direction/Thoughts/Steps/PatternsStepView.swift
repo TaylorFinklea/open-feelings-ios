@@ -4,7 +4,7 @@ import SwiftUI
 /// selection; long-press surfaces the pattern's description in an
 /// `.popover`. Selection is optional — Continue always enabled.
 struct PatternsStepView: View {
-    @Binding var draft: ThoughtRecordDraft
+    @Bindable var draft: ThoughtRecordDraft
     let onContinue: () -> Void
 
     @State private var describing: ThinkingPattern?
@@ -33,6 +33,7 @@ struct PatternsStepView: View {
                 Text("Continue").frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityIdentifier("thought-record.continue")
         }
         .padding(CGFloat.OF.md)
         .navigationTitle("Patterns")

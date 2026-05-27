@@ -145,6 +145,7 @@
 		A734D9135EB4F7121ABC4628 /* ValueRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9797D76DFCBC7CA258543F98 /* ValueRef.swift */; };
 		A7629B4DE619403DC3CA28A8 /* ThoughtRecordDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB26B3BCCA1315DB2966C32F /* ThoughtRecordDraft.swift */; };
 		A805B0FB1A2A5691E12C78AE /* OFEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */; };
+		A953BB8636D715C6D5F4C411 /* ThoughtRecordWizardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81772FB97FC259798CCF55A /* ThoughtRecordWizardUITests.swift */; };
 		A99F8451F595166A5D20D5A4 /* CommittedActionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0DF6147C567857C6EFA437 /* CommittedActionEditor.swift */; };
 		AC100A947EAA79DA0D1CC2C4 /* SortSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0BDF28242540BC1CC9387 /* SortSession.swift */; };
 		AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */; };
@@ -409,6 +410,7 @@
 		D24DA87BAAB515E03C03965D /* JournalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalText.swift; sourceTree = "<group>"; };
 		D4E574AA868473503162215C /* LearnedBodyMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedBodyMap.swift; sourceTree = "<group>"; };
 		D768AB532C66BDD55F591197 /* FinalistsStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalistsStepView.swift; sourceTree = "<group>"; };
+		D81772FB97FC259798CCF55A /* ThoughtRecordWizardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordWizardUITests.swift; sourceTree = "<group>"; };
 		D928D754117BD9A1043AC19A /* InsightsDatasetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsDatasetTests.swift; sourceTree = "<group>"; };
 		D9D201B86C580BD30270D860 /* TherapyReportDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportDataTests.swift; sourceTree = "<group>"; };
 		DAE13AE950D2FC48D6396207 /* IntensityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityPicker.swift; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 			children = (
 				B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */,
 				9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */,
+				D81772FB97FC259798CCF55A /* ThoughtRecordWizardUITests.swift */,
 			);
 			path = OpenFeelingsUITests;
 			sourceTree = "<group>";
@@ -1185,6 +1188,7 @@
 			files = (
 				894E36AE8AF8BE75B4DDDEDC /* DirectionUITests.swift in Sources */,
 				BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */,
+				A953BB8636D715C6D5F4C411 /* ThoughtRecordWizardUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
