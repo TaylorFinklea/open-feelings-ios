@@ -8,9 +8,19 @@
 
 ## Last Session Summary
 
-**Date**: 2026-05-20
+**Date**: 2026-05-27
 
-Shipped build 31 to TestFlight. Single landing:
+CloudKit Production schema redeploy across multiple sessions (2026-05-23 → 2026-05-27). M2 sync blocker resolved on TestFlight build 31 with **no code changes**:
+
+- **Schema deploy**: Promoted Development → Production via the CloudKit Console runbook (`docs/release/cloudkit-production-deployment.md`). Diff was strictly additive: 6 new record types (`CD_CommittedAction`, `CD_CustomBodyRegion`, `CD_CustomValue`, `CD_Intention`, `CD_UserBodyMap`, `CD_ValueSort`), 9 new fields on `CD_FeelingLog` (`CD_intensity`, `CD_triggersRaw`, `CD_copingRaw`, `CD_moodEnergy`, `CD_moodValence`, `CD_contextPeopleRaw`, `CD_contextPlacesRaw`, `CD_customBodyRegionIDsRaw`, `CD_captureSource`), 0 deletions, 0 type changes. SwiftData on iOS 26 auto-provisioned QUERYABLE/SEARCHABLE/SORTABLE on every field at write time, so the manual index step in the runbook is no-op now.
+- **Production schema was even staler than the runbook claimed**: prior production had only `CD_FeelingLog` (with the original 13 fields, no intensity!) + `Users`. Every check-in's intensity, mood scale, triggers, coping, and context had been silent-failing to sync on TestFlight installs for many builds.
+- **`CD_ThoughtRecord` deferred** to a follow-up additive deploy. See `decisions.md` 2026-05-23 entry. Blocked by an iOS 26 SwiftUI bug discovered while populating the Development schema (next item).
+- **ThoughtRecord wizard bug discovered and fixed (2026-05-27)**: Confirm step was rendering every draft field empty even after the user typed in every step, because `ThoughtRecordFlowView` was the only wizard using `NavigationStack(path:)` + `.navigationDestination(for: Step.self)` with a value-type `@State var draft` — a combination iOS 26's SwiftUI runtime silently breaks. Converted `ThoughtRecordDraft` from `struct` to `@Observable final class` (matching `SortSession`'s pattern), step views from `@Binding` to `@Bindable`, and added a frozen `ThoughtRecordDraft.Snapshot` for the cancel-confirm dirty check. Added `OpenFeelingsUITests/ThoughtRecordWizardUITests.swift` — a full wizard happy-path end-to-end test. **Why this slipped through**: the 33 existing unit tests covered the struct's logic but never exercised the SwiftUI binding plumbing. Decisions log entry at `decisions.md` 2026-05-27.
+- **Two-device sync verification passed** on 2026-05-27. Forward sync (A→B), reverse sync (B→A), and offline-queue-and-replay all worked within ~60s per record. Settings → Privacy → iCloud sync row went from `exclamationmark.icloud` to green `checkmark.icloud`.
+
+### Prior multi-session arc (builds 28–31)
+
+- **Local backup + restore (build 31)**: New `BackupService` writes every
 
 - **Local backup + restore (build 31)**: New `BackupService` writes every
   SwiftData `@Model` (FeelingLog, Intention, UserBodyMap,
@@ -88,23 +98,14 @@ Shipped build 31 to TestFlight. Single landing:
 ## Build Status
 
 - `xcodegen generate` succeeded.
-- Full iOS unit test suite: **385 passing** (376 → 385, +9 for backup
-  service).
-- Full iOS UI test suite: **11 passing**.
+- Full iOS unit test suite: **385 passing** (no change from build 31 — the wizard fix didn't add unit tests).
+- Full iOS UI test suite: **12 passing** (was 11; +1 for ThoughtRecordWizardUITests covering the wizard happy path end-to-end).
 - watchOS unit test suite: **16 passing** (on "OF Watch Test" sim).
 - Build 31 archive + export + upload to TestFlight: `** EXPORT SUCCEEDED **`.
 
 ## Blockers
 
-- **CloudKit Production schema needs redeploy.** Builds 21–30 added six
-  new `@Model` types and new fields on `FeelingLog`. Existing TestFlight
-  installs (including on iPad) silent-fail to mirror these to iCloud
-  with `CKError.partialFailure`. The "iCloud sync" row in Settings →
-  Privacy on build 30 will surface the real cause (e.g., "Did not find
-  record type: CD_ThoughtRecord") instead of the useless top-level
-  error. Walkthrough is in `docs/release/cloudkit-production-deployment.md`.
-- Manual on-device verification of the Thought records wizard pending
-  (Task 14's step 2 manual smoke).
+- **Ship build 32 to TestFlight**: fix is committed locally (assuming session-end commit) and tests pass. Need to bump build number in `project.yml`, archive, and upload via the release runbook. After TestFlight is on build 32, exercise the wizard to push a `CD_ThoughtRecord` to Development CloudKit, then run the follow-up additive schema deploy to promote it to Production.
 - Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid
   Glass simulator walkthroughs still pending (Daisy).
 - App Store / device distribution still needs the production CloudKit

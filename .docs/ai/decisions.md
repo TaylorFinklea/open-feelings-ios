@@ -12,6 +12,20 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-05-27] ThoughtRecord wizard: convert draft to `@Observable` class
+
+**Context**: After the CloudKit Production schema deploy (see prior entry), the deferred `CD_ThoughtRecord` was blocked by an iOS 26 SwiftUI bug: the wizard's Confirm step rendered every draft field empty even after the user typed in each step. `ThoughtRecordFlowView` was the only wizard using `NavigationStack(path:)` + `.navigationDestination(for: Step.self)` over a value-type `@State var draft: ThoughtRecordDraft`. Both other multi-step wizards in the codebase (`CheckInView`, `SortFlowView`) use a single-root + switch pattern, and `SortFlowView` specifically uses an `@Observable` class for shared state.
+**Decision**: Convert `ThoughtRecordDraft` from a value-type `struct: Equatable` to `@Observable final class`. Change all six step views from `@Binding var draft` to `@Bindable var draft`. Introduce a nested `struct Snapshot: Equatable` for the cancel-confirm dirty check, since two references to the same class instance can't meaningfully be compared with `==` after one of them has been mutated.
+**Alternatives considered**: (a) Refactor the wizard from push-based navigation to a single-root + step switch (matching `CheckInView`). Larger diff; loses native push animations and back chevron. (b) Both: convert to class AND drop `navigationDestination`. Overkill — the class fix alone resolves the bug class.
+**Rationale**: The class fix is the smallest diff that eliminates the bug class. It aligns with `SortSession` (the closest peer pattern) and is the iOS 17+ recommended idiom. Native push navigation has UX value and we keep it. Added `OpenFeelingsUITests/ThoughtRecordWizardUITests.swift` as regression coverage — the prior 33 unit tests covered the struct's logic but never exercised SwiftUI binding plumbing, which is why the bug shipped.
+
+## [2026-05-23] Split CloudKit Production Schema Deploy — Defer `CD_ThoughtRecord`
+
+**Context**: While populating the CloudKit Development schema in preparation for the first Production deploy after builds 21–30, the ThoughtRecord wizard was discovered to be unsaveable on iOS 26 (Confirm step shows all draft fields empty even after the user typed in every step). The wizard's required-field validation correctly greys Save, so no `CD_ThoughtRecord` records can ever be written from the device, leaving SwiftData unable to declare that record type to CloudKit. The CloudKit Production deploy was already mid-flight.
+**Decision**: Deploy 7 of 8 record types now (FeelingLog, Intention, CustomBodyRegion, CustomValue, ValueSort, CommittedAction, UserBodyMap) with their 6 queryable indexes. Fix the wizard bug in a follow-up build (32), then run a second additive Production deploy to add `CD_ThoughtRecord` + its `CD_createdAt` index.
+**Alternatives considered**: (a) Fix the wizard bug now and deploy all 8 types in one go. (b) Insert a `ThoughtRecord` via a one-shot test/script on the device to coerce SwiftData into declaring the type, then deploy all 8 at once.
+**Rationale**: CloudKit Production schema is strictly additive — a second deploy adding one type and one index is a normal, safe operation. Option (a) blocks unblocking TestFlight sync for the seven types that *do* work, which is the higher-value outcome (sync is the M2 blocker). Option (b) declares a type to Production whose code path can't actually write it, which would leave a permanently-empty record type in production forever if the wizard fix were ever abandoned or scoped down.
+
 ## [2026-04-28] Use Original MIT Emotion Taxonomy
 
 **Context**: The app needs a complete feelings wheel while remaining fully MIT licensed.

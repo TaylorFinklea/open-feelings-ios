@@ -22,9 +22,12 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] Custom body regions — user-defined regions wired through check-in UI, learning pipeline (`LearnedBodyMap.customCounts/Totals`), and `BodyEmotionMap.suggestedCores(...)`. Shipped in build 27.
 - [x] Apple Watch check-in target — drill picker with stop-at-any-level + body flow, NavigationStack with carried drill value, settings synced from iOS. Shipped across builds 21–26.
 - [ ] Review the definition copy with the therapist or another licensed clinician before release.
-- [ ] Configure production CloudKit schema and App Store distribution settings. (Runbook updated 2026-05-16 to cover all seven `@Model` types in current schema; see `docs/release/cloudkit-production-deployment.md`. Likely silent sync failure on current TestFlight installs until production schema is re-deployed with the new types/fields.)
+- [x] Configure production CloudKit schema — deployed 2026-05-24. 6 new record types (`CD_CommittedAction`, `CD_CustomBodyRegion`, `CD_CustomValue`, `CD_Intention`, `CD_UserBodyMap`, `CD_ValueSort`) + 9 new `CD_FeelingLog` fields. `CD_ThoughtRecord` deferred pending wizard bug fix. Two-device sync verified including offline resilience on 2026-05-27.
+- [ ] Configure App Store distribution settings.
 - [ ] Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid Glass simulator walkthroughs (Daisy).
 - [ ] Manual end-to-end verification of Direction tab + sort flow + committed actions on the TestFlight build (Task 13 of the Values plan).
+- [x] **ThoughtRecord wizard binding bug** — fixed 2026-05-27. Converted `ThoughtRecordDraft` from `struct` to `@Observable final class` (matching `SortSession`, the other multi-step wizard state class), updated 6 step views from `@Binding` to `@Bindable`, replaced `initialDraft` Equatable check with a frozen `Snapshot` value-type. Added `OpenFeelingsUITests/ThoughtRecordWizardUITests.swift` covering the wizard happy path end-to-end (types sentinels in every step, asserts they reach Confirm, asserts Save enables). Verified: 385/385 unit tests + 12/12 UI tests pass (11 existing + 1 new). Ready to ship as build 32.
+- [ ] **CloudKit follow-up deploy — add `CD_ThoughtRecord`**: Blocked by wizard fix above. Once a thought record can be saved on the device, exercise once → refresh CloudKit Console Development → add `CD_createdAt` Queryable index on `CD_ThoughtRecord` → Deploy Schema Changes (should be a 1-type + 1-index additive diff).
 
 ### Next
 - [x] App icon (light/dark/tinted 1024×1024 set already in place).
@@ -32,7 +35,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [x] App Store privacy policy copy — reconciled single text dated May 16, 2026 lives in repo-root `PRIVACY.md`, the SvelteKit page (`web/src/routes/privacy/+page.svelte` → openfeelings.finklea.dev/privacy), and `PrivacyPolicyView` in Settings → Privacy. All three are in lockstep; cover currently-shipping features (value sorts, committed actions, custom regions/values, Apple Watch, triggers/coping/mood, full export menu, therapy PDF, journal handoff). App lock language removed since feature is flagged off.
 - [ ] Deploy the updated SvelteKit site to Cloudflare Pages so openfeelings.finklea.dev/privacy serves the May 16, 2026 copy. (Code change is committed; the page still serves the previous May 5 copy until you redeploy.)
 - [ ] Paste <https://openfeelings.finklea.dev/privacy> into App Store Connect → App Information → Privacy Policy URL. Privacy Nutrition Label form: select "Data Not Collected" for every category.
-- [ ] Manually validate iCloud sync between two signed-in devices.
+- [x] Manually validate iCloud sync between two signed-in devices — passed 2026-05-27 on TestFlight build 31. All 7 deployed record types sync within ~60s. Offline check-in queued and synced on reconnect.
 - [x] Review the Open Emotion Wheel attribution/license presentation before release.
 - [ ] Add UI tests for the watch check-in flow, the Direction tab (Intentions + Values sort), and the export entry points.
 - [x] Insights surface — functional (charts, trends, week/month views).
