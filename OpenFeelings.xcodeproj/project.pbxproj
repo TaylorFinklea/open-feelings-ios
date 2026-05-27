@@ -153,6 +153,7 @@
 		AC100A947EAA79DA0D1CC2C4 /* SortSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0BDF28242540BC1CC9387 /* SortSession.swift */; };
 		AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A676263C20FEE787D58C8F7 /* BodyRegionPicker.swift */; };
 		AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295D45C9D0C561EB42973B20 /* StepNav.swift */; };
+		ACF30184C4E8ECE1A2326250 /* SwipeBucketStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2007B268F80E2DA59B4B3E /* SwipeBucketStepView.swift */; };
 		B0533A3684164C5BF81C2848 /* WeekSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */; };
 		B194F3755CE32B4AC5A0C7AC /* ValueSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E439E888FD8844FE1C1262 /* ValueSort.swift */; };
 		B2D11F3F6E6C9B16E8EB20D9 /* CommittedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236B1A0FE40264A55E92C958 /* CommittedAction.swift */; };
@@ -280,6 +281,7 @@
 		295D45C9D0C561EB42973B20 /* StepNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepNav.swift; sourceTree = "<group>"; };
 		2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTaxonomy.swift; sourceTree = "<group>"; };
 		2A9FA20488540C2867C4A648 /* TriggersStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggersStep.swift; sourceTree = "<group>"; };
+		2C2007B268F80E2DA59B4B3E /* SwipeBucketStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBucketStepView.swift; sourceTree = "<group>"; };
 		2D3D2A13B60308C25971A4EE /* BalancedThoughtStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalancedThoughtStepView.swift; sourceTree = "<group>"; };
 		2E52DC47D854C08EFC02025E /* ValueTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueTaxonomy.swift; sourceTree = "<group>"; };
 		2EDADDC3603FCA59B70E4348 /* ExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceTests.swift; sourceTree = "<group>"; };
@@ -862,6 +864,7 @@
 				D768AB532C66BDD55F591197 /* FinalistsStepView.swift */,
 				7CBBEA7CD9EF58BED1BF5761 /* RankStepView.swift */,
 				07DF9C6E53AFBC30763A9317 /* SortFlowView.swift */,
+				2C2007B268F80E2DA59B4B3E /* SwipeBucketStepView.swift */,
 			);
 			path = Sort;
 			sourceTree = "<group>";
@@ -1147,6 +1150,7 @@
 				AC6858773A1DB082EC9140FB /* StepNav.swift in Sources */,
 				A6EF522C92D7DD08E1852A91 /* StepProgressBar.swift in Sources */,
 				CE0318F0BF006DB29544475E /* StrengthStep.swift in Sources */,
+				ACF30184C4E8ECE1A2326250 /* SwipeBucketStepView.swift in Sources */,
 				38658901E28E559006B92B51 /* TherapyReportData.swift in Sources */,
 				12E0F2178AC63F6B482A809B /* TherapyReportPDFService.swift in Sources */,
 				BD559B6C26624E9F5DBD4AC8 /* TherapyReportPages.swift in Sources */,
