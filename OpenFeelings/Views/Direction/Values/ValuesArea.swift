@@ -7,6 +7,7 @@ struct ValuesArea: View {
     @Query(sort: \CommittedAction.createdAt, order: .reverse) private var actions: [CommittedAction]
     @State private var showingSort = false
     @State private var showingEditor = false
+    @State private var showingPastSorts = false
     @State private var detail: ValueDetail?
 
     private var activeSort: ValueSort? { sorts.first }
@@ -33,15 +34,27 @@ struct ValuesArea: View {
         .sheet(item: $detail) { selected in
             ValueDetailSheet(ref: selected.ref, customs: customs)
         }
+        .sheet(isPresented: $showingPastSorts) {
+            PastSortsSheet()
+        }
     }
 
     @ViewBuilder
     private func populatedState(active: ValueSort) -> some View {
-        HStack {
+        HStack(spacing: CGFloat.OF.sm) {
             Text("YOUR VALUES")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Color.OF.textMuted)
             Spacer()
+            if sorts.count > 1 {
+                Button {
+                    showingPastSorts = true
+                } label: {
+                    Label("Past sorts", systemImage: "clock.arrow.circlepath")
+                }
+                .font(.subheadline)
+                .accessibilityIdentifier("values.past-sorts")
+            }
             Button {
                 showingSort = true
             } label: {
