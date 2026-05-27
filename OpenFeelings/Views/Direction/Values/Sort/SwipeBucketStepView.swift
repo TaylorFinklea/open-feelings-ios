@@ -114,6 +114,8 @@ struct SwipeBucketStepView: View {
             .gesture(isFront ? dragGesture(width: width, ref: ref) : nil)
             .accessibilityElement(children: .combine)
             .accessibilityLabel(accessibilityLabel(for: ref))
+            .accessibilityHidden(!isFront)
+            .accessibilityIdentifier(isFront ? "value-sort.card" : "")
             .accessibilityActions {
                 if isFront {
                     Button("Mark important") { commit(.veryImportant, ref: ref) }
@@ -139,7 +141,6 @@ struct SwipeBucketStepView: View {
         .padding(.vertical, CGFloat.OF.xl)
         .padding(.horizontal, CGFloat.OF.lg)
         .frame(maxWidth: .infinity)
-        .accessibilityIdentifier("value-sort.card")
     }
 
     @ViewBuilder

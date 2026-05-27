@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03473A0809C5F810ABF7085B /* InsightsChartDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D5FDED989398FD2671303C /* InsightsChartDescriptorTests.swift */; };
+		03A4FE7B532CAEC5EF1E1E6C /* ValueSortRedesignUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA76481AC02542C76B01178 /* ValueSortRedesignUITests.swift */; };
 		05674727C913E03FB4327823 /* CustomBodyRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EEFFA054F354594D37D639 /* CustomBodyRegion.swift */; };
 		088A0A9547D3AF1856032AD0 /* IntensityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE13AE950D2FC48D6396207 /* IntensityPicker.swift */; };
 		08B4B6A550B775996DD07EF8 /* CopingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75137FB505AFD167B0BE54E /* CopingStep.swift */; };
@@ -300,6 +301,7 @@
 		3BA060D8C4EECFFA215E9C86 /* OpenFeelingsWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsWatchApp.swift; sourceTree = "<group>"; };
 		3BD5CE6E917C19C55E6B3679 /* FeelingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingStep.swift; sourceTree = "<group>"; };
 		3D2CB431CA036C133B292371 /* ThoughtRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecord.swift; sourceTree = "<group>"; };
+		3DA76481AC02542C76B01178 /* ValueSortRedesignUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueSortRedesignUITests.swift; sourceTree = "<group>"; };
 		3DAB79132B33CB384631F146 /* WatchSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSettingsStore.swift; sourceTree = "<group>"; };
 		3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockService.swift; sourceTree = "<group>"; };
 		4073497ECC60F9CC7EEBD189 /* CheckInDraftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInDraftTests.swift; sourceTree = "<group>"; };
@@ -789,6 +791,7 @@
 				B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */,
 				9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */,
 				D81772FB97FC259798CCF55A /* ThoughtRecordWizardUITests.swift */,
+				3DA76481AC02542C76B01178 /* ValueSortRedesignUITests.swift */,
 			);
 			path = OpenFeelingsUITests;
 			sourceTree = "<group>";
@@ -1216,6 +1219,7 @@
 				894E36AE8AF8BE75B4DDDEDC /* DirectionUITests.swift in Sources */,
 				BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */,
 				A953BB8636D715C6D5F4C411 /* ThoughtRecordWizardUITests.swift in Sources */,
+				03A4FE7B532CAEC5EF1E1E6C /* ValueSortRedesignUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
