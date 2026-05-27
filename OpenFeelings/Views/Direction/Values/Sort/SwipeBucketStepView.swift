@@ -34,9 +34,9 @@ struct SwipeBucketStepView: View {
 
             if session.currentRef != nil {
                 GeometryReader { proxy in
-                    cardStack(width: proxy.size.width)
+                    cardStack(size: proxy.size)
                 }
-                .frame(maxWidth: .infinity, minHeight: 280)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.horizontal, CGFloat.OF.md)
                 swipeHints
             } else {
@@ -61,13 +61,14 @@ struct SwipeBucketStepView: View {
     // MARK: - Card stack
 
     @ViewBuilder
-    private func cardStack(width: CGFloat) -> some View {
+    private func cardStack(size: CGSize) -> some View {
         ZStack {
             ForEach(visibleStack.reversed(), id: \.self) { ref in
                 let depth = visibleStack.firstIndex(of: ref) ?? 0
-                cardView(ref: ref, depth: depth, width: width)
+                cardView(ref: ref, depth: depth, size: size)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     /// The visible stack: current card on top, plus up to 2 cards peeking
@@ -81,15 +82,16 @@ struct SwipeBucketStepView: View {
     }
 
     @ViewBuilder
-    private func cardView(ref: String, depth: Int, width: CGFloat) -> some View {
+    private func cardView(ref: String, depth: Int, size: CGSize) -> some View {
         let isFront = depth == 0
         let translation = isFront ? dragOffset : .zero
-        let progress = isFront ? horizontalProgress(width: width) : 0
+        let progress = isFront ? horizontalProgress(width: size.width) : 0
         let tilt = isFront ? progress * 12 : 0
         let bucket = isFront ? committedBucket(progress: progress) : nil
         let stampOpacity = isFront ? stampAlpha(progress: progress) : 0
 
         cardContent(ref: ref)
+            .frame(maxWidth: .infinity, minHeight: max(size.height * 0.85, 320))
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
@@ -111,7 +113,7 @@ struct SwipeBucketStepView: View {
             .opacity(isFront ? 1 : 0.45 - CGFloat(depth) * 0.15)
             .rotationEffect(.degrees(tilt))
             .zIndex(isFront ? 100 : Double(-depth))
-            .gesture(isFront ? dragGesture(width: width, ref: ref) : nil)
+            .gesture(isFront ? dragGesture(width: size.width, ref: ref) : nil)
             .accessibilityElement(children: .combine)
             .accessibilityLabel(accessibilityLabel(for: ref))
             .accessibilityHidden(!isFront)
