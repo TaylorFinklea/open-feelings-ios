@@ -74,6 +74,7 @@
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
 		4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9FA20488540C2867C4A648 /* TriggersStep.swift */; };
+		4C2123D1DA1175F666324427 /* SortDeltaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387F1FD9324E1E22DC2E0ED6 /* SortDeltaTests.swift */; };
 		4D58EB600386EB9402677B44 /* ValuesArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0252121081E2D097294EB095 /* ValuesArea.swift */; };
 		4D59C736DCC60FACE468DB16 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420444BE4D3721C8F87B92D /* FeatureFlags.swift */; };
 		4DEC3D3D1CDB695B2FDACA6F /* CheckInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11D8D490876864723023D4 /* CheckInRootView.swift */; };
@@ -106,6 +107,7 @@
 		6F9D189D177331830F250286 /* LockGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC7DB1837474E15C9A66E13 /* LockGateView.swift */; };
 		71E478571A4718C3EE53657D /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E249B39B8711CDB62DAA306E /* TodayView.swift */; };
 		720455266E313A8DA9F37FC5 /* StopAtAnyLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE10432679F29E5F24BA6F4 /* StopAtAnyLevelTests.swift */; };
+		7834C89FBB235BC9CAF880BC /* SortDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF1F1CC84E3A23E62772F17 /* SortDelta.swift */; };
 		7A5CDCA737F19EEE682FF2D6 /* AppNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */; };
 		7C142522E509F8C822A13D65 /* CheckInDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9A872D72EDAD8E42137BB5 /* CheckInDraft.swift */; };
 		7EAE6D48259BA29E3396F10C /* JournalShareServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00FD5F9445C2DD71F9600FE /* JournalShareServiceTests.swift */; };
@@ -285,6 +287,7 @@
 		31CED3B3FE9900D791C1BD4C /* TherapyReportPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportPages.swift; sourceTree = "<group>"; };
 		33F584950190A99F1FBDAC7C /* CloudSyncMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncMonitor.swift; sourceTree = "<group>"; };
 		37E6DFD5B60E08A57A1FFBDA /* OFChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFChip.swift; sourceTree = "<group>"; };
+		387F1FD9324E1E22DC2E0ED6 /* SortDeltaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDeltaTests.swift; sourceTree = "<group>"; };
 		39F09CBFBF5B196FE262C142 /* OFEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFEmptyState.swift; sourceTree = "<group>"; };
 		3A44364C666A3699459891C6 /* TherapyReportPDFServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportPDFServiceTests.swift; sourceTree = "<group>"; };
 		3AE50F3B4D41BD2A8AE31C31 /* MoreDetailDisclosure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreDetailDisclosure.swift; sourceTree = "<group>"; };
@@ -417,6 +420,7 @@
 		DAE13AE950D2FC48D6396207 /* IntensityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityPicker.swift; sourceTree = "<group>"; };
 		DBE0CC94DAE2CD18AB5511A6 /* IntentionsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionsContent.swift; sourceTree = "<group>"; };
 		DC1DCE16DC1D950E9D553482 /* CheckInWizardStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInWizardStateTests.swift; sourceTree = "<group>"; };
+		DEF1F1CC84E3A23E62772F17 /* SortDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDelta.swift; sourceTree = "<group>"; };
 		E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsApp.swift; sourceTree = "<group>"; };
 		E0E439E888FD8844FE1C1262 /* ValueSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueSort.swift; sourceTree = "<group>"; };
 		E249B39B8711CDB62DAA306E /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
@@ -640,6 +644,7 @@
 				6F8CC033A8036714D6596C7C /* LearnedBodyMapTests.swift */,
 				6CEFF29F9D2ED37AFBAC8FAD /* MoodScaleTests.swift */,
 				046676990FE85881F78D3406 /* OFChipIdentifierTests.swift */,
+				387F1FD9324E1E22DC2E0ED6 /* SortDeltaTests.swift */,
 				6FE10432679F29E5F24BA6F4 /* StopAtAnyLevelTests.swift */,
 				D9D201B86C580BD30270D860 /* TherapyReportDataTests.swift */,
 				3A44364C666A3699459891C6 /* TherapyReportPDFServiceTests.swift */,
@@ -723,6 +728,14 @@
 			path = TherapyReport;
 			sourceTree = "<group>";
 		};
+		A49F21B776E585DB80758AB5 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				DEF1F1CC84E3A23E62772F17 /* SortDelta.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
 		B41E6FBD3699E4EA384EEEFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -793,6 +806,7 @@
 				4C0DF6147C567857C6EFA437 /* CommittedActionEditor.swift */,
 				5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */,
 				0252121081E2D097294EB095 /* ValuesArea.swift */,
+				A49F21B776E585DB80758AB5 /* History */,
 				D968A3309F606577866EA7A0 /* Sort */,
 			);
 			path = Values;
@@ -1122,6 +1136,7 @@
 				D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */,
 				42EA729916148685FC11E4A5 /* ShareSheet.swift in Sources */,
 				7FCB982F4942F4F2D083B052 /* SituationStepView.swift in Sources */,
+				7834C89FBB235BC9CAF880BC /* SortDelta.swift in Sources */,
 				57DFE55ECCF0FC0766DAD683 /* SortFlowView.swift in Sources */,
 				AC100A947EAA79DA0D1CC2C4 /* SortSession.swift in Sources */,
 				98940F4B2A48443EFE09A1D2 /* StepHeader.swift in Sources */,
@@ -1231,6 +1246,7 @@
 				424AAD19887413FB7CAFBBCD /* LearnedBodyMapTests.swift in Sources */,
 				63A613DDF289E5C6807DB98A /* MoodScaleTests.swift in Sources */,
 				D74AEFAFBF80DCFDEEFF1DB5 /* OFChipIdentifierTests.swift in Sources */,
+				4C2123D1DA1175F666324427 /* SortDeltaTests.swift in Sources */,
 				720455266E313A8DA9F37FC5 /* StopAtAnyLevelTests.swift in Sources */,
 				DCE91AE6501FB582480508DA /* TherapyReportDataTests.swift in Sources */,
 				80852C2F4E568359FBD158C5 /* TherapyReportPDFServiceTests.swift in Sources */,
