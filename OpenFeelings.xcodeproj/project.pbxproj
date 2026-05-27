@@ -129,6 +129,7 @@
 		9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */; };
 		98940F4B2A48443EFE09A1D2 /* StepHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E36FA186526385FF499AE4E /* StepHeader.swift */; };
 		98F4F0524F633B570DBE26BE /* ValuesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F5995687D5BC27C333E2B /* ValuesTests.swift */; };
+		9900C5A16E591A489DA11F00 /* SortComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E96B8528A91CE3E58F2CF0 /* SortComparisonView.swift */; };
 		9A2E3D3C49289BAEB8AA598E /* ExportService+Logseq.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F17029E1FE2971A883A1F44 /* ExportService+Logseq.swift */; };
 		9A6B50F4995380ABEDAF9EBD /* CloudSyncMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F584950190A99F1FBDAC7C /* CloudSyncMonitor.swift */; };
 		9B0D1FC76E20AA3CAC8ED6B9 /* BodyEmotionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCE216EE5D82F956DC02576 /* BodyEmotionMap.swift */; };
@@ -266,6 +267,7 @@
 		1772A8BCB2595E645C9E5080 /* HistoryDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDeleteTests.swift; sourceTree = "<group>"; };
 		17DC44721733546416582778 /* EmotionTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyTests.swift; sourceTree = "<group>"; };
 		186F1042FF9CD96AF90DFC95 /* AppIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconView.swift; sourceTree = "<group>"; };
+		18E96B8528A91CE3E58F2CF0 /* SortComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortComparisonView.swift; sourceTree = "<group>"; };
 		19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSettingsStoreTests.swift; sourceTree = "<group>"; };
 		1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		1E36FA186526385FF499AE4E /* StepHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeader.swift; sourceTree = "<group>"; };
@@ -734,6 +736,7 @@
 			isa = PBXGroup;
 			children = (
 				87699DE891B42202465D5955 /* PastSortsSheet.swift */,
+				18E96B8528A91CE3E58F2CF0 /* SortComparisonView.swift */,
 				DEF1F1CC84E3A23E62772F17 /* SortDelta.swift */,
 			);
 			path = History;
@@ -1139,6 +1142,7 @@
 				D132D67A4072BA22EB1517AA /* SettingsView.swift in Sources */,
 				42EA729916148685FC11E4A5 /* ShareSheet.swift in Sources */,
 				7FCB982F4942F4F2D083B052 /* SituationStepView.swift in Sources */,
+				9900C5A16E591A489DA11F00 /* SortComparisonView.swift in Sources */,
 				7834C89FBB235BC9CAF880BC /* SortDelta.swift in Sources */,
 				57DFE55ECCF0FC0766DAD683 /* SortFlowView.swift in Sources */,
 				AC100A947EAA79DA0D1CC2C4 /* SortSession.swift in Sources */,
