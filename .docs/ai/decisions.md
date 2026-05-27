@@ -12,6 +12,13 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-05-27] Value sort — Tinder-style two-bucket swipe + history surfaces
+
+**Context**: The 3-button bucket UI (`Very important` / `Important` / `Not for me`) on the value-sort flow was unpleasant for the user. They also wanted a way to see the history of past sorts after each re-sort.
+**Decision**: Replace `BucketStepView` with a new `SwipeBucketStepView` using a peeking card stack and Tinder-style left/right swipe (right → `.veryImportant`, left → `.notForMe`). Keep the finalists + rank + confirm downstream steps unchanged. Add two history surfaces sharing one `SortDelta` value type: `PastSortsSheet` (modal browse list opened from a `Past sorts` button on the Values area) and `SortComparisonView` (auto-shown after each re-sort save, with a `View all past sorts` button into the same sheet).
+**Alternatives considered**: (a) Swipe-only flow with no finalists or rank steps — cleaner but loses the explicit ranked top 5. (b) Three-bucket gestures (up-swipe for the middle bucket). (c) Bake the auto-compare modal into `SortFlowView` rather than parenting it on `ValuesArea` — coupling problem.
+**Rationale**: Smallest behavior change that fixes the unpleasant bucket UX. Reuses existing `SortBucket` enum (`.important` case stays for backward-compat with old `ValueSort` rows). No SwiftData or CloudKit schema changes. Both history surfaces share one delta computation, so the implementation cost of B+C combo is essentially one new value type. Sheet-then-sheet sequencing avoids modal-stacking issues. Spec: `docs/superpowers/specs/2026-05-27-value-sort-tinder-redesign-design.md`. Plan: `docs/superpowers/plans/2026-05-27-value-sort-tinder-redesign.md`.
+
 ## [2026-05-27] ThoughtRecord wizard: convert draft to `@Observable` class
 
 **Context**: After the CloudKit Production schema deploy (see prior entry), the deferred `CD_ThoughtRecord` was blocked by an iOS 26 SwiftUI bug: the wizard's Confirm step rendered every draft field empty even after the user typed in each step. `ThoughtRecordFlowView` was the only wizard using `NavigationStack(path:)` + `.navigationDestination(for: Step.self)` over a value-type `@State var draft: ThoughtRecordDraft`. Both other multi-step wizards in the codebase (`CheckInView`, `SortFlowView`) use a single-root + switch pattern, and `SortFlowView` specifically uses an `@Observable` class for shared state.

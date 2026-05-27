@@ -10,7 +10,16 @@
 
 **Date**: 2026-05-27
 
-CloudKit Production schema redeploy across multiple sessions (2026-05-23 → 2026-05-27). M2 sync blocker resolved on TestFlight build 31 with **no code changes**:
+Shipped build 33 with the value-sort Tinder-style redesign + sort history. Built per `docs/superpowers/specs/2026-05-27-value-sort-tinder-redesign-design.md` and the matching plan; brainstormed via the harness-deck dashboard.
+
+- **Bucket step**: replaced the 3-button `BucketStepView` with `SwipeBucketStepView` — peeking-stack card view, drag gesture, 30%-of-width commit threshold, ±12° tilt, green/red color wash, `IMPORTANT`/`NOT FOR ME` stamp overlay past threshold, medium-impact haptic on commit, reduce-motion fallback (no fly-off animation), VoiceOver custom actions `Mark important` / `Mark not for me` for users who can't drag. Right swipe → `.veryImportant`; left → `.notForMe`. The `.important` middle bucket enum case stays for backward-compat with old `ValueSort` rows but new code never writes it.
+- **Sort history**: new `PastSortsSheet` (modal list of every `ValueSort` newest-first, each row with date + ranked top 5 + delta strip vs prior sort), new `SortComparisonView` (side-by-side prior vs new ranked top after a re-sort save), new `SortDelta` value type (added / removed / moved) that powers both. ValuesArea exposes a `Past sorts` button next to `Re-sort` when ≥1 prior sort exists; the auto-compare modal sequences via sheet-then-sheet after Save.
+- **Tests**: 13 new unit tests for `SortDelta` (398 total, +13), 3 new UI tests in `ValueSortRedesignUITests` (15 total, +3 — plus the `testSortFlowOpensBucketStep` rename → `testSortFlowOpensSwipeStep` and a swipe-based update to `testBucketAdvancesProgressAndUndoRestoresIt`).
+- **No schema changes** — `ValueSort` SwiftData model + `CD_ValueSort` CloudKit schema unchanged. No follow-up CloudKit deploy needed.
+
+### Prior multi-session arc (builds 28–32)
+
+CloudKit Production schema redeploy across sessions 2026-05-23 → 2026-05-27. M2 sync blocker resolved on TestFlight build 31 with **no code changes**:
 
 - **Schema deploy**: Promoted Development → Production via the CloudKit Console runbook (`docs/release/cloudkit-production-deployment.md`). Diff was strictly additive: 6 new record types (`CD_CommittedAction`, `CD_CustomBodyRegion`, `CD_CustomValue`, `CD_Intention`, `CD_UserBodyMap`, `CD_ValueSort`), 9 new fields on `CD_FeelingLog` (`CD_intensity`, `CD_triggersRaw`, `CD_copingRaw`, `CD_moodEnergy`, `CD_moodValence`, `CD_contextPeopleRaw`, `CD_contextPlacesRaw`, `CD_customBodyRegionIDsRaw`, `CD_captureSource`), 0 deletions, 0 type changes. SwiftData on iOS 26 auto-provisioned QUERYABLE/SEARCHABLE/SORTABLE on every field at write time, so the manual index step in the runbook is no-op now.
 - **Production schema was even staler than the runbook claimed**: prior production had only `CD_FeelingLog` (with the original 13 fields, no intensity!) + `Users`. Every check-in's intensity, mood scale, triggers, coping, and context had been silent-failing to sync on TestFlight installs for many builds.
@@ -98,14 +107,14 @@ CloudKit Production schema redeploy across multiple sessions (2026-05-23 → 202
 ## Build Status
 
 - `xcodegen generate` succeeded.
-- Full iOS unit test suite: **385 passing** (no change from build 31 — the wizard fix didn't add unit tests).
-- Full iOS UI test suite: **12 passing** (was 11; +1 for ThoughtRecordWizardUITests covering the wizard happy path end-to-end).
+- Full iOS unit test suite: **398 passing** (was 385; +13 for `SortDeltaTests`).
+- Full iOS UI test suite: **15 passing** (was 12; +3 for `ValueSortRedesignUITests`).
 - watchOS unit test suite: **16 passing** (on "OF Watch Test" sim).
 - Build 31 archive + export + upload to TestFlight: `** EXPORT SUCCEEDED **`.
 
 ## Blockers
 
-- **Ship build 32 to TestFlight**: fix is committed locally (assuming session-end commit) and tests pass. Need to bump build number in `project.yml`, archive, and upload via the release runbook. After TestFlight is on build 32, exercise the wizard to push a `CD_ThoughtRecord` to Development CloudKit, then run the follow-up additive schema deploy to promote it to Production.
+- **Follow-up CloudKit schema redeploy — add `CD_ThoughtRecord`.** Build 32 shipped the wizard fix; once that's installed on a real device and a thought record is saved, refresh the CloudKit Console Development schema, add `CD_createdAt` Queryable index on `CD_ThoughtRecord`, and Deploy Schema Changes. Additive — should be a 1-type + 1-index diff.
 - Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid
   Glass simulator walkthroughs still pending (Daisy).
 - App Store / device distribution still needs the production CloudKit
