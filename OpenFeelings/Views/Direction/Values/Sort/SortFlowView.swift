@@ -7,6 +7,11 @@ struct SortFlowView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \CustomValue.createdAt) private var customs: [CustomValue]
 
+    /// Called after the user taps Confirm on the last step and the new
+    /// `ValueSort` row is committed. The parent surface uses this to
+    /// dismiss the sort sheet and present the auto-compare modal.
+    var onCompleted: ((ValueSort) -> Void)? = nil
+
     @State private var session: SortSession?
 
     var body: some View {
@@ -17,7 +22,10 @@ struct SortFlowView: View {
                     case .bucketing:        SwipeBucketStepView(session: session)
                     case .pickingFinalists: FinalistsStepView(session: session)
                     case .ranking:          RankStepView(session: session)
-                    case .confirming:       ConfirmSortView(session: session)
+                    case .confirming:       ConfirmSortView(session: session) { saved in
+                        onCompleted?(saved)
+                        dismiss()
+                    }
                     }
                 } else {
                     ProgressView()

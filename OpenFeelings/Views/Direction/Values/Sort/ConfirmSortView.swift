@@ -3,6 +3,11 @@ import SwiftData
 
 struct ConfirmSortView: View {
     let session: SortSession
+    /// Called with the freshly-saved `ValueSort` after the user taps
+    /// Confirm. The parent surface uses this to dismiss the sort sheet
+    /// and present the auto-compare modal. If nil, the view just
+    /// dismisses itself on success.
+    var onCompleted: ((ValueSort) -> Void)?
     @Query(sort: \CustomValue.createdAt) private var customs: [CustomValue]
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
@@ -30,9 +35,13 @@ struct ConfirmSortView: View {
             .scrollContentBackground(.hidden)
 
             Button("Confirm") {
-                if session.finalize(into: context) != nil {
+                if let saved = session.finalize(into: context) {
                     try? context.save()
-                    dismiss()
+                    if let onCompleted {
+                        onCompleted(saved)
+                    } else {
+                        dismiss()
+                    }
                 }
             }
             .buttonStyle(.borderedProminent)

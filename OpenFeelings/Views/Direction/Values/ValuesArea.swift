@@ -8,9 +8,18 @@ struct ValuesArea: View {
     @State private var showingSort = false
     @State private var showingEditor = false
     @State private var showingPastSorts = false
+    @State private var justFinishedSort: ValueSort?
     @State private var detail: ValueDetail?
 
     private var activeSort: ValueSort? { sorts.first }
+
+    /// `sorts` is sorted newest-first; the prior of `target` is the row
+    /// immediately *after* it in that array.
+    private func priorOf(_ target: ValueSort) -> ValueSort? {
+        guard let idx = sorts.firstIndex(where: { $0.id == target.id }),
+              idx + 1 < sorts.count else { return nil }
+        return sorts[idx + 1]
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
@@ -25,7 +34,18 @@ struct ValuesArea: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .sheet(isPresented: $showingSort) { SortFlowView() }
+        .sheet(isPresented: $showingSort) {
+            SortFlowView { saved in
+                justFinishedSort = saved
+            }
+        }
+        .sheet(item: $justFinishedSort) { saved in
+            SortComparisonView(
+                current: saved,
+                prior: priorOf(saved),
+                onViewAllPastSorts: { showingPastSorts = true }
+            )
+        }
         .sheet(isPresented: $showingEditor) {
             if let active = activeSort {
                 CommittedActionEditor(rankedTop: active.rankedTop, customs: customs)
