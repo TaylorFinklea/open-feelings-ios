@@ -67,7 +67,7 @@ final class DirectionUITests: XCTestCase {
 
     // MARK: - Sort flow modal
 
-    func testSortFlowOpensBucketStep() {
+    func testSortFlowOpensSwipeStep() {
         tab("direction").tap()
 
         var attempts = 0
@@ -82,13 +82,11 @@ final class DirectionUITests: XCTestCase {
         XCTAssertTrue(app.navigationBars["Sort values"].waitForExistence(timeout: 5),
                       "Sort flow should open with Sort values navigation title")
 
-        // Bucket step exposes three primary bucket buttons.
-        XCTAssertTrue(app.buttons["Very important"].exists,
-                      "Bucket step should expose 'Very important' button")
-        XCTAssertTrue(app.buttons["Important"].exists,
-                      "Bucket step should expose 'Important' button")
-        XCTAssertTrue(app.buttons["Not for me"].exists,
-                      "Bucket step should expose 'Not for me' button")
+        // Bucket step exposes a swipe card (build 33+).
+        let card = app.descendants(matching: .any)
+            .matching(identifier: "value-sort.card").firstMatch
+        XCTAssertTrue(card.waitForExistence(timeout: 3),
+                      "Bucket step should expose a swipe card")
     }
 
     // MARK: - Bucket progress + undo
@@ -122,7 +120,11 @@ final class DirectionUITests: XCTestCase {
             return XCTFail("Could not parse initial bucket progress index")
         }
 
-        app.buttons["Very important"].tap()
+        let card = app.descendants(matching: .any)
+            .matching(identifier: "value-sort.card").firstMatch
+        XCTAssertTrue(card.waitForExistence(timeout: 3),
+                      "Swipe card should be visible to bucket the first value")
+        card.swipeRight()
 
         // The card advances and the progress text re-renders with index+1.
         // Re-query the progress text in case the previous element invalidated.
