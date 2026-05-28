@@ -5,6 +5,9 @@ struct CommittedActionDetail: View {
     @Bindable var action: CommittedAction
     let customs: [CustomValue]
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var showingDeleteAlert = false
 
     var body: some View {
         Form {
@@ -46,8 +49,33 @@ struct CommittedActionDetail: View {
                         }
                 }
             }
+
+            Section {
+                Button("Delete action", role: .destructive) {
+                    showingDeleteAlert = true
+                }
+                .frame(maxWidth: .infinity)
+            }
         }
         .navigationTitle("Committed action")
         .navigationBarTitleDisplayMode(.inline)
+        .alert("Delete this action?", isPresented: $showingDeleteAlert) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete", role: .destructive) {
+                Self.delete(action, in: context)
+                dismiss()
+            }
+        } message: {
+            Text("This can't be undone.")
+        }
+    }
+
+    // MARK: - Mutations (static for testability)
+
+    /// Delete the action. No cascade — it references a value, nothing
+    /// references it.
+    static func delete(_ action: CommittedAction, in context: ModelContext) {
+        context.delete(action)
+        try? context.save()
     }
 }
