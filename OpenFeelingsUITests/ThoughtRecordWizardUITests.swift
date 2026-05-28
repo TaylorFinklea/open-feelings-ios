@@ -65,7 +65,7 @@ final class ThoughtRecordWizardUITests: XCTestCase {
     /// Confirm step renders those values back. If this test fails on
     /// Confirm with empty bodies, the wizard's state plumbing is broken.
     func testWizardCarriesEnteredValuesThroughToConfirm() throws {
-        tab("direction").tap()
+        tab("thoughts").tap()
         scrollToWizardEntry()
         XCTAssertTrue(wizardEntry().waitForExistence(timeout: 3),
                       "Thought records area should expose the wizard entry point")

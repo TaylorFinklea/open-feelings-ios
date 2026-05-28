@@ -4,7 +4,7 @@ import XCTest
 /// items aren't reachable via `app.tabBars.buttons[...]` on iOS 26 — they
 /// expose as `_UIFloatingTabBarItemCell` — so we look them up by the
 /// explicit `accessibilityIdentifier` we added on each `Label` in
-/// `RootView` (e.g. "tab.today", "tab.settings").
+/// `RootView` (e.g. "tab.today", "tab.thoughts").
 final class OpenFeelingsUITests: XCTestCase {
 
     private var app: XCUIApplication!
@@ -40,10 +40,10 @@ final class OpenFeelingsUITests: XCTestCase {
     // MARK: - Tab switching
 
     func testTabSwitchingShowsEachTabsContent() {
-        // Settings has the most stable static text on a fresh launch.
-        tab("settings").tap()
-        XCTAssertTrue(app.staticTexts["Settings"].waitForExistence(timeout: 3),
-                      "Settings tab should show its navigation title")
+        // Thoughts tab on a fresh launch shows the navigation title "Thoughts".
+        tab("thoughts").tap()
+        XCTAssertTrue(app.staticTexts["Thoughts"].waitForExistence(timeout: 3),
+                      "Thoughts tab should show its navigation title")
 
         // Direction tab on a fresh launch shows the navigation title "Direction".
         tab("direction").tap()
@@ -159,7 +159,9 @@ final class OpenFeelingsUITests: XCTestCase {
     // MARK: - Settings exports surface
 
     func testSettingsExposesPeriodSummaryRow() {
-        tab("settings").tap()
+        app.buttons["settings.gear"].firstMatch.tap()
+        XCTAssertTrue(app.staticTexts["Settings"].waitForExistence(timeout: 3),
+                      "Settings sheet should present from the gear")
         let row = app.staticTexts["Period summary for therapist"]
         // The row may be below the fold on smaller devices; scroll until found.
         let scrollView = app.scrollViews.firstMatch
