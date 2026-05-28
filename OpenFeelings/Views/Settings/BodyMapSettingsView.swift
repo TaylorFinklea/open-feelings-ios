@@ -15,6 +15,8 @@ struct BodyMapSettingsView: View {
     @State private var editingRegion: BodyRegion?
     @State private var showingAddCustom = false
     @State private var newCustomName = ""
+    @State private var pendingRename: CustomBodyRegion?
+    @State private var renameText = ""
 
     private var bodyMap: UserBodyMap? { bodyMaps.first }
 
@@ -57,10 +59,19 @@ struct BodyMapSettingsView: View {
                         .foregroundStyle(Color.OF.textMuted)
                 }
                 ForEach(customRegions) { region in
-                    HStack {
-                        Text(region.name).foregroundStyle(Color.OF.text)
-                        Spacer()
+                    Button {
+                        renameText = region.name
+                        pendingRename = region
+                    } label: {
+                        HStack {
+                            Text(region.name).foregroundStyle(Color.OF.text)
+                            Spacer()
+                            Image(systemName: "pencil")
+                                .font(.OF.caption)
+                                .foregroundStyle(Color.OF.textMuted)
+                        }
                     }
+                    .buttonStyle(.plain)
                 }
                 .onDelete(perform: deleteCustomRegions)
 
@@ -94,13 +105,45 @@ struct BodyMapSettingsView: View {
                 try? modelContext.save()
             }
         }
+        .alert("Rename region", isPresented: renameAlertBinding) {
+            TextField("Region name", text: $renameText)
+            Button("Cancel", role: .cancel) { pendingRename = nil }
+            Button("Save") {
+                if let region = pendingRename {
+                    Self.rename(region, to: renameText, in: modelContext)
+                }
+                pendingRename = nil
+            }
+        }
+    }
+
+    private var renameAlertBinding: Binding<Bool> {
+        Binding(get: { pendingRename != nil },
+                set: { if !$0 { pendingRename = nil } })
     }
 
     private func deleteCustomRegions(at offsets: IndexSet) {
         for index in offsets {
-            modelContext.delete(customRegions[index])
+            Self.delete(customRegions[index], in: modelContext)
         }
-        try? modelContext.save()
+    }
+
+    // MARK: - Mutations (static for testability)
+
+    /// Trim and persist a new name. No-op if the trimmed name is empty.
+    /// Ref-safe: `FeelingLog.customBodyRegionIDsRaw` stores UUIDs, not names.
+    static func rename(_ region: CustomBodyRegion, to newName: String, in context: ModelContext) {
+        let trimmed = newName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        region.name = trimmed
+        try? context.save()
+    }
+
+    /// Delete the region. No cascade — a deleted region's UUID may remain
+    /// in old `FeelingLog.customBodyRegionIDsRaw` and renders as benign.
+    static func delete(_ region: CustomBodyRegion, in context: ModelContext) {
+        context.delete(region)
+        try? context.save()
     }
 
     private func coreSummary(for region: BodyRegion) -> String {
