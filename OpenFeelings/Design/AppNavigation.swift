@@ -5,6 +5,7 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
     case checkIn
     case insights
     case direction
+    case thoughts
     case settings
 
     var title: String {
@@ -13,6 +14,7 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
         case .checkIn:    "Check In"
         case .insights:   "Insights"
         case .direction:  "Direction"
+        case .thoughts:   "Thoughts"
         case .settings:   "Settings"
         }
     }
@@ -23,6 +25,7 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
         case .checkIn:    "circle.grid.3x3"
         case .insights:   "chart.line.uptrend.xyaxis"
         case .direction:  "leaf"
+        case .thoughts:   "quote.bubble"
         case .settings:   "gearshape"
         }
     }
@@ -69,6 +72,9 @@ enum HistoryFilter: Equatable, Hashable, Sendable {
 @Observable
 final class AppNavigation {
     var selectedTab: AppTab = .today
+
+    /// Drives the modal Settings sheet, opened from the per-tab gear.
+    var showingSettings = false
 
     struct SavedRibbon: Equatable {
         let timestamp: Date
