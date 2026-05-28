@@ -12,6 +12,13 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-05-28] Monetize via in-app donation tip jar, not paid/freemium
+
+**Context**: Pre-App-Store-launch product round. The app needs a revenue path (or a deliberate choice not to have one) before launch. Hard constraints from the roadmap: no ads, no analytics, no accounts, no servers, no third-party SDKs.
+**Decision**: In-app tip jar via Apple IAP (StoreKit — first-party, so it respects the no-3P-SDK rule). **Pure donation** — tips unlock nothing; every feature stays free for everyone. Consumable products so users can tip repeatedly. Three tiers: Soda $1.99 / Lunch $4.99 / Dinner $9.99. Build it as a reusable module (generic `StoreKitClient` + app-specific `TipJarService`) so it ports to the user's other projects. Other launch decisions from the same round: App Store category Health & Fitness; positioning leads privacy-first / on-device; direct global launch; stay closed-beta until submission.
+**Alternatives considered**: Free with no mechanic; external donate link (Stripe/Ko-fi in Safari); one-time paid app; freemium with a lifetime pro IAP. User explicitly rejected freemium ("I lean donations, not unlock features").
+**Rationale**: Donation tip jar keeps the app fully free and accessible (mission-aligned for an emotional self-reflection tool) while giving grateful users a frictionless iOS-native way to support it. Consumable (vs non-consumable) avoids capping repeat generosity. The reusable-module framing turns one app's monetization into shared infrastructure. Full decision record on the harness-deck dashboard (`2026-05-27-app-store-launch-product-round`).
+
 ## [2026-05-27] Value sort — Tinder-style two-bucket swipe + history surfaces
 
 **Context**: The 3-button bucket UI (`Very important` / `Important` / `Not for me`) on the value-sort flow was unpleasant for the user. They also wanted a way to see the history of past sorts after each re-sort.
