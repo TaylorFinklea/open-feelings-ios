@@ -16,3 +16,6 @@ buildServer.json
 # Playwright / browser verification artifacts (local only)
 .playwright-mcp/
 openfeelings-*.png
+
+# Stray archive (not part of the project)
+OpenFeelings.zip
