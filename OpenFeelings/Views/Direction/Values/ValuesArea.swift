@@ -8,6 +8,7 @@ struct ValuesArea: View {
     @State private var showingSort = false
     @State private var showingEditor = false
     @State private var showingPastSorts = false
+    @State private var showingCustomValues = false
     @State private var justFinishedSort: ValueSort?
     @State private var detail: ValueDetail?
 
@@ -56,6 +57,9 @@ struct ValuesArea: View {
         }
         .sheet(isPresented: $showingPastSorts) {
             PastSortsSheet()
+        }
+        .sheet(isPresented: $showingCustomValues) {
+            CustomValuesSheet()
         }
     }
 
@@ -136,6 +140,19 @@ struct ValuesArea: View {
                 }
                 .buttonStyle(.plain)
             }
+        }
+
+        if !customs.isEmpty {
+            Button {
+                showingCustomValues = true
+            } label: {
+                Label("Manage custom values", systemImage: "slider.horizontal.3")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.OF.accent)
+            }
+            .buttonStyle(.plain)
+            .padding(.top, .OF.sm)
+            .accessibilityIdentifier("values.manage-custom")
         }
     }
 }
