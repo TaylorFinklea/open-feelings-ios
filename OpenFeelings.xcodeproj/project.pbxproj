@@ -16,6 +16,7 @@
 		09076C6771D243015E361F84 /* ExportServiceLogseqTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF70B3380626A0D857A1E2AC /* ExportServiceLogseqTests.swift */; };
 		0933844880766DAE10CB0CF9 /* SensationsStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB442A2270FD273789D8284D /* SensationsStep.swift */; };
 		09858D6FE2E2838C5D30AD81 /* IntentionDayFelt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */; };
+		0BC11EDDC1653FD6024B1614 /* TipJarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8998AF3DF9C576423828B7 /* TipJarService.swift */; };
 		0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853D8246487F25572AEF0F5 /* ReminderService.swift */; };
 		0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */; };
 		0E61B04B729FF069F3E8660B /* OpenFeelingsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 464D885245E0FF5E70E4FF20 /* OpenFeelingsWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -145,6 +146,7 @@
 		A435516EA3885BD3BCCCCD2E /* CloudSyncMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2CF52F1E3C8AEEC4A4904 /* CloudSyncMonitorTests.swift */; };
 		A4DAB7C96F4B4342A88085A6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60CAF5B22D477191AAC90A68 /* HealthKit.framework */; };
 		A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */; };
+		A69E97BD09063AA62A740F5E /* TipJarServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94184C16AAA116E1F72E9EF4 /* TipJarServiceTests.swift */; };
 		A6EF192827257C28B35C8DB7 /* TherapyReportSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A39CE3CFFB6A17B71E95B9 /* TherapyReportSettingsView.swift */; };
 		A6EF522C92D7DD08E1852A91 /* StepProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A355CDC9B28A9B941400AFA6 /* StepProgressBar.swift */; };
 		A7087DF600D27FA710FB840C /* Intention.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139F747628A106913257991 /* Intention.swift */; };
@@ -323,6 +325,7 @@
 		4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		4F0E026042777B83C0ACB5CA /* SelectedFeelingBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedFeelingBadge.swift; sourceTree = "<group>"; };
 		4F17029E1FE2971A883A1F44 /* ExportService+Logseq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportService+Logseq.swift"; sourceTree = "<group>"; };
+		4F8998AF3DF9C576423828B7 /* TipJarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarService.swift; sourceTree = "<group>"; };
 		50CA78BE3C53FCA7FF28ECC5 /* JournalShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalShareService.swift; sourceTree = "<group>"; };
 		518E478CE65EB2DA13685C61 /* StrengthStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthStep.swift; sourceTree = "<group>"; };
 		555051881E4EB6BEE6441D3D /* WatchSessionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionClient.swift; sourceTree = "<group>"; };
@@ -369,6 +372,7 @@
 		9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		91C275EE1C366DCFED648B8F /* CustomValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomValue.swift; sourceTree = "<group>"; };
 		93DC74397E0B0CEBBC7E1189 /* ThoughtRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordTests.swift; sourceTree = "<group>"; };
+		94184C16AAA116E1F72E9EF4 /* TipJarServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarServiceTests.swift; sourceTree = "<group>"; };
 		952F0F1CC79ADD3F6CC64F03 /* ExportServiceMarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceMarkdownTests.swift; sourceTree = "<group>"; };
 		96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryTests.swift; sourceTree = "<group>"; };
 		96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectStep.swift; sourceTree = "<group>"; };
@@ -664,6 +668,7 @@
 				F5FDE9D2839E382374CFEFF8 /* ThoughtRecordDraftTests.swift */,
 				22406335968ABE1682FF6FCD /* ThoughtRecordsAreaPersistenceTests.swift */,
 				93DC74397E0B0CEBBC7E1189 /* ThoughtRecordTests.swift */,
+				94184C16AAA116E1F72E9EF4 /* TipJarServiceTests.swift */,
 				ABC071B7FFCF4E5B30B9C4C4 /* TodayViewAXTests.swift */,
 				62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */,
 				04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */,
@@ -890,6 +895,7 @@
 			isa = PBXGroup;
 			children = (
 				A3E73A0B9047E6C86F4FAD73 /* StoreKitClient.swift */,
+				4F8998AF3DF9C576423828B7 /* TipJarService.swift */,
 			);
 			path = StoreKit;
 			sourceTree = "<group>";
@@ -1180,6 +1186,7 @@
 				A7629B4DE619403DC3CA28A8 /* ThoughtRecordDraft.swift in Sources */,
 				C78CDAFD2A57C15E0FA4C0B9 /* ThoughtRecordFlowView.swift in Sources */,
 				9DE701F977D874DC502C6EFC /* ThoughtRecordsArea.swift in Sources */,
+				0BC11EDDC1653FD6024B1614 /* TipJarService.swift in Sources */,
 				71E478571A4718C3EE53657D /* TodayView.swift in Sources */,
 				4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */,
 				4B7A92CCBAAAD94FCD1D54C4 /* TriggersStep.swift in Sources */,
@@ -1282,6 +1289,7 @@
 				CE911E60BBD6305108448AA3 /* ThoughtRecordDraftTests.swift in Sources */,
 				EA05BBB9CDECF686B9F2E060 /* ThoughtRecordTests.swift in Sources */,
 				D01709812B1915100171BBE9 /* ThoughtRecordsAreaPersistenceTests.swift in Sources */,
+				A69E97BD09063AA62A740F5E /* TipJarServiceTests.swift in Sources */,
 				68E95B34E2877C8A748EE5E4 /* TodayViewAXTests.swift in Sources */,
 				623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */,
 				D2366692E84C4389A4B3F7EA /* UserBodyMapTests.swift in Sources */,
