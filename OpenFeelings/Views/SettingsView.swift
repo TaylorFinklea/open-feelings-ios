@@ -28,6 +28,7 @@ struct SettingsView: View {
                 sharingSection
                 referenceSection
                 openSourceSection
+                SupportSection()
                 aboutSection
             }
             .padding(.bottom, CGFloat.OF.xxxl)
