@@ -9,6 +9,7 @@ struct IntentionsContent: View {
     @State private var todayDraft: String = ""
     @State private var draftLoaded = false
     @State private var expandedIDs: Set<UUID> = []
+    @State private var pendingDeleteIntention: Intention?
     @FocusState private var todayFocused: Bool
 
     private var startOfToday: Date { Calendar.current.startOfDay(for: Date()) }
@@ -56,6 +57,33 @@ struct IntentionsContent: View {
         }
         .onAppear { loadDraftIfNeeded() }
         .onChange(of: todaysIntention?.text) { _, _ in loadDraftIfNeeded() }
+        .alert(item: $pendingDeleteIntention) { intention in
+            Alert(
+                title: Text("Delete this intention?"),
+                message: Text("This can't be undone. You can always set a new one."),
+                primaryButton: .destructive(Text("Delete")) {
+                    Self.deleteIntention(intention, in: modelContext)
+                },
+                secondaryButton: .cancel()
+            )
+        }
+    }
+
+    // MARK: - Mutations (static for testability)
+
+    /// Trim and persist a new intention text. No-op if the trimmed text is
+    /// empty (keeps the old text). The start-of-day `date` is untouched.
+    static func updateIntentionText(_ intention: Intention, to newText: String, in context: ModelContext) {
+        let trimmed = newText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        intention.text = trimmed
+        try? context.save()
+    }
+
+    /// Delete the intention. No cascade — logs on that day keep their date.
+    static func deleteIntention(_ intention: Intention, in context: ModelContext) {
+        context.delete(intention)
+        try? context.save()
     }
 
     // MARK: - Today editor
@@ -82,6 +110,21 @@ struct IntentionsContent: View {
                         .font(.OF.caption)
                         .foregroundStyle(Color.OF.textMuted)
                     Spacer()
+                    if let intention = todaysIntention {
+                        Menu {
+                            Button(role: .destructive) {
+                                pendingDeleteIntention = intention
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .font(.OF.body)
+                                .foregroundStyle(Color.OF.textMuted)
+                                .frame(width: 32, height: 32)
+                        }
+                        .accessibilityLabel("Intention options")
+                    }
                     OFButton(hasUnsavedChanges ? "Save" : "Saved",
                              style: hasUnsavedChanges ? .primary : .secondary,
                              action: saveTodayIntention)
@@ -142,7 +185,11 @@ struct IntentionsContent: View {
                     onSave: { newReflection in
                         intention.reflection = newReflection
                         try? modelContext.save()
-                    }
+                    },
+                    onEditText: { newText in
+                        Self.updateIntentionText(intention, to: newText, in: modelContext)
+                    },
+                    onDelete: { pendingDeleteIntention = intention }
                 )
             }
         }
@@ -171,10 +218,14 @@ private struct PastIntentionRow: View {
     let onExpand: () -> Void
     let onCollapse: () -> Void
     let onSave: (String) -> Void
+    let onEditText: (String) -> Void
+    let onDelete: () -> Void
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var draft: String = ""
     @State private var draftLoaded = false
+    @State private var editText: String = ""
+    @State private var showingEditText = false
 
     private var hasUnsavedChanges: Bool {
         Intention.normalizedReflection(draft) != intention.reflection
@@ -192,9 +243,29 @@ private struct PastIntentionRow: View {
     var body: some View {
         OFCard {
             VStack(alignment: .leading, spacing: .OF.xs) {
-                Text(intention.date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
-                    .font(.OF.caption)
-                    .foregroundStyle(Color.OF.textMuted)
+                HStack {
+                    Text(intention.date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                    Spacer()
+                    Menu {
+                        Button {
+                            editText = intention.text
+                            showingEditText = true
+                        } label: {
+                            Label("Edit intention", systemImage: "square.and.pencil")
+                        }
+                        Button(role: .destructive, action: onDelete) {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.OF.caption)
+                            .foregroundStyle(Color.OF.textMuted)
+                            .frame(width: 28, height: 28)
+                    }
+                    .accessibilityLabel("Intention options")
+                }
                 Text(intention.text)
                     .font(.OF.body)
                     .foregroundStyle(Color.OF.text)
@@ -217,6 +288,11 @@ private struct PastIntentionRow: View {
             // External update — adopt only if the user hasn't typed anything
             // that would otherwise be discarded.
             if !hasUnsavedChanges { draft = newValue }
+        }
+        .alert("Edit intention", isPresented: $showingEditText) {
+            TextField("Intention", text: $editText)
+            Button("Cancel", role: .cancel) {}
+            Button("Save") { onEditText(editText) }
         }
     }
 
