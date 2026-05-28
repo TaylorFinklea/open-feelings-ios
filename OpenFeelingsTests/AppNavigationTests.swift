@@ -21,9 +21,9 @@ final class AppNavigationTests: XCTestCase {
         }
     }
 
-    func testTabOrderIsTodayCheckInInsightsDirectionSettings() {
+    func testTabOrderIsTodayCheckInDirectionThoughtsInsights() {
         XCTAssertEqual(AppTab.allCases,
-                       [.today, .checkIn, .insights, .direction, .settings])
+                       [.today, .checkIn, .direction, .thoughts, .insights])
     }
 
     // MARK: - Drill-down
