@@ -30,6 +30,14 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [ ] **CloudKit follow-up deploy — add `CD_ThoughtRecord`**: Blocked by wizard fix above. Once a thought record can be saved on the device, exercise once → refresh CloudKit Console Development → add `CD_createdAt` Queryable index on `CD_ThoughtRecord` → Deploy Schema Changes (should be a 1-type + 1-index additive diff).
 - [x] **Value sort Tinder-style redesign + history surface** — shipped build 33 (2026-05-27). Peeking-stack swipe replacing the 3-button bucket UI. New `PastSortsSheet` browse list + auto-compare modal after re-sort. Powered by new `SortDelta` value type. 13 unit tests + 3 UI tests added. No CloudKit deploy. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-27-value-sort-tinder-redesign*.md`. Follow-ups shipped build 34 (taller swipe card) + build 35 ("Not for me" → "Set aside" copy).
 - [x] **Tip jar (in-app donations)** — shipped build 36 (2026-05-28). Reusable `StoreKitClient` + `@Observable TipJarService` + `SupportSection` in Settings. Consumable tiers Soda $1.99 / Lunch $4.99 / Dinner $9.99, pure donation. 6 unit tests. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-28-tip-jar*.md`. **Still needs**: create the 3 consumables in App Store Connect + active Paid Apps Agreement, or the Support section shows its retry/error state on real devices.
+- [ ] **IA restructure** — shipped build 37 (2026-05-28). Tab bar Today · Check In · Direction · Thoughts · Insights; Settings as a per-tab gear. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-28-ia-restructure*.md`.
+- [ ] **Per-surface CRUD arc** (user wants to view/edit/delete all their data). Decided 2026-05-28; **per-surface** (not a unified console), and **check-ins become fully editable** (reverses "moment not journal" — user-approved).
+  - [x] **B — Custom values manager** (rename + delete) — built 2026-05-28, not yet shipped. `CustomValuesSheet` from Values area; just-delete. Spec at `docs/superpowers/specs/2026-05-28-custom-values-manager-design.md`.
+  - [ ] **A — Check-in full edit** (large): tap a History entry → edit every field. Reverses "moment not journal". Reuse the check-in wizard's field components.
+  - [ ] **C — Value-sort delete** in PastSortsSheet (small; was deferred as a build-34 candidate).
+  - [ ] **D — Committed-action delete** (small; swipe in ValuesArea).
+  - [ ] **E — Intention edit + delete** (small).
+  - [ ] **F — Custom body region rename** (small; delete already exists).
 
 ### Next
 - [x] App icon (light/dark/tinted 1024×1024 set already in place).

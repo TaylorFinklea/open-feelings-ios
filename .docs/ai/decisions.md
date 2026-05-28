@@ -12,6 +12,13 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-05-28] Data management — per-surface CRUD, check-ins fully editable
+
+**Context**: User wants to view, edit, and delete all their stored data (check-ins, custom values, etc.). Coverage was uneven: thought records had edit+delete, check-ins had delete + note-only edit, custom values/value-sorts/committed-actions/intentions had little or none.
+**Decision**: (1) **Per-surface CRUD** — add edit/delete where each type already lives, rather than a unified "Manage my data" console. (2) **Check-ins become fully editable** — reverse the earlier "moment not journal" stance (which locked emotion/intensity to read-only) and let users edit every field of a past check-in. (3) Decompose into independently-shippable sub-projects: B custom values manager (done), A check-in full edit (large), C value-sort delete, D committed-action delete, E intention edit/delete, F custom-region rename.
+**Alternatives considered**: A unified data console in Settings (centralized, privacy-friendly, but duplicates where data already shows and is a bigger single surface); keeping check-ins delete + note-only.
+**Rationale**: Per-surface feels native and keeps each change small/testable. Full check-in edit is the user's highest-value ask; the "moment not journal" principle loses to letting users fix mistakes. Custom-value delete needs no cascade — `ValueRef.displayName` already degrades orphaned refs to "(removed value)".
+
 ## [2026-05-28] IA restructure — focus Direction, Thoughts tab, Settings gear
 
 **Context**: The Direction tab stacked three areas (Intentions, Values, Thought Records) and felt too heavy. Done before the App Store screenshots so they capture the final navigation.

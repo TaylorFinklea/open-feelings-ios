@@ -10,7 +10,9 @@
 
 **Date**: 2026-05-28
 
-**IA restructure (latest, not yet shipped)**: Focused the Direction tab and reshaped the tab bar. New order: **Today · Check In · Direction · Thoughts · Insights**. Thought Records split out of Direction into its own **Thoughts** tab (`ThoughtsView` hosting `ThoughtRecordsArea`, `quote.bubble` icon); Direction now holds only Intentions + Values. **Settings left the tab bar** — a gear (`SettingsToolbar` modifier, `settings.gear` id) on every tab opens it as a modal sheet (`AppNavigation.showingSettings`); `SettingsView` gained a Done button. `.settings` `AppTab` case removed. Insights moved to last. UI tests updated (Thoughts tab check, gear-opens-settings, wizard test → Thoughts tab) + `AppNavigationTests` tab-order assertion. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-28-ia-restructure*.md`. **Done before the App Store screenshots so they reflect the final IA.** Not yet bumped/shipped — ship decision pending.
+**Custom values manager (latest)**: First slice of the per-surface CRUD arc (see `decisions.md`). New `CustomValuesSheet` (rename via alert, swipe-delete with confirmation, Done, empty state) opened from a "Manage custom values" button at the bottom of the Values area (shown only when ≥1 custom value exists). Just-delete — orphaned refs in past sorts/committed actions render "(removed value)" via the existing `ValueRef.displayName` fallback; rename is ref-safe (refs use UUIDs). Static `rename`/`delete` helpers + 4 in-memory tests (408 unit total). Spec at `docs/superpowers/specs/2026-05-28-custom-values-manager-design.md`. Not yet shipped. **Remaining CRUD sub-projects**: check-in full edit (large — reverses "moment not journal", user approved), value-sort delete, committed-action delete, intention edit/delete, custom-region rename.
+
+**IA restructure (shipped build 37)**: Focused the Direction tab and reshaped the tab bar. New order: **Today · Check In · Direction · Thoughts · Insights**. Thought Records split out of Direction into its own **Thoughts** tab (`ThoughtsView` hosting `ThoughtRecordsArea`, `quote.bubble` icon); Direction now holds only Intentions + Values. **Settings left the tab bar** — a gear (`SettingsToolbar` modifier, `settings.gear` id) on every tab opens it as a modal sheet (`AppNavigation.showingSettings`); `SettingsView` gained a Done button. `.settings` `AppTab` case removed. Insights moved to last. UI tests updated (Thoughts tab check, gear-opens-settings, wizard test → Thoughts tab) + `AppNavigationTests` tab-order assertion. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-28-ia-restructure*.md`. **Done before the App Store screenshots so they reflect the final IA.** Not yet bumped/shipped — ship decision pending.
 
 **Earlier today — build 36, in-app tip jar** (Apple IAP, pure donation). Brainstorm → spec → plan → 7-task execution. Per `docs/superpowers/{specs,plans}/2026-05-28-tip-jar*.md`.
 
@@ -119,8 +121,8 @@ CloudKit Production schema redeploy across sessions 2026-05-23 → 2026-05-27. M
 ## Build Status
 
 - `xcodegen generate` succeeded.
-- Full iOS unit test suite: **404 passing**.
-- Full iOS UI test suite: **15 passing** (unchanged count; 3 tests updated for the new tab layout).
+- Full iOS unit test suite: **408 passing** (+4 for `CustomValuesManagerTests`).
+- Full iOS UI test suite: **15 passing** (unaffected by the custom values manager).
 - IA restructure verified on both suites; not yet shipped to TestFlight.
 - Builds 34/35 also shipped: taller swipe card; "Not for me" → "Set aside".
 - Build 36 shipped the tip jar.
