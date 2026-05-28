@@ -58,7 +58,7 @@ final class ValueSortRedesignUITests: XCTestCase {
 
     /// Swipes the front card to exhaust the deck. The first
     /// `rightCount` cards are swiped right (very important); the rest
-    /// are swiped left (not for me). Keeps the very-important pool small
+    /// are swiped left (set aside). Keeps the very-important pool small
     /// so the finalists chip grid stays on-screen and the "Continue to
     /// ranking" button is reachable without scrolling.
     private func swipeDeck(rightCount: Int = 3) {

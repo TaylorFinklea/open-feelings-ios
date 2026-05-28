@@ -121,7 +121,7 @@ struct SwipeBucketStepView: View {
             .accessibilityActions {
                 if isFront {
                     Button("Mark important") { commit(.veryImportant, ref: ref) }
-                    Button("Mark not for me") { commit(.notForMe, ref: ref) }
+                    Button("Set aside") { commit(.notForMe, ref: ref) }
                 }
             }
     }
@@ -148,7 +148,7 @@ struct SwipeBucketStepView: View {
     @ViewBuilder
     private func stamp(for bucket: SortBucket) -> some View {
         let color = washColor(for: bucket)
-        Text(bucket == .veryImportant ? "IMPORTANT" : "NOT FOR ME")
+        Text(bucket == .veryImportant ? "IMPORTANT" : "SET ASIDE")
             .font(.headline.weight(.heavy))
             .tracking(2)
             .foregroundStyle(color)
@@ -169,7 +169,7 @@ struct SwipeBucketStepView: View {
     @ViewBuilder
     private var swipeHints: some View {
         HStack {
-            Text("← Not for me")
+            Text("← Set aside")
             Spacer()
             Text("Important →")
         }
