@@ -33,11 +33,11 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 - [ ] **IA restructure** — shipped build 37 (2026-05-28). Tab bar Today · Check In · Direction · Thoughts · Insights; Settings as a per-tab gear. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-28-ia-restructure*.md`.
 - [ ] **Per-surface CRUD arc** (user wants to view/edit/delete all their data). Decided 2026-05-28; **per-surface** (not a unified console), and **check-ins become fully editable** (reverses "moment not journal" — user-approved).
   - [x] **B — Custom values manager** (rename + delete) — built 2026-05-28, not yet shipped. `CustomValuesSheet` from Values area; just-delete. Spec at `docs/superpowers/specs/2026-05-28-custom-values-manager-design.md`.
-  - [ ] **A — Check-in full edit** (large): tap a History entry → edit every field. Reverses "moment not journal". Reuse the check-in wizard's field components.
-  - [ ] **C — Value-sort delete** in PastSortsSheet (small; was deferred as a build-34 candidate).
-  - [ ] **D — Committed-action delete** (small; swipe in ValuesArea).
-  - [ ] **E — Intention edit + delete** (small).
-  - [ ] **F — Custom body region rename** (small; delete already exists).
+  - [ ] **A — Check-in full edit** (large): tap a History entry → edit every field. Reverses "moment not journal". Reuse the check-in wizard's field components. **Only remaining CRUD piece.**
+  - [x] **C — Value-sort delete** in PastSortsSheet — done 2026-05-28 (List + swipe + confirm).
+  - [x] **D — Committed-action delete** — done 2026-05-28 (destructive button in CommittedActionDetail).
+  - [x] **E — Intention edit + delete** — done 2026-05-28 (ellipsis menus in IntentionsContent).
+  - [x] **F — Custom body region rename** — done 2026-05-28 (tappable row → alert; delete via per-row swipeActions).
 
 ### Next
 - [x] App icon (light/dark/tinted 1024×1024 set already in place).
