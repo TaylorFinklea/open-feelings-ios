@@ -10,7 +10,9 @@
 
 **Date**: 2026-05-28
 
-Shipped build 36 with the **in-app tip jar** (Apple IAP, pure donation). Brainstorm → spec → plan → 7-task execution. Per `docs/superpowers/{specs,plans}/2026-05-28-tip-jar*.md`.
+**IA restructure (latest, not yet shipped)**: Focused the Direction tab and reshaped the tab bar. New order: **Today · Check In · Direction · Thoughts · Insights**. Thought Records split out of Direction into its own **Thoughts** tab (`ThoughtsView` hosting `ThoughtRecordsArea`, `quote.bubble` icon); Direction now holds only Intentions + Values. **Settings left the tab bar** — a gear (`SettingsToolbar` modifier, `settings.gear` id) on every tab opens it as a modal sheet (`AppNavigation.showingSettings`); `SettingsView` gained a Done button. `.settings` `AppTab` case removed. Insights moved to last. UI tests updated (Thoughts tab check, gear-opens-settings, wizard test → Thoughts tab) + `AppNavigationTests` tab-order assertion. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-28-ia-restructure*.md`. **Done before the App Store screenshots so they reflect the final IA.** Not yet bumped/shipped — ship decision pending.
+
+**Earlier today — build 36, in-app tip jar** (Apple IAP, pure donation). Brainstorm → spec → plan → 7-task execution. Per `docs/superpowers/{specs,plans}/2026-05-28-tip-jar*.md`.
 
 - **Reusable StoreKit module**: `OpenFeelings/Services/StoreKit/StoreKitClient.swift` — generic `StoreKitClienting` protocol + `StoreKitPurchaseOutcome` enum (our own Equatable type, so it's mockable) + real StoreKit-2 `StoreKitClient`. App-agnostic; lifts into other projects unchanged. Plus `TipJarService.swift` — `@MainActor @Observable`, app-specific: loads 3 consumable tiers sorted by price, fire-and-forget `tip(_:)`, transient `thankedProductID`/`purchaseFailed` flags.
 - **UI**: `SupportSection.swift` in Settings (between Open source and About), mirrors `BackupSection`. Loaded state shows one row per tier with StoreKit `displayName` + `displayPrice` (localized); tapping → purchase → on success swaps price for a ✓ "Thank you" (2s) + success haptic, reduce-motion aware. Failed-load → retry row. Cancel → silent.
@@ -117,8 +119,9 @@ CloudKit Production schema redeploy across sessions 2026-05-23 → 2026-05-27. M
 ## Build Status
 
 - `xcodegen generate` succeeded.
-- Full iOS unit test suite: **404 passing** (was 398; +6 for `TipJarServiceTests`).
-- Full iOS UI test suite: **15 passing** (no change — tip jar has no UI test; StoreKit purchase sheet is undriveable system UI).
+- Full iOS unit test suite: **404 passing**.
+- Full iOS UI test suite: **15 passing** (unchanged count; 3 tests updated for the new tab layout).
+- IA restructure verified on both suites; not yet shipped to TestFlight.
 - Builds 34/35 also shipped: taller swipe card; "Not for me" → "Set aside".
 - Build 36 shipped the tip jar.
 - watchOS unit test suite: **16 passing** (on "OF Watch Test" sim).

@@ -12,6 +12,13 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-05-28] IA restructure — focus Direction, Thoughts tab, Settings gear
+
+**Context**: The Direction tab stacked three areas (Intentions, Values, Thought Records) and felt too heavy. Done before the App Store screenshots so they capture the final navigation.
+**Decision**: Tab bar → Today · Check In · Direction · Thoughts · Insights. Thought Records split into its own Thoughts tab; Direction keeps Intentions + Values. Settings removed from the tab bar — a top-right gear on every tab opens it modally. Insights moved to last.
+**Alternatives considered**: Folding Intentions into Today and making Direction values-only; keeping Thought Records + Values together and moving Intentions to Today. User chose Direction = Values + Intentions with Thought Records as the split-off.
+**Rationale**: Thought Records is a distinct "work through a difficult thought" CBT tool, conceptually separate from values/goals — the cleanest thing to lift out. A gear is the iOS-conventional home for Settings and frees a tab slot. Spec + plan at `docs/superpowers/{specs,plans}/2026-05-28-ia-restructure*.md`.
+
 ## [2026-05-28] Monetize via in-app donation tip jar, not paid/freemium
 
 **Context**: Pre-App-Store-launch product round. The app needs a revenue path (or a deliberate choice not to have one) before launch. Hard constraints from the roadmap: no ads, no analytics, no accounts, no servers, no third-party SDKs.
