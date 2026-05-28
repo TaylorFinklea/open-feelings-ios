@@ -1,0 +1,62 @@
+{
+  "identifier" : "A1B2C3D4-0000-0000-0000-00000000F001",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "A1B2C3D4-0000-0000-0000-00000000A001",
+      "localizations" : [
+        {
+          "description" : "A small thank-you. Every feature stays free.",
+          "displayName" : "Soda",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "dev.finklea.openfeelings.tip.soda",
+      "referenceName" : "Soda Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "A1B2C3D4-0000-0000-0000-00000000A002",
+      "localizations" : [
+        {
+          "description" : "A generous thank-you. Every feature stays free.",
+          "displayName" : "Lunch",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "dev.finklea.openfeelings.tip.lunch",
+      "referenceName" : "Lunch Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "A1B2C3D4-0000-0000-0000-00000000A003",
+      "localizations" : [
+        {
+          "description" : "A wonderful thank-you. Every feature stays free.",
+          "displayName" : "Dinner",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "dev.finklea.openfeelings.tip.dinner",
+      "referenceName" : "Dinner Tip",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
