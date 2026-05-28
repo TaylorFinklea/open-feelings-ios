@@ -3,30 +3,27 @@ import SwiftUI
 enum AppTab: String, CaseIterable, Hashable, Sendable {
     case today
     case checkIn
-    case insights
     case direction
     case thoughts
-    case settings
+    case insights
 
     var title: String {
         switch self {
-        case .today:      "Today"
-        case .checkIn:    "Check In"
-        case .insights:   "Insights"
-        case .direction:  "Direction"
-        case .thoughts:   "Thoughts"
-        case .settings:   "Settings"
+        case .today:     "Today"
+        case .checkIn:   "Check In"
+        case .direction: "Direction"
+        case .thoughts:  "Thoughts"
+        case .insights:  "Insights"
         }
     }
 
     var systemImage: String {
         switch self {
-        case .today:      "sun.horizon"
-        case .checkIn:    "circle.grid.3x3"
-        case .insights:   "chart.line.uptrend.xyaxis"
-        case .direction:  "leaf"
-        case .thoughts:   "quote.bubble"
-        case .settings:   "gearshape"
+        case .today:     "sun.horizon"
+        case .checkIn:   "circle.grid.3x3"
+        case .direction: "leaf"
+        case .thoughts:  "quote.bubble"
+        case .insights:  "chart.line.uptrend.xyaxis"
         }
     }
 }
