@@ -8,7 +8,17 @@
 
 ## Last Session Summary
 
-**Date**: 2026-05-27
+**Date**: 2026-05-28
+
+Shipped build 36 with the **in-app tip jar** (Apple IAP, pure donation). Brainstorm → spec → plan → 7-task execution. Per `docs/superpowers/{specs,plans}/2026-05-28-tip-jar*.md`.
+
+- **Reusable StoreKit module**: `OpenFeelings/Services/StoreKit/StoreKitClient.swift` — generic `StoreKitClienting` protocol + `StoreKitPurchaseOutcome` enum (our own Equatable type, so it's mockable) + real StoreKit-2 `StoreKitClient`. App-agnostic; lifts into other projects unchanged. Plus `TipJarService.swift` — `@MainActor @Observable`, app-specific: loads 3 consumable tiers sorted by price, fire-and-forget `tip(_:)`, transient `thankedProductID`/`purchaseFailed` flags.
+- **UI**: `SupportSection.swift` in Settings (between Open source and About), mirrors `BackupSection`. Loaded state shows one row per tier with StoreKit `displayName` + `displayPrice` (localized); tapping → purchase → on success swaps price for a ✓ "Thank you" (2s) + success haptic, reduce-motion aware. Failed-load → retry row. Cancel → silent.
+- **Tiers**: Soda $1.99 / Lunch $4.99 / Dinner $9.99, consumable, unlock nothing.
+- **Tests**: 6 unit tests (`TipJarServiceTests`) via a mock client + `SKTestSession`-loaded real Products (StoreKit `Product` has no public init). `OpenFeelings.storekit` config defines the 3 consumables.
+- **Product decisions** that drove this are in `decisions.md` 2026-05-28 + harness-deck `2026-05-27-app-store-launch-product-round`.
+
+### Prior this session: value-sort redesign (builds 33–35)
 
 Shipped build 33 with the value-sort Tinder-style redesign + sort history. Built per `docs/superpowers/specs/2026-05-27-value-sort-tinder-redesign-design.md` and the matching plan; brainstormed via the harness-deck dashboard.
 
@@ -107,8 +117,10 @@ CloudKit Production schema redeploy across sessions 2026-05-23 → 2026-05-27. M
 ## Build Status
 
 - `xcodegen generate` succeeded.
-- Full iOS unit test suite: **398 passing** (was 385; +13 for `SortDeltaTests`).
-- Full iOS UI test suite: **15 passing** (was 12; +3 for `ValueSortRedesignUITests`).
+- Full iOS unit test suite: **404 passing** (was 398; +6 for `TipJarServiceTests`).
+- Full iOS UI test suite: **15 passing** (no change — tip jar has no UI test; StoreKit purchase sheet is undriveable system UI).
+- Builds 34/35 also shipped: taller swipe card; "Not for me" → "Set aside".
+- Build 36 shipped the tip jar.
 - watchOS unit test suite: **16 passing** (on "OF Watch Test" sim).
 - Build 31 archive + export + upload to TestFlight: `** EXPORT SUCCEEDED **`.
 
