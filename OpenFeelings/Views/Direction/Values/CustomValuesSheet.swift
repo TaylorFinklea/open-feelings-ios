@@ -43,6 +43,7 @@ struct CustomValuesSheet: View {
                                     Label("Delete", systemImage: "trash")
                                 }
                             }
+                            .accessibilityAction(named: "Delete") { pendingDelete = value }
                             .accessibilityIdentifier("custom-value.row")
                         }
                     }

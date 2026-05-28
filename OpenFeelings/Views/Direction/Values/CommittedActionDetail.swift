@@ -55,6 +55,7 @@ struct CommittedActionDetail: View {
                     showingDeleteAlert = true
                 }
                 .frame(maxWidth: .infinity)
+                .accessibilityIdentifier("committed-action.delete")
             }
         }
         .navigationTitle("Committed action")

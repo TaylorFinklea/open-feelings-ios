@@ -62,4 +62,20 @@ final class CommittedActionDeleteTests: XCTestCase {
         XCTAssertEqual(remaining.count, 1)
         XCTAssertEqual(remaining.first?.title, "Keep me")
     }
+
+    func testDeleteDoesNotCascadeToReferencedCustomValue() throws {
+        let context = try makeContext()
+        let value = CustomValue(name: "Curiosity")
+        context.insert(value)
+        let action = CommittedAction(title: "Read daily",
+                                     valueRef: ValueRef.makeCustomRef(value.id))
+        context.insert(action)
+        try context.save()
+
+        CommittedActionDetail.delete(action, in: context)
+
+        let values = try context.fetch(FetchDescriptor<CustomValue>())
+        XCTAssertEqual(values.count, 1, "Deleting an action must not cascade to its referenced value")
+        XCTAssertEqual(values.first?.id, value.id)
+    }
 }

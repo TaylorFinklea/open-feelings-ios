@@ -34,6 +34,7 @@ struct PastSortsSheet: View {
                                         Label("Delete", systemImage: "trash")
                                     }
                                 }
+                                .accessibilityAction(named: "Delete") { pendingDelete = sort }
                         }
                     }
                     .listStyle(.plain)

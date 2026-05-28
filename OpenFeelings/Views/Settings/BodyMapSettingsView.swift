@@ -72,8 +72,22 @@ struct BodyMapSettingsView: View {
                         }
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("custom-region.row")
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button(role: .destructive) {
+                            Self.delete(region, in: modelContext)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                    .accessibilityActions {
+                        Button("Rename") {
+                            renameText = region.name
+                            pendingRename = region
+                        }
+                        Button("Delete") { Self.delete(region, in: modelContext) }
+                    }
                 }
-                .onDelete(perform: deleteCustomRegions)
 
                 Button {
                     newCustomName = ""
@@ -120,12 +134,6 @@ struct BodyMapSettingsView: View {
     private var renameAlertBinding: Binding<Bool> {
         Binding(get: { pendingRename != nil },
                 set: { if !$0 { pendingRename = nil } })
-    }
-
-    private func deleteCustomRegions(at offsets: IndexSet) {
-        for index in offsets {
-            Self.delete(customRegions[index], in: modelContext)
-        }
     }
 
     // MARK: - Mutations (static for testability)

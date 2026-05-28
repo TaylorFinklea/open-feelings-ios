@@ -124,6 +124,7 @@ struct IntentionsContent: View {
                                 .frame(width: 32, height: 32)
                         }
                         .accessibilityLabel("Intention options")
+                        .accessibilityIdentifier("intention.today.menu")
                     }
                     OFButton(hasUnsavedChanges ? "Save" : "Saved",
                              style: hasUnsavedChanges ? .primary : .secondary,
@@ -265,6 +266,7 @@ private struct PastIntentionRow: View {
                             .frame(width: 28, height: 28)
                     }
                     .accessibilityLabel("Intention options")
+                    .accessibilityIdentifier("intention.row.menu")
                 }
                 Text(intention.text)
                     .font(.OF.body)
@@ -291,8 +293,11 @@ private struct PastIntentionRow: View {
         }
         .alert("Edit intention", isPresented: $showingEditText) {
             TextField("Intention", text: $editText)
-            Button("Cancel", role: .cancel) {}
-            Button("Save") { onEditText(editText) }
+            Button("Cancel", role: .cancel) { showingEditText = false }
+            Button("Save") {
+                onEditText(editText)
+                showingEditText = false
+            }
         }
     }
 

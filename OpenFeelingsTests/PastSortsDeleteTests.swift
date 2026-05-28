@@ -72,4 +72,19 @@ final class PastSortsDeleteTests: XCTestCase {
 
         XCTAssertEqual(try context.fetch(FetchDescriptor<ValueSort>()).count, 0)
     }
+
+    func testDeleteDoesNotCascadeToReferencedCustomValue() throws {
+        let context = try makeContext()
+        let value = CustomValue(name: "Curiosity")
+        context.insert(value)
+        let s = sort(daysAgo: 0, ranked: [ValueRef.makeCustomRef(value.id)])
+        context.insert(s)
+        try context.save()
+
+        PastSortsSheet.delete(s, in: context)
+
+        let values = try context.fetch(FetchDescriptor<CustomValue>())
+        XCTAssertEqual(values.count, 1, "Deleting a sort must not cascade to custom values it referenced")
+        XCTAssertEqual(values.first?.id, value.id)
+    }
 }
