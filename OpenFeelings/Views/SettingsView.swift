@@ -4,6 +4,7 @@ struct SettingsView: View {
     @Environment(HealthService.self) private var healthService
     @Environment(CloudSyncMonitor.self) private var cloudSyncMonitor
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.dismiss) private var dismiss
 
     @AppStorage("appLockEnabled") private var appLockEnabled = false
     @AppStorage("healthEnabled") private var healthEnabled = false
@@ -35,6 +36,11 @@ struct SettingsView: View {
         }
         .background(Color.OF.background, ignoresSafeAreaEdges: .all)
         .navigationTitle("Settings")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Done") { dismiss() }
+            }
+        }
         .onAppear {
             syncReminderTime()
             healthService.refreshAuthorizationStatus()
