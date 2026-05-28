@@ -85,6 +85,7 @@
 		4EAFA054342A1132AE893FC5 /* TriggerCopingTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CEC54B4C4FB9FB92471F4D /* TriggerCopingTaxonomy.swift */; };
 		4ED7DBF28DD53693982BD474 /* BodyMapSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */; };
 		4EFA45F012CF1EB99501748D /* WatchSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77F932F2F69EEF8429DDB1A /* WatchSyncTests.swift */; };
+		4F55E7EF40FDF65FDA994AD7 /* SupportSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056D97C9829E7F30904F4AB1 /* SupportSection.swift */; };
 		5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */; };
 		513C6BCD1F5F3922318DE79A /* CommittedActionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */; };
 		53EB6FCD8BA4469352F34CC8 /* BodySilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */; };
@@ -259,6 +260,7 @@
 		04222452EC9D14AA2FC547CE /* UserBodyMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBodyMapTests.swift; sourceTree = "<group>"; };
 		046676990FE85881F78D3406 /* OFChipIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFChipIdentifierTests.swift; sourceTree = "<group>"; };
 		0515B72A8FAC01AA37180E2A /* PersonalizationNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNudge.swift; sourceTree = "<group>"; };
+		056D97C9829E7F30904F4AB1 /* SupportSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportSection.swift; sourceTree = "<group>"; };
 		05EEFFA054F354594D37D639 /* CustomBodyRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBodyRegion.swift; sourceTree = "<group>"; };
 		06AA11A4901FC5ED08031FD2 /* OpenFeelings.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OpenFeelings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07DF9C6E53AFBC30763A9317 /* SortFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortFlowView.swift; sourceTree = "<group>"; };
@@ -906,6 +908,7 @@
 				66472CE689F16FCB19552C49 /* BackupSection.swift */,
 				A29F05A83E93DC5826C386F5 /* BodyMapSettingsView.swift */,
 				5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */,
+				056D97C9829E7F30904F4AB1 /* SupportSection.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1175,6 +1178,7 @@
 				A6EF522C92D7DD08E1852A91 /* StepProgressBar.swift in Sources */,
 				4EA1929DAAC82969A7DE6D3E /* StoreKitClient.swift in Sources */,
 				CE0318F0BF006DB29544475E /* StrengthStep.swift in Sources */,
+				4F55E7EF40FDF65FDA994AD7 /* SupportSection.swift in Sources */,
 				ACF30184C4E8ECE1A2326250 /* SwipeBucketStepView.swift in Sources */,
 				38658901E28E559006B92B51 /* TherapyReportData.swift in Sources */,
 				12E0F2178AC63F6B482A809B /* TherapyReportPDFService.swift in Sources */,
