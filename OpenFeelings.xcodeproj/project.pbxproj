@@ -94,10 +94,12 @@
 		5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */; };
 		5DAE409713FC56BCD82B6849 /* ThinkingPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD9B582B31C6DE08D360104 /* ThinkingPattern.swift */; };
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
+		5E9E8C1C38CC9838E440D673 /* CustomValuesSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA38703CEB3483C5DA9A7F7 /* CustomValuesSheet.swift */; };
 		5F9EE41748C175A0D24C2FAE /* IntentionsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE0CC94DAE2CD18AB5511A6 /* IntentionsContent.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
 		623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */; };
 		623D322BE5E90DD24CECD539 /* AddCustomValueSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9423B90221A25D843E66ABE /* AddCustomValueSheet.swift */; };
+		6346349A61649E46EDC8E8CF /* CustomValuesManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B00E09B38668607DEF37C9 /* CustomValuesManagerTests.swift */; };
 		63A613DDF289E5C6807DB98A /* MoodScaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEFF29F9D2ED37AFBAC8FAD /* MoodScaleTests.swift */; };
 		648E8E699680F70D0013BC77 /* OFListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D15E50CE42EAB2D6178F6E0 /* OFListRow.swift */; };
 		65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79F6E093C84D3775EDED708 /* BodyTaxonomy.swift */; };
@@ -338,11 +340,13 @@
 		5B09F2AFDF52B93CA13FB865 /* HistoryNoteUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryNoteUpdateTests.swift; sourceTree = "<group>"; };
 		5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedActionRow.swift; sourceTree = "<group>"; };
 		5C11D8D490876864723023D4 /* CheckInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInRootView.swift; sourceTree = "<group>"; };
+		5DA38703CEB3483C5DA9A7F7 /* CustomValuesSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomValuesSheet.swift; sourceTree = "<group>"; };
 		5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowSettingsView.swift; sourceTree = "<group>"; };
 		6024EEE2E361EA2CDA93B0A5 /* DirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionView.swift; sourceTree = "<group>"; };
 		60CAF5B22D477191AAC90A68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		61B691E4E4F7F841A160120A /* PatternsStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsStepView.swift; sourceTree = "<group>"; };
 		62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerCopingTaxonomyTests.swift; sourceTree = "<group>"; };
+		64B00E09B38668607DEF37C9 /* CustomValuesManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomValuesManagerTests.swift; sourceTree = "<group>"; };
 		65D5FDED989398FD2671303C /* InsightsChartDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsChartDescriptorTests.swift; sourceTree = "<group>"; };
 		6625DA0A4DB7B1A02D92A7ED /* WatchSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSyncService.swift; sourceTree = "<group>"; };
 		662AD400A8250C1F0AE595B4 /* BodyTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTaxonomyTests.swift; sourceTree = "<group>"; };
@@ -646,6 +650,7 @@
 				B624F35F9610784AEA13A3A1 /* CheckInStepKindTests.swift */,
 				76D2CF52F1E3C8AEEC4A4904 /* CloudSyncMonitorTests.swift */,
 				EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */,
+				64B00E09B38668607DEF37C9 /* CustomValuesManagerTests.swift */,
 				08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */,
 				17DC44721733546416582778 /* EmotionTaxonomyTests.swift */,
 				CF70B3380626A0D857A1E2AC /* ExportServiceLogseqTests.swift */,
@@ -833,6 +838,7 @@
 				44780243E482EB5D78C76E28 /* CommittedActionDetail.swift */,
 				4C0DF6147C567857C6EFA437 /* CommittedActionEditor.swift */,
 				5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */,
+				5DA38703CEB3483C5DA9A7F7 /* CustomValuesSheet.swift */,
 				0252121081E2D097294EB095 /* ValuesArea.swift */,
 				A49F21B776E585DB80758AB5 /* History */,
 				D968A3309F606577866EA7A0 /* Sort */,
@@ -1122,6 +1128,7 @@
 				08B4B6A550B775996DD07EF8 /* CopingStep.swift in Sources */,
 				05674727C913E03FB4327823 /* CustomBodyRegion.swift in Sources */,
 				E3BA4FE3AB22B90F3692A602 /* CustomValue.swift in Sources */,
+				5E9E8C1C38CC9838E440D673 /* CustomValuesSheet.swift in Sources */,
 				FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */,
 				28244D41864F1EFBD5D05D0D /* DirectionView.swift in Sources */,
 				DD33FA92DFE817DF833DD6D1 /* EmotionColor.swift in Sources */,
@@ -1272,6 +1279,7 @@
 				490A441FEE0CCD3676BFD8DD /* CheckInStepKindTests.swift in Sources */,
 				A435516EA3885BD3BCCCCD2E /* CloudSyncMonitorTests.swift in Sources */,
 				E40C48CD97294796C278116A /* ContextTaxonomyTests.swift in Sources */,
+				6346349A61649E46EDC8E8CF /* CustomValuesManagerTests.swift in Sources */,
 				0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */,
 				3174D671D427D4E0E115CB0B /* EmotionTaxonomyTests.swift in Sources */,
 				09076C6771D243015E361F84 /* ExportServiceLogseqTests.swift in Sources */,
