@@ -3,25 +3,42 @@ import SwiftUI
 
 /// Modal list of every `ValueSort` newest-first. Each row shows date +
 /// ranked top 5 names + a delta strip vs the immediately-prior sort.
-/// Read-only — no delete affordance in this scope.
+/// Swipe-to-delete removes a sort; since the active sort is `sorts.first`
+/// (newest), deleting the active sort automatically promotes the next.
+/// Deleting a sort orphans nothing — `rankedTop` refs are internal to it.
 struct PastSortsSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
     @Query(sort: \ValueSort.createdAt, order: .reverse) private var sorts: [ValueSort]
     @Query(sort: \CustomValue.createdAt) private var customs: [CustomValue]
 
+    @State private var pendingDelete: ValueSort?
+
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: CGFloat.OF.md) {
-                    if sorts.isEmpty {
-                        emptyState
-                    } else {
+            Group {
+                if sorts.isEmpty {
+                    emptyState
+                } else {
+                    List {
                         ForEach(Array(sorts.enumerated()), id: \.element.id) { idx, sort in
                             row(sort: sort, prior: prior(after: idx), isActive: idx == 0)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: CGFloat.OF.xs, leading: CGFloat.OF.md,
+                                                          bottom: CGFloat.OF.xs, trailing: CGFloat.OF.md))
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    Button(role: .destructive) {
+                                        pendingDelete = sort
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
                         }
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                 }
-                .padding(CGFloat.OF.md)
             }
             .background(Color.OF.background, ignoresSafeAreaEdges: .all)
             .navigationTitle("Past sorts")
@@ -31,7 +48,27 @@ struct PastSortsSheet: View {
                     Button("Done") { dismiss() }
                 }
             }
+            .alert(item: $pendingDelete) { sort in
+                Alert(
+                    title: Text("Delete this sort?"),
+                    message: Text("Removes the \(sort.createdAt.formatted(date: .abbreviated, time: .omitted)) sort from your history. You can re-sort anytime."),
+                    primaryButton: .destructive(Text("Delete")) {
+                        Self.delete(sort, in: context)
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
         }
+    }
+
+    // MARK: - Mutations (static for testability)
+
+    /// Delete the sort. `sorts` is newest-first, so deleting the active
+    /// (newest) sort promotes the next-newest via `sorts.first` on the
+    /// next render. No cascade.
+    static func delete(_ sort: ValueSort, in context: ModelContext) {
+        context.delete(sort)
+        try? context.save()
     }
 
     /// `sorts` is newest-first. The prior sort of the row at index `idx`
