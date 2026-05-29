@@ -135,6 +135,85 @@ final class CheckInDraftEditTests: XCTestCase {
         XCTAssertEqual(log.moodEnergy, -0.5)
     }
 
+    func testApplyWritesCustomBodyRegionIDs() {
+        let log = fullLog()
+        var draft = CheckInDraft.from(log: log)
+        let newID = UUID()
+        draft.customBodyRegionIDs = [newID]
+
+        draft.apply(to: log)
+
+        XCTAssertEqual(log.customBodyRegionIDs, [newID])
+    }
+
+    /// Guards against a field being added to one of from()/apply() but not the
+    /// other: a full from → apply → re-from cycle must be lossless.
+    func testFullRoundTripIsLossless() {
+        let original = fullLog()
+        let draft = CheckInDraft.from(log: original)
+
+        // Apply onto a fresh, differently-shaped log.
+        let target = FeelingLog(
+            selection: EmotionSelection(core: core("sad"), secondary: nil, specific: nil),
+            intensity: nil,
+            note: "placeholder"
+        )
+        draft.apply(to: target)
+        let reDraft = CheckInDraft.from(log: target)
+
+        XCTAssertEqual(reDraft.selection?.id, draft.selection?.id)
+        XCTAssertEqual(reDraft.note, draft.note)
+        XCTAssertEqual(reDraft.includeIntensity, draft.includeIntensity)
+        XCTAssertEqual(reDraft.intensity, draft.intensity)
+        XCTAssertEqual(reDraft.includeMoodScale, draft.includeMoodScale)
+        XCTAssertEqual(reDraft.moodEnergy, draft.moodEnergy)
+        XCTAssertEqual(reDraft.moodValence, draft.moodValence)
+        XCTAssertEqual(reDraft.bodyRegions, draft.bodyRegions)
+        XCTAssertEqual(reDraft.customBodyRegionIDs, draft.customBodyRegionIDs)
+        XCTAssertEqual(reDraft.bodySensations, draft.bodySensations)
+        XCTAssertEqual(reDraft.contextPlaces, draft.contextPlaces)
+        XCTAssertEqual(reDraft.contextPeople, draft.contextPeople)
+        XCTAssertEqual(reDraft.triggers, draft.triggers)
+        XCTAssertEqual(reDraft.coping, draft.coping)
+    }
+
+    func testFromUnknownCoreIDYieldsNilSelection() {
+        // A log whose emotion path isn't in the running taxonomy (e.g. a
+        // CloudKit log from a newer build, or a corrupt coreID) → nil
+        // selection. The editor then requires re-picking; apply() no-ops
+        // until then, so nothing corrupts. This documents that graceful path.
+        let log = FeelingLog(
+            selection: EmotionSelection(core: core("happy"), secondary: nil, specific: nil),
+            intensity: 3,
+            note: ""
+        )
+        log.coreID = "not-a-real-core"
+        let draft = CheckInDraft.from(log: log)
+        XCTAssertNil(draft.selection)
+    }
+
+    func testWatchEntryRoundTripPreservesCaptureSource() {
+        let log = FeelingLog(
+            id: UUID(),
+            createdAt: Date(timeIntervalSince1970: 1_700_000_000),
+            coreID: "happy",
+            coreName: "Happy",
+            intensity: 4,
+            note: "from the wrist",
+            healthSyncStatus: .notRequested,
+            captureSource: "watch"
+        )
+        var draft = CheckInDraft.from(log: log)
+        draft.note = "edited on phone"
+
+        draft.apply(to: log)
+
+        XCTAssertEqual(log.captureSource, "watch", "Editing must not change provenance")
+        XCTAssertEqual(log.note, "edited on phone")
+        XCTAssertEqual(log.coreID, "happy")
+        XCTAssertEqual(log.intensity, 4)
+    }
+
     func testApplyClearsIntensityWhenToggledOff() {
         let log = fullLog()
         var draft = CheckInDraft.from(log: log)
