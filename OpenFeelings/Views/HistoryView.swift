@@ -55,10 +55,8 @@ struct HistoryView: View {
             .sheet(item: $shareItem) { item in
                 ActivityView(items: [item.url])
             }
-            .sheet(item: $editingLog) { log in
-                NoteEditorSheet(log: log) { newNote in
-                    Self.updateNote(log, to: newNote, in: modelContext)
-                }
+            .navigationDestination(item: $editingLog) { log in
+                CheckInEditView(log: log)
             }
             .alert("Delete this check-in?", isPresented: deleteAlertBinding) {
                 Button("Cancel", role: .cancel) {}
@@ -115,7 +113,7 @@ struct HistoryView: View {
                                     .accessibilityAction(named: "Delete") {
                                         pendingDelete = log
                                     }
-                                    .accessibilityAction(named: "Edit note") {
+                                    .accessibilityAction(named: "Edit") {
                                         editingLog = log
                                     }
                             }
@@ -261,11 +259,6 @@ extension HistoryView {
         try? context.save()
     }
 
-    nonisolated static func updateNote(_ log: FeelingLog, to newNote: String, in context: ModelContext) {
-        log.note = newNote
-        try? context.save()
-    }
-
     private nonisolated static func labelFor(day: Date, today: Date, yesterday: Date) -> String {
         if day == today { return "Today" }
         if day == yesterday { return "Yesterday" }
@@ -275,13 +268,13 @@ extension HistoryView {
 
 struct LogCard: View {
     let log: FeelingLog
-    let onEditNote: () -> Void
+    let onEdit: () -> Void
 
     @State private var showingThoughtRecord = false
 
-    init(log: FeelingLog, onEditNote: @escaping () -> Void = {}) {
+    init(log: FeelingLog, onEdit: @escaping () -> Void = {}) {
         self.log = log
-        self.onEditNote = onEditNote
+        self.onEdit = onEdit
     }
 
     var body: some View {
@@ -383,13 +376,14 @@ struct LogCard: View {
 
         return HStack {
             Button {
-                onEditNote()
+                onEdit()
             } label: {
-                Label("Edit note", systemImage: "square.and.pencil")
+                Label("Edit", systemImage: "square.and.pencil")
                     .font(.OF.caption.weight(.medium))
             }
             .buttonStyle(.plain)
             .foregroundStyle(Color.OF.accent)
+            .accessibilityIdentifier("history.edit")
             Spacer()
             Menu {
                 Button {
