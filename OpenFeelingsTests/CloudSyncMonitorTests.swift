@@ -188,4 +188,70 @@ final class CloudSyncMonitorTests: XCTestCase {
         XCTAssertEqual(monitor.state.lastError,
                        "Did not find record type: CD_ValueSort")
     }
+
+    // MARK: - describe(error:) — Core-Data-wrapped shapes
+    //
+    // NSPersistentCloudKitContainer hands us the CKError wrapped inside a
+    // Core Data (NSCocoaErrorDomain) error, so the partial-failure map sits
+    // under NSUnderlyingErrorKey / NSDetailedErrorsKey rather than at the top
+    // level. These are the shapes that actually reach the app — the flat
+    // top-level shape the older tests modeled never does in practice, which
+    // is why the generic "(CKErrorDomain error 2.)" string shipped.
+
+    /// Wraps `inner` the way Core Data wraps a CloudKit export rejection:
+    /// an NSCocoaErrorDomain save error whose underlying error is the CKError.
+    private func coreDataWrapped(_ inner: NSError,
+                                 underKey key: String = NSUnderlyingErrorKey) -> NSError {
+        let info: [String: Any] = key == NSDetailedErrorsKey
+            ? [NSLocalizedDescriptionKey: "The operation couldn't be completed. (CKErrorDomain error 2.)",
+               NSDetailedErrorsKey: [inner]]
+            : [NSLocalizedDescriptionKey: "The operation couldn't be completed. (CKErrorDomain error 2.)",
+               NSUnderlyingErrorKey: inner]
+        return NSError(domain: NSCocoaErrorDomain, code: 134_400, userInfo: info)
+    }
+
+    func testDescribeUnwrapsPartialFailureNestedUnderUnderlyingErrorKey() {
+        let sub = NSError(
+            domain: CKErrorDomain,
+            code: CKError.Code.serverRejectedRequest.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: "Did not find record type: CD_ThoughtRecord"]
+        )
+        let wrapped = coreDataWrapped(partialFailureNSError(subErrors: [sub]))
+        XCTAssertEqual(CloudSyncMonitor.describe(error: wrapped),
+                       "Did not find record type: CD_ThoughtRecord")
+    }
+
+    func testDescribeUnwrapsPartialFailureNestedUnderDetailedErrorsKey() {
+        let sub = NSError(
+            domain: CKErrorDomain,
+            code: CKError.Code.serverRejectedRequest.rawValue,
+            userInfo: [NSLocalizedDescriptionKey: "Did not find record type: CD_ThoughtRecord"]
+        )
+        let wrapped = coreDataWrapped(partialFailureNSError(subErrors: [sub]),
+                                      underKey: NSDetailedErrorsKey)
+        XCTAssertEqual(CloudSyncMonitor.describe(error: wrapped),
+                       "Did not find record type: CD_ThoughtRecord")
+    }
+
+    func testDescribeWrappedBareCKErrorStillMapsFriendly() {
+        // A wrapped CKError with a known code but no readable per-record map
+        // should still map to friendly text, not the generic wrapper string.
+        let inner = NSError(domain: CKErrorDomain,
+                            code: CKError.Code.notAuthenticated.rawValue,
+                            userInfo: [NSLocalizedDescriptionKey: "internal"])
+        let wrapped = coreDataWrapped(inner)
+        XCTAssertEqual(CloudSyncMonitor.describe(error: wrapped),
+                       "Not signed in to iCloud")
+    }
+
+    func testDescribeWrappedPartialFailureWithoutReadableMapFallsBackToFriendlyText() {
+        // partialFailure code present in the chain but no CKPartialErrorsByItemIDKey
+        // map — should beat the raw "(CKErrorDomain error 2.)" localizedDescription.
+        let inner = NSError(domain: CKErrorDomain,
+                            code: CKError.Code.partialFailure.rawValue,
+                            userInfo: [NSLocalizedDescriptionKey: "The operation couldn't be completed. (CKErrorDomain error 2.)"])
+        let wrapped = coreDataWrapped(inner)
+        XCTAssertEqual(CloudSyncMonitor.describe(error: wrapped),
+                       "Some items couldn't sync to iCloud")
+    }
 }

@@ -64,24 +64,35 @@ final class CloudSyncMonitor {
     /// `CKError.partialFailure` is the famously useless "The operation
     /// couldn't be completed" — the actual cause lives in the per-record
     /// sub-errors. Dig those out first; fall back to friendly text for a
-    /// handful of well-known top-level CKError codes; final fallback is the
-    /// localized description.
+    /// handful of well-known CKError codes; final fallback is the localized
+    /// description.
+    ///
+    /// `NSPersistentCloudKitContainer` rarely hands us the bare `CKError` — it
+    /// wraps it in a Core Data (`NSCocoaErrorDomain`) error, so the
+    /// `CKPartialErrorsByItemIDKey` map and the underlying `CKError` code live
+    /// one or more levels down under `NSUnderlyingErrorKey` /
+    /// `NSDetailedErrorsKey`. We therefore search the whole error chain, not
+    /// just the top-level error.
     static func describe(error: Error) -> String {
-        let nsError = error as NSError
+        let chain = errorChain(error as NSError)
 
-        // Partial failure: pull the first sub-error's message. That's where
-        // schema-mismatch / permission errors actually live.
-        if let perRecord = nsError.userInfo[CKPartialErrorsByItemIDKey]
-            as? [AnyHashable: Error],
-           let firstSub = perRecord.values.first {
-            let baseMsg = (firstSub as NSError).localizedDescription
-            let n = perRecord.count
-            return n > 1 ? "\(baseMsg) (and \(n - 1) more)" : baseMsg
+        // 1. Partial failure: pull the first per-record sub-error's message
+        //    from anywhere in the chain. That's where schema-mismatch /
+        //    permission errors actually live.
+        for link in chain {
+            if let perRecord = link.userInfo[CKPartialErrorsByItemIDKey]
+                as? [AnyHashable: Error],
+               let firstSub = perRecord.values.first {
+                let baseMsg = (firstSub as NSError).localizedDescription
+                let n = perRecord.count
+                return n > 1 ? "\(baseMsg) (and \(n - 1) more)" : baseMsg
+            }
         }
 
-        // Friendly top-level CKError mappings for the common cases.
-        if nsError.domain == CKErrorDomain {
-            switch nsError.code {
+        // 2. Friendly mappings for well-known CKError codes, again searching
+        //    the whole chain (the CKError may be wrapped by Core Data).
+        for link in chain where link.domain == CKErrorDomain {
+            switch link.code {
             case CKError.Code.networkUnavailable.rawValue,
                  CKError.Code.networkFailure.rawValue:
                 return "Network unavailable"
@@ -93,12 +104,42 @@ final class CloudSyncMonitor {
                 return "iCloud permission denied"
             case CKError.Code.serverRejectedRequest.rawValue:
                 return "CloudKit rejected the request"
+            case CKError.Code.partialFailure.rawValue:
+                // partialFailure whose per-record map wasn't readable above —
+                // still better than the generic "operation couldn't be
+                // completed (error 2)".
+                return "Some items couldn't sync to iCloud"
             default:
                 break
             }
         }
 
-        return nsError.localizedDescription
+        return (error as NSError).localizedDescription
+    }
+
+    /// Flattens an NSError's nested chain — itself plus everything reachable
+    /// through `NSUnderlyingErrorKey`, `NSMultipleUnderlyingErrorsKey`, and
+    /// `NSDetailedErrorsKey` — breadth-first, so callers can find CloudKit
+    /// specifics that Core Data nests one or more levels down. Depth-bounded
+    /// to stay safe against pathological/cyclic graphs.
+    private static func errorChain(_ root: NSError, maxLinks: Int = 24) -> [NSError] {
+        var result: [NSError] = []
+        var queue: [NSError] = [root]
+        while !queue.isEmpty, result.count < maxLinks {
+            let current = queue.removeFirst()
+            result.append(current)
+            let info = current.userInfo
+            if let underlying = info[NSUnderlyingErrorKey] as? NSError {
+                queue.append(underlying)
+            }
+            if let multiple = info[NSMultipleUnderlyingErrorsKey] as? [Error] {
+                queue.append(contentsOf: multiple.map { $0 as NSError })
+            }
+            if let detailed = info[NSDetailedErrorsKey] as? [Error] {
+                queue.append(contentsOf: detailed.map { $0 as NSError })
+            }
+        }
+        return result
     }
 }
 
