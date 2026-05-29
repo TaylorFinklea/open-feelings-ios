@@ -89,51 +89,59 @@ struct IntentionsContent: View {
     // MARK: - Today editor
 
     private var todayEditor: some View {
-        OFCard {
-            VStack(alignment: .leading, spacing: .OF.sm) {
-                Text("What would you like to feel or remember today?")
+        VStack(alignment: .leading, spacing: .OF.sm) {
+            Text("What would you like to feel or remember today?")
+                .font(.OF.caption)
+                .foregroundStyle(Color.OF.textMuted)
+            TextField("Pause when I feel rushed.", text: $todayDraft, axis: .vertical)
+                .lineLimit(2...6)
+                .font(.OF.body)
+                .focused($todayFocused)
+                .padding(CGFloat.OF.md)
+                .background(Color.OF.surface,
+                            in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
+                .overlay {
+                    RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
+                        .stroke(Color.OF.divider, lineWidth: 1)
+                }
+            HStack {
+                Text(savedStatus)
                     .font(.OF.caption)
                     .foregroundStyle(Color.OF.textMuted)
-                TextField("Pause when I feel rushed.", text: $todayDraft, axis: .vertical)
-                    .lineLimit(2...6)
-                    .font(.OF.body)
-                    .focused($todayFocused)
-                    .padding(CGFloat.OF.md)
-                    .background(Color.OF.surface,
-                                in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card)
-                            .stroke(Color.OF.divider, lineWidth: 1)
-                    }
-                HStack {
-                    Text(savedStatus)
-                        .font(.OF.caption)
-                        .foregroundStyle(Color.OF.textMuted)
-                    Spacer()
-                    if let intention = todaysIntention {
-                        Menu {
-                            Button(role: .destructive) {
-                                pendingDeleteIntention = intention
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
+                Spacer()
+                if let intention = todaysIntention {
+                    Menu {
+                        Button(role: .destructive) {
+                            pendingDeleteIntention = intention
                         } label: {
-                            Image(systemName: "ellipsis")
-                                .font(.OF.body)
-                                .foregroundStyle(Color.OF.textMuted)
-                                .frame(width: 32, height: 32)
+                            Label("Delete", systemImage: "trash")
                         }
-                        .accessibilityLabel("Intention options")
-                        .accessibilityIdentifier("intention.today.menu")
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.OF.body)
+                            .foregroundStyle(Color.OF.textMuted)
+                            .frame(width: 32, height: 32)
                     }
-                    OFButton(hasUnsavedChanges ? "Save" : "Saved",
-                             style: hasUnsavedChanges ? .primary : .secondary,
-                             action: saveTodayIntention)
-                        .frame(maxWidth: 120)
-                        .disabled(!hasUnsavedChanges)
-                        .opacity(hasUnsavedChanges ? 1 : 0.5)
+                    .accessibilityLabel("Intention options")
+                    .accessibilityIdentifier("intention.today.menu")
                 }
+                OFButton(hasUnsavedChanges ? "Save" : "Saved",
+                         style: hasUnsavedChanges ? .primary : .secondary,
+                         action: saveTodayIntention)
+                    .frame(maxWidth: 120)
+                    .disabled(!hasUnsavedChanges)
+                    .opacity(hasUnsavedChanges ? 1 : 0.5)
             }
+        }
+        // Paper "wash" card: a soft tinted panel with a white input well, in
+        // place of the default white OFCard.
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(CGFloat.OF.lg)
+        .background(Color.OF.accentSoft.opacity(0.4),
+                    in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card, style: .continuous)
+                .stroke(Color.OF.accent.opacity(0.18), lineWidth: 1)
         }
     }
 
@@ -174,7 +182,7 @@ struct IntentionsContent: View {
     // MARK: - Look-back
 
     private var lookBackSection: some View {
-        VStack(alignment: .leading, spacing: .OF.md) {
+        VStack(alignment: .leading, spacing: .OF.sm) {
             OFSectionHeader(title: "Look back")
             ForEach(pastIntentions) { intention in
                 PastIntentionRow(
@@ -242,7 +250,7 @@ private struct PastIntentionRow: View {
     }
 
     var body: some View {
-        OFCard {
+        OFCard(padding: .OF.md) {
             VStack(alignment: .leading, spacing: .OF.xs) {
                 HStack {
                     Text(intention.date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))

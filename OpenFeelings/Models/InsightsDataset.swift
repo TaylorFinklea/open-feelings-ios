@@ -2,23 +2,30 @@ import Foundation
 
 /// Time window the user is viewing on the Insights tab.
 enum InsightsPeriod: String, CaseIterable, Hashable, Sendable, Identifiable {
-    case week, month, all
+    case week, month, year, all
 
     var id: String { rawValue }
+
+    /// The periods offered on the Insights tab. `.all` stays in the enum
+    /// for the therapy-report "All time" range but is not shown here.
+    static let insightsTabCases: [InsightsPeriod] = [.week, .month, .year]
 
     var title: String {
         switch self {
         case .week:  "Week"
         case .month: "Month"
+        case .year:  "Year"
         case .all:   "All"
         }
     }
 
-    /// Returns the cutoff Date for filtering. nil = no cutoff (.all).
+    /// Returns the cutoff Date for filtering. `.year` is a rolling 365-day
+    /// window; `.all` has no cutoff (used by the therapy report).
     func cutoff(now: Date = Date()) -> Date? {
         switch self {
         case .week:  now.addingTimeInterval(-7 * 86_400)
         case .month: now.addingTimeInterval(-30 * 86_400)
+        case .year:  now.addingTimeInterval(-365 * 86_400)
         case .all:   nil
         }
     }
@@ -134,7 +141,8 @@ struct InsightsDataset {
         let cal = Calendar.current
         let dayCount = period == .week ? 7 : (period == .month ? 30 : 0)
         guard dayCount > 0 else {
-            // .all: group by day, only days with data, sorted ascending
+            // .year / .all: group by day, only days with data, sorted ascending
+            // (365+ fixed buckets would be unreadable)
             var buckets: [Date: Int] = [:]
             for log in logs {
                 let day = cal.startOfDay(for: log.createdAt)
@@ -288,7 +296,7 @@ struct InsightsDataset {
             return result
         }
 
-        // .all: only days with data, ascending.
+        // .year / .all: only days with data, ascending.
         return dayLogCount
             .sorted { $0.key < $1.key }
             .map { (day, count) in
@@ -305,9 +313,8 @@ struct InsightsDataset {
         switch period {
         case .week:  windowDays = 7
         case .month: windowDays = 30
-        case .all:
-            // Sentinel: no comparison meaningful, return total so delta == 0.
-            return allLogs.count
+        case .year:  windowDays = 365
+        case .all:   return allLogs.count  // no preceding window for all-time
         }
         let upper = now.addingTimeInterval(-windowDays * 86_400)
         let lower = now.addingTimeInterval(-2 * windowDays * 86_400)

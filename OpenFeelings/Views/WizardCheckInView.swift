@@ -205,7 +205,9 @@ struct WizardCheckInView: View {
         applyDimming: Bool,
         action: @escaping (Item) -> Void
     ) -> some View where Item: EmotionNameProviding {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 140), spacing: .OF.md)], spacing: .OF.md) {
+        // One option per full-width row (Paper "less is more"): a leading
+        // core-colored dot + serif name, over the core's own calm wash.
+        LazyVStack(spacing: .OF.md) {
             ForEach(items) { item in
                 let id = coreID(item)
                 let isSuggested = !applyDimming || suggestedCoreIDs.isEmpty || suggestedCoreIDs.contains(id)
@@ -219,7 +221,7 @@ struct WizardCheckInView: View {
                             .frame(width: 14, height: 14)
 
                         Text(item.name)
-                            .font(.OF.bodyEmphasis)
+                            .font(.system(size: 18, weight: .regular, design: .serif))
                             .foregroundStyle(Color.OF.text)
                             .lineLimit(1)
                             .minimumScaleFactor(0.75)

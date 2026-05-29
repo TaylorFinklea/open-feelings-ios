@@ -52,6 +52,12 @@ extension Color {
         static let divider         = OFColor(lightHex: "E8DFD3", darkHex: "3F3A35")
         static let accent          = OFColor(lightHex: "8E4F2C", darkHex: "D8916A")
         static let accentSoft      = OFColor(lightHex: "EFD5C2", darkHex: "302118")
+        /// Cool counterpoint to the warm terracotta accent. Used for calm
+        /// "done"/completed affordances (e.g. committed-action checkbox) where a
+        /// cool fill reads as settled rather than active. Pair glyphs with
+        /// `textOnAccent` (not pure white): white fails WCAG AA on the lighter
+        /// dark-mode hex, while `textOnAccent` stays legible in both schemes.
+        static let accentCool      = OFColor(lightHex: "4F7280", darkHex: "8FB4C4")
     }
 }
 
@@ -66,6 +72,26 @@ extension Font {
         static let bodyEmphasis  = Font.system(size: 17, weight: .semibold)
         static let caption       = Font.system(size: 13, weight: .regular)
         static let mono          = Font.system(size: 15, weight: .regular, design: .monospaced)
+
+        /// Editorial letter-spacing applied to the serif display/title tokens.
+        /// Tracking is a view modifier (not expressible on `Font`), so it lives
+        /// in the `.ofDisplay()` / `.ofTitle()` helpers below.
+        static let displayTracking: CGFloat = -0.6
+        static let titleTracking:   CGFloat = -0.4
+    }
+}
+
+extension View {
+    /// Large serif display heading — `Font.OF.display` with tightened
+    /// editorial tracking. Prefer this over `.font(.OF.display)`.
+    func ofDisplay() -> some View {
+        font(.OF.display).tracking(Font.OF.displayTracking)
+    }
+
+    /// Serif section title — `Font.OF.title` with tightened editorial
+    /// tracking. Prefer this over `.font(.OF.title)`.
+    func ofTitle() -> some View {
+        font(.OF.title).tracking(Font.OF.titleTracking)
     }
 }
 

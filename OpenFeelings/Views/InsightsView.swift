@@ -8,7 +8,10 @@ struct InsightsView: View {
     @AppStorage("insightsPeriod") private var periodRaw = InsightsPeriod.week.rawValue
 
     private var period: InsightsPeriod {
-        InsightsPeriod(rawValue: periodRaw) ?? .week
+        let stored = InsightsPeriod(rawValue: periodRaw) ?? .week
+        // `.all` is not a tab segment (therapy-report only); a value persisted
+        // from a prior build maps to the rolling 365-day `.year` here.
+        return stored == .all ? .year : stored
     }
 
     private var dataset: InsightsDataset {
@@ -47,7 +50,7 @@ struct InsightsView: View {
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
             Text("Patterns")
-                .font(.OF.display)
+                .ofDisplay()
                 .foregroundStyle(Color.OF.text)
         }
         .padding(.top, .OF.lg)
@@ -57,7 +60,7 @@ struct InsightsView: View {
 
     private var periodPicker: some View {
         HStack(spacing: 0) {
-            ForEach(InsightsPeriod.allCases) { p in
+            ForEach(InsightsPeriod.insightsTabCases) { p in
                 Button {
                     withAnimation(.OF.quick) { periodRaw = p.rawValue }
                 } label: {
@@ -115,7 +118,7 @@ struct InsightsView: View {
     private var emptyForPeriod: some View {
         OFCard {
             VStack(alignment: .leading, spacing: .OF.sm) {
-                Text("No check-ins this \(period == .week ? "week" : period == .month ? "month" : "period").")
+                Text("No check-ins this \(period.title.lowercased()).")
                     .font(.OF.headline)
                     .foregroundStyle(Color.OF.text)
                 Text("Save a check-in or pick a longer window above.")
@@ -156,7 +159,6 @@ private struct InsightsHeroCard: View {
     }
 
     private var deltaString: String {
-        if period == .all { return "—" }
         let d = dataset.totalCount - dataset.previousPeriodCount
         return d > 0 ? "+\(d)" : "\(d)"
     }
@@ -180,7 +182,7 @@ private struct InsightsCheckInChart: View {
         OFCard {
             VStack(alignment: .leading, spacing: .OF.sm) {
                 Text("Check-ins").font(.OF.bodyEmphasis).foregroundStyle(Color.OF.text)
-                Text("\(dataset.totalCount) total in this \(period == .all ? "history" : period.title.lowercased())")
+                Text("\(dataset.totalCount) total in this \(period.title.lowercased())")
                     .font(.OF.caption)
                     .foregroundStyle(Color.OF.textMuted)
                 Chart(dataset.countsPerDay, id: \.day) { entry in

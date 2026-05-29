@@ -70,7 +70,7 @@ struct TodayView: View {
                 .font(.OF.caption)
                 .foregroundStyle(Color.OF.textMuted)
             Text(Greeting.text(for: Date(), name: displayName))
-                .font(.OF.display)
+                .ofDisplay()
                 .foregroundStyle(Color.OF.text)
         }
         .padding(.top, .OF.lg)

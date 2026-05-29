@@ -63,7 +63,7 @@ struct LockGateView<Content: View>: View {
     private var titles: some View {
         VStack(spacing: .OF.sm) {
             Text("Locked")
-                .font(.OF.display)
+                .ofDisplay()
                 .foregroundStyle(Color.OF.text)
             Text("Use Face ID to continue.")
                 .font(.OF.body)

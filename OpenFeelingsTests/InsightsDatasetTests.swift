@@ -43,14 +43,30 @@ final class InsightsDatasetTests: XCTestCase {
         XCTAssertEqual(dataset.totalCount, 1)
     }
 
-    func testAllPeriodIncludesEverything() {
+    func testYearIncludesWithin365DaysButDropsOlder() {
         let now = Date()
         let logs = [
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 1, now: now),
-            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 90, now: now)
+            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 90, now: now),
+            // Older than the 365-day window — excluded.
+            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 400, now: now)
+        ]
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
+        XCTAssertEqual(dataset.totalCount, 2)
+    }
+
+    // `.all` is not shown on the Insights tab but backs the therapy report's
+    // "All time" range: no cutoff, and previousPeriodCount is the total.
+    func testAllIncludesEverythingRegardlessOfAge() {
+        let now = Date()
+        let logs = [
+            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 1, now: now),
+            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 400, now: now),
+            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 1000, now: now)
         ]
         let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
-        XCTAssertEqual(dataset.totalCount, 2)
+        XCTAssertEqual(dataset.totalCount, 3)
+        XCTAssertEqual(dataset.previousPeriodCount, 3)
     }
 
     // MARK: - countsPerDay
@@ -78,7 +94,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 2, now: now),
             log(coreID: "sad",   coreName: "Sad",   secondaryID: "lonely",   secondaryName: "Lonely",   daysAgo: 1, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.topFeelings.first?.name, "Peaceful")
         XCTAssertEqual(dataset.topFeelings.first?.count, 2)
     }
@@ -91,7 +107,7 @@ final class InsightsDatasetTests: XCTestCase {
             let log = log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: name, daysAgo: Double(i), now: now)
             return log
         }
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertLessThanOrEqual(dataset.topFeelings.count, 5)
     }
 
@@ -103,7 +119,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 1, now: now, bodyRegions: [.chest, .gut]),
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 2, now: now, bodyRegions: [.chest])
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.topBodyRegions.first?.region, .chest)
         XCTAssertEqual(dataset.topBodyRegions.first?.count, 2)
     }
@@ -118,7 +134,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 2, now: now,
                 triggers: [.conflict], coping: [.breath, .walk])
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         let conflictBreath = dataset.topTriggerCopingPairs.first { $0.trigger == .conflict && $0.coping == .breath }
         XCTAssertEqual(conflictBreath?.count, 2)
     }
@@ -136,7 +152,7 @@ final class InsightsDatasetTests: XCTestCase {
                 energy: nil, valence: 0.5),
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 4, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.moodPoints.count, 1)
         XCTAssertEqual(dataset.moodPoints.first?.energy, 0.5)
         XCTAssertEqual(dataset.moodPoints.first?.valence, 0.5)
@@ -148,7 +164,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "fearful", coreName: "Fearful", secondaryID: "anxious", secondaryName: "Anxious",
                 daysAgo: 1, now: now, energy: 0.4, valence: -0.6)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.moodPoints.first?.coreID, "fearful")
     }
 
@@ -160,7 +176,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "fearful", coreName: "Fearful", secondaryID: "anxious", secondaryName: "Anxious", daysAgo: 1, now: now),
             log(coreID: "happy",   coreName: "Happy",   secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 2, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         let anxious = dataset.topFeelings.first { $0.name == "Anxious" }
         XCTAssertEqual(anxious?.coreID, "fearful")
     }
@@ -174,7 +190,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "fearful", coreName: "Fearful", secondaryID: "anxious", secondaryName: "Anxious", daysAgo: 2, now: now),
             log(coreID: "happy",   coreName: "Happy",   secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 3, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.byCore.first?.coreID, "fearful")
         XCTAssertEqual(dataset.byCore.first?.count, 2)
         XCTAssertFalse(dataset.byCore.first?.colorHex.isEmpty ?? true)
@@ -188,7 +204,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "sad",   coreName: "Sad",   secondaryID: "lonely",   secondaryName: "Lonely",   daysAgo: 3, now: now),
             log(coreID: "sad",   coreName: "Sad",   secondaryID: "lonely",   secondaryName: "Lonely",   daysAgo: 4, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.byCore.first?.coreID, "sad")
         XCTAssertEqual(dataset.byCore.last?.coreID, "happy")
     }
@@ -205,7 +221,7 @@ final class InsightsDatasetTests: XCTestCase {
         let logs = [
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 0, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.byDayOfWeek.count, 7)
         let totalCount = dataset.byDayOfWeek.reduce(0) { $0 + $1.count }
         XCTAssertEqual(totalCount, 1)
@@ -270,21 +286,24 @@ final class InsightsDatasetTests: XCTestCase {
         XCTAssertEqual(dataset.previousPeriodCount, 2)
     }
 
-    func testPreviousPeriodCountAllReturnsTotal() {
+    func testPreviousPeriodCountYearComparesPrior365Days() {
         let now = Date()
         let logs = [
+            // Current 365-day window (2 logs):
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 1, now: now),
-            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 100, now: now)
+            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 100, now: now),
+            // Prior 365-day window (1 log, 365..730 days ago):
+            log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 400, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
-        // .all sentinel: previousPeriodCount == totalCount so the UI delta is 0.
-        XCTAssertEqual(dataset.previousPeriodCount, dataset.totalCount)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
+        XCTAssertEqual(dataset.totalCount, 2)
+        XCTAssertEqual(dataset.previousPeriodCount, 1)
     }
 
     // MARK: - currentStreak
 
     func testCurrentStreakZeroWhenNoLogs() {
-        let dataset = InsightsDataset.build(logs: [], period: .all, now: Date())
+        let dataset = InsightsDataset.build(logs: [], period: .year, now: Date())
         XCTAssertEqual(dataset.currentStreak, 0)
     }
 
@@ -293,7 +312,7 @@ final class InsightsDatasetTests: XCTestCase {
         let logs = [
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 0, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.currentStreak, 1)
     }
 
@@ -304,7 +323,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 1, now: now),
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 2, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.currentStreak, 3)
     }
 
@@ -314,7 +333,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 1, now: now),
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 2, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.currentStreak, 2)
     }
 
@@ -327,7 +346,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 3, now: now),
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 4, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.currentStreak, 2)
     }
 
@@ -337,7 +356,7 @@ final class InsightsDatasetTests: XCTestCase {
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 5, now: now),
             log(coreID: "happy", coreName: "Happy", secondaryID: "peaceful", secondaryName: "Peaceful", daysAgo: 6, now: now)
         ]
-        let dataset = InsightsDataset.build(logs: logs, period: .all, now: now)
+        let dataset = InsightsDataset.build(logs: logs, period: .year, now: now)
         XCTAssertEqual(dataset.currentStreak, 0)
     }
 }

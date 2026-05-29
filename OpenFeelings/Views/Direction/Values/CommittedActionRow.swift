@@ -15,20 +15,37 @@ struct CommittedActionRow: View {
 
     var body: some View {
         HStack(spacing: .OF.sm) {
-            Image(systemName: action.isDone ? "checkmark.square.fill" : "square")
-                .font(.title3)
-                .foregroundStyle(action.isDone ? AnyShapeStyle(Color.OF.accent) : AnyShapeStyle(Color.OF.textMuted))
+            checkbox
             VStack(alignment: .leading, spacing: 2) {
                 Text(action.title)
                     .font(.body)
+                    .strikethrough(action.isDone)
                     .foregroundStyle(action.isDone ? Color.OF.textMuted : Color.OF.text)
                 Text(valueLabel)
                     .font(.caption)
                     .foregroundStyle(Color.OF.textMuted)
             }
+            .opacity(action.isDone ? 0.55 : 1.0)
             Spacer()
         }
         .padding(.vertical, .OF.xs)
-        .opacity(action.isDone ? 0.6 : 1.0)
+    }
+
+    /// Rounded checkbox: cool-accent fill + white check when done, hairline
+    /// outline when not. The cool fill stays vivid (the row text dims instead),
+    /// making the done-state read clearly.
+    private var checkbox: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(action.isDone ? AnyShapeStyle(Color.OF.accentCool) : AnyShapeStyle(Color.clear))
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .stroke(action.isDone ? Color.OF.accentCool : Color.OF.textMuted, lineWidth: 1.5)
+            if action.isDone {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(Color.OF.textOnAccent)
+            }
+        }
+        .frame(width: 22, height: 22)
     }
 }

@@ -39,6 +39,8 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
   - [x] **D — Committed-action delete** — done 2026-05-28 (destructive button in CommittedActionDetail).
   - [x] **E — Intention edit + delete** — done 2026-05-28 (ellipsis menus in IntentionsContent).
   - [x] **F — Custom body region rename** — done 2026-05-28 (tappable row → alert; delete via per-row swipeActions).
+- [x] **Paper design polish (build 40)** — done 2026-05-29. 6-piece visual batch from the local "Paper"/"Dawn" mockups (lean Paper; mockup zips gitignored). P1 Direction Intentions↔Values segmented toggle, P2 wizard one-emotion-per-row, P3 Insights `All`→`Year` (365-day; `.all` kept for therapy-report all-time), P4 serif tracking, P5 Intentions wash card + compact list, P6 strength circles / clinical-note card / committed-action checkbox (new `Color.OF.accentCool` token). Adversarial review fixed 3 defects (empty-state copy, Direction `@State` teardown → ZStack mount, `accentCool` dark-mode AA → `textOnAccent`). Spec at `docs/superpowers/specs/2026-05-29-paper-design-polish-design.md`. Built + verified; **TestFlight upload pending user ship decision**.
+- [ ] **Follow-up: `ValueSortRedesignUITests` full-flow e2e tests are flaky** — the two long swipe-automation tests (`testSwipeSortHappyPathReachesAutoCompareModal`, `testAutoCompareModalDismissesOnDone`) drive ~56 card swipes over 150s+ and fail at a non-deterministic point (the twin passes on a clean store, proving the flow works). Make deterministic: a `-uiTestingMode` seeded small fixed deck and/or relaxed step timeouts. Not a regression. Small–medium.
 
 ### Next
 - [x] App icon (light/dark/tinted 1024×1024 set already in place).

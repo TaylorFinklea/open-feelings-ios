@@ -8,12 +8,13 @@ struct EmotionDefinitionCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: .OF.sm) {
-            Label("Clinically informed meaning", systemImage: "book.closed")
+            Text("\(definition.title) — clinical note".uppercased())
                 .font(.OF.caption.weight(.semibold))
+                .tracking(0.6)
                 .foregroundStyle(Color.OF.textMuted)
 
             Text(definition.summary)
-                .font(.OF.body)
+                .font(.system(size: 17, weight: .regular, design: .serif).italic())
                 .foregroundStyle(Color.OF.text)
                 .fixedSize(horizontal: false, vertical: true)
 

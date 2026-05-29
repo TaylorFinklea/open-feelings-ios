@@ -48,7 +48,7 @@ struct FeelingStep: View {
             if let selection = draft.selection {
                 EmotionDefinitionCard(
                     definition: selection.definition,
-                    accent: Color.OF.accent.color(for: colorScheme),
+                    accent: EmotionColorPalette.color(coreID: selection.core.id, depth: .core, scheme: colorScheme),
                     showsDisclaimer: true
                 )
             }

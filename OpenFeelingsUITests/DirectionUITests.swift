@@ -20,6 +20,20 @@ final class DirectionUITests: XCTestCase {
         app.descendants(matching: .any).matching(identifier: "tab.\(name)").firstMatch
     }
 
+    /// Intentions ↔ Values segmented toggle button, by identifier.
+    private func segment(_ name: String) -> XCUIElement {
+        app.descendants(matching: .any).matching(identifier: "direction.segment.\(name)").firstMatch
+    }
+
+    /// The Direction tab opens on Intentions; the Values area only renders once
+    /// its segment is selected. Sort-flow tests call this first.
+    private func showValues() {
+        let values = segment("Values")
+        XCTAssertTrue(values.waitForExistence(timeout: 3),
+                      "Direction tab should expose a Values segment")
+        values.tap()
+    }
+
     /// "Start the sort" appears in the empty-state card; "Re-sort" appears
     /// once a ValueSort exists. Both lead to SortFlowView.
     private func sortAffordance() -> XCUIElement {
@@ -28,31 +42,36 @@ final class DirectionUITests: XCTestCase {
         return app.buttons["Re-sort"]
     }
 
-    // MARK: - Headers
+    // MARK: - Segmented toggle
 
-    func testDirectionTabRendersIntentionsAndValuesHeaders() {
+    func testDirectionSegmentTogglesToValues() {
         tab("direction").tap()
 
-        let intentions = app.staticTexts["Intentions"]
-        XCTAssertTrue(intentions.waitForExistence(timeout: 3),
-                      "Direction tab should render an Intentions section header")
+        XCTAssertTrue(segment("Intentions").waitForExistence(timeout: 3),
+                      "Direction tab should expose an Intentions segment")
+        XCTAssertTrue(segment("Values").exists,
+                      "Direction tab should expose a Values segment")
 
-        // Values header lives further down; scroll the surrounding view
-        // until it comes into reach. The Direction tab is one ScrollView.
-        let values = app.staticTexts["Values"]
+        // Defaults to Intentions, so the Values sort affordance is not present.
+        XCTAssertFalse(sortAffordance().exists,
+                       "Values content should be hidden while Intentions is selected")
+
+        // Switching to Values reveals the Values area's sort affordance.
+        segment("Values").tap()
         var attempts = 0
-        while !values.exists && attempts < 6 {
+        while !sortAffordance().exists && attempts < 6 {
             app.swipeUp()
             attempts += 1
         }
-        XCTAssertTrue(values.exists,
-                      "Direction tab should render a Values section header")
+        XCTAssertTrue(sortAffordance().exists,
+                      "Selecting the Values segment should reveal the Values area")
     }
 
     // MARK: - Sort affordance
 
     func testValuesAreaExposesSortAffordance() {
         tab("direction").tap()
+        showValues()
 
         // Scroll to bring the ValuesArea into view if needed.
         var attempts = 0
@@ -69,6 +88,7 @@ final class DirectionUITests: XCTestCase {
 
     func testSortFlowOpensSwipeStep() {
         tab("direction").tap()
+        showValues()
 
         var attempts = 0
         while !sortAffordance().exists && attempts < 6 {
@@ -105,6 +125,7 @@ final class DirectionUITests: XCTestCase {
 
     func testBucketAdvancesProgressAndUndoRestoresIt() {
         tab("direction").tap()
+        showValues()
 
         var attempts = 0
         while !sortAffordance().exists && attempts < 6 {
@@ -150,6 +171,7 @@ final class DirectionUITests: XCTestCase {
 
     func testSortFlowCancelDismissesModal() {
         tab("direction").tap()
+        showValues()
 
         var attempts = 0
         while !sortAffordance().exists && attempts < 6 {

@@ -24,7 +24,7 @@ struct OFEmptyState: View {
             }
             VStack(spacing: .OF.sm) {
                 Text(title)
-                    .font(.OF.title)
+                    .ofTitle()
                     .foregroundStyle(Color.OF.text)
                     .multilineTextAlignment(.center)
                 Text(bodyText)

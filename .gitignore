@@ -17,5 +17,5 @@ buildServer.json
 .playwright-mcp/
 openfeelings-*.png
 
-# Stray archive (not part of the project)
-OpenFeelings.zip
+# Design-mockup archives (kept local only — noise in the repo)
+OpenFeelings*.zip

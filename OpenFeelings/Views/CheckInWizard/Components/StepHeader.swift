@@ -17,7 +17,7 @@ struct StepHeader: View {
                 .foregroundStyle(Color.OF.textMuted)
                 .padding(.top, .OF.xs)
             Text(title)
-                .font(.OF.display)
+                .ofDisplay()
                 .foregroundStyle(Color.OF.text)
             Text(subtitle)
                 .font(.OF.body)

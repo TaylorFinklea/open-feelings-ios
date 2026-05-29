@@ -27,6 +27,11 @@ final class ValueSortRedesignUITests: XCTestCase {
 
     private func navigateToDirectionTab() {
         tab("direction").tap()
+        // The Values area lives behind the Intentions↔Values segment, which
+        // defaults to Intentions. Select Values so the sort affordances render.
+        let values = app.descendants(matching: .any)
+            .matching(identifier: "direction.segment.Values").firstMatch
+        if values.waitForExistence(timeout: 3) { values.tap() }
     }
 
     private func openSort() {

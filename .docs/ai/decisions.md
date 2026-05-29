@@ -12,6 +12,13 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-05-29] Paper polish — three non-obvious implementation calls
+
+**Context**: The "Paper design polish" batch (build 40) made three calls the spec didn't fully pin down, two of which were flagged by the adversarial review.
+**Decision**: (1) **`InsightsPeriod.all` kept, not renamed.** The spec said "rename `All`→`Year`," but `InsightsPeriod` is shared between the Insights tab and `TherapyReportData`'s "All time" PDF export, which depends on `.all` returning a **nil cutoff**. Added a new `.year` (rolling 365-day) case and a curated `insightsTabCases = [.week,.month,.year]` the picker iterates; `.all` stays in the enum for the therapy report only. `InsightsView.period` migrates a persisted `.all`→`.year`. Renaming would have silently shrunk the therapy report's all-time export to 365 days. (2) **Direction toggle keeps both sub-areas mounted (ZStack + opacity/hit-test/accessibility gating), not `if`/`switch`.** A `switch` tears down the inactive view's `@State`, silently discarding an unsaved Intention draft when the user toggles mid-edit. The ZStack restores the pre-toggle "both always in the tree" guarantee with zero changes to `IntentionsContent`'s internals. (3) **New `Color.OF.accentCool` token** for the committed-action "done" checkbox — the palette was all-warm-terracotta and 6c asked for a *cool* accent. Glyphs on it use `Color.OF.textOnAccent` (adaptive), **not** pure white: white on the lighter dark-mode hex `#8FB4C4` is only 2.21:1 (fails WCAG AA); `textOnAccent` gives 7.86:1 dark / 5.18:1 light.
+**Alternatives considered**: (1) Map `.allTime`→`.year` (rejected — regresses the therapy PDF). (2) Hoist `IntentionsContent`'s draft `@State` up to `DirectionView` (more invasive, touches the view's save logic the spec said to leave unchanged) or `@SceneStorage` (persists across launches, wrong scope). (3) Reuse warm `Color.OF.accent` (ignores the spec's "cool"); use an emotion-palette color (semantically wrong for a done-state).
+**Rationale**: Each preserves an existing, audited behavior (therapy all-time export; no-data-loss; WCAG AA) while still delivering the spec's visible intent. The first two were verified as real regressions by the review's refute-first verifiers before fixing.
+
 ## [2026-05-28] Data management — per-surface CRUD, check-ins fully editable
 
 **Context**: User wants to view, edit, and delete all their stored data (check-ins, custom values, etc.). Coverage was uneven: thought records had edit+delete, check-ins had delete + note-only edit, custom values/value-sorts/committed-actions/intentions had little or none.
