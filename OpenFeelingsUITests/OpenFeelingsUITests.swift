@@ -142,6 +142,63 @@ final class OpenFeelingsUITests: XCTestCase {
                       "Save should be enabled once a complete feeling has been picked")
     }
 
+    /// End-to-end: save a check-in, open it from History, and confirm the
+    /// full-edit screen pushes. Drives the wizard to a real Save (persists
+    /// to the sim store), then Today → See all history → Edit.
+    func testHistoryEditOpensFullEditScreen() {
+        tab("checkIn").tap()
+
+        let continueButton = app.buttons["Continue"]
+        XCTAssertTrue(continueButton.waitForExistence(timeout: 3))
+        continueButton.tap()  // body step
+
+        if app.buttons["Wizard"].exists { app.buttons["Wizard"].tap() }
+
+        func emotion(_ name: String) -> XCUIElement {
+            app.descendants(matching: .any).matching(identifier: "emotion.\(name)").firstMatch
+        }
+        XCTAssertTrue(emotion("Happy").waitForExistence(timeout: 5))
+        emotion("Happy").tap()
+        if emotion("Optimistic").waitForExistence(timeout: 3) { emotion("Optimistic").tap() }
+        if emotion("Hopeful").waitForExistence(timeout: 3) { emotion("Hopeful").tap() }
+
+        XCTAssertTrue(continueButton.waitForExistence(timeout: 3))
+        continueButton.tap()  // out of feeling
+        if continueButton.waitForExistence(timeout: 3) { continueButton.tap() }  // strength
+
+        let saveButton = app.buttons["Save check-in"]
+        XCTAssertTrue(saveButton.waitForExistence(timeout: 3))
+        saveButton.tap()  // persist + return to Today
+
+        // Today → See all history.
+        let seeAll = app.buttons["See all history"]
+        var attempts = 0
+        while !seeAll.exists && attempts < 6 {
+            app.swipeUp()
+            attempts += 1
+        }
+        XCTAssertTrue(seeAll.waitForExistence(timeout: 3),
+                      "Today should expose 'See all history' after a check-in exists")
+        seeAll.tap()
+
+        // History → Edit the first card.
+        let edit = app.buttons["history.edit"].firstMatch
+        XCTAssertTrue(edit.waitForExistence(timeout: 3),
+                      "History card should expose an Edit affordance")
+        edit.tap()
+
+        // Full-edit screen pushes.
+        let editView = app.descendants(matching: .any)
+            .matching(identifier: "checkin-edit.view").firstMatch
+        XCTAssertTrue(editView.waitForExistence(timeout: 3),
+                      "Tapping Edit should push CheckInEditView")
+
+        // Cancel returns to History.
+        app.buttons["Cancel"].firstMatch.tap()
+        XCTAssertFalse(editView.waitForExistence(timeout: 1),
+                       "Cancel should pop the edit screen")
+    }
+
     func testWizardBodyChipBecomesSelectedAfterTap() {
         tab("checkIn").tap()
 
