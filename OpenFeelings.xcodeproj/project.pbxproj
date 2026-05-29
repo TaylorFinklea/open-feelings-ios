@@ -97,6 +97,7 @@
 		5B71386EC0CE86ACF810533B /* PastSortsDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C3284F2F376FB92BE87DE6 /* PastSortsDeleteTests.swift */; };
 		5C805546E987C6C01B508E40 /* CustomBodyRegionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA99007B455994140D63919 /* CustomBodyRegionTests.swift */; };
 		5DAE409713FC56BCD82B6849 /* ThinkingPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD9B582B31C6DE08D360104 /* ThinkingPattern.swift */; };
+		5E21CA46E74BCFE7D7E30D0E /* CheckInEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F9F24A9251479EA9D523F8 /* CheckInEditView.swift */; };
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		5E9E8C1C38CC9838E440D673 /* CustomValuesSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA38703CEB3483C5DA9A7F7 /* CustomValuesSheet.swift */; };
 		5F9EE41748C175A0D24C2FAE /* IntentionsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE0CC94DAE2CD18AB5511A6 /* IntentionsContent.swift */; };
@@ -433,6 +434,7 @@
 		B853D8246487F25572AEF0F5 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInStepKind.swift; sourceTree = "<group>"; };
 		B9D05B5BB1CF3FE4BCB02F59 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		B9F9F24A9251479EA9D523F8 /* CheckInEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInEditView.swift; sourceTree = "<group>"; };
 		BA01967BCD9E433554336344 /* TherapyReportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyReportData.swift; sourceTree = "<group>"; };
 		BE7B581A685C8C61114425E2 /* ThoughtRecordFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordFlowView.swift; sourceTree = "<group>"; };
 		C0762EAB12117A0ADE07609B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -724,6 +726,7 @@
 		8B710F70BEF9924575FCE7E9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B9F9F24A9251479EA9D523F8 /* CheckInEditView.swift */,
 				9138E6D8E4A840D94F5F0C46 /* CheckInView.swift */,
 				2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */,
 				782FA50454E902FB514212AD /* EmotionWheelView.swift */,
@@ -1130,6 +1133,7 @@
 				35CCD3D6A82E4B454ED039FA /* BodyStep.swift in Sources */,
 				65050F421A2359929132B426 /* BodyTaxonomy.swift in Sources */,
 				7C142522E509F8C822A13D65 /* CheckInDraft.swift in Sources */,
+				5E21CA46E74BCFE7D7E30D0E /* CheckInEditView.swift in Sources */,
 				BDC94C788370C0FB6C669527 /* CheckInFlowEngine.swift in Sources */,
 				9FDF2AA07587BE3FE57CFE26 /* CheckInFlowSettingsView.swift in Sources */,
 				5137AEFD7888146FAC1FCD1D /* CheckInStepKind.swift in Sources */,
