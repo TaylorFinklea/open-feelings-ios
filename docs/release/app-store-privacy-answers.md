@@ -25,6 +25,7 @@ Open Feelings meets this bar in v0.1.0:
 | Notification scheduling | iOS UserNotifications system | None | No |
 | Crash logs | None — no crash reporter SDK is integrated | n/a | No |
 | Advertising identifiers | Not requested | n/a | No |
+| Tip-jar purchases (consumables) | StoreKit / Apple | None (no developer server; aggregate sales only) | No |
 
 There are no analytics, advertising, attribution, A/B-testing, push, or
 crash-reporting SDKs bundled in the app. The only network activity is the
@@ -49,7 +50,12 @@ in. The developer's servers do not exist — there are none.
   device / private iCloud; per Apple's guidance, that does not count).
 - **Browsing History / Search History** — No.
 - **Identifiers** — User ID, Device ID, Advertising ID, etc. → No.
-- **Purchases** — Purchase History → No (no in-app purchases or subscriptions).
+- **Purchases** — Purchase History → No. The app offers **tip-jar consumables**
+  (Soda / Lunch / Dinner, build 36) handled entirely by StoreKit. There is no
+  developer server and no analytics, so the app neither stores nor transmits any
+  purchase data linked to the user. Apple's aggregate App Store Connect sales
+  reports are not identity-linked "collection" under the App Privacy form, so
+  Purchase History stays **No**.
 - **Usage Data** — Product Interaction, Advertising Data, Other Usage Data →
   No (no analytics SDK, no logging).
 - **Diagnostics** — Crash Data, Performance Data, Other Diagnostic Data → No

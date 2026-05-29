@@ -139,7 +139,7 @@ CloudKit Production schema redeploy across sessions 2026-05-23 → 2026-05-27. M
 
 ## Blockers
 
-- **Follow-up CloudKit schema redeploy — add `CD_ThoughtRecord`.** Build 32 shipped the wizard fix; once that's installed on a real device and a thought record is saved, refresh the CloudKit Console Development schema, add `CD_createdAt` Queryable index on `CD_ThoughtRecord`, and Deploy Schema Changes. Additive — should be a 1-type + 1-index diff.
+- ~~Follow-up CloudKit schema redeploy — add `CD_ThoughtRecord`.~~ **DONE 2026-05-29.** All 8 record types now in Production; the `CKErrorDomain error 2` (partialFailure) sync error from saving the first thought record cleared after the additive Deploy. **Code follow-up bundled into the next build**: `CloudSyncMonitor.describe(error:)` couldn't surface the real per-record reason (it only checked the top-level error, not the `NSUnderlyingErrorKey`/`NSDetailedErrorsKey` wrapper CoreData uses) — being hardened so future sync errors are legible.
 - Manual VoiceOver / AX5 / Reduce-Motion / Reduce-Transparency / Liquid
   Glass simulator walkthroughs still pending (Daisy).
 - App Store / device distribution still needs the production CloudKit

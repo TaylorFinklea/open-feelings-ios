@@ -12,6 +12,12 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-05-29] CD_ThoughtRecord production deploy completed (8/8 record types live)
+
+**Context**: After the build-32 wizard fix made ThoughtRecords saveable, a device surfaced `CKErrorDomain error 2` (CKError.partialFailure) on the Settings → Privacy iCloud-sync row. Root cause (confirmed by an adversarial-refute workflow): `CD_ThoughtRecord` was the only one of 8 SwiftData record types never deployed to Production (deferred 2026-05-23 because the unsaveable wizard meant the type was never declared to Development). Not a build-40 regression — build 40 was pure UI.
+**Decision**: Ran the deferred additive Production deploy via the CloudKit Console (save a thought record on a device build → Development declares `CD_ThoughtRecord` → add `CD_createdAt` Queryable index → Deploy Schema Changes). Additive 1-type + 1-index diff, 0 deletions. Error cleared.
+**Follow-up (code, next build)**: `CloudSyncMonitor.describe(error:)` only inspected the top-level error for `CKPartialErrorsByItemIDKey`, so the per-record reason ("Did not find record type: CD_ThoughtRecord") that `NSPersistentCloudKitContainer` nests under `NSUnderlyingErrorKey`/`NSDetailedErrorsKey` was never surfaced — the row showed the generic "error 2" text. Hardening the extraction to walk the error chain + adding a test for the wrapped shape (the existing tests only modeled the flat top-level shape, which is why this gap shipped green).
+
 ## [2026-05-29] Paper polish — three non-obvious implementation calls
 
 **Context**: The "Paper design polish" batch (build 40) made three calls the spec didn't fully pin down, two of which were flagged by the adversarial review.
