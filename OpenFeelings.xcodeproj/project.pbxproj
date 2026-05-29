@@ -21,6 +21,7 @@
 		0E13AFD750E0DD4E4CD8205F /* EmotionColorPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E53C404C96AD5249068055 /* EmotionColorPaletteTests.swift */; };
 		0E61B04B729FF069F3E8660B /* OpenFeelingsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 464D885245E0FF5E70E4FF20 /* OpenFeelingsWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0EECCA9D39125FBE8BD6F190 /* HistoryDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1772A8BCB2595E645C9E5080 /* HistoryDeleteTests.swift */; };
+		0EEF5B3EECA3B65AFA9DEA7A /* ScreenshotDemoSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60330551C791A708A743B543 /* ScreenshotDemoSeeder.swift */; };
 		102B7F61CEA6EFF9D8B0ACD8 /* BackupServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B9CC1F846008A265170555 /* BackupServiceTests.swift */; };
 		11E7485B87FD74EB6418162A /* IntensityAfterStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF27F09F26D13733FBFB23 /* IntensityAfterStepView.swift */; };
 		1206972455BE958C46CB09BC /* SettingsToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F725DD49E50FEA6A6C22381 /* SettingsToolbar.swift */; };
@@ -75,6 +76,7 @@
 		46C276F4A404056684E8DAEB /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186F1042FF9CD96AF90DFC95 /* AppIconView.swift */; };
 		46E068FD43EB2503862C8D34 /* ThoughtRecordDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442BC13FDE1D89F6D5E2B148 /* ThoughtRecordDetail.swift */; };
 		46EA2F8C9B7352A1A273BC59 /* CommittedActionDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2661EF8544A30905E4FC9B45 /* CommittedActionDeleteTests.swift */; };
+		47F9CD4013C531E5A463D695 /* ScreenshotTourUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D219DF57519D2EECFF099 /* ScreenshotTourUITests.swift */; };
 		490A441FEE0CCD3676BFD8DD /* CheckInStepKindTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B624F35F9610784AEA13A3A1 /* CheckInStepKindTests.swift */; };
 		4AF0ADF55D1E292CEEDEF66E /* FeelingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C1969664DAE9332E91F254 /* FeelingLog.swift */; };
 		4B371CC39F85142B4CEE87B3 /* ContextTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4DC35489830AC2C557E692 /* ContextTaxonomy.swift */; };
@@ -288,6 +290,7 @@
 		19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSettingsStoreTests.swift; sourceTree = "<group>"; };
 		1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		1E36FA186526385FF499AE4E /* StepHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeader.swift; sourceTree = "<group>"; };
+		1E6D219DF57519D2EECFF099 /* ScreenshotTourUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTourUITests.swift; sourceTree = "<group>"; };
 		1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionColor.swift; sourceTree = "<group>"; };
 		2024F67D00A5BB9D28CA1126 /* EmotionDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDefinitionCard.swift; sourceTree = "<group>"; };
 		22406335968ABE1682FF6FCD /* ThoughtRecordsAreaPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordsAreaPersistenceTests.swift; sourceTree = "<group>"; };
@@ -349,6 +352,7 @@
 		5DA38703CEB3483C5DA9A7F7 /* CustomValuesSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomValuesSheet.swift; sourceTree = "<group>"; };
 		5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInFlowSettingsView.swift; sourceTree = "<group>"; };
 		6024EEE2E361EA2CDA93B0A5 /* DirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionView.swift; sourceTree = "<group>"; };
+		60330551C791A708A743B543 /* ScreenshotDemoSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoSeeder.swift; sourceTree = "<group>"; };
 		60CAF5B22D477191AAC90A68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		61B691E4E4F7F841A160120A /* PatternsStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsStepView.swift; sourceTree = "<group>"; };
 		62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerCopingTaxonomyTests.swift; sourceTree = "<group>"; };
@@ -638,6 +642,7 @@
 				0993C66C08C445F9B11C2D1A /* OpenFeelings.entitlements */,
 				4389634FBA61E1BCDCD61F2B /* OpenFeelings.storekit */,
 				E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */,
+				60330551C791A708A743B543 /* ScreenshotDemoSeeder.swift */,
 				36B6CB2401FF4E380AEE2948 /* Design */,
 				036DA193C076501588F10034 /* Models */,
 				53D4F9B51DCAD75BEB5DED98 /* Services */,
@@ -829,6 +834,7 @@
 			children = (
 				B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */,
 				9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */,
+				1E6D219DF57519D2EECFF099 /* ScreenshotTourUITests.swift */,
 				D81772FB97FC259798CCF55A /* ThoughtRecordWizardUITests.swift */,
 				3DA76481AC02542C76B01178 /* ValueSortRedesignUITests.swift */,
 			);
@@ -1192,6 +1198,7 @@
 				5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */,
 				0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */,
 				C81CF1D5A2FE1969CEC5042C /* RootView.swift in Sources */,
+				0EEF5B3EECA3B65AFA9DEA7A /* ScreenshotDemoSeeder.swift in Sources */,
 				ED0B67AD789F0B3243FC5F1B /* SelectedFeelingBadge.swift in Sources */,
 				0933844880766DAE10CB0CF9 /* SensationsStep.swift in Sources */,
 				1206972455BE958C46CB09BC /* SettingsToolbar.swift in Sources */,
@@ -1275,6 +1282,7 @@
 			files = (
 				894E36AE8AF8BE75B4DDDEDC /* DirectionUITests.swift in Sources */,
 				BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */,
+				47F9CD4013C531E5A463D695 /* ScreenshotTourUITests.swift in Sources */,
 				A953BB8636D715C6D5F4C411 /* ThoughtRecordWizardUITests.swift in Sources */,
 				03A4FE7B532CAEC5EF1E1E6C /* ValueSortRedesignUITests.swift in Sources */,
 			);
@@ -1581,7 +1589,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 41;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1594,7 +1602,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1657,7 +1665,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 41;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1676,7 +1684,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
