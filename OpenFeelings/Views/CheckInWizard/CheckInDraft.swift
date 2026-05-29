@@ -72,4 +72,58 @@ struct CheckInDraft {
     mutating func reset() {
         self = CheckInDraft()
     }
+
+    // MARK: - Edit round-trip (full-edit of a saved FeelingLog)
+
+    /// Reconstruct a draft from a saved log so the wizard's steps can edit
+    /// every field. Mirrors the `CheckInView.save()` field mapping in
+    /// reverse. The emotion path uses `EmotionTaxonomy.selection`, which
+    /// returns nil secondary/specific for stop-at-any-level entries.
+    static func from(log: FeelingLog) -> CheckInDraft {
+        var draft = CheckInDraft()
+        draft.selection = EmotionTaxonomy.selection(
+            coreID: log.coreID,
+            secondaryID: log.secondaryID.isEmpty ? nil : log.secondaryID,
+            specificID: log.specificID.isEmpty ? nil : log.specificID
+        )
+        draft.note = log.note
+        draft.includeIntensity = log.intensity != nil
+        draft.intensity = Double(log.intensity ?? 3)
+        draft.includeMoodScale = log.moodEnergy != nil || log.moodValence != nil
+        draft.moodEnergy = log.moodEnergy ?? 0
+        draft.moodValence = log.moodValence ?? 0
+        draft.bodyRegions = Set(log.bodyRegions)
+        draft.customBodyRegionIDs = Set(log.customBodyRegionIDs)
+        draft.bodySensations = Set(log.bodySensations)
+        draft.contextPlaces = Set(log.contextPlaces)
+        draft.contextPeople = Set(log.contextPeople)
+        draft.triggers = Set(log.triggers)
+        draft.coping = Set(log.coping)
+        return draft
+    }
+
+    /// Write the draft's editable fields back onto an existing log. Preserves
+    /// `id`, `createdAt`, `healthSyncStatus`, and `captureSource` — editing
+    /// changes what was recorded, not when or where. No-op if there is no
+    /// selection (the wizard gates Save on `canSave`).
+    func apply(to log: FeelingLog) {
+        guard let selection else { return }
+        log.coreID = selection.core.id
+        log.coreName = selection.core.name
+        log.secondaryID = selection.secondary?.id ?? ""
+        log.secondaryName = selection.secondary?.name ?? ""
+        log.specificID = selection.specific?.id ?? ""
+        log.specificName = selection.specific?.name ?? ""
+        log.intensity = includeIntensity ? Int(intensity.rounded()) : nil
+        log.note = note.trimmingCharacters(in: .whitespacesAndNewlines)
+        log.bodyRegions = BodyRegion.allCases.filter { bodyRegions.contains($0) }
+        log.customBodyRegionIDs = Array(customBodyRegionIDs)
+        log.bodySensations = BodySensation.allCases.filter { bodySensations.contains($0) }
+        log.contextPlaces = ContextPlace.allCases.filter { contextPlaces.contains($0) }
+        log.contextPeople = ContextPeople.allCases.filter { contextPeople.contains($0) }
+        log.triggers = Trigger.allCases.filter { triggers.contains($0) }
+        log.coping = Coping.allCases.filter { coping.contains($0) }
+        log.moodEnergy = includeMoodScale ? moodEnergy : nil
+        log.moodValence = includeMoodScale ? moodValence : nil
+    }
 }
