@@ -44,6 +44,7 @@ Open Feelings is a free, local-first iOS app for private emotion check-ins using
 
 ### Next
 - [x] App icon (light/dark/tinted 1024×1024 set already in place).
+- [ ] **Polished app icon** — interim reverted to the warm-calm concentric-rings logo 2026-05-29 (the multicolor "beachball" was disliked). Replace with a refined modern version (Recraft), and when finalizing **regenerate the iOS 26 dark + tinted variants** + re-add them to `AppIcon.appiconset/Contents.json` (the interim revert dropped the bespoke dark/tinted, falling back to the single icon).
 - [x] Launch branding (LaunchBackground color set with light + dark variants).
 - [x] App Store privacy policy copy — reconciled single text dated May 16, 2026 lives in repo-root `PRIVACY.md`, the SvelteKit page (`web/src/routes/privacy/+page.svelte` → openfeelings.finklea.dev/privacy), and `PrivacyPolicyView` in Settings → Privacy. All three are in lockstep; cover currently-shipping features (value sorts, committed actions, custom regions/values, Apple Watch, triggers/coping/mood, full export menu, therapy PDF, journal handoff). App lock language removed since feature is flagged off.
 - [ ] Deploy the updated SvelteKit site to Cloudflare Pages so openfeelings.finklea.dev/privacy serves the May 16, 2026 copy. (Code change is committed; the page still serves the previous May 5 copy until you redeploy.)
