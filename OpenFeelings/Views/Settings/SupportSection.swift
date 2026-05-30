@@ -26,6 +26,19 @@ struct SupportSection: View {
 
     @ViewBuilder
     private var content: some View {
+        #if DEBUG
+        if Self.screenshotDemo {
+            demoTiers
+        } else {
+            liveContent
+        }
+        #else
+        liveContent
+        #endif
+    }
+
+    @ViewBuilder
+    private var liveContent: some View {
         switch tipJar.loadState {
         case .idle, .loading:
             HStack {
@@ -52,6 +65,31 @@ struct SupportSection: View {
             }
         }
     }
+
+    #if DEBUG
+    /// App Store IAP review screenshots need the tiers visible, but StoreKit
+    /// testing config isn't reliably applied under `xcodebuild test`. With
+    /// `-tipJarDemo` the section renders the real tiers (names and prices
+    /// match `OpenFeelings.storekit` and App Store Connect) from static data.
+    static var screenshotDemo: Bool { CommandLine.arguments.contains("-tipJarDemo") }
+
+    @ViewBuilder
+    private var demoTiers: some View {
+        let tiers = [
+            (title: "Soda", price: "$1.99", icon: "cup.and.saucer"),
+            (title: "Lunch", price: "$4.99", icon: "fork.knife"),
+            (title: "Dinner", price: "$9.99", icon: "wineglass"),
+        ]
+        ForEach(Array(tiers.enumerated()), id: \.offset) { idx, tier in
+            if idx > 0 { divider }
+            OFListRow(title: tier.title, systemImage: tier.icon) {
+                Text(tier.price)
+                    .font(.OF.body)
+                    .foregroundStyle(Color.OF.textMuted)
+            }
+        }
+    }
+    #endif
 
     private func tipRow(_ tier: Product) -> some View {
         Button {
