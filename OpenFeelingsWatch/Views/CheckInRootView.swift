@@ -23,11 +23,14 @@ struct CheckInRootView: View {
                 .navigationTitle("Check In")
                 .navigationDestination(for: Step.self) { destination(for: $0) }
         }
+        .onAppear { applyScreenshotModeIfNeeded() }
     }
 
     @ViewBuilder
     private var rootView: some View {
-        if settingsStore.settings.bodyFirst {
+        if screenshotRootCore {
+            corePicker
+        } else if settingsStore.settings.bodyFirst {
             BodyRegionPicker(
                 selection: Binding(get: { wizard.bodyRegions }, set: { wizard.bodyRegions = $0 }),
                 onContinue: { advanceFromBody() }
@@ -183,5 +186,55 @@ struct CheckInRootView: View {
     private func startOver() {
         wizard.reset()
         path = []
+    }
+
+    // MARK: - Screenshot mode
+
+    /// The `-watchShot <name>` value, if the app was launched for App Store
+    /// screenshot capture. Always nil in release builds.
+    private static var screenshotShot: String? {
+        #if DEBUG
+        let args = CommandLine.arguments
+        guard let i = args.firstIndex(of: "-watchShot"), i + 1 < args.count else { return nil }
+        return args[i + 1]
+        #else
+        return nil
+        #endif
+    }
+
+    /// In screenshot mode the feelings list is always the root, so every
+    /// captured screen shares a consistent back-stack regardless of the
+    /// body-first setting pushed from iOS.
+    private var screenshotRootCore: Bool {
+        Self.screenshotShot != nil
+    }
+
+    /// Seeds wizard state and the navigation path so a single launch lands on
+    /// the requested screen without any taps. No-op outside screenshot mode.
+    private func applyScreenshotModeIfNeeded() {
+        guard let shot = Self.screenshotShot, path.isEmpty, wizard.core == nil else { return }
+        let core = EmotionTaxonomy.cores.first { $0.name == "Happy" } ?? EmotionTaxonomy.cores[0]
+        let secondary = core.secondaries.first { $0.name == "Peaceful" } ?? core.secondaries.first
+        switch shot {
+        case "core":
+            break // corePicker is already the root
+        case "secondary":
+            wizard.core = core
+            path = [.secondary]
+        case "intensity":
+            wizard.core = core
+            wizard.secondary = secondary
+            wizard.specific = secondary?.specifics.first
+            wizard.intensity = 4
+            path = [.intensity]
+        case "confirm":
+            wizard.core = core
+            wizard.secondary = secondary
+            wizard.specific = secondary?.specifics.first
+            wizard.intensity = 4
+            path = [.confirm]
+        default:
+            break
+        }
     }
 }
