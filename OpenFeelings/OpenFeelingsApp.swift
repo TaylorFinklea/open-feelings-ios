@@ -61,6 +61,26 @@ struct OpenFeelingsApp: App {
             ThoughtRecord.self
         ])
 
+        #if DEBUG
+        // Screenshot mode: an in-memory store seeded with curated demo data, so
+        // App Store screenshots show populated screens without using real data.
+        if CommandLine.arguments.contains("-screenshotMode") {
+            let screenshotConfiguration = ModelConfiguration(
+                "OpenFeelingsScreenshots",
+                schema: schema,
+                isStoredInMemoryOnly: true,
+                cloudKitDatabase: .none
+            )
+            do {
+                let container = try ModelContainer(for: schema, configurations: [screenshotConfiguration])
+                ScreenshotDemoSeeder.seed(into: container.mainContext)
+                return container
+            } catch {
+                fatalError("Unable to create Open Feelings screenshot model container: \(error)")
+            }
+        }
+        #endif
+
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
             let testConfiguration = ModelConfiguration(
                 "OpenFeelingsTests",
