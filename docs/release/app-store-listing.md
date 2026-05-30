@@ -21,12 +21,12 @@ Open Feelings
 Private feelings wheel
 ```
 
-## Promotional text (147/170)
+## Promotional text (145/170)
 
 > Updatable any time without a new review.
 
 ```
-Your feelings never leave your device. No accounts, no ads, no analytics, no trackers, no servers. Just you and a calm space to name what you feel.
+No accounts, no ads, no analytics, no trackers. Your check-ins live on your device and in your own private iCloud — never on a server we control.
 ```
 
 ## Keywords (92/100)
@@ -63,9 +63,9 @@ GO DEEPER WHEN YOU WANT TO
 - Hand a single check-in to Apple Journal, Day One, or Notes
 
 YOURS, AND ONLY YOURS
-- No accounts. No ads. No analytics. No third-party SDKs. No servers.
-- Everything stays on your device by default
-- Optional end-to-end-encrypted iCloud sync keeps your own devices in step — we still can't see it
+- No accounts. No ads. No analytics. No trackers. No third-party SDKs.
+- Your check-ins live on your device and sync only through your own private iCloud — there's no server we control, and we never see your data
+- iCloud sync follows your Apple ID settings and keeps your own devices in step
 - Optional Apple Watch check-ins, a daily reminder, and write-only Apple Health "State of Mind"
 - Free, with an optional tip jar that simply says thanks — it unlocks nothing
 
@@ -91,7 +91,7 @@ In this release:
 - Thoughts: CBT-style thought records to reframe a difficult thought
 - Therapy-session summary PDF and full data export (CSV, JSON, Markdown, text)
 - Hand a single check-in to Apple Journal, Day One, or Notes
-- Optional end-to-end-encrypted iCloud sync across your own devices
+- Private iCloud sync across your own devices, scoped to your Apple ID
 - Apple Watch check-ins, a daily reminder, and write-only Apple Health "State of Mind"
 - An optional tip jar that unlocks nothing — the app is fully free
 
