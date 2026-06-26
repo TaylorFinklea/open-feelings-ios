@@ -138,9 +138,10 @@ enum FeelingLogService {
      - **Emotion** — **[review]** the parsed selection shown as a pill; "Change" presents the existing **`FeelingStep`** (verified standalone-reusable: it binds only to `@Binding var draft: CheckInDraft` + `@Environment(\.colorScheme)`/`@AppStorage`; its extra params `suggestedCoreIDs/nudge/onSaveOverride/onDismissNudge` take `[]`/`nil`/no-ops). Note `FeelingStep` brings its own Wizard/Wheel mode segment + `EmotionDefinitionCard` — that is acceptable; we present it as-is rather than building a bespoke picker.
      - **Intensity** — **[review]** there is **no** standalone dots component today (the dots are private helpers inside `StrengthStep`, wrapped in its caption row + card chrome). Phase 1 **extracts an `IntensityDots(draft:)` subview** from `StrengthStep` and reuses it in *both* `StrengthStep` and the Review screen (so the wizard is unchanged and the dots are shared).
      - **Note** — a `TextEditor` pre-filled with `ParsedFeeling.note`.
-     - **Save** → `persist(…, captureSource: "phone", …)` → detached health task → ribbon + Today.
+     - **Save** → `persist(…, captureSource: "quickentry", …)` → detached health task → ribbon + Today.
 - **Low-confidence here is trivial:** in-app *always* shows Review, so `.low` / `.none` just lands the user on Review with the emotion pre-selected at the best core (or empty) and the note filled. Never blocked, never silently mis-tagged.
-- In-app quick entries save with `captureSource = "phone"` — by save time they are indistinguishable from a normal entry, so they need no special glyph. (Open question 3 below if we want to mark them.)
+- **[decision] In-app quick entries save with `captureSource = "quickentry"`** — distinct from the wizard/wheel `"phone"` source, with its own glyph/AX (below). This also covers entries the user finishes after a Siri `.none` hand-off.
+- **[decision] `QuickEntryView` must be seedable from a pending utterance** (for the Siri `.none` hand-off): it accepts an optional initial note/utterance and opens directly into Review (emotion empty, note filled). When opened from the Today button it starts at Capture instead.
 
 ## Surface 2 — Siri / App Shortcut
 
@@ -148,24 +149,29 @@ enum FeelingLogService {
 - **Flow:** phrase → `await FeelingParserProvider.current().parse(text)` → resolve shared container + a fresh `HealthService` → branch on `confidence`:
   - **`.high`** → `persist(captureSource: "siri")` → `await syncHealth` → `IntentDialog` read-back.
   - **`.low`** → still saves at the best confident **core** + note → `await syncHealth` → read-back noting it's approximate.
-  - **`.none` (no core resolvable at all)** → **does not fabricate an emotion.** A `FeelingLog` requires a real core, so the intent declines and saves nothing.
+  - **`.none` (no core resolvable at all)** → **does not fabricate an emotion, and does not lose the utterance (decision):** the intent stashes the raw utterance, **opens the app**, and lands in `QuickEntryView` Review with the note pre-filled so the user picks the emotion. The intent itself saves nothing; the eventual in-app save is `captureSource = "quickentry"`.
 - **[review] Read-back wording — resolve consistently to the *node title*** (`EmotionSelection.title`), never the user's vernacular word, so the same input can't be announced two ways:
   - `.high` (a specific resolved): *"Logged: Nervous, intensity 4. Open the app to add more."*
   - `.low` (only a core): *"Saved your note under Fear — open the app to pin down the feeling."*
-  - `.none`: *"I couldn't tell how you're feeling, so I didn't save it. Open Open Feelings to jot it down."* → **Open question 1.**
+  - `.none`: opens the app to quick-entry Review with the note pre-filled (a brief spoken hand-off line is fine, e.g. *"Let's finish this in the app."*).
+- **[decision] Siri → app hand-off mechanism (`.none`).** A small `PendingQuickEntryStore` (durable across processes — back it with `UserDefaults`/app-group, **not** an in-memory singleton, since a Shortcut may run outside the app process and the app may be cold-launched) holds the pending utterance. On `.none` the intent writes the utterance there and requests app launch; on foreground/launch `RootView` consumes any pending utterance → presents `QuickEntryView(seededNote:)` → clears the store. **Implementation detail to resolve against the current AppIntents API** (do not prescribe here): how an `AppIntent` conditionally opens the app from `perform()` (e.g. `openAppWhenRun` / returning a result that opens the app). Prove this hand-off early in the plan — it's the second non-trivial wiring task after the shared container.
 - **[review] `persist` nil contract:** for `.high`/`.low` a core is always present, so `draft.selection` is complete and `persist` returns non-nil. `nil` is a purely defensive guard; if it ever occurs on a `.high`/`.low` branch, Siri reuses the `.none` decline dialog and in-app stays on Review. (So nil-handling is *not* the `.none` path — `.none` never calls `persist`.)
 - Siri entries save with `captureSource = "siri"` and render a glyph + VoiceOver label on Today / History.
 
-## `captureSource = "siri"` — glyph + AX
+## New capture sources (`"siri"`, `"quickentry"`) — glyph + AX
 
-Mirror the `"watch"` rendering at every site (one `else if` each — only one source renders at a time):
+Two new sources mirror the existing `"watch"` rendering at every site (extend the source switch — only one source renders at a time):
 
 - `TodayView.swift:151–157` (row glyph) and `:266–268` (AX label helper)
 - `HistoryView.swift:316–322` (LogCard glyph) and `:367–369` (LogCard AX helper)
 - `CheckInEditView.swift:87–91` (edit header)
-- Tests: add a `"siri"` case alongside `"watch"` in `HistoryViewAXTests.swift:32–40` and `TodayViewAXTests.swift:38–42`.
+- Tests: add `"siri"` and `"quickentry"` cases alongside `"watch"` in `HistoryViewAXTests.swift:32–40` and `TodayViewAXTests.swift:38–42`.
 
-Proposed glyph `"mic.fill"`, label "Siri" / AX "from Siri" — **final glyph is a polish choice** (Open question 2).
+Glyphs (final symbols are a polish choice):
+- `"siri"` → `"mic.fill"`, label "Siri" / AX "from Siri".
+- `"quickentry"` → `"text.bubble.fill"`, label "Quick entry" / AX "from quick entry".
+
+> The source string switch is now three-way (`watch` / `siri` / `quickentry`); consider lifting it to a tiny `CaptureSource` helper (symbol + label + AX string) so the five sites stop duplicating the literal-string branching. Optional cleanup, not required.
 
 ## Taxonomy resolution (parser ↔ emotion tree)
 
@@ -178,7 +184,7 @@ The keyword parser resolves words to taxonomy nodes and builds an `EmotionSelect
 
 ### Synonym table
 
-- **[review] Original authored content only.** The table is **original** (MIT, same as source) — **do not import any third-party emotion lexicon** (NRC EmoLex, WordNet-Affect, LIWC, etc.), each of which carries its own license. Rationale: a hand-authored *word → our node-id* lookup is original authorship, not a reproduction of the CC BY-SA taxonomy's terms or arrangement, so it does not extend the ShareAlike obligation. **Confirm during review** — if you consider it a taxonomy adaptation, relabel it CC BY-SA and add it to `DATA-LICENSE.md` + the Settings "Changes from the source" footer. Give the file a license header either way.
+- **[decision] Original authored content, MIT.** The table is **original** and licensed **MIT** (same as source code), with an MIT license header. **Do not import any third-party emotion lexicon** (NRC EmoLex, WordNet-Affect, LIWC, etc.) — each carries its own license. Rationale (the basis for the MIT call): a hand-authored *word → our node-id* lookup is original authorship, not a reproduction of the CC BY-SA taxonomy's terms or arrangement, so it does not extend the ShareAlike obligation. It is therefore **not** added to `DATA-LICENSE.md` or the Settings "Changes from the source" footer.
 - **[review] File placement — keep it off the watch target.** `EmotionTaxonomy.swift` is compiled into `OpenFeelingsWatch` (`project.yml:47`). Put the name index, synonym table, and parser in a **separate new file** that is **not** added to the watch target (the watch target lists files explicitly, so a new `Models`/`Services` file is excluded by default). Do not add them into `EmotionTaxonomy.swift`.
 - **Size & shape:** ~150–200 entries. Each entry maps a phrase → a target node id **and carries a strength** `.strong | .weak`.
 - **Invariant test:** every entry's target id resolves to a real node, **and** every entry has a strength tag.
@@ -217,9 +223,10 @@ Repo convention is **XCTest** (no Swift Testing) with an in-memory `ModelContain
 - **Synonym-table invariant test** — every entry resolves to a real node **and** has a strength tag.
 - **`FeelingLogService` behavior-preservation test** — persist a draft; assert one `FeelingLog` with the right `captureSource`; **assert a draft with `customBodyRegionIDs` round-trips** (guards the extraction); assert `healthSyncStatus == .pending` on return (sync hasn't run yet).
 - **`OpenFeelingsTests/LogFeelingIntentTests.swift`** — `@MainActor`, **injectable** in-memory context: parse → `perform()` → fetch asserts a `FeelingLog` with `captureSource == "siri"`, correct selection/intensity/note; plus the `.none` decline path saves nothing. **[review]** The intent must accept an injectable container/context for this test while resolving the shared one in production.
-- **[review] Named manual/integration check** (can't be a unit test): a Siri-saved entry appears on Today/History through the app's **real shared container** — this is the only thing that proves the shared-container hoist actually works end-to-end.
+- **[review] Named manual/integration check** (can't be a unit test): a Siri-saved entry appears on Today/History through the app's **real shared container** — the only thing that proves the shared-container hoist works end-to-end. Same check for the Siri `.none` hand-off: firing the shortcut with unrecognizable input opens the app to Review with the note pre-filled.
+- **`PendingQuickEntryStore` test** — round-trip write → read → clear; reading when empty returns nil.
 - **`OpenFeelingsUITests/QuickEntryUITests.swift`** — smoke: open quick entry → type a sentinel → Continue → Review pre-filled → Save → entry appears.
-- **AX tests** — `"siri"` source cases in `HistoryViewAXTests` + `TodayViewAXTests`.
+- **AX tests** — `"siri"` and `"quickentry"` source cases in `HistoryViewAXTests` + `TodayViewAXTests`.
 
 ## Phasing / scope boundary
 
@@ -227,8 +234,9 @@ Repo convention is **XCTest** (no Swift Testing) with an in-memory `ModelContain
 - `FeelingParser` protocol + `FeelingParserProvider` + `ParsedFeeling` + `KeywordFeelingParser` + synonym table + taxonomy name-resolution helpers (in a new, non-watch file).
 - Shared-`ModelContainer` hoist (single instance, app + intent consume it).
 - `FeelingLogService.persist` + `syncHealth` extraction (+ `CheckInView.save()` refactor) + `captureSource` threaded via init; `IntensityDots` subview extraction.
-- `QuickEntryView` (capture + compact review) + `AppNavigation.showingQuickEntry` + Today entry point.
-- `LogFeelingIntent` + `AppShortcutsProvider` + `captureSource = "siri"` glyph/AX.
+- `QuickEntryView` (capture + compact review, seedable from a pending note) + `AppNavigation.showingQuickEntry` + Today entry point.
+- `LogFeelingIntent` + `AppShortcutsProvider` + `captureSource = "siri"` and `"quickentry"` glyph/AX.
+- `PendingQuickEntryStore` (durable, app-group/`UserDefaults`) + `RootView` launch/foreground consumption for the Siri `.none` hand-off.
 - Privacy-review pass (4 surfaces + answers doc).
 - Full test contract above.
 - **[review]** Run `xcodegen generate` after adding files (no `project.yml` edits needed — the main target globs `OpenFeelings/`).
@@ -238,9 +246,9 @@ Repo convention is **XCTest** (no Swift Testing) with an in-memory `ModelContain
 
 **Explicitly out of scope:** parsing body/sensations/context/triggers/coping/mood; custom voice-recording UI; any cloud path; an "Add more details → full wizard" hand-off from Review (a later follow-up).
 
-## Open questions for review
+## Decisions (resolved in review, 2026-06-26)
 
-1. **Siri `.none` (no core resolvable):** decline + ask to open the app (as specified), or instead **launch the app pre-filled** with the note so nothing is lost from a hands-free moment?
-2. **Siri glyph:** `"mic.fill"` + "from Siri" acceptable, or a different SF Symbol?
-3. **In-app quick-entry source:** keep in-app NL entries as `captureSource = "phone"` (no glyph, as specified), or mark them distinctly?
-4. **Synonym-table license:** original MIT (as specified/recommended), or treat as a CC BY-SA taxonomy adaptation?
+1. **Siri `.none`** → **open the app pre-filled with the note** (never lose the utterance), via `PendingQuickEntryStore`. Not a decline.
+2. **Siri glyph** → `"mic.fill"` / "from Siri" (final symbol still a polish choice).
+3. **In-app NL entries** → **marked distinct**: `captureSource = "quickentry"` with its own glyph/AX.
+4. **Synonym-table license** → **original MIT**, no third-party lexicon; not a CC BY-SA adaptation.
