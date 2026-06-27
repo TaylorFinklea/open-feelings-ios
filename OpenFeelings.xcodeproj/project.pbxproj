@@ -151,6 +151,7 @@
 		942DC9636A36E855CD74856E /* FeelingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5CE6E917C19C55E6B3679 /* FeelingStep.swift */; };
 		94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */; };
 		956D96D33A930BCC83BBD918 /* FeelingLogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B8CEE7BE906E118DEAB773 /* FeelingLogService.swift */; };
+		97ED75BA04CD7324194AC71B /* IntensityDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB892D79E13C5B494E5E0C7 /* IntensityDots.swift */; };
 		9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */; };
 		98940F4B2A48443EFE09A1D2 /* StepHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E36FA186526385FF499AE4E /* StepHeader.swift */; };
 		98F4F0524F633B570DBE26BE /* ValuesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F5995687D5BC27C333E2B /* ValuesTests.swift */; };
@@ -398,6 +399,7 @@
 		7CBBEA7CD9EF58BED1BF5761 /* RankStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankStepView.swift; sourceTree = "<group>"; };
 		7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomy.swift; sourceTree = "<group>"; };
 		7F725DD49E50FEA6A6C22381 /* SettingsToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsToolbar.swift; sourceTree = "<group>"; };
+		7FB892D79E13C5B494E5E0C7 /* IntensityDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityDots.swift; sourceTree = "<group>"; };
 		85F6FF9EEE69BDBD038A224B /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationTests.swift; sourceTree = "<group>"; };
@@ -858,6 +860,7 @@
 				C461C99EA02F647B219DBACC /* ContextStep.swift */,
 				F75137FB505AFD167B0BE54E /* CopingStep.swift */,
 				3BD5CE6E917C19C55E6B3679 /* FeelingStep.swift */,
+				7FB892D79E13C5B494E5E0C7 /* IntensityDots.swift */,
 				F6959718821B4B5A9BE5B391 /* MoodStep.swift */,
 				96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */,
 				AB442A2270FD273789D8284D /* SensationsStep.swift */,
@@ -1229,6 +1232,7 @@
 				399059894BECDC267871CEDE /* InsightsView.swift in Sources */,
 				11E7485B87FD74EB6418162A /* IntensityAfterStepView.swift in Sources */,
 				D941E4AFD7FC37D9A9369870 /* IntensityBeforeStepView.swift in Sources */,
+				97ED75BA04CD7324194AC71B /* IntensityDots.swift in Sources */,
 				A7087DF600D27FA710FB840C /* Intention.swift in Sources */,
 				09858D6FE2E2838C5D30AD81 /* IntentionDayFelt.swift in Sources */,
 				5F9EE41748C175A0D24C2FAE /* IntentionsContent.swift in Sources */,
