@@ -42,7 +42,7 @@ struct OpenFeelingsApp: App {
                 // the lock screen renders without waiting on store/CloudKit setup.
                 // .task fires after onAppear, on @MainActor.
                 if modelContainer == nil {
-                    let container = OpenFeelingsApp.makeModelContainer()
+                    let container = OpenFeelingsModelContainer.shared
                     modelContainer = container
                     watchSyncService?.attach(modelContainer: container)
                 }
@@ -52,84 +52,5 @@ struct OpenFeelingsApp: App {
 
     private var appearanceMode: AppearanceMode {
         AppearanceMode(rawValue: appearanceModeRaw) ?? .system
-    }
-
-    private static func makeModelContainer() -> ModelContainer {
-        let schema = Schema([
-            FeelingLog.self, Intention.self, UserBodyMap.self, CustomBodyRegion.self,
-            CustomValue.self, ValueSort.self, CommittedAction.self,
-            ThoughtRecord.self
-        ])
-
-        #if DEBUG
-        // Screenshot mode: an in-memory store seeded with curated demo data, so
-        // App Store screenshots show populated screens without using real data.
-        if CommandLine.arguments.contains("-screenshotMode") {
-            let screenshotConfiguration = ModelConfiguration(
-                "OpenFeelingsScreenshots",
-                schema: schema,
-                isStoredInMemoryOnly: true,
-                cloudKitDatabase: .none
-            )
-            do {
-                let container = try ModelContainer(for: schema, configurations: [screenshotConfiguration])
-                ScreenshotDemoSeeder.seed(into: container.mainContext)
-                return container
-            } catch {
-                fatalError("Unable to create Open Feelings screenshot model container: \(error)")
-            }
-        }
-        #endif
-
-        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
-            let testConfiguration = ModelConfiguration(
-                "OpenFeelingsTests",
-                schema: schema,
-                isStoredInMemoryOnly: true,
-                cloudKitDatabase: .none
-            )
-
-            do {
-                return try ModelContainer(for: schema, configurations: [testConfiguration])
-            } catch {
-                fatalError("Unable to create Open Feelings test model container: \(error)")
-            }
-        }
-
-        #if targetEnvironment(simulator)
-        let simulatorConfiguration = ModelConfiguration(
-            "OpenFeelingsSimulator",
-            schema: schema,
-            cloudKitDatabase: .none
-        )
-
-        do {
-            return try ModelContainer(for: schema, configurations: [simulatorConfiguration])
-        } catch {
-            fatalError("Unable to create Open Feelings simulator model container: \(error)")
-        }
-        #else
-        let cloudConfiguration = ModelConfiguration(
-            "OpenFeelingsCloud",
-            schema: schema,
-            cloudKitDatabase: .private("iCloud.dev.finklea.openfeelings")
-        )
-
-        do {
-            return try ModelContainer(for: schema, configurations: [cloudConfiguration])
-        } catch {
-            let localConfiguration = ModelConfiguration(
-                "OpenFeelingsLocal",
-                schema: schema,
-                cloudKitDatabase: .none
-            )
-
-            do {
-                return try ModelContainer(for: schema, configurations: [localConfiguration])
-            } catch {
-                fatalError("Unable to create Open Feelings model container: \(error)")
-            }
-        }
-        #endif
     }
 }
