@@ -38,4 +38,10 @@ final class HistoryViewAXTests: XCTestCase {
         XCTAssertTrue(watch.contains("from Apple Watch"),
                       "Watch entries should announce 'from Apple Watch'")
     }
+
+    func testHistoryAXLabelIncludesSiriSource() {
+        let log = FeelingLog(selection: EmotionTaxonomy.selection(coreID: "happy", secondaryID: nil, specificID: nil)!,
+                             intensity: nil, note: "", captureSource: "siri")
+        XCTAssertTrue(LogCard.cardAXLabel(for: log).contains("from Siri"))
+    }
 }

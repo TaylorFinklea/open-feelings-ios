@@ -319,6 +319,18 @@ struct LogCard: View {
                         .font(.OF.caption)
                         .foregroundStyle(Color.OF.textMuted)
                         .accessibilityLabel("From Apple Watch")
+                } else if log.captureSource == "siri" {
+                    Label("Siri", systemImage: "mic.fill")
+                        .labelStyle(.iconOnly)
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                        .accessibilityLabel("From Siri")
+                } else if log.captureSource == "quickentry" {
+                    Label("Quick entry", systemImage: "text.bubble.fill")
+                        .labelStyle(.iconOnly)
+                        .font(.OF.caption)
+                        .foregroundStyle(Color.OF.textMuted)
+                        .accessibilityLabel("From quick entry")
                 }
             }
 
@@ -366,6 +378,10 @@ struct LogCard: View {
         }
         if log.captureSource == "watch" {
             parts.append("from Apple Watch")
+        } else if log.captureSource == "siri" {
+            parts.append("from Siri")
+        } else if log.captureSource == "quickentry" {
+            parts.append("from quick entry")
         }
         return parts.joined(separator: ", ")
     }

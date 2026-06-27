@@ -88,6 +88,14 @@ struct CheckInEditView: View {
                 Label("From Apple Watch", systemImage: "applewatch")
                     .font(.OF.caption)
                     .foregroundStyle(Color.OF.textMuted)
+            } else if log.captureSource == "siri" {
+                Label("From Siri", systemImage: "mic.fill")
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
+            } else if log.captureSource == "quickentry" {
+                Label("From quick entry", systemImage: "text.bubble.fill")
+                    .font(.OF.caption)
+                    .foregroundStyle(Color.OF.textMuted)
             }
         }
     }

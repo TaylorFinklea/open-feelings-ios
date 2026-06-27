@@ -40,4 +40,16 @@ final class TodayViewAXTests: XCTestCase {
         XCTAssertTrue(TodayView.todayLogAXLabel(for: log(captureSource: "watch"))
                       .contains("from Apple Watch"))
     }
+
+    func testTodayAXLabelIncludesSiriSource() {
+        let log = FeelingLog(selection: EmotionTaxonomy.selection(coreID: "happy", secondaryID: nil, specificID: nil)!,
+                             intensity: nil, note: "", captureSource: "siri")
+        XCTAssertTrue(TodayView.todayLogAXLabel(for: log).contains("from Siri"))
+    }
+
+    func testTodayAXLabelIncludesQuickEntrySource() {
+        let log = FeelingLog(selection: EmotionTaxonomy.selection(coreID: "happy", secondaryID: nil, specificID: nil)!,
+                             intensity: nil, note: "", captureSource: "quickentry")
+        XCTAssertTrue(TodayView.todayLogAXLabel(for: log).contains("from quick entry"))
+    }
 }
