@@ -2,6 +2,14 @@ import SwiftUI
 
 struct RootView: View {
     @Environment(AppNavigation.self) private var navigation
+    @Environment(\.scenePhase) private var scenePhase
+
+    private func consumePendingQuickEntry() {
+        if let note = PendingQuickEntryStore().take() {
+            navigation.quickEntrySeed = note
+            navigation.showingQuickEntry = true
+        }
+    }
 
     var body: some View {
         @Bindable var navigation = navigation
@@ -53,6 +61,14 @@ struct RootView: View {
         }
         .sheet(isPresented: $navigation.showingSettings) {
             NavigationStack { SettingsView() }
+        }
+        .sheet(isPresented: $navigation.showingQuickEntry) {
+            NavigationStack { QuickEntryView(seededNote: navigation.quickEntrySeed) }
+                .onDisappear { navigation.quickEntrySeed = nil }
+        }
+        .task { consumePendingQuickEntry() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { consumePendingQuickEntry() }
         }
     }
 }

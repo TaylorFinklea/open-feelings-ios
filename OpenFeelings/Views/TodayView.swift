@@ -23,6 +23,21 @@ struct TodayView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: .OF.xl) {
                 header
+                Button {
+                    navigation.quickEntrySeed = nil
+                    navigation.showingQuickEntry = true
+                } label: {
+                    HStack(spacing: .OF.sm) {
+                        Image(systemName: "text.bubble.fill")
+                        Text("Say how you feel")
+                        Spacer()
+                    }
+                    .font(.OF.body).foregroundStyle(Color.OF.text)
+                    .padding(CGFloat.OF.md)
+                    .background(Color.OF.surface, in: RoundedRectangle(cornerRadius: CGFloat.OF.Radius.card))
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("today.quickEntry")
                 if todaysLogs.isEmpty {
                     OFEmptyState(
                         glyph: "leaf.circle",

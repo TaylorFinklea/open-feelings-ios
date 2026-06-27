@@ -73,6 +73,12 @@ final class AppNavigation {
     /// Drives the modal Settings sheet, opened from the per-tab gear.
     var showingSettings = false
 
+    /// Drives the modal Quick Entry sheet (natural-language check-in).
+    var showingQuickEntry = false
+    /// When set, Quick Entry opens straight into Review seeded with this note
+    /// (used by the Siri hand-off when no feeling could be resolved).
+    var quickEntrySeed: String?
+
     struct SavedRibbon: Equatable {
         let timestamp: Date
     }

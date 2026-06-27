@@ -30,6 +30,7 @@
 		12D615BFB4D8CCD1130E8081 /* CheckInWizardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21F7225D1167F723EC98F10 /* CheckInWizardState.swift */; };
 		12E0F2178AC63F6B482A809B /* TherapyReportPDFService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494ECD530239CC1891D17A81 /* TherapyReportPDFService.swift */; };
 		13FBCFA3838B55A7F8024F1F /* HealthKitMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF040E2F0926C227D98B6D1 /* HealthKitMapperTests.swift */; };
+		15DC1443B045C688D232837D /* QuickEntryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690A788EEE61A90EACE6C803 /* QuickEntryUITests.swift */; };
 		173DAD6E8083040CB502D21F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F305DB0DD1C152FEAF981408 /* UserNotifications.framework */; };
 		18682033B8552EFFF0BA0A2E /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF78191FFFE7BD6EBE567F7 /* ExportService.swift */; };
 		189D1693B1C37C03C1976141 /* WeekSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */; };
@@ -80,6 +81,7 @@
 		46C276F4A404056684E8DAEB /* AppIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186F1042FF9CD96AF90DFC95 /* AppIconView.swift */; };
 		46E068FD43EB2503862C8D34 /* ThoughtRecordDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442BC13FDE1D89F6D5E2B148 /* ThoughtRecordDetail.swift */; };
 		46EA2F8C9B7352A1A273BC59 /* CommittedActionDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2661EF8544A30905E4FC9B45 /* CommittedActionDeleteTests.swift */; };
+		471CD314C6312C5D08D3943E /* QuickEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816532C3DED133232027250F /* QuickEntryView.swift */; };
 		4720CBCC77EAD36DF1493320 /* FeelingSynonymsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F998EBE79DE6EB61C6CA7 /* FeelingSynonymsTests.swift */; };
 		47F9CD4013C531E5A463D695 /* ScreenshotTourUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D219DF57519D2EECFF099 /* ScreenshotTourUITests.swift */; };
 		490A441FEE0CCD3676BFD8DD /* CheckInStepKindTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B624F35F9610784AEA13A3A1 /* CheckInStepKindTests.swift */; };
@@ -383,6 +385,7 @@
 		662AD400A8250C1F0AE595B4 /* BodyTaxonomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTaxonomyTests.swift; sourceTree = "<group>"; };
 		66472CE689F16FCB19552C49 /* BackupSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSection.swift; sourceTree = "<group>"; };
 		673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFSectionHeader.swift; sourceTree = "<group>"; };
+		690A788EEE61A90EACE6C803 /* QuickEntryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickEntryUITests.swift; sourceTree = "<group>"; };
 		6CEFF29F9D2ED37AFBAC8FAD /* MoodScaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScaleTests.swift; sourceTree = "<group>"; };
 		6EFC747E5175AA458493E26C /* HistoryViewAXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewAXTests.swift; sourceTree = "<group>"; };
 		6F8CC033A8036714D6596C7C /* LearnedBodyMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedBodyMapTests.swift; sourceTree = "<group>"; };
@@ -400,6 +403,7 @@
 		7E55CD92959AD25E36DB17D2 /* EmotionTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomy.swift; sourceTree = "<group>"; };
 		7F725DD49E50FEA6A6C22381 /* SettingsToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsToolbar.swift; sourceTree = "<group>"; };
 		7FB892D79E13C5B494E5E0C7 /* IntensityDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityDots.swift; sourceTree = "<group>"; };
+		816532C3DED133232027250F /* QuickEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickEntryView.swift; sourceTree = "<group>"; };
 		85F6FF9EEE69BDBD038A224B /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		8634C539E9E91494BB8296B7 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationTests.swift; sourceTree = "<group>"; };
@@ -788,6 +792,7 @@
 				85F6FF9EEE69BDBD038A224B /* InsightsView.swift */,
 				FEC7DB1837474E15C9A66E13 /* LockGateView.swift */,
 				03F44FC6DFF670C8C5349C58 /* PrivacyPolicyView.swift */,
+				816532C3DED133232027250F /* QuickEntryView.swift */,
 				C932D5F22945AFFBE7E2E184 /* RootView.swift */,
 				B67A46078B6257523BDCA760 /* SettingsView.swift */,
 				40FEC5D5C72A90414D58261F /* ThoughtsView.swift */,
@@ -889,6 +894,7 @@
 			children = (
 				B1C32B96D28910E05CE3DB31 /* DirectionUITests.swift */,
 				9B8A06E8A53572A1716E8A99 /* OpenFeelingsUITests.swift */,
+				690A788EEE61A90EACE6C803 /* QuickEntryUITests.swift */,
 				1E6D219DF57519D2EECFF099 /* ScreenshotTourUITests.swift */,
 				D81772FB97FC259798CCF55A /* ThoughtRecordWizardUITests.swift */,
 				D457BD1723D918FA54499754 /* TipJarShotUITests.swift */,
@@ -1258,6 +1264,7 @@
 				85335ACAC1845C2669DB4B8F /* PendingQuickEntryStore.swift in Sources */,
 				4525E98E91208FE49B00EBFE /* PersonalizationNudge.swift in Sources */,
 				E787F18B56FB1444A1F14B4D /* PrivacyPolicyView.swift in Sources */,
+				471CD314C6312C5D08D3943E /* QuickEntryView.swift in Sources */,
 				7F5C9B056FD17F6247D017D0 /* RankStepView.swift in Sources */,
 				5879811C404CA3367A1A5075 /* ReflectStep.swift in Sources */,
 				0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */,
@@ -1346,6 +1353,7 @@
 			files = (
 				894E36AE8AF8BE75B4DDDEDC /* DirectionUITests.swift in Sources */,
 				BB139D88E1285BFAA7BFA813 /* OpenFeelingsUITests.swift in Sources */,
+				15DC1443B045C688D232837D /* QuickEntryUITests.swift in Sources */,
 				47F9CD4013C531E5A463D695 /* ScreenshotTourUITests.swift in Sources */,
 				A953BB8636D715C6D5F4C411 /* ThoughtRecordWizardUITests.swift in Sources */,
 				3289F63733949BE7537F6164 /* TipJarShotUITests.swift in Sources */,
