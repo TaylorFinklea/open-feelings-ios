@@ -4,9 +4,21 @@
 
 ## Active Branch
 
-`main`
+`feat/natural-language-entry` (off `main`; **not merged, not pushed**)
 
 ## Last Session Summary
+
+**Date**: 2026-06-26 — Natural-language check-in entry (Phase 1) **implemented**
+
+Built the full Phase 1 feature on `feat/natural-language-entry` (brainstorm → spec → plan → ultracode multi-agent implement → adversarial review → fix). **15 commits** after the plan; **not merged**.
+
+- **What shipped (code):** one `FeelingParser` seam (`KeywordFeelingParser` + `FeelingParserProvider`), `ParsedFeeling`+`toDraft`, taxonomy name-lookup, original-MIT `FeelingSynonyms`, shared `OpenFeelingsModelContainer.shared` hoist, `FeelingLogService` (persist + syncHealth; behavior-preserving `CheckInView.save` refactor), `IntensityDots` extraction, `QuickEntryView` (capture→review) + Today entry + Siri-seed consumption, `LogFeelingIntent`+`AppShortcutsProvider`+`OpenQuickEntryIntent`, `PendingQuickEntryStore`, `siri`/`quickentry` capture-source glyph+AX, privacy disclosure across 4 surfaces.
+- **Verified:** full unit suite + QuickEntry/wizard UI = `** TEST SUCCEEDED **` (exit 0). 4-lens adversarial review confirmed save-refactor + container hoist + Siri integration sound; found **3 parser bugs** (token-aware intensity + (trust,depth) tiebreak) — all fixed + 5 regression tests, `FeelingParserTests` 15/15.
+- **Implementation deviations (all sound):** `@MainActor` on the shared container (Swift 6 isolation); `.result(opensIntent:dialog:)` confirmed present in iOS 26 SDK (no fallback needed); `cardAXLabel` is on `LogCard` not `HistoryView`. See `decisions.md` 2026-06-26.
+- **Pending (see roadmap Now):** (1) **manual device check** — run the "Log a feeling in Open Feelings" Shortcut: high-confidence saves a `siri` log + speaks read-back; garbage input opens the app to QuickEntry pre-filled. (2) in-app QuickEntry sim walkthrough. (3) then **merge → main**. Phase 2 (Apple FoundationModels behind the same protocol) is a separate later plan.
+- **Test sim:** `iPhone 16` (id BDF51260-…); the docs' iPad sim is absent on this machine.
+
+---
 
 **Date**: 2026-05-30 — App Store submission prep (build 41 / v1.0, App ID 6766533356)
 

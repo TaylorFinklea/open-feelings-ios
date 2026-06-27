@@ -12,6 +12,17 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-06-26] Natural-language entry — implementation-time decisions
+
+**Context**: Implementing the NL-entry Phase 1 plan surfaced calls the spec/plan didn't fully pin down, plus an adversarial review caught 3 parser bugs.
+**Decision**:
+1. **Shared container is `@MainActor`.** Hoisting `makeModelContainer()` into a standalone `enum OpenFeelingsModelContainer` lost the `App` struct's MainActor isolation inference, so the nonisolated `static let` init couldn't touch the MainActor-isolated `mainContext` (screenshot seeding). Marked `shared`/`make()` `@MainActor` — correct, since both consumers (app `.task`, intent `perform()`) are already MainActor.
+2. **`FeelingLogService` splits persist from health-sync, caller owns the timing.** `persist()` does the synchronous insert+save (returns `.pending`); `syncHealth()` is awaitable. `CheckInView`/`QuickEntryView` fire it **detached** (UI must not block); `LogFeelingIntent` **awaits it inline** (a Siri-torn-down process would never finish a detached task, so the entry would never health-sync).
+3. **AppIntent `static let`, and `.result(opensIntent:dialog:)` is real.** Swift 6 rejects `static var` metadata; switched to `static let`. The conditional app-open for the Siri `.none` hand-off uses `.result(opensIntent: OpenQuickEntryIntent(), dialog:)` — confirmed present in the iOS 26 `AppIntents.swiftinterface` (the verify-against-docs item resolved; no fallback needed).
+4. **Intensity parsing is cue-gated + token-aware; emotion tiebreak is (trust, depth).** Adversarial review found the parser (a) set intensity from substrings ("everyone"→"very"), (b) read any bare 1–5 digit anywhere as the rating (and inverted "0/5"→5), (c) let a deeper WEAK synonym override a shallower HIGH match ("sad but calm"→Peaceful/low). Fixed: intensity requires an explicit cue (`n/5`, `n out of 5`, `intensity n`) + token-matched word ladder (no bare-digit fallback); emotion ranks by `(trust, depth)` so a confident match always beats a low-confidence one. These mattered because the Siri path persists with **no review screen**.
+**Alternatives considered**: (1) hoist into the App struct as a static (keeps isolation but couples to the scene); (2) one `async persist` that also health-syncs (rejected — blocks the UI ribbon and races the detached second save); (3) the dialog-dropping `opensIntent`-only fallback (unnecessary once the combined overload was confirmed); (4) keep the bare-digit intensity scan with proximity gating (dropping it entirely is simpler and lost only ambiguous bare "4").
+**Rationale**: Each preserves an audited behavior (single CloudKit store; non-blocking save; reliable Siri health-sync) while keeping the deterministic parser honest on the unreviewed Siri path. Bugs were refute-first verified before fixing; fixes carry 5 new regression tests.
+
 ## [2026-05-29] CD_ThoughtRecord production deploy completed (8/8 record types live)
 
 **Context**: After the build-32 wizard fix made ThoughtRecords saveable, a device surfaced `CKErrorDomain error 2` (CKError.partialFailure) on the Settings → Privacy iCloud-sync row. Root cause (confirmed by an adversarial-refute workflow): `CD_ThoughtRecord` was the only one of 8 SwiftData record types never deployed to Production (deferred 2026-05-23 because the unsaveable wizard meant the type was never declared to Development). Not a build-40 regression — build 40 was pure UI.
