@@ -12,6 +12,13 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-06-27] Marketing version is now 1.0.x — the 1.0 train is closed
+
+**Context**: Uploading the natural-language-entry build to TestFlight as 1.0 (build 43) failed validation: *"Invalid Pre-Release Train. The train version '1.0' is closed for new build submissions"* + *"CFBundleShortVersionString [1.0] must contain a higher version than the previously approved version [1.0]."* The 1.0 version was **approved** on App Store Connect, which permanently closes 1.0 to new builds (TestFlight included).
+**Decision**: Bump `MARKETING_VERSION` 1.0 → **1.0.1** via `scripts/release.sh --patch`. Shipped **1.0.1 (build 44)** to TestFlight (`** EXPORT SUCCEEDED **`, commit `a383ad9`). All subsequent builds must use **1.0.x** (or higher); a plain build-number bump under 1.0 will be rejected.
+**Alternatives considered**: `--minor` (1.1.0) — heavier than warranted for an additive feature; reopening 1.0 — not possible once approved.
+**Rationale**: A patch bump is the minimal version that reopens a submittable train. Note the side effect (per `release.sh` header): when a 1.0.x build is later promoted to the **App Store** (not just TestFlight) it triggers a fresh review — expected, since 1.0.1 is a new App Store version. **Landmine**: the unmerged `feat/challenge-journal-entry` branch (build 42 / v1.0) would hit the identical closed-train error and needs the same marketing bump if it's ever shipped.
+
 ## [2026-06-26] Natural-language entry — implementation-time decisions
 
 **Context**: Implementing the NL-entry Phase 1 plan surfaced calls the spec/plan didn't fully pin down, plus an adversarial review caught 3 parser bugs.
