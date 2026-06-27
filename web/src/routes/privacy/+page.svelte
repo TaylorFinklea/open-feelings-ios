@@ -43,6 +43,12 @@
 		<li>Share, sell, rent, or trade any user information.</li>
 		<li>Read your contacts, calendars, photos, location, camera, or microphone.</li>
 	</ul>
+	<p>
+		Open Feelings never records audio. If you use Siri or keyboard dictation to enter a check-in,
+		your speech is processed by Apple's system services (Siri/dictation), not by Open Feelings —
+		the app receives only the resulting text and still uses no microphone or speech-recognition
+		APIs.
+	</p>
 
 	<h2>What you enter, the app stores</h2>
 	<p>Open Feelings handles only the data you choose to enter:</p>

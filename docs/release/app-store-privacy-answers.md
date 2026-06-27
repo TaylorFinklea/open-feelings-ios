@@ -91,3 +91,12 @@ Re-open this document and re-check the answers if the app adds:
 
 If any of those land, the "No data collected" answer no longer holds and the
 form needs revisiting category by category.
+
+**Reviewed 2026-06-26 — Siri / keyboard dictation entry surface
+(natural-language check-in):** "Data Not Collected" still holds. The app
+adds a Siri App Shortcut and an in-app quick-entry field that accept a
+spoken or typed sentence, but voice is transcribed by Apple's system
+services (Siri / keyboard dictation) — Open Feelings receives only the
+resulting **text** and calls no microphone or Speech-recognition API. No
+new data category is collected; the data stays on-device / in the user's
+private iCloud DB exactly as before.

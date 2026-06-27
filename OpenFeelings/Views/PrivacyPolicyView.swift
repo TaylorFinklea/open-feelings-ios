@@ -45,6 +45,13 @@ struct PrivacyPolicyView: View {
                     bullet("Embed third-party SDKs that could collect data.")
                     bullet("Share, sell, rent, or trade any user information.")
                     bullet("Read your contacts, calendars, photos, location, camera, or microphone.")
+                    paragraph("Open Feelings never records audio. If you use "
+                            + "Siri or keyboard dictation to enter a check-in, "
+                            + "your speech is processed by Apple's system "
+                            + "services (Siri/dictation), not by Open Feelings "
+                            + "— the app receives only the resulting text and "
+                            + "still uses no microphone or speech-recognition "
+                            + "APIs.")
                 }
 
                 VStack(alignment: .leading, spacing: .OF.sm) {
