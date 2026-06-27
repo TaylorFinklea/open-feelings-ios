@@ -31,9 +31,21 @@ struct KeywordFeelingParser: FeelingParser {
         -> (EmotionCore?, EmotionSecondary?, EmotionSpecific?, ParsedFeeling.Confidence) {
         var best: (EmotionTaxonomy.ResolvedNode, depth: Int, ParsedFeeling.Confidence)?
 
+        // Rank by (trust, depth): a confident (high) match always beats a
+        // low-confidence one, and depth only breaks ties within the same trust
+        // tier. Without this, a strictly-deeper WEAK synonym (e.g. "calm" ->
+        // Peaceful) would override a shallower HIGH core ("sad"), flipping the
+        // recorded emotion and downgrading confidence on phrasing like
+        // "sad but calm".
         func consider(_ node: EmotionTaxonomy.ResolvedNode, _ confidence: ParsedFeeling.Confidence) {
             let depth = node.specific != nil ? 3 : (node.secondary != nil ? 2 : 1)
-            if best == nil || depth > best!.depth {
+            let trust = (confidence == .high) ? 1 : 0
+            guard let current = best else {
+                best = (node, depth, confidence)
+                return
+            }
+            let currentTrust = (current.2 == .high) ? 1 : 0
+            if trust > currentTrust || (trust == currentTrust && depth > current.depth) {
                 best = (node, depth, confidence)
             }
         }
@@ -67,19 +79,22 @@ struct KeywordFeelingParser: FeelingParser {
     // MARK: Intensity
 
     private func scanIntensity(in lower: String) -> Int? {
-        // n/5 or "n out of 5"
-        if let m = lower.range(of: #"([1-5])\s*(?:/|out of)\s*5"#, options: .regularExpression) {
-            if let v = Int(lower[m].prefix(1)) { return v }
-        }
-        // bare standalone 1-5
-        let tokens = lower.components(separatedBy: CharacterSet.alphanumerics.inverted)
-        if let token = tokens.first(where: { ["1", "2", "3", "4", "5"].contains($0) }), let v = Int(token) {
-            return v
-        }
-        // word ladder
-        if lower.contains("extremely") || lower.contains("unbearabl") { return 5 }
-        if lower.contains("really") || lower.contains("very") || lower.contains("so ") { return 4 }
-        if lower.contains("a little") || lower.contains("kind of") || lower.contains("slightly") { return 2 }
+        // Only accept a digit attached to an explicit rating cue: "n/5",
+        // "n out of 5", or "intensity n". A bare digit elsewhere ("5 minutes
+        // late", "3 deadlines") must NOT be read as the rating, and "0/5" must
+        // not fall through to a stray trailing "5".
+        if let m = lower.range(of: #"([1-5])\s*(?:/|out of)\s*5"#, options: .regularExpression),
+           let v = Int(lower[m].prefix(1)) { return v }
+        if let m = lower.range(of: #"intensity\s+([1-5])"#, options: .regularExpression),
+           let d = lower[m].last, let v = Int(String(d)) { return v }
+
+        // Word ladder — token-aware so "very" doesn't match "everyone" /
+        // "recovery" and the cue isn't triggered by emotion-neutral words.
+        // Multi-word/stem cues use phrase containment (distinctive enough).
+        let tokens = Set(lower.components(separatedBy: CharacterSet.alphanumerics.inverted))
+        if tokens.contains("extremely") || lower.contains("unbearabl") { return 5 }
+        if tokens.contains("really") || tokens.contains("very") { return 4 }
+        if tokens.contains("slightly") || lower.contains("a little") || lower.contains("kind of") { return 2 }
         return nil
     }
 
