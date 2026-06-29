@@ -134,7 +134,9 @@
 		6F9D189D177331830F250286 /* LockGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC7DB1837474E15C9A66E13 /* LockGateView.swift */; };
 		71E478571A4718C3EE53657D /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E249B39B8711CDB62DAA306E /* TodayView.swift */; };
 		720455266E313A8DA9F37FC5 /* StopAtAnyLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE10432679F29E5F24BA6F4 /* StopAtAnyLevelTests.swift */; };
+		743E2850BE43DB054EB4875C /* PendingWatchEntryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5996F25EEAC868DC2B23A67B /* PendingWatchEntryStoreTests.swift */; };
 		76865AB37E424FEFABD128D5 /* OpenFeelings.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 4389634FBA61E1BCDCD61F2B /* OpenFeelings.storekit */; };
+		77589BAE2DDE3FAE4EA517CB /* PendingWatchEntryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9AE78F27E2B777BB6D010 /* PendingWatchEntryStore.swift */; };
 		7834C89FBB235BC9CAF880BC /* SortDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF1F1CC84E3A23E62772F17 /* SortDelta.swift */; };
 		7A5CDCA737F19EEE682FF2D6 /* AppNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */; };
 		7A8ABF0E790159AEB6EC131C /* EmotionTaxonomy+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7439071ACD8C3A924E706EA3 /* EmotionTaxonomy+Lookup.swift */; };
@@ -313,6 +315,7 @@
 		13AA984EC84246B36AB79CB8 /* IntensityBeforeStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityBeforeStepView.swift; sourceTree = "<group>"; };
 		13C17D240173DFBF8EF79B26 /* EmotionTaxonomyLookupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTaxonomyLookupTests.swift; sourceTree = "<group>"; };
 		13E2166C782A963AA06ACC3B /* CoreFeelingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFeelingPicker.swift; sourceTree = "<group>"; };
+		13E9AE78F27E2B777BB6D010 /* PendingWatchEntryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingWatchEntryStore.swift; sourceTree = "<group>"; };
 		149A4C4A97B738376AD3E160 /* ThinkingPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingPatternTests.swift; sourceTree = "<group>"; };
 		156795D51040306BD09F3006 /* WatchCheckInPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCheckInPayloadTests.swift; sourceTree = "<group>"; };
 		1772A8BCB2595E645C9E5080 /* HistoryDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDeleteTests.swift; sourceTree = "<group>"; };
@@ -383,6 +386,7 @@
 		50CA78BE3C53FCA7FF28ECC5 /* JournalShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalShareService.swift; sourceTree = "<group>"; };
 		518E478CE65EB2DA13685C61 /* StrengthStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthStep.swift; sourceTree = "<group>"; };
 		555051881E4EB6BEE6441D3D /* WatchSessionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionClient.swift; sourceTree = "<group>"; };
+		5996F25EEAC868DC2B23A67B /* PendingWatchEntryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingWatchEntryStoreTests.swift; sourceTree = "<group>"; };
 		5A8F5995687D5BC27C333E2B /* ValuesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesTests.swift; sourceTree = "<group>"; };
 		5BFCF89594C3D95FB2174865 /* CommittedActionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommittedActionRow.swift; sourceTree = "<group>"; };
 		5C11D8D490876864723023D4 /* CheckInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInRootView.swift; sourceTree = "<group>"; };
@@ -665,6 +669,7 @@
 			children = (
 				B21F7225D1167F723EC98F10 /* CheckInWizardState.swift */,
 				E5C3EAF4C23B3AD0A4B216DF /* CheckInWizardState+ParsedFeeling.swift */,
+				13E9AE78F27E2B777BB6D010 /* PendingWatchEntryStore.swift */,
 				555051881E4EB6BEE6441D3D /* WatchSessionClient.swift */,
 				3DAB79132B33CB384631F146 /* WatchSettingsStore.swift */,
 			);
@@ -801,6 +806,7 @@
 				96488867FABA2921DDCC4A8E /* CheckInWizardStateMapperTests.swift */,
 				DC1DCE16DC1D950E9D553482 /* CheckInWizardStateTests.swift */,
 				6FDCD99AF344AC51E5BE36AF /* FeelingParserWatchSmokeTests.swift */,
+				5996F25EEAC868DC2B23A67B /* PendingWatchEntryStoreTests.swift */,
 				76296369040467BD0A470BCC /* WatchSessionClientSharedTests.swift */,
 				19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */,
 			);
@@ -1372,6 +1378,7 @@
 				D5F720F7DB22873766889092 /* NoteEntryView.swift in Sources */,
 				32BB847E8084657FD00587CE /* OpenFeelingsWatchApp.swift in Sources */,
 				953666C5FA1A6AECF30D599F /* ParsedFeeling.swift in Sources */,
+				77589BAE2DDE3FAE4EA517CB /* PendingWatchEntryStore.swift in Sources */,
 				212D290737542E9A4F507DBD /* SecondaryFeelingPicker.swift in Sources */,
 				40C2D0C262E0CE5974F24722 /* SensationPicker.swift in Sources */,
 				3CFA80EE13B5665871E1D1CE /* SpecificFeelingPicker.swift in Sources */,
@@ -1389,6 +1396,7 @@
 				5FF8EE08C45BBB184A607976 /* CheckInWizardStateMapperTests.swift in Sources */,
 				8C95AD19FBA0CB39066545D7 /* CheckInWizardStateTests.swift in Sources */,
 				FCCAC4455975E067421654F0 /* FeelingParserWatchSmokeTests.swift in Sources */,
+				743E2850BE43DB054EB4875C /* PendingWatchEntryStoreTests.swift in Sources */,
 				54C6C6418907E995F2241181 /* WatchSessionClientSharedTests.swift in Sources */,
 				83A18F802C5FE4DA5EA41A52 /* WatchSettingsStoreTests.swift in Sources */,
 			);
