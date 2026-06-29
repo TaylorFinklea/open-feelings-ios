@@ -4,9 +4,20 @@
 
 ## Active Branch
 
-`feat/natural-language-entry` (off `main`; **not merged, not pushed**)
+`feat/watch-natural-language-entry` (stacked on `feat/natural-language-entry`; **not merged, not pushed**; merges AFTER the iOS branch)
 
 ## Last Session Summary
+
+**Date**: 2026-06-29 — Watch natural-language entry **implemented**
+
+Added NL entry to the Apple Watch by reusing the iOS `KeywordFeelingParser`. Branch `feat/watch-natural-language-entry` (stacked on the iOS branch, which carries the parser). brainstorm → spec → plan → ultracode multi-agent implement (2 chunks) → adversarial review. ~13 commits; **not merged**.
+
+- **What shipped (code):** split `ParsedFeeling.toDraft()` into an iOS-only `ParsedFeeling+Draft.swift` (parser now Foundation-only); added the 4 NaturalLanguage files to the watch target (`project.yml`, individual entries — not the dir, which holds iOS-only `PendingQuickEntryStore`); `CheckInWizardState.apply(_:)` mapper; **`WatchSessionClient.shared` hoist** (watch analog of the iOS container hoist — one WCSession delegate + durable queue for app + intent); `PendingWatchEntryStore`; in-app `DictationEntryView` + mic toolbar on `CheckInRootView` + confidence routing; watch `WatchCheckInIntent` + `WatchAppShortcuts` + `OpenWatchCheckInIntent`; pending-note consumption on launch/foreground.
+- **Verified:** clean watch build `** BUILD SUCCEEDED **`; **watch suite 24 tests / 0 failures**; **iOS regression 20/0** (the `toDraft` split didn't break iOS). Adversarial review confirmed the 3 spec-review fixes (reset-before-apply, high-no-intensity→IntensityPicker, `.none`→`[.core]`) + integration clean. **One review "blocker" was a FALSE POSITIVE** — an isolated macOS-SDK `swiftc -typecheck` mis-flagged `WatchCheckInIntent.perform()`'s `.result(opensIntent:dialog:)`; the real watchOS 26 build compiles it (same pattern as the shipped iOS `LogFeelingIntent`). Refuted by clean build; code NOT changed.
+- **Watch sim quirk:** the `-destination 'platform=watchOS Simulator,name=OF Watch Test'` form fails (xcodebuild appends `OS:latest`, misses 26.0); use `-destination 'id=0E0A86BF-E00C-4E3B-94E7-D086FEE62608'`.
+- **Pending (roadmap Now):** manual device checks — Siri/dictation/WCSession can't be sim-verified; need a real paired watch. Then **merge order: iOS branch → main first, then this branch.**
+
+---
 
 **Date**: 2026-06-26 — Natural-language check-in entry (Phase 1) **implemented**
 

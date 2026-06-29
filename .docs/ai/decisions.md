@@ -12,6 +12,18 @@
 **Rationale**: Why this over the alternatives?
 -->
 
+## [2026-06-29] Watch natural-language entry — reuse the parser; hoist WatchSessionClient
+
+**Context**: Adding NL entry to the watch. The watch is send-only (`WatchCheckInPayload` → phone) and has a tiny screen; the deterministic `KeywordFeelingParser` is pure Swift.
+**Decision**:
+1. **Parse on-watch, reuse the existing confirm/picker + payload path.** Rejected a "thin watch" (ship raw text, phone parses) because the chosen on-watch confirm + smart-low-confidence-refine UX needs the parse result on the watch, and on-watch parsing works with no phone nearby. Split `ParsedFeeling.toDraft()` into an iOS-only `ParsedFeeling+Draft.swift` so the parser core is Foundation-only; added the 4 NaturalLanguage files individually to the watch target (NOT the directory — it holds the iOS-only `PendingQuickEntryStore`).
+2. **`WatchSessionClient.shared` hoist** (watch analog of `OpenFeelingsModelContainer.shared`). The client wraps the `WCSession.default` singleton, sets itself as delegate, and owns a durable disk send-queue; a Siri intent instantiating its own would register a competing delegate. One process-wide `static let shared`; app + intent both use it.
+3. **`captureSource` stays `"watch"`** for all watch entries (YAGNI — the `applewatch` glyph already conveys provenance; no payload source field, no new glyph).
+4. **In-app routing fixes (from the spec review):** every NL seed `wizard.reset()`s first (shared `@Observable` instance; a prior send leaves `didSend == true`); high-confidence-with-no-parsed-intensity routes through `IntensityPicker` (`[.intensity]`) not the read-only confirm; `.none` → `[.core]` (not `[]`, which shows the body picker in body-first mode).
+**Verification landmine recorded**: `WatchCheckInIntent.perform()`'s conditional app-open uses `.result(opensIntent: OpenWatchCheckInIntent(), dialog:)` — this **compiles on the watchOS 26 SDK** (verified by clean `xcodebuild`; identical to the shipped iOS `LogFeelingIntent`). An isolated `swiftc -typecheck` against the **macOS** SDK falsely reports an opaque-return-type mismatch — do NOT "fix" it based on that; trust the real Xcode build.
+**Alternatives considered**: thin-watch parse-on-phone (loses on-watch review); per-call `WatchSessionClient()` in the intent (double delegate); adding a `source` field to the payload (unnecessary).
+**Rationale**: maximal reuse of audited code; the hoist preserves the single-delegate/single-queue guarantee; the routing fixes preserve the existing "intensity is always intentional" invariant.
+
 ## [2026-06-27] Marketing version is now 1.0.x — the 1.0 train is closed
 
 **Context**: Uploading the natural-language-entry build to TestFlight as 1.0 (build 43) failed validation: *"Invalid Pre-Release Train. The train version '1.0' is closed for new build submissions"* + *"CFBundleShortVersionString [1.0] must contain a higher version than the previously approved version [1.0]."* The 1.0 version was **approved** on App Store Connect, which permanently closes 1.0 to new builds (TestFlight included).
