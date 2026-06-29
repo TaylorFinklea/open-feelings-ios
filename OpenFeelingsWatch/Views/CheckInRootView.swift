@@ -4,6 +4,7 @@ struct CheckInRootView: View {
     @Environment(WatchSessionClient.self) private var sessionClient
     @Environment(CheckInWizardState.self) private var wizard
     @Environment(WatchSettingsStore.self) private var settingsStore
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var path: [Step] = []
     @State private var dictatedText = ""
@@ -37,6 +38,10 @@ struct CheckInRootView: View {
                 }
         }
         .onAppear { applyScreenshotModeIfNeeded() }
+        .onAppear { consumePendingWatchEntry() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { consumePendingWatchEntry() }
+        }
     }
 
     @ViewBuilder
@@ -140,6 +145,13 @@ struct CheckInRootView: View {
         case .none:
             path = [.core]       // no emotion: pick from scratch, note carried through
         }
+    }
+
+    private func consumePendingWatchEntry() {
+        guard let note = PendingWatchEntryStore().take() else { return }
+        wizard.reset()
+        wizard.note = note
+        path = [.core]   // pick the emotion; the note carries through to the payload
     }
 
     // Body-first flow: after picking body regions, branch to sensations (when
