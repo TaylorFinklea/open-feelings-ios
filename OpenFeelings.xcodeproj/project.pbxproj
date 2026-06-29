@@ -17,6 +17,7 @@
 		09076C6771D243015E361F84 /* ExportServiceLogseqTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF70B3380626A0D857A1E2AC /* ExportServiceLogseqTests.swift */; };
 		0933844880766DAE10CB0CF9 /* SensationsStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB442A2270FD273789D8284D /* SensationsStep.swift */; };
 		09858D6FE2E2838C5D30AD81 /* IntentionDayFelt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F4EDC2DAFAA3C11A8DE88B /* IntentionDayFelt.swift */; };
+		09F33448C301ED46DD2D5C40 /* CheckInWizardState+ParsedFeeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3EAF4C23B3AD0A4B216DF /* CheckInWizardState+ParsedFeeling.swift */; };
 		0BC11EDDC1653FD6024B1614 /* TipJarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8998AF3DF9C576423828B7 /* TipJarService.swift */; };
 		0C6EAAFE401B3BFEE1A52D0E /* FeelingSynonyms.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9B46BB8921A4F523EEF16F /* FeelingSynonyms.swift */; };
 		0CAAE68B9551C2DB13F58630 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853D8246487F25572AEF0F5 /* ReminderService.swift */; };
@@ -112,6 +113,7 @@
 		5E3300179DC74485C286F28D /* IntentionDayFeltTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */; };
 		5E9E8C1C38CC9838E440D673 /* CustomValuesSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA38703CEB3483C5DA9A7F7 /* CustomValuesSheet.swift */; };
 		5F9EE41748C175A0D24C2FAE /* IntentionsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE0CC94DAE2CD18AB5511A6 /* IntentionsContent.swift */; };
+		5FF8EE08C45BBB184A607976 /* CheckInWizardStateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96488867FABA2921DDCC4A8E /* CheckInWizardStateMapperTests.swift */; };
 		60F88FEB494C6CA274E6B618 /* Greeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761168044FE1E8231D0CCD3B /* Greeting.swift */; };
 		623702D5BCB58CA6AD952961 /* TriggerCopingTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C5638C7143F19756D4F706 /* TriggerCopingTaxonomyTests.swift */; };
 		623D322BE5E90DD24CECD539 /* AddCustomValueSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9423B90221A25D843E66ABE /* AddCustomValueSheet.swift */; };
@@ -434,6 +436,7 @@
 		93DC74397E0B0CEBBC7E1189 /* ThoughtRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThoughtRecordTests.swift; sourceTree = "<group>"; };
 		94184C16AAA116E1F72E9EF4 /* TipJarServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarServiceTests.swift; sourceTree = "<group>"; };
 		952F0F1CC79ADD3F6CC64F03 /* ExportServiceMarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceMarkdownTests.swift; sourceTree = "<group>"; };
+		96488867FABA2921DDCC4A8E /* CheckInWizardStateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInWizardStateMapperTests.swift; sourceTree = "<group>"; };
 		96ADEE9D24BB085DA4CE55A2 /* WeekSummaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryTests.swift; sourceTree = "<group>"; };
 		96EC87B8A6AEA46829FA8412 /* ReflectStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectStep.swift; sourceTree = "<group>"; };
 		96FEC32E3B681940E6AEEC72 /* OFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFButton.swift; sourceTree = "<group>"; };
@@ -511,6 +514,7 @@
 		E249B39B8711CDB62DAA306E /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		E3D68D35EA481C77B2226517 /* NoteEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEntryView.swift; sourceTree = "<group>"; };
 		E4461C5DA2E82C3DA06A46C6 /* IntentionEditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionEditTests.swift; sourceTree = "<group>"; };
+		E5C3EAF4C23B3AD0A4B216DF /* CheckInWizardState+ParsedFeeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CheckInWizardState+ParsedFeeling.swift"; sourceTree = "<group>"; };
 		E6A9AAFA48A8D9916962C66C /* IntentionDayFeltTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionDayFeltTests.swift; sourceTree = "<group>"; };
 		E852D8C541C1A6BF6F2DADD5 /* MoodScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScale.swift; sourceTree = "<group>"; };
 		E9423B90221A25D843E66ABE /* AddCustomValueSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomValueSheet.swift; sourceTree = "<group>"; };
@@ -656,6 +660,7 @@
 			isa = PBXGroup;
 			children = (
 				B21F7225D1167F723EC98F10 /* CheckInWizardState.swift */,
+				E5C3EAF4C23B3AD0A4B216DF /* CheckInWizardState+ParsedFeeling.swift */,
 				555051881E4EB6BEE6441D3D /* WatchSessionClient.swift */,
 				3DAB79132B33CB384631F146 /* WatchSettingsStore.swift */,
 			);
@@ -789,6 +794,7 @@
 		8161508BA3FEB0311F9EE1C8 /* OpenFeelingsWatchTests */ = {
 			isa = PBXGroup;
 			children = (
+				96488867FABA2921DDCC4A8E /* CheckInWizardStateMapperTests.swift */,
 				DC1DCE16DC1D950E9D553482 /* CheckInWizardStateTests.swift */,
 				19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */,
 			);
@@ -1349,6 +1355,7 @@
 				AC2648868DD71DAA1AE5C7D6 /* BodyRegionPicker.swift in Sources */,
 				21C88844821E3A38CCB8002F /* BodyTaxonomy.swift in Sources */,
 				4DEC3D3D1CDB695B2FDACA6F /* CheckInRootView.swift in Sources */,
+				09F33448C301ED46DD2D5C40 /* CheckInWizardState+ParsedFeeling.swift in Sources */,
 				12D615BFB4D8CCD1130E8081 /* CheckInWizardState.swift in Sources */,
 				4DF1FCB2092988CE954C1507 /* CoreFeelingPicker.swift in Sources */,
 				7A8ABF0E790159AEB6EC131C /* EmotionTaxonomy+Lookup.swift in Sources */,
@@ -1373,6 +1380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FF8EE08C45BBB184A607976 /* CheckInWizardStateMapperTests.swift in Sources */,
 				8C95AD19FBA0CB39066545D7 /* CheckInWizardStateTests.swift in Sources */,
 				83A18F802C5FE4DA5EA41A52 /* WatchSettingsStoreTests.swift in Sources */,
 			);
