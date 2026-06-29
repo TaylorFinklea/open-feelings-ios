@@ -7,8 +7,7 @@ struct OpenFeelingsWatchApp: App {
     @State private var settings = WatchSettingsStore()
 
     init() {
-        let client = WatchSessionClient()
-        _sessionClient = State(initialValue: client)
+        _sessionClient = State(initialValue: WatchSessionClient.shared)
     }
 
     var body: some Scene {

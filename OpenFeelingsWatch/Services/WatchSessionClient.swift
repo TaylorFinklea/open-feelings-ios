@@ -7,6 +7,12 @@ import WatchConnectivity
 @MainActor
 @Observable
 final class WatchSessionClient: NSObject {
+    /// One process-wide client. The app and any in-process AppIntent both use
+    /// this so there is a single WCSession delegate + a single durable send
+    /// queue (a second instance would register a competing delegate on the
+    /// WCSession.default singleton). Watch analog of OpenFeelingsModelContainer.shared.
+    static let shared = WatchSessionClient()
+
     private(set) var pendingCount: Int = 0
     private(set) var lastSendError: String?
     weak var settingsStore: WatchSettingsStore?
