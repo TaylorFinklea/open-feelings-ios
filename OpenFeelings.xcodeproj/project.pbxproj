@@ -224,6 +224,7 @@
 		DD33FA92DFE817DF833DD6D1 /* EmotionColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB7650384FCF8D402BA9E59 /* EmotionColor.swift */; };
 		DFF83BFD1529767BF847D076 /* IntentionEditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4461C5DA2E82C3DA06A46C6 /* IntentionEditTests.swift */; };
 		E0F257C1963925D1CBC6FCE3 /* MoreDetailDisclosure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE50F3B4D41BD2A8AE31C31 /* MoreDetailDisclosure.swift */; };
+		E19EC90CA916AE070761F44C /* ParsedFeeling+Draft.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEB27E7FBE3BD47E4C52F5A /* ParsedFeeling+Draft.swift */; };
 		E3BA4FE3AB22B90F3692A602 /* CustomValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C275EE1C366DCFED648B8F /* CustomValue.swift */; };
 		E40C48CD97294796C278116A /* ContextTaxonomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0D9687C33DDDF47BAF8682 /* ContextTaxonomyTests.swift */; };
 		E787F18B56FB1444A1F14B4D /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F44FC6DFF670C8C5349C58 /* PrivacyPolicyView.swift */; };
@@ -457,6 +458,7 @@
 		A77F932F2F69EEF8429DDB1A /* WatchSyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSyncTests.swift; sourceTree = "<group>"; };
 		A8E0422D584F9FB87346FFBC /* BodySilhouetteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodySilhouetteView.swift; sourceTree = "<group>"; };
 		AA5A4382CFA9DE8E22655357 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		AAEB27E7FBE3BD47E4C52F5A /* ParsedFeeling+Draft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParsedFeeling+Draft.swift"; sourceTree = "<group>"; };
 		AB442A2270FD273789D8284D /* SensationsStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensationsStep.swift; sourceTree = "<group>"; };
 		ABC071B7FFCF4E5B30B9C4C4 /* TodayViewAXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewAXTests.swift; sourceTree = "<group>"; };
 		AC0C87FA9255D3F1B9F02F18 /* OpenFeelingsModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFeelingsModelContainer.swift; sourceTree = "<group>"; };
@@ -917,6 +919,7 @@
 				8F9A872D72EDAD8E42137BB5 /* CheckInDraft.swift */,
 				430D545A44D2FD8E845DA0B4 /* CheckInFlowEngine.swift */,
 				B8545D0663176438CED1D2D7 /* CheckInStepKind.swift */,
+				AAEB27E7FBE3BD47E4C52F5A /* ParsedFeeling+Draft.swift */,
 				D3FE4990A6320EF6F8E5FC33 /* Components */,
 				BEAA40A42DA06D095E257B2F /* Steps */,
 			);
@@ -1277,6 +1280,7 @@
 				94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */,
 				3BDE4473058BE060B99474A0 /* OpenFeelingsModelContainer.swift in Sources */,
 				D865AF8020A8285A21BAA2F5 /* OpenFeelingsShortcuts.swift in Sources */,
+				E19EC90CA916AE070761F44C /* ParsedFeeling+Draft.swift in Sources */,
 				6DA9ACD3FCCF402530C4BF1E /* ParsedFeeling.swift in Sources */,
 				C282217FBAEF3BABF8F17A1C /* PastSortsSheet.swift in Sources */,
 				3021F685DDBDF4E3F2FE0823 /* PatternsStepView.swift in Sources */,
