@@ -6,8 +6,10 @@ struct CheckInRootView: View {
     @Environment(WatchSettingsStore.self) private var settingsStore
 
     @State private var path: [Step] = []
+    @State private var dictatedText = ""
 
     enum Step: Hashable {
+        case dictation
         case sensations
         case core         // pushed-onto-stack core picker (body-first flow)
         case secondary
@@ -22,6 +24,17 @@ struct CheckInRootView: View {
             rootView
                 .navigationTitle("Check In")
                 .navigationDestination(for: Step.self) { destination(for: $0) }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            dictatedText = ""
+                            path = [.dictation]
+                        } label: {
+                            Image(systemName: "mic.fill")
+                        }
+                        .accessibilityLabel("Speak how you feel")
+                    }
+                }
         }
         .onAppear { applyScreenshotModeIfNeeded() }
     }
@@ -43,6 +56,12 @@ struct CheckInRootView: View {
     @ViewBuilder
     private func destination(for step: Step) -> some View {
         switch step {
+        case .dictation:
+            DictationEntryView(
+                text: $dictatedText,
+                onContinue: { Task { await handleDictation() } }
+            )
+
         case .sensations:
             SensationPicker(
                 selection: Binding(get: { wizard.bodySensations }, set: { wizard.bodySensations = $0 }),
@@ -103,6 +122,23 @@ struct CheckInRootView: View {
             wizard.secondary = nil
             wizard.specific = nil
             path.append(.secondary)
+        }
+    }
+
+    @MainActor
+    private func handleDictation() async {
+        let parsed = await FeelingParserProvider.current().parse(dictatedText)
+        wizard.reset()           // shared instance: clear stale didSend / body / fields
+        wizard.apply(parsed)
+        switch parsed.confidence {
+        case .high where parsed.intensity != nil:
+            path = [.confirm]
+        case .high:
+            path = [.intensity]  // no intensity stated: let the user dial it before confirm
+        case .low:
+            path = [.secondary]  // refine the weakly-matched core; picker includes intensity
+        case .none:
+            path = [.core]       // no emotion: pick from scratch, note carried through
         }
     }
 
