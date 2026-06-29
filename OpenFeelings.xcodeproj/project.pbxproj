@@ -243,6 +243,7 @@
 		F789B695BEC5764F5A1A4C75 /* OFCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8942BFA59ED385EB86B4EF54 /* OFCard.swift */; };
 		F887CB2FB810E9472C262D9E /* ThoughtRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2CB431CA036C133B292371 /* ThoughtRecord.swift */; };
 		FC57C5512DC1216E98377AAE /* FinalistsStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768AB532C66BDD55F591197 /* FinalistsStepView.swift */; };
+		FCCAC4455975E067421654F0 /* FeelingParserWatchSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDCD99AF344AC51E5BE36AF /* FeelingParserWatchSmokeTests.swift */; };
 		FCECC1FC5EB1B463F7ADA054 /* ExportServiceMarkdownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952F0F1CC79ADD3F6CC64F03 /* ExportServiceMarkdownTests.swift */; };
 		FE77858F69AAA5FA8B4517D9 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72939CBC8E0A7B15A5EE0E /* DesignTokens.swift */; };
 /* End PBXBuildFile section */
@@ -401,6 +402,7 @@
 		6CEFF29F9D2ED37AFBAC8FAD /* MoodScaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScaleTests.swift; sourceTree = "<group>"; };
 		6EFC747E5175AA458493E26C /* HistoryViewAXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewAXTests.swift; sourceTree = "<group>"; };
 		6F8CC033A8036714D6596C7C /* LearnedBodyMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedBodyMapTests.swift; sourceTree = "<group>"; };
+		6FDCD99AF344AC51E5BE36AF /* FeelingParserWatchSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingParserWatchSmokeTests.swift; sourceTree = "<group>"; };
 		6FE10432679F29E5F24BA6F4 /* StopAtAnyLevelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopAtAnyLevelTests.swift; sourceTree = "<group>"; };
 		71314FEA8C977CF9A5AD4F06 /* WeekSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummary.swift; sourceTree = "<group>"; };
 		71CF4E23D538966CA19D7776 /* SituationStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SituationStepView.swift; sourceTree = "<group>"; };
@@ -796,6 +798,7 @@
 			children = (
 				96488867FABA2921DDCC4A8E /* CheckInWizardStateMapperTests.swift */,
 				DC1DCE16DC1D950E9D553482 /* CheckInWizardStateTests.swift */,
+				6FDCD99AF344AC51E5BE36AF /* FeelingParserWatchSmokeTests.swift */,
 				19F289DA552A6683679F8FC1 /* WatchSettingsStoreTests.swift */,
 			);
 			path = OpenFeelingsWatchTests;
@@ -1382,6 +1385,7 @@
 			files = (
 				5FF8EE08C45BBB184A607976 /* CheckInWizardStateMapperTests.swift in Sources */,
 				8C95AD19FBA0CB39066545D7 /* CheckInWizardStateTests.swift in Sources */,
+				FCCAC4455975E067421654F0 /* FeelingParserWatchSmokeTests.swift in Sources */,
 				83A18F802C5FE4DA5EA41A52 /* WatchSettingsStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
