@@ -59,6 +59,7 @@
 		32EC8F42D60F0E3EEEAE8B14 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF529546E7FDC311A94B4B7 /* AppearanceMode.swift */; };
 		32F98CF2E9DFA5DECF145206 /* WatchCheckInPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156795D51040306BD09F3006 /* WatchCheckInPayloadTests.swift */; };
 		331860BA288F71FFD997C40F /* BalancedThoughtStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D2A13B60308C25971A4EE /* BalancedThoughtStepView.swift */; };
+		3398467D7F91DA88A059538B /* FeelingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C819A390BC923B14D53B1D79 /* FeelingParser.swift */; };
 		35B8237F53C22352502C858B /* WizardCheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28B3DCE5CF69DB15F2C1E84 /* WizardCheckInView.swift */; };
 		35CCD3D6A82E4B454ED039FA /* BodyStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45E70AE3D7D5B3BA5F5D31B /* BodyStep.swift */; };
 		364FB17A8527C8C3FEADA0E9 /* OFSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673304A78F91B0FBAB57E263 /* OFSectionHeader.swift */; };
@@ -133,6 +134,7 @@
 		76865AB37E424FEFABD128D5 /* OpenFeelings.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 4389634FBA61E1BCDCD61F2B /* OpenFeelings.storekit */; };
 		7834C89FBB235BC9CAF880BC /* SortDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF1F1CC84E3A23E62772F17 /* SortDelta.swift */; };
 		7A5CDCA737F19EEE682FF2D6 /* AppNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865935CC06FCA28B76C62FCD /* AppNavigationTests.swift */; };
+		7A8ABF0E790159AEB6EC131C /* EmotionTaxonomy+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7439071ACD8C3A924E706EA3 /* EmotionTaxonomy+Lookup.swift */; };
 		7C142522E509F8C822A13D65 /* CheckInDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9A872D72EDAD8E42137BB5 /* CheckInDraft.swift */; };
 		7C8370BCDB2F89B26CDC42EF /* EmotionTaxonomyLookupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C17D240173DFBF8EF79B26 /* EmotionTaxonomyLookupTests.swift */; };
 		7EAE6D48259BA29E3396F10C /* JournalShareServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00FD5F9445C2DD71F9600FE /* JournalShareServiceTests.swift */; };
@@ -153,6 +155,7 @@
 		93C6AE36CE94A4BF319C7164 /* InsightsDatasetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928D754117BD9A1043AC19A /* InsightsDatasetTests.swift */; };
 		942DC9636A36E855CD74856E /* FeelingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5CE6E917C19C55E6B3679 /* FeelingStep.swift */; };
 		94F57299E8ACBCAEF3EB2C40 /* OpenFeelingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0878680732EAE776729AD8F /* OpenFeelingsApp.swift */; };
+		953666C5FA1A6AECF30D599F /* ParsedFeeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90D4BCAB4ADF2376D63C76 /* ParsedFeeling.swift */; };
 		956D96D33A930BCC83BBD918 /* FeelingLogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B8CEE7BE906E118DEAB773 /* FeelingLogService.swift */; };
 		97ED75BA04CD7324194AC71B /* IntensityDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB892D79E13C5B494E5E0C7 /* IntensityDots.swift */; };
 		9833333060417938341C17C7 /* EmotionColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB8D043EB9C6E1CBE22CDC /* EmotionColorPalette.swift */; };
@@ -172,6 +175,7 @@
 		9FDF2AA07587BE3FE57CFE26 /* CheckInFlowSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBE7791A5A4F34B61AC23A0 /* CheckInFlowSettingsView.swift */; };
 		A0564BD2BF23AD2791CE920D /* FeelingParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E212A9325152EFA0C700640 /* FeelingParserTests.swift */; };
 		A127251766B53F49634A5895 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C7552D87622E0084230E5E /* WatchConnectivity.framework */; };
+		A1C45619C735D0CD71648AE2 /* FeelingSynonyms.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9B46BB8921A4F523EEF16F /* FeelingSynonyms.swift */; };
 		A435516EA3885BD3BCCCCD2E /* CloudSyncMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2CF52F1E3C8AEEC4A4904 /* CloudSyncMonitorTests.swift */; };
 		A4DAB7C96F4B4342A88085A6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60CAF5B22D477191AAC90A68 /* HealthKit.framework */; };
 		A5151D4DB8AE2987680D3AC9 /* AppLockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9DBD58FC8EDD3CC05DB025 /* AppLockService.swift */; };
@@ -1347,10 +1351,14 @@
 				4DEC3D3D1CDB695B2FDACA6F /* CheckInRootView.swift in Sources */,
 				12D615BFB4D8CCD1130E8081 /* CheckInWizardState.swift in Sources */,
 				4DF1FCB2092988CE954C1507 /* CoreFeelingPicker.swift in Sources */,
+				7A8ABF0E790159AEB6EC131C /* EmotionTaxonomy+Lookup.swift in Sources */,
 				2D7523DB9F3627E60DCAB521 /* EmotionTaxonomy.swift in Sources */,
+				3398467D7F91DA88A059538B /* FeelingParser.swift in Sources */,
+				A1C45619C735D0CD71648AE2 /* FeelingSynonyms.swift in Sources */,
 				088A0A9547D3AF1856032AD0 /* IntensityPicker.swift in Sources */,
 				D5F720F7DB22873766889092 /* NoteEntryView.swift in Sources */,
 				32BB847E8084657FD00587CE /* OpenFeelingsWatchApp.swift in Sources */,
+				953666C5FA1A6AECF30D599F /* ParsedFeeling.swift in Sources */,
 				212D290737542E9A4F507DBD /* SecondaryFeelingPicker.swift in Sources */,
 				40C2D0C262E0CE5974F24722 /* SensationPicker.swift in Sources */,
 				3CFA80EE13B5665871E1D1CE /* SpecificFeelingPicker.swift in Sources */,

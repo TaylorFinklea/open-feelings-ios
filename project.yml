@@ -46,6 +46,10 @@ targets:
       - path: OpenFeelings/Shared
       - path: OpenFeelings/Models/EmotionTaxonomy.swift
       - path: OpenFeelings/Models/BodyTaxonomy.swift
+      - path: OpenFeelings/NaturalLanguage/ParsedFeeling.swift
+      - path: OpenFeelings/NaturalLanguage/FeelingParser.swift
+      - path: OpenFeelings/NaturalLanguage/FeelingSynonyms.swift
+      - path: OpenFeelings/NaturalLanguage/EmotionTaxonomy+Lookup.swift
     dependencies:
       - sdk: WatchConnectivity.framework
     settings:
