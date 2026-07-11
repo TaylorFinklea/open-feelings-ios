@@ -4,9 +4,15 @@
 
 ## Active Branch
 
-`feat/watch-natural-language-entry` (stacked on `feat/natural-language-entry`; **not merged, not pushed**; merges AFTER the iOS branch)
+`main` — both NL features **merged** (fast-forward, 2026-07-11) and **shipped to TestFlight as 1.0.1 build 45** (`28ca4fd`, `** EXPORT SUCCEEDED **`). `main` is **local-only — not pushed to the git remote**. Feature branches `feat/natural-language-entry` + `feat/watch-natural-language-entry` are now merged (safe to delete). **Pending: user device-testing** (Siri/dictation/watch — bd `q6k`, `iuq`).
 
 ## Last Session Summary
+
+**Date**: 2026-07-11 — Merged both NL features to `main`; shipped TestFlight 1.0.1 build 45
+
+`feat/watch-natural-language-entry` (a superset of the iOS branch) fast-forwarded onto `main`, then `scripts/release.sh` bumped 44→45 and uploaded. Build sanity note: Xcode updated over the gap — sims are now iOS 27 (iPhone 17 family); `iPhone 16` is gone, use `iPhone 17 Pro` (the release archives `generic/platform=iOS`, unaffected). Nothing code-changed since the 2026-06-29 verification.
+
+---
 
 **Date**: 2026-06-29 — Watch natural-language entry **implemented**
 
